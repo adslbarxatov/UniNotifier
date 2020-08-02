@@ -21,8 +21,8 @@
 ## Requirements / Требования
 
 - Для Windows-версии требуется ОС Windows XP или новее, Framework 4.0 или новее. Язык интерфейса: ru_ru;
-//- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.MakeDecision) требуется ОС версии 4.4 или новее. Языки интерфейса: ru_ru, en_us;
-//- Подтверждена развёртка Android-версии на платформе AppGallery. Ожидается формирование выделенной ссылки для загрузки
+- Для Android-версии потребуется ОС версии 4.4 или новее. Язык интерфейса: ru_ru;
+- Ожидается развёртка Android-версии на платформе AppGallery
 
 
 
