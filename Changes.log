@@ -1,0 +1,7 @@
+﻿GMJNotifier changes log
+
+Version 1.1:
+• Implemented automatic posts loader with OAuth function;
+• Implemented balloons notifying function;
+• Implemented window view function with saving window parameters;
+• Publication on GitHub
