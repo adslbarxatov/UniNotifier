@@ -1,5 +1,8 @@
 ﻿GMJNotifier changes log
 
+Version 1.2:
+• Some improvements applied to the main posts receiver
+
 Version 1.1:
 • Implemented automatic posts loader with OAuth function;
 • Implemented balloons notifying function;

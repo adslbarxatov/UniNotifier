@@ -17,10 +17,12 @@ namespace RD_AAOW
 		// Индикатор обновлений
 		private NotifyIcon ni = new NotifyIcon ();
 
-		private string currentPostID = "";
-		private uint currentOffset = 0;
+		private string currentPostID = "",
+			lastPostID = "";
+		private uint currentOffset = 1;		// Перекрытие начального отображения
 		private bool allowExit = false;
 		private string helpShownAt = "";
+		private const string articlePrefix = "\x02";
 
 		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read", "HelpShownAt" };
 
@@ -62,18 +64,24 @@ namespace RD_AAOW
 			ni.Visible = true;
 
 			ni.ContextMenu = new ContextMenu ();
+
+			ni.ContextMenu.MenuItems.Add (new MenuItem ("Последнее обновление: при запуске в " + DateTime.Now.ToString ("HH:mm"), ShowFullText));
+			ni.ContextMenu.MenuItems[0].Enabled = false;
+			ni.ContextMenu.MenuItems.Add ("-");
+
 			ni.ContextMenu.MenuItems.Add (new MenuItem ("Полный текст", ShowFullText));
-			ni.ContextMenu.MenuItems[0].DefaultItem = true;
 			ni.DoubleClick += ShowFullText;
+			ni.ContextMenu.MenuItems[2].DefaultItem = true;
 			ni.ContextMenu.MenuItems.Add (new MenuItem ("Следующий пост", UpdateMessages));
 			ni.ContextMenu.MenuItems.Add ("-");
+
 			ni.ContextMenu.MenuItems.Add (new MenuItem ("Перейти на страницу сообщества", GoToCommunity));
 			ni.ContextMenu.MenuItems.Add (new MenuItem ("О приложении", AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem ("Закрыть", CloseService));
 
 			// Запуск
-			UpdateMsg (currentOffset, false);
-			MainTimer.Interval = 30 * 60 * 1000;
+			UpdateMsg (0);
+			MainTimer.Interval = 15 * 60 * 1000;
 			MainTimer.Enabled = true;
 			}
 
@@ -137,19 +145,25 @@ namespace RD_AAOW
 				"Будьте всегда веселы и бодры! Вместе в GMJ");
 			}
 
-		// Обновление сообщений
+		// Обновление сообщений / переход к следующему посту
 		private void UpdateMessages (object sender, EventArgs e)
 			{
-			UpdateMsg (currentOffset, false);
+			ni.ContextMenu.MenuItems[0].Text = "Последнее обновление: вручную в " + DateTime.Now.ToString ("HH:mm");
+			UpdateMsg (currentOffset++);
+
+			if (this.Visible)
+				CheckArticle ();
 			}
 
+		//Итерация таймера обновления
 		private void MainTimer_Tick (object sender, EventArgs e)
 			{
-			UpdateMsg (0, false);
+			ni.ContextMenu.MenuItems[0].Text = "Последнее обновление: таймер в " + DateTime.Now.ToString ("HH:mm");
+			UpdateMsg (0);
 			}
 
 		// Главный метод запроса сообщений
-		private void UpdateMsg (uint Offset, bool HideBallons)
+		private void UpdateMsg (uint Offset)
 			{
 			// Настройка безопасности соединения
 			ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xFC0;
@@ -160,11 +174,6 @@ namespace RD_AAOW
 			rq.Method = "GET";
 			rq.KeepAlive = false;
 			rq.Timeout = 10000;
-
-			if (Offset == 0)
-				currentOffset = 1;
-			else
-				currentOffset++;
 
 			// Отправка запроса
 			HttpWebResponse resp = null;
@@ -199,27 +208,35 @@ namespace RD_AAOW
 				return;
 				}
 
-			// Получение ID и текста
+			// Получение ID 
 			idLeft += 4;
 			textLeft += 7;
+			currentPostID = html.Substring (idLeft, idRight - idLeft);
 
-			string id = html.Substring (idLeft, idRight - idLeft);
-			if (id == currentPostID)
-				return;
+			// Контроль
+			if (Offset == 0)
+				{
+				if (lastPostID == currentPostID)
+					return;
+				else
+					lastPostID = currentPostID;
+				}
 
+			// Получение текста
 			MainText.Text = html.Substring (textLeft, textRight - textLeft).Replace ("\\n", "\r\n").Replace ("\\/", "/").
 				Replace ("\\\\", "\\");
-			currentPostID = id;
 
+			// Отображение
 			if (MainText.Text.Length < 1)
 				{
-				MainText.Text = "\x01 Пост с номером " + id + " – это длинная история; откройте страницу сообщества, чтобы прочесть его";
+				MainText.Text = articlePrefix + " Пост с номером " + currentPostID +
+					" – это длинная история; откройте страницу сообщества, чтобы прочесть его";
 				ni.ShowBalloonTip (3000, "- " + ProgramDescription.AssemblyTitle + " -", "\n" + MainText.Text, ToolTipIcon.Info);
 				return;
 				}
 
 			// Отображение
-			if (!HideBallons)
+			if (!this.Visible)
 				ni.ShowBalloonTip (30000, "- " + ProgramDescription.AssemblyTitle + " -",
 					"\n" + (MainText.Text.Length > 200 ? MainText.Text.Substring (0, 200) + "..." : MainText.Text), ToolTipIcon.None);
 			}
@@ -234,7 +251,7 @@ namespace RD_AAOW
 		// Метод проверяет, следует ли открыть статью в браузере
 		private void CheckArticle ()
 			{
-			if (MainText.Text.StartsWith ("\x01") && (MessageBox.Show (this, "Открыть статью в браузере?",
+			if (MainText.Text.StartsWith (articlePrefix) && (MessageBox.Show (this, "Открыть статью в браузере?",
 				ProgramDescription.AssemblyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
 				{
 				try
@@ -272,13 +289,6 @@ namespace RD_AAOW
 		private void BClose_Click (object sender, EventArgs e)
 			{
 			this.Close ();
-			}
-
-		// Переход к следующему посту
-		private void BNext_Click (object sender, EventArgs e)
-			{
-			UpdateMsg (currentOffset, true);
-			CheckArticle ();
 			}
 
 		// Переход в режим чтения и обратно
