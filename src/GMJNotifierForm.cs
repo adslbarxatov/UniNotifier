@@ -22,7 +22,7 @@ namespace RD_AAOW
 		private uint currentOffset = 1;		// Перекрытие начального отображения
 		private bool allowExit = false;
 		private string helpShownAt = "";
-		private const string articlePrefix = "\x02";
+		private const string articlePrefix = "\x13";
 
 		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read", "HelpShownAt" };
 
