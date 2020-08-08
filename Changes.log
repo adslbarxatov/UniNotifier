@@ -1,8 +1,14 @@
 ﻿UniNotifier changes log
 
+ToDo:
+- Call threading;
+- Beginning and ending finder;
+- Add user manual link
+
 Version 1.3:
 • Notifier has been unified and now can check changes at almost any webpages;
-• Notifications can be set by user with settings interface
+• Notifications can be set by user with settings interface;
+• Authentication function removed
 
 Version 1.2:
 • Some improvements applied to the main posts receiver
