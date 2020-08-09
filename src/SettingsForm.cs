@@ -13,7 +13,9 @@ namespace RD_AAOW
 		private List<Notification> notifications;
 		private string[][] templates = new string[][] { 
 			new string[] { "Записи со стены ВК (вариант 1)", "https://vk.com/ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ", "pi_text\">", "</div" },
-			new string[] { "Записи со стены ВК (вариант 2)", "https://vk.com/ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ", "pi_text zoom_text\">", "</div" }
+			new string[] { "Записи со стены ВК (вариант 2)", "https://vk.com/ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ", "pi_text zoom_text\">", "</div" },
+			new string[] { "КоммерсантЪ", "https://www.kommersant.ru", "from=hotnews\">", "</h3>" },
+			new string[] { "Российская газета", "https://rg.ru", "class=\"b-link__inner-text\">", "</div>" }
 			};
 
 		/// <summary>
@@ -30,7 +32,8 @@ namespace RD_AAOW
 
 			for (uint i = 1; i <= 24; i++)
 				FrequencyCombo.Items.Add ((i * UpdatingFrequencyStep).ToString () + " минут");
-			FrequencyCombo.SelectedIndex = 0;
+			FrequencyCombo.SelectedIndex = 2;
+			EnabledCheck.Checked = true;
 
 			// Загрузка оповещений в список
 			notifications = Notifications;
@@ -55,6 +58,10 @@ namespace RD_AAOW
 		// Закрытие окна просмотра
 		private void BClose_Click (object sender, EventArgs e)
 			{
+			// Сохранение оповещений
+			Notification.SaveNotifications (notifications);
+
+			// Закрытие окна
 			this.Close ();
 			}
 
@@ -82,6 +89,10 @@ namespace RD_AAOW
 
 		private void BUpdate_Click (object sender, EventArgs e)
 			{
+			if (MessageBox.Show ("Заменить выбранное оповещение?", ProgramDescription.AssemblyTitle,
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				return;
+
 			UpdateItem (NotificationsList.SelectedIndex);
 			}
 
@@ -133,6 +144,10 @@ namespace RD_AAOW
 				return;
 				}
 
+			if (MessageBox.Show ("Удалить выбранное оповещение?", ProgramDescription.AssemblyTitle,
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				return;
+
 			// Удаление
 			notifications.RemoveAt (NotificationsList.SelectedIndex);
 			NotificationsList.Items.RemoveAt (NotificationsList.SelectedIndex);
@@ -149,6 +164,31 @@ namespace RD_AAOW
 			LinkText.Text = templates[TemplatesCombo.SelectedIndex][1];
 			BeginningText.Text = templates[TemplatesCombo.SelectedIndex][2];
 			EndingText.Text = templates[TemplatesCombo.SelectedIndex][3];
+			}
+
+		// Автоматизированный поиск ограничителей
+		private void FindDelimiters_Click (object sender, EventArgs e)
+			{
+			// Контроль
+			if (BeginningText.Text == "")
+				{
+				MessageBox.Show ("В поле «Начало» не указано ключевое слово для поиска",
+					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+				}
+
+			// Поиск
+			string beginning = "", ending = "";
+			if (!Notification.FindDelimiters (LinkText.Text, BeginningText.Text, out beginning, out ending))
+				{
+				MessageBox.Show ("Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается",
+					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+				}
+
+			// Успешно
+			BeginningText.Text = beginning.Trim ();
+			EndingText.Text = ending.Trim ();
 			}
 		}
 	}
