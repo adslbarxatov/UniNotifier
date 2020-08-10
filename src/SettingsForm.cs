@@ -15,8 +15,10 @@ namespace RD_AAOW
 			new string[] { "Записи со стены ВК (вариант 1)", "https://vk.com/ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ", "pi_text\">", "</div" },
 			new string[] { "Записи со стены ВК (вариант 2)", "https://vk.com/ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ", "pi_text zoom_text\">", "</div" },
 			new string[] { "КоммерсантЪ", "https://www.kommersant.ru", "from=hotnews\">", "</h3>" },
-			new string[] { "Российская газета", "https://rg.ru", "class=\"b-link__inner-text\">", "</div>" }
+			new string[] { "Российская газета", "https://rg.ru", "class=\"b-link__inner-text\">", "</div>" },
+			new string[] { "Весьма", "http://vesma.today/news", "class=\"color-text\">", "</div" }
 			};
+		private SupportedLanguages al = Localization.CurrentLanguage;
 
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
@@ -30,8 +32,18 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyTitle;
 			this.CancelButton = BClose;
 
+			LanguageCombo.Items.AddRange (Localization.LanguagesNames);
+			try
+				{
+				LanguageCombo.SelectedIndex = (int)al;
+				}
+			catch
+				{
+				LanguageCombo.SelectedIndex = 0;
+				}
+
 			for (uint i = 1; i <= 24; i++)
-				FrequencyCombo.Items.Add ((i * UpdatingFrequencyStep).ToString () + " минут");
+				FrequencyCombo.Items.Add ((i * UpdatingFrequencyStep).ToString ());
 			FrequencyCombo.SelectedIndex = 2;
 			EnabledCheck.Checked = true;
 
@@ -42,7 +54,7 @@ namespace RD_AAOW
 			BDelete.Enabled = BUpdate.Enabled = (notifications.Count > 0);
 
 			for (int i = 0; i < notifications.Count; i++)
-				NotificationsList.Items.Add (notifications[i].Name + (notifications[i].IsEnabled ? " (вкл)" : " (выкл)"));
+				NotificationsList.Items.Add (notifications[i].Name + (notifications[i].IsEnabled ? " (+)" : " (–)"));
 			if (NotificationsList.Items.Count > 0)
 				NotificationsList.SelectedIndex = 0;
 
@@ -89,7 +101,7 @@ namespace RD_AAOW
 
 		private void BUpdate_Click (object sender, EventArgs e)
 			{
-			if (MessageBox.Show ("Заменить выбранное оповещение?", ProgramDescription.AssemblyTitle,
+			if (MessageBox.Show (Localization.GetText ("UpdateMessage", al), ProgramDescription.AssemblyTitle,
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 				return;
 
@@ -104,7 +116,7 @@ namespace RD_AAOW
 				(uint)(FrequencyCombo.SelectedIndex + 1));
 			if (!ni.IsInited)
 				{
-				MessageBox.Show ("Одно из обязательных полей незаполнено, или ссылка на ресурс указана некорректно",
+				MessageBox.Show (Localization.GetText ("NotEnoughDataMessage", al),
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
@@ -113,17 +125,17 @@ namespace RD_AAOW
 			// Добавление
 			if (ItemNumber < 0)
 				{
-				NotificationsList.Items.Add (ni.Name + (ni.IsEnabled ? " (вкл)" : " (выкл)"));
+				NotificationsList.Items.Add (ni.Name + (ni.IsEnabled ? " (+)" : " (–)"));
 				notifications.Add (ni);
 				}
 			else if (ItemNumber < NotificationsList.Items.Count)
 				{
-				NotificationsList.Items[ItemNumber] = ni.Name + (ni.IsEnabled ? " (вкл)" : " (выкл)");
+				NotificationsList.Items[ItemNumber] = ni.Name + (ni.IsEnabled ? " (+)" : " (–)");
 				notifications[ItemNumber] = ni;
 				}
 			else
 				{
-				MessageBox.Show ("Не выбрано оповещение для обновления",
+				MessageBox.Show (Localization.GetText ("UpdateLineNotSpecified", al),
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
@@ -139,13 +151,13 @@ namespace RD_AAOW
 			// Контроль
 			if (NotificationsList.SelectedIndex < 0)
 				{
-				MessageBox.Show ("Не выбрано оповещение для удаления",
+				MessageBox.Show (Localization.GetText ("DeleteLineNotSpecified", al),
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
 
-			if (MessageBox.Show ("Удалить выбранное оповещение?", ProgramDescription.AssemblyTitle,
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+			if (MessageBox.Show (Localization.GetText ("DeleteMessage", al), ProgramDescription.AssemblyTitle,
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
 				return;
 
 			// Удаление
@@ -172,7 +184,7 @@ namespace RD_AAOW
 			// Контроль
 			if (BeginningText.Text == "")
 				{
-				MessageBox.Show ("В поле «Начало» не указано ключевое слово для поиска",
+				MessageBox.Show (Localization.GetText ("KeywordNotSpecified", al),
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
@@ -181,7 +193,7 @@ namespace RD_AAOW
 			string beginning = "", ending = "";
 			if (!Notification.FindDelimiters (LinkText.Text, BeginningText.Text, out beginning, out ending))
 				{
-				MessageBox.Show ("Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается",
+				MessageBox.Show (Localization.GetText ("SearchFailure", al),
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
@@ -189,6 +201,16 @@ namespace RD_AAOW
 			// Успешно
 			BeginningText.Text = beginning.Trim ();
 			EndingText.Text = ending.Trim ();
+			}
+
+		// Локализация формы
+		private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)
+			{
+			// Сохранение
+			al = Localization.CurrentLanguage = (SupportedLanguages)LanguageCombo.SelectedIndex;
+
+			// Локализация
+			Localization.SetControlsText (this, al);
 			}
 		}
 	}

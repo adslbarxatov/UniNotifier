@@ -1,10 +1,12 @@
 UniNotifier changes log
 
-ToDo:
-- English locale;
-- New icons;
-- Fix quotation mark appearance;
-- Add 'vesma.today' template
+Version 1.5:
+• Added the ability to choose which link will be followed;
+• Main interface and context tray menu have been reviewed and simplified;
+• Added template for «Весьма»;
+• Fixed settings interface's minor bugs;
+• Added English interface localization;
+• Fixed quotation mark appearance
 
 Version 1.4:
 • Application may freeze a bit every 15 seconds due to temporarily incorrect threading algorithm; we work on it;
