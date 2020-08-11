@@ -12,11 +12,13 @@ namespace RD_AAOW
 		// Переменные и константы
 		private List<Notification> notifications;
 		private string[][] templates = new string[][] { 
-			new string[] { "Записи со стены ВК (вариант 1)", "https://vk.com/ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ", "pi_text\">", "</div" },
-			new string[] { "Записи со стены ВК (вариант 2)", "https://vk.com/ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ", "pi_text zoom_text\">", "</div" },
+			new string[] { "Стена ВКонтакте (вариант 1)", "https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}", "pi_text\">", "</div" },
+			new string[] { "Стена ВКонтакте (вариант 2)", "https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}", "pi_text zoom_text\">", "</div" },
 			new string[] { "КоммерсантЪ", "https://www.kommersant.ru", "from=hotnews\">", "</h3>" },
 			new string[] { "Российская газета", "https://rg.ru", "class=\"b-link__inner-text\">", "</div>" },
-			new string[] { "Весьма", "http://vesma.today/news", "class=\"color-text\">", "</div" }
+			new string[] { "Весьма", "http://vesma.today/news", "class=\"color-text\">", "</div" },
+			new string[] { "Weather from YR (Norway)", "https://www.yr.no/place/{COUNTRY}/{CITY}/{STATION}", "og:description\" content=\"", "\" />" },
+			new string[] { "Погода на YR (Норвегия)", "https://www.yr.no/place/Russia/{ГОРОД}/{СТАНЦИЯ}", "og:description\" content=\"", "\" />" }
 			};
 		private SupportedLanguages al = Localization.CurrentLanguage;
 
@@ -172,6 +174,14 @@ namespace RD_AAOW
 		// Загрузка шаблона в поля
 		private void BLoadTemplate_Click (object sender, EventArgs e)
 			{
+			// Проверка
+			if (templates[TemplatesCombo.SelectedIndex][1].Contains ("{") ||
+				templates[TemplatesCombo.SelectedIndex][2].Contains ("{") ||
+				templates[TemplatesCombo.SelectedIndex][3].Contains ("{"))
+				MessageBox.Show (Localization.GetText ("CurlyTemplate", al), ProgramDescription.AssemblyTitle,
+					MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			// Заполнение
 			NameText.Text = templates[TemplatesCombo.SelectedIndex][0];
 			LinkText.Text = templates[TemplatesCombo.SelectedIndex][1];
 			BeginningText.Text = templates[TemplatesCombo.SelectedIndex][2];

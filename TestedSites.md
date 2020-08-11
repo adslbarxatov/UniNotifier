@@ -3,7 +3,7 @@
 ## Список сайтов, протестированных с UniNotifier
 
 
-Actual for / Актуально на: 10 aug 2020
+Actual for / Актуально на: 11 aug 2020
 
 
 ```
@@ -18,4 +18,5 @@ rg.ru		  +			Main page / Главная страница
 vesma.today	  +			News section / Раздел новостей
 vk.com		  +			Community wall / Стена сообщества
 youtube.com	  -			Youtube studio
+yr.no		  +  		City's weather page / Страница погоды в городе
 ```

@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 1.5.2:
+• Main interface improvements applied;
+• Added template for YR (Norway weather website)
+
 Version 1.5:
 • Added the ability to choose which link will be followed;
 • Main interface and context tray menu have been reviewed and simplified;
@@ -14,7 +18,7 @@ Version 1.4:
 • Fixed incorrect appearance of exclamation signs;
 • Fixed settings loss at system restart or shutdown;
 • Added warnings on notification updating and deleting in settings window;
-• Implemented beginning and ending HTML-fragments auto-detector; may be unstable; alpha-test passed;
+• Implemented beginning and ending HTML-fragments auto-detector; may be unstable, but alpha-test passed;
 • Fixed settings interface's minor bugs;
 • Notifications update will stop when settings window is active;
 • Added templates for «КоммерсантЪ» и «Российская газета»
