@@ -11,15 +11,7 @@ namespace RD_AAOW
 		{
 		// Переменные и константы
 		private List<Notification> notifications;
-		private string[][] templates = new string[][] { 
-			new string[] { "Стена ВКонтакте (вариант 1)", "https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}", "pi_text\">", "</div" },
-			new string[] { "Стена ВКонтакте (вариант 2)", "https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}", "pi_text zoom_text\">", "</div" },
-			new string[] { "КоммерсантЪ", "https://www.kommersant.ru", "from=hotnews\">", "</h3>" },
-			new string[] { "Российская газета", "https://rg.ru", "class=\"b-link__inner-text\">", "</div>" },
-			new string[] { "Весьма", "http://vesma.today/news", "class=\"color-text\">", "</div" },
-			new string[] { "Weather from YR (Norway)", "https://www.yr.no/place/{COUNTRY}/{CITY}/{STATION}", "og:description\" content=\"", "\" />" },
-			new string[] { "Погода на YR (Норвегия)", "https://www.yr.no/place/Russia/{ГОРОД}/{СТАНЦИЯ}", "og:description\" content=\"", "\" />" }
-			};
+		private NotificationsTemplatesProvider ntp;
 		private SupportedLanguages al = Localization.CurrentLanguage;
 
 		/// <summary>
@@ -27,7 +19,8 @@ namespace RD_AAOW
 		/// </summary>
 		/// <param name="Notifications">Список загруженных оповещений</param>
 		/// <param name="UpdatingFrequencyStep">Шаг изменения частоты обновления</param>
-		public SettingsForm (List<Notification> Notifications, uint UpdatingFrequencyStep)
+		/// <param name="Templates">Загруженный список шаблонов оповещений</param>
+		public SettingsForm (List<Notification> Notifications, NotificationsTemplatesProvider Templates, uint UpdatingFrequencyStep)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -51,6 +44,7 @@ namespace RD_AAOW
 
 			// Загрузка оповещений в список
 			notifications = Notifications;
+			ntp = Templates;
 
 			BAdd.Enabled = (notifications.Count < Notification.MaxNotifications);
 			BDelete.Enabled = BUpdate.Enabled = (notifications.Count > 0);
@@ -61,8 +55,8 @@ namespace RD_AAOW
 				NotificationsList.SelectedIndex = 0;
 
 			// Загрузка шаблонов
-			for (int i = 0; i < templates.Length; i++)
-				TemplatesCombo.Items.Add (templates[i][0]);
+			for (uint i = 0; i < ntp.TemplatesCount; i++)
+				TemplatesCombo.Items.Add (ntp.GetName (i));
 			TemplatesCombo.SelectedIndex = 0;
 
 			// Запуск
@@ -175,17 +169,17 @@ namespace RD_AAOW
 		private void BLoadTemplate_Click (object sender, EventArgs e)
 			{
 			// Проверка
-			if (templates[TemplatesCombo.SelectedIndex][1].Contains ("{") ||
-				templates[TemplatesCombo.SelectedIndex][2].Contains ("{") ||
-				templates[TemplatesCombo.SelectedIndex][3].Contains ("{"))
+			if (ntp.GetLink ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
+				ntp.GetBeginning ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
+				ntp.GetEnding ((uint)TemplatesCombo.SelectedIndex).Contains ("{"))
 				MessageBox.Show (Localization.GetText ("CurlyTemplate", al), ProgramDescription.AssemblyTitle,
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			// Заполнение
-			NameText.Text = templates[TemplatesCombo.SelectedIndex][0];
-			LinkText.Text = templates[TemplatesCombo.SelectedIndex][1];
-			BeginningText.Text = templates[TemplatesCombo.SelectedIndex][2];
-			EndingText.Text = templates[TemplatesCombo.SelectedIndex][3];
+			NameText.Text = ntp.GetName ((uint)TemplatesCombo.SelectedIndex);
+			LinkText.Text = ntp.GetLink ((uint)TemplatesCombo.SelectedIndex);
+			BeginningText.Text = ntp.GetBeginning ((uint)TemplatesCombo.SelectedIndex);
+			EndingText.Text = ntp.GetEnding ((uint)TemplatesCombo.SelectedIndex);
 			}
 
 		// Автоматизированный поиск ограничителей

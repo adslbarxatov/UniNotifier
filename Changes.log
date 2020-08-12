@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 1.6:
+• Notifications templates storage has been reviewed;
+• Some settings interface improvements applied
+
 Version 1.5.2:
 • Main interface improvements applied;
 • Added template for YR (Norway weather website)
