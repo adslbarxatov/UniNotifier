@@ -1,8 +1,9 @@
 UniNotifier changes log
 
-Version 1.6:
+Version 1.6p:
 • Notifications templates storage has been reviewed;
-• Some settings interface improvements applied
+• Some settings interface improvements applied;
+• Added ability to accept/decline ADP at first start to the application info interface
 
 Version 1.5.2:
 • Main interface improvements applied;
