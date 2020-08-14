@@ -18,7 +18,7 @@ namespace RD_AAOW
 		// Переменные
 		private string projectLink, updatesLink, userManualLink;
 		private SupportedLanguages al;
-		private string updatesMessage = "", description = "";
+		private string updatesMessage = "", description = "", policyLoaderCaption = "";
 
 		private const string adpLink = "https://vk.com/@rdaaow_fupl-adp";			// Ссылка на Политику
 		private const string defaultGitLink = "https://github.com/adslbarxatov/";	// Мастер-ссылка проекта
@@ -74,7 +74,7 @@ namespace RD_AAOW
 			}
 
 		/// <summary>
-		/// Метод отображает справочное окно в обычном режиме
+		/// Метод отображает справочное окно приложения
 		/// </summary>
 		/// <param name="InterfaceLanguage">Язык интерфейса</param>
 		/// <param name="Description">Описание программы и/или справочная информация</param>
@@ -133,6 +133,7 @@ namespace RD_AAOW
 					MisacceptButton.Text = "О&тклонить";
 					DescriptionBox.Text = AcceptMode ? "Не удалось получить текст Политики. " +
 						"Попробуйте использовать кнопку перехода в браузер" : description;
+					policyLoaderCaption = "Подготовка к первому запуску...";
 
 					this.Text = AcceptMode ? "Политика разработки и соглашение пользователя" : "О программе";
 					break;
@@ -146,43 +147,28 @@ namespace RD_AAOW
 					ExitButton.Text = AcceptMode ? "&Accept" : "&OK";
 					MisacceptButton.Text = "&Decline";
 					DescriptionBox.Text = AcceptMode ? "Failed to get Policy text. Try button to open it in browser" : description;
+					policyLoaderCaption = "Preparing for first launch...";
 
 					this.Text = AcceptMode ? "Development policy and user agreement" : "About application";
 					break;
 				}
 
 			// Запуск проверки обновлений
+			HardWorkExecutor hwe;
 			if (!AcceptMode)
 				{
-				HardWorkExecutor hwe = new HardWorkExecutor (UpdatesChecker, null, "");
+				hwe = new HardWorkExecutor (UpdatesChecker, null, "");
 				UpdatesTimer.Enabled = true;
 				}
 
 			// Получение Политики
 			else
 				{
-				string html = GetHTML (adpLink);
-				int textLeft = 0, textRight = 0;
-				if (((textLeft = html.IndexOf ("<h3")) >= 0) && ((textRight = html.IndexOf ("<script", textLeft)) >= 0))
-					{
-					// Обрезка
-					html = html.Substring (textLeft, textRight - textLeft);
+				hwe = new HardWorkExecutor (PolicyLoader, null, policyLoaderCaption);
 
-					// Формирование абзацных отступов
-					html = html.Replace ("<br/>", "\r\n\r\n").Replace ("</p>", "\r\n\r\n").
-						Replace ("</li>", "\r\n\r\n").Replace ("</h1>", "\r\n\r\n").Replace ("</h3>", "\r\n\r\n");
-
-					// Удаление вложенных тегов
-					while (((textLeft = html.IndexOf ("<")) >= 0) && ((textRight = html.IndexOf (">", textLeft)) >= 0))
-						html = html.Replace (html.Substring (textLeft, textRight - textLeft + 1), "");
-
-					// Удаление двойных пробелов
-					while (html.IndexOf ("  ") >= 0)
-						html = html.Replace ("  ", " ");
-
-					// Добавление
+				string html = hwe.Result.ToString ();
+				if (html != "")
 					DescriptionBox.Text = html;
-					}
 				}
 
 			// Настройка контролов
@@ -208,6 +194,33 @@ namespace RD_AAOW
 
 			// Завершение
 			return accepted;
+			}
+
+		// Метод получает Политику разработки
+		private void PolicyLoader (object sender, DoWorkEventArgs e)
+			{
+			string html = GetHTML (adpLink);
+			int textLeft = 0, textRight = 0;
+			if (((textLeft = html.IndexOf ("<h3")) >= 0) && ((textRight = html.IndexOf ("<script", textLeft)) >= 0))
+				{
+				// Обрезка
+				html = html.Substring (textLeft, textRight - textLeft);
+
+				// Формирование абзацных отступов
+				html = html.Replace ("<br/>", "\r\n\r\n").Replace ("</p>", "\r\n\r\n").
+					Replace ("</li>", "\r\n\r\n").Replace ("</h1>", "\r\n\r\n").Replace ("</h3>", "\r\n\r\n");
+
+				// Удаление вложенных тегов
+				while (((textLeft = html.IndexOf ("<")) >= 0) && ((textRight = html.IndexOf (">", textLeft)) >= 0))
+					html = html.Replace (html.Substring (textLeft, textRight - textLeft + 1), "");
+
+				// Удаление двойных пробелов
+				while (html.IndexOf ("  ") >= 0)
+					html = html.Replace ("  ", " ");
+				}
+
+			e.Result = html;
+			return;
 			}
 
 		/// <summary>

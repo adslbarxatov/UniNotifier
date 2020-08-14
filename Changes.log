@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 1.6.2p:
+• Info interface call method has been rebuilt;
+• Some notifications templates has been updated
+
 Version 1.6p:
 • Notifications templates storage has been reviewed;
 • Some settings interface improvements applied;
