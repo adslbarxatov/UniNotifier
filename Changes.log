@@ -1,7 +1,9 @@
 UniNotifier changes log
 
-Version 1.7:
-• Application icon fixup completed
+Version 1.7i:
+• Windows: found and fixed hidden bug that caused an error when starting the application from local network;
+• Windows: fixed bug that caused the web page request method to fail if server disconnected;
+• Windows: updated application identity
 
 Version 1.6.2p:
 • Info interface call method has been rebuilt;

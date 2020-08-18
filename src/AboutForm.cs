@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace RD_AAOW
@@ -37,7 +36,8 @@ namespace RD_AAOW
 		/// кнопка отключается, если это значение не задано</param>
 		/// <param name="UserManualLink">Ссылка на страницу руководства пользователя;
 		/// кнопка отключается, если это значение не задано</param>
-		public AboutForm (string ProjectLink, string UpdatesLink, string UserManualLink)
+		/// <param name="AppIcon">Значок приложения</param>
+		public AboutForm (string ProjectLink, string UpdatesLink, string UserManualLink, Icon AppIcon)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -64,8 +64,16 @@ namespace RD_AAOW
 				ProgramDescription.AssemblyCopyright + "\nv " + ProgramDescription.AssemblyVersion +
 				"; " + ProgramDescription.AssemblyLastUpdate;
 
-			IconBox.BackgroundImage = Icon.ExtractAssociatedIcon (Assembly.GetExecutingAssembly ().Location).ToBitmap ();
-			OtherIconBox.BackgroundImage = this.Icon.ToBitmap ();
+			if (AppIcon != null)
+				{
+				IconBox.BackgroundImage = AppIcon.ToBitmap ();
+				OtherIconBox.BackgroundImage = this.Icon.ToBitmap ();
+				}
+			else
+				{
+				IconBox.BackgroundImage = this.Icon.ToBitmap ();
+				}
+			//IconBox.BackgroundImage = Icon.ExtractAssociatedIcon (Assembly.GetExecutingAssembly ().Location).ToBitmap ();
 
 			// Завершение
 			UserManualButton.Enabled = (userManualLink != "");
@@ -91,15 +99,17 @@ namespace RD_AAOW
 		/// Метод запускает окно в режиме принятия Политики
 		/// </summary>
 		/// <param name="InterfaceLanguage">Язык интерфейса</param>
-		/// <returns>Возвращает true, если Политика принята</returns>
-		public bool AcceptEULA (SupportedLanguages InterfaceLanguage)
+		/// <returns>Возвращает 0, если Политика принята;
+		/// 1, если Политика уже принималась ранее;
+		/// -1, если Политика отклонена</returns>
+		public int AcceptEULA (SupportedLanguages InterfaceLanguage)
 			{
 			al = InterfaceLanguage;
 			return LaunchForm (false, true);
 			}
 
 		// Основной метод запуска окна
-		private bool LaunchForm (bool StartupMode, bool AcceptMode)
+		private int LaunchForm (bool StartupMode, bool AcceptMode)
 			{
 			// Запрос последней версии
 			string helpShownAt = "";
@@ -118,7 +128,7 @@ namespace RD_AAOW
 			// Контроль
 			if (StartupMode && (helpShownAt == ProgramDescription.AssemblyVersion) ||	// Справка уже отображалась
 				AcceptMode && (helpShownAt != ""))			// Политика уже принята
-				return true;
+				return 1;
 
 			// Настройка контролов
 			switch (al)
@@ -127,7 +137,7 @@ namespace RD_AAOW
 					UserManualButton.Text = "Руководство";
 					ProjectPageButton.Text = "О проекте";
 					UpdatesPageButton.Text = "Обновления";
-					ADPButton.Text = "Политика и EULA";
+					ADPButton.Text = AcceptMode ? "Открыть в браузере" : "Политика и EULA";
 					AvailableUpdatesLabel.Text = "проверяются...";
 					ExitButton.Text = AcceptMode ? "&Принять" : "&ОК";
 					MisacceptButton.Text = "О&тклонить";
@@ -142,7 +152,7 @@ namespace RD_AAOW
 					UserManualButton.Text = "User manual";
 					ProjectPageButton.Text = "Project webpage";
 					UpdatesPageButton.Text = "Updates webpage";
-					ADPButton.Text = "Policy and EULA";
+					ADPButton.Text = AcceptMode ? "Open in browser" : "Policy and EULA";
 					AvailableUpdatesLabel.Text = "checking...";
 					ExitButton.Text = AcceptMode ? "&Accept" : "&OK";
 					MisacceptButton.Text = "&Decline";
@@ -193,7 +203,7 @@ namespace RD_AAOW
 				}
 
 			// Завершение
-			return accepted;
+			return accepted ? 0 : -1;
 			}
 
 		// Метод получает Политику разработки
@@ -428,7 +438,14 @@ htmlError:
 
 			// Чтение ответа
 			StreamReader SR = new StreamReader (resp.GetResponseStream (), true);
-			html = SR.ReadToEnd ();
+			try
+				{
+				html = SR.ReadToEnd ();
+				}
+			catch
+				{
+				html = "";	// Почему-то иногда исполнение обрывается на этом месте
+				}
 			SR.Close ();
 			resp.Close ();
 
