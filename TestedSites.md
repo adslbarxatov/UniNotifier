@@ -3,13 +3,14 @@
 ## Список сайтов, протестированных с UniNotifier
 
 
-Actual for / Актуально на: 11 aug 2020
+Actual for / Актуально на: 22 aug 2020
 
 
 ```
 Site		Works			Tested division
 Сайт		Работает		Проверенный раздел
 
+codeproject.com		  +			Articles page / Страница статей
 kommersant.ru	  +			Main page / Главная страница
 moddb.com	  +			Mod comments / Комментарии к моду
 moddb.com	  -			Latest mods / Последние моды

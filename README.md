@@ -1,4 +1,4 @@
-# UniNotifier v 1.7i
+# UniNotifier v 1.8
 
 Controllable notifications service
 

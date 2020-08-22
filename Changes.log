@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 1.8:
+• Windows: application info interface now able to get last release's changes log;
+• Application core has been refactored and prepared for Android implementation
+
 Version 1.7i:
 • Windows: found and fixed hidden bug that caused an error when starting the application from local network;
 • Windows: fixed bug that caused the web page request method to fail if server disconnected;

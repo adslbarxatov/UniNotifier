@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace RD_AAOW
@@ -10,17 +9,15 @@ namespace RD_AAOW
 	public partial class SettingsForm:Form
 		{
 		// Переменные и константы
-		private List<Notification> notifications;
-		private NotificationsTemplatesProvider ntp;
+		private NotificationsSet notifications;
 		private SupportedLanguages al = Localization.CurrentLanguage;
 
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
 		/// </summary>
-		/// <param name="Notifications">Список загруженных оповещений</param>
+		/// <param name="Notifications">Набор загруженных оповещений</param>
 		/// <param name="UpdatingFrequencyStep">Шаг изменения частоты обновления</param>
-		/// <param name="Templates">Загруженный список шаблонов оповещений</param>
-		public SettingsForm (List<Notification> Notifications, NotificationsTemplatesProvider Templates, uint UpdatingFrequencyStep)
+		public SettingsForm (NotificationsSet Notifications, uint UpdatingFrequencyStep)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -44,19 +41,19 @@ namespace RD_AAOW
 
 			// Загрузка оповещений в список
 			notifications = Notifications;
-			ntp = Templates;
 
-			BAdd.Enabled = (notifications.Count < Notification.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Count > 0);
+			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
+			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 0);
 
-			for (int i = 0; i < notifications.Count; i++)
-				NotificationsList.Items.Add (notifications[i].Name + (notifications[i].IsEnabled ? " (+)" : " (–)"));
+			for (int i = 0; i < notifications.Notifications.Count; i++)
+				NotificationsList.Items.Add (notifications.Notifications[i].Name +
+					(notifications.Notifications[i].IsEnabled ? " (+)" : " (–)"));
 			if (NotificationsList.Items.Count > 0)
 				NotificationsList.SelectedIndex = 0;
 
 			// Загрузка шаблонов
-			for (uint i = 0; i < ntp.TemplatesCount; i++)
-				TemplatesCombo.Items.Add (ntp.GetName (i));
+			for (uint i = 0; i < notifications.NotificationsTemplates.TemplatesCount; i++)
+				TemplatesCombo.Items.Add (notifications.NotificationsTemplates.GetName (i));
 			TemplatesCombo.SelectedIndex = 0;
 
 			// Запуск
@@ -67,7 +64,7 @@ namespace RD_AAOW
 		private void BClose_Click (object sender, EventArgs e)
 			{
 			// Сохранение оповещений
-			Notification.SaveNotifications (notifications);
+			notifications.SaveNotifications ();
 
 			// Закрытие окна
 			this.Close ();
@@ -81,12 +78,12 @@ namespace RD_AAOW
 				return;
 
 			// Загрузка
-			NameText.Text = notifications[NotificationsList.SelectedIndex].Name;
-			LinkText.Text = notifications[NotificationsList.SelectedIndex].Link;
-			BeginningText.Text = notifications[NotificationsList.SelectedIndex].Beginning;
-			EndingText.Text = notifications[NotificationsList.SelectedIndex].Ending;
-			FrequencyCombo.SelectedIndex = (int)notifications[NotificationsList.SelectedIndex].UpdateFrequency - 1;
-			EnabledCheck.Checked = notifications[NotificationsList.SelectedIndex].IsEnabled;
+			NameText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Name;
+			LinkText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Link;
+			BeginningText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Beginning;
+			EndingText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Ending;
+			FrequencyCombo.SelectedIndex = (int)notifications.Notifications[NotificationsList.SelectedIndex].UpdateFrequency - 1;
+			EnabledCheck.Checked = notifications.Notifications[NotificationsList.SelectedIndex].IsEnabled;
 			}
 
 		// Добавление и обновление позиций
@@ -122,12 +119,12 @@ namespace RD_AAOW
 			if (ItemNumber < 0)
 				{
 				NotificationsList.Items.Add (ni.Name + (ni.IsEnabled ? " (+)" : " (–)"));
-				notifications.Add (ni);
+				notifications.Notifications.Add (ni);
 				}
 			else if (ItemNumber < NotificationsList.Items.Count)
 				{
 				NotificationsList.Items[ItemNumber] = ni.Name + (ni.IsEnabled ? " (+)" : " (–)");
-				notifications[ItemNumber] = ni;
+				notifications.Notifications[ItemNumber] = ni;
 				}
 			else
 				{
@@ -137,8 +134,8 @@ namespace RD_AAOW
 				}
 
 			// Обновление контролов
-			BAdd.Enabled = (notifications.Count < Notification.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Count > 0);
+			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
+			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 0);
 			}
 
 		// Удаление оповещения
@@ -157,29 +154,29 @@ namespace RD_AAOW
 				return;
 
 			// Удаление
-			notifications.RemoveAt (NotificationsList.SelectedIndex);
+			notifications.Notifications.RemoveAt (NotificationsList.SelectedIndex);
 			NotificationsList.Items.RemoveAt (NotificationsList.SelectedIndex);
 
 			// Обновление контролов
-			BAdd.Enabled = (notifications.Count < Notification.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Count > 0);
+			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
+			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 0);
 			}
 
 		// Загрузка шаблона в поля
 		private void BLoadTemplate_Click (object sender, EventArgs e)
 			{
 			// Проверка
-			if (ntp.GetLink ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
-				ntp.GetBeginning ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
-				ntp.GetEnding ((uint)TemplatesCombo.SelectedIndex).Contains ("{"))
+			if (notifications.NotificationsTemplates.GetLink ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
+				notifications.NotificationsTemplates.GetBeginning ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
+				notifications.NotificationsTemplates.GetEnding ((uint)TemplatesCombo.SelectedIndex).Contains ("{"))
 				MessageBox.Show (Localization.GetText ("CurlyTemplate", al), ProgramDescription.AssemblyTitle,
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			// Заполнение
-			NameText.Text = ntp.GetName ((uint)TemplatesCombo.SelectedIndex);
-			LinkText.Text = ntp.GetLink ((uint)TemplatesCombo.SelectedIndex);
-			BeginningText.Text = ntp.GetBeginning ((uint)TemplatesCombo.SelectedIndex);
-			EndingText.Text = ntp.GetEnding ((uint)TemplatesCombo.SelectedIndex);
+			NameText.Text = notifications.NotificationsTemplates.GetName ((uint)TemplatesCombo.SelectedIndex);
+			LinkText.Text = notifications.NotificationsTemplates.GetLink ((uint)TemplatesCombo.SelectedIndex);
+			BeginningText.Text = notifications.NotificationsTemplates.GetBeginning ((uint)TemplatesCombo.SelectedIndex);
+			EndingText.Text = notifications.NotificationsTemplates.GetEnding ((uint)TemplatesCombo.SelectedIndex);
 			}
 
 		// Автоматизированный поиск ограничителей
