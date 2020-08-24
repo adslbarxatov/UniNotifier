@@ -110,6 +110,9 @@ namespace RD_AAOW
 				// Остановка
 				ni.Visible = false;
 				MainTimer.Enabled = false;
+
+				// Освобождение ресурсов
+				ns.Dispose ();
 				}
 
 			// Скрытие окна просмотра
@@ -133,6 +136,13 @@ namespace RD_AAOW
 			string newText;
 			if ((newText = ns.GetNextNotification ()) != "")
 				{
+				// Добавление в главное окно
+				if (MainText.Text.Length + newText.Length > 20000)
+					MainText.Text = MainText.Text.Substring (newText.Length, MainText.Text.Length - newText.Length);
+				if (MainText.Text.Length > 0)
+					MainText.AppendText ("\r\n\r\n");
+				MainText.AppendText (newText);
+
 				// Отображение всплывающего сообщения
 				if (!this.Visible)
 					{
@@ -141,13 +151,6 @@ namespace RD_AAOW
 
 					ni.ShowBalloonTip (10000, "", newText, ToolTipIcon.Info);
 					}
-
-				// Добавление в главное окно
-				if (MainText.Text.Length + newText.Length > 20000)
-					MainText.Text = MainText.Text.Substring (newText.Length, MainText.Text.Length - newText.Length);
-				if (MainText.Text.Length > 0)
-					MainText.AppendText ("\r\n\r\n");
-				MainText.AppendText (newText);
 
 				// Обновление прочих полей
 				NamesCombo.SelectedIndex = ns.CurrentNotificationNumber;

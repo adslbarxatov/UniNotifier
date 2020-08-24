@@ -8,7 +8,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс предоставляет доступ к шаблонам оповещений
 	/// </summary>
-	public class NotificationsTemplatesProvider
+	public class NotificationsTemplatesProvider:IDisposable
 		{
 		// Переменные
 		private List<string[]> templatesElements = new List<string[]> ();
@@ -86,6 +86,9 @@ namespace RD_AAOW
 
 		private string GetTemplateElement (uint TemplateNumber, uint ElementNumber)
 			{
+			if (templatesElements == null)
+				return "";
+
 			if ((TemplateNumber > templatesElements.Count) || (ElementNumber > templatesElements[0].Length))
 				throw new Exception ("Invalid internal method call. Debug required");
 
@@ -99,8 +102,20 @@ namespace RD_AAOW
 			{
 			get
 				{
+				if (templatesElements == null)
+					return 0;
+
 				return (uint)templatesElements.Count;
 				}
+			}
+
+		/// <summary>
+		/// Метод освобождает ресурсы, занятые данным экземпляром
+		/// </summary>
+		public void Dispose ()
+			{
+			templatesElements.Clear ();
+			templatesElements = null;
 			}
 		}
 	}
