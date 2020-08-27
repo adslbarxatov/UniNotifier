@@ -148,6 +148,9 @@
   <data name="MainMenuOption04" xml:space="preserve">
     <value>&amp;Завершить</value>
   </data>
+  <data name="MainMenuOption05" xml:space="preserve">
+    <value>&amp;Добавить в автозапуск</value>
+  </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>Одно из обязательных полей не заполнено, или ссылка на ресурс указана некорректно</value>
   </data>

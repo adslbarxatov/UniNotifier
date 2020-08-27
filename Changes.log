@@ -1,8 +1,10 @@
 UniNotifier changes log
 
-ToDo:
-- Add ability to add application to autostart menu;
-- Replace &#39; with [']
+Version 1.9:
+• Fixed displaying of ['] sign;
+• Characters replacement algorithm has been improved;
+• Added ability to add application to startup menu;
+• Fixed threading algorithm: application will not freeze every 15 second anymore
 
 Version 1.8.1:
 • Fixed bug with full-text notifications;

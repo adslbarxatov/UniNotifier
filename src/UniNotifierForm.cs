@@ -3,6 +3,9 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
+using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace RD_AAOW
 	{
@@ -19,6 +22,12 @@ namespace RD_AAOW
 		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read" };
 
 		private NotificationsSet ns = new NotificationsSet ();
+
+		private string startupLink = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup) + "\\" +
+			ProgramDescription.AssemblyMainName + ".lnk";
+
+		private List<string> texts = new List<string> ();
+		private List<int> notNumbers = new List<int> ();
 
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
@@ -65,6 +74,12 @@ namespace RD_AAOW
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption02", al), ShowSettings));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption03", al), AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption04", al), CloseService));
+
+			if (!File.Exists (startupLink))
+				{
+				ni.ContextMenu.MenuItems.Add ("-");
+				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05", al), AddToStartup));
+				}
 			}
 
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
@@ -129,33 +144,60 @@ namespace RD_AAOW
 			ProgramDescription.ShowAbout (false);
 			}
 
+		// Добавление в автозапуск
+		private void AddToStartup (object sender, EventArgs e)
+			{
+			// Попытка создания
+			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath, ProgramDescription.AssemblyMainName, "");
+
+			// Контроль
+			ni.ContextMenu.MenuItems[5].Enabled = !File.Exists (startupLink);
+			}
+
 		// Итерация таймера обновления
 		private void MainTimer_Tick (object sender, EventArgs e)
 			{
-			// Обновление
-			string newText;
-			if ((newText = ns.GetNextNotification ()) != "")
+			// Запуск запроса
+			HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null);
+			hwe.Dispose ();
+
+			// Обновление очереди отображения
+			if (texts.Count > 0)
 				{
 				// Добавление в главное окно
-				if (MainText.Text.Length + newText.Length > 20000)
-					MainText.Text = MainText.Text.Substring (newText.Length, MainText.Text.Length - newText.Length);
+				if (MainText.Text.Length + texts[0].Length > 20000)
+					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
 					MainText.AppendText ("\r\n\r\n");
-				MainText.AppendText (newText);
+				MainText.AppendText (texts[0]);
 
 				// Отображение всплывающего сообщения
 				if (!this.Visible)
 					{
-					if (newText.Length > 210)
-						newText = newText.Substring (0, 210) + "...";
+					if (texts[0].Length > 210)
+						texts[0] = texts[0].Substring (0, 210) + "...";
 
-					ni.ShowBalloonTip (10000, "", newText, ToolTipIcon.Info);
+					ni.ShowBalloonTip (10000, "", texts[0], ToolTipIcon.Info);
 					}
 
 				// Обновление прочих полей
-				NamesCombo.SelectedIndex = ns.CurrentNotificationNumber;
+				NamesCombo.SelectedIndex = notNumbers[0];
+
+				texts.RemoveAt (0);
+				notNumbers.RemoveAt (0);
+				}
+			}
+
+		private void DoUpdate (object sender, DoWorkEventArgs e)
+			{
+			string newText = ns.GetNextNotification ();
+			if (newText != "")
+				{
+				texts.Add (newText);
+				notNumbers.Add (ns.CurrentNotificationNumber);
 				}
 
+			e.Result = null;
 			}
 
 		// Отображение полного списка оповещений

@@ -148,6 +148,9 @@ In addition, the utility automatically requests new records in 5-minute incremen
   <data name="MainMenuOption04" xml:space="preserve">
     <value>&amp;Quit</value>
   </data>
+  <data name="MainMenuOption05" xml:space="preserve">
+    <value>A&amp;dd to startup</value>
+  </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>One of required fields is empty, or link to website is specified incorrectly</value>
   </data>
