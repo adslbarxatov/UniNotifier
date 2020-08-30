@@ -39,7 +39,7 @@ if available, displays the appropriate notifications
 #
 
 - Для Windows-версии требуется ОС Windows XP или новее, Framework 4.0 или новее. Языки интерфейса: ru_ru, en_us;
-- Для Android-версии потребуется ОС версии 4.4 или новее. Языки интерфейса: ru_ru, en_us
+- Для Android-версии требуется ОС версии 4.4 или новее. Языки интерфейса: ru_ru, en_us
 
 
 

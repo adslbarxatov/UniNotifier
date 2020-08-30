@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--manifest xmlns:android="http://schemas.android.com/apk/res/android" package="uninotifier.huawei"
+		  android:installLocation="internalOnly" android:versionCode="600101" android:versionName="1.9"-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
+		  android:installLocation="internalOnly" android:versionCode="600101" android:versionName="1.9">
+
+	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="29" />
+
+	<application android:label="UniNotifier" android:icon="@mipmap/icon">
+
+		<service android:label="UniNotifier" android:icon="@mipmap/icon" android:exported="true"
+			android:name="com.RD_AAOW.UniNotifier" >
+			<!--<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED"></action>
+			</intent-filter>-->
+		</service>
+
+	</application>
+</manifest>

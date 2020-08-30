@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RD_AAOW.SolutionPage">
+
+	<ScrollView>
+		<StackLayout>
+			<Label x:Name="HeaderLabel" />
+
+			<StackLayout Orientation="Horizontal">
+				<Switch x:Name="AllowStart" />
+				<Label x:Name="AllowStartLabel" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Switch x:Name="AllowSound" />
+				<Label x:Name="AllowSoundLabel" />
+			</StackLayout>
+		</StackLayout>
+	</ScrollView>
+</ContentPage>

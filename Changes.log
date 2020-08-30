@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+Version 1.9 / Android:
+• Beta release for Android (without settings interface)
+
 Version 1.9:
 • Fixed displaying of ['] sign;
 • Characters replacement algorithm has been improved;
