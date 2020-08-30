@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Found bugs:
+- Found bug in memory management between start and first notification events;
+- Found bug that disallows app to show notifications in sleep mode;
+- Found bug that hides LED notifications
+
 Version 1.9 / Android:
 • Beta release for Android (without settings interface)
 
