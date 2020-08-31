@@ -126,11 +126,17 @@
   <data name="ADPPage" xml:space="preserve">
     <value>Политика и EULA</value>
   </data>
+  <data name="AllowLightSwitch" xml:space="preserve">
+    <value>Разрешить светодиодные оповещения</value>
+  </data>
   <data name="AllowSoundSwitch" xml:space="preserve">
     <value>Разрешить звуковые оповещения</value>
   </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Запустить службу после выхода</value>
+  </data>
+  <data name="AllowVibroSwitch" xml:space="preserve">
+    <value>Разрешить вибрацию</value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>Перейти на страницу проекта</value>
@@ -158,6 +164,9 @@
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Выберите язык:</value>
+  </data>
+  <data name="ServiceSettingsLabel" xml:space="preserve">
+    <value>Настройки фоновой службы</value>
   </data>
   <data name="SolutionAboutPage" xml:space="preserve">
     <value>Как принимается решение</value>

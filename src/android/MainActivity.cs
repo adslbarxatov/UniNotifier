@@ -28,6 +28,7 @@ namespace RD_AAOW.Droid
 		/// <param name="savedInstanceState"></param>
 		protected override void OnCreate (Bundle savedInstanceState)
 			{
+			// Базовая настройка
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 
@@ -96,14 +97,13 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает службу новостей приложения
 	/// </summary>
-	[Service (Name = "com.RD_AAOW.UniNotifier",
-		Label = "UniNotifier", Icon = "@mipmap/icon", Exported = true)]
+	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier", Icon = "@mipmap/icon", Exported = true)]
 	public class MainService:global::Android.App.Service
 		{
 		// Основной набор оповещений
 		private NotificationsSet ns;
 
-		private const long masterDelay = 5000;
+		private const long masterDelay = 15000;
 
 		// Идентификаторы процесса
 		private Handler handler;
@@ -113,7 +113,7 @@ namespace RD_AAOW.Droid
 		// Дескрипторы уведомлений
 		private NotificationCompat.Builder notBuilder;
 		private NotificationManager notManager;
-		private int notID = 0;
+		private const int notServiceID = 1001;
 		private NotificationCompat.BigTextStyle notTextStyle;
 		private Intent masterIntent;
 		private PendingIntent masterPendingIntent;
@@ -144,67 +144,70 @@ namespace RD_AAOW.Droid
 		private void TimerTick ()
 			{
 			string newText;
-			if ((newText = ns.GetNextNotification ()) != "")
-				{
-				// Сборка сообщения
-				notBuilder.SetContentText (newText);
-				notTextStyle.BigText (newText);
+			if ((newText = ns.GetNextNotification ()) == "")
+				return;
 
-				NotificationsSupport.CurrentLink = ns.Notifications[ns.CurrentNotificationNumber].Link;
+			// Сборка сообщения
+			notBuilder.SetContentText (newText);
+			notTextStyle.BigText (newText);
 
-				if (masterPendingIntent == null)
-					{
-					masterIntent = new Intent (this, typeof (NotificationLink));
-					masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
-					notBuilder.SetContentIntent (masterPendingIntent);
-					}
+			NotificationsSupport.CurrentLink = ns.Notifications[ns.CurrentNotificationNumber].Link;
 
-				// Отправка
-				Android.App.Notification notification = notBuilder.Build ();
-				notManager.Notify (notID, notification);
+			// Отправка
+			Android.App.Notification notification = notBuilder.Build ();
+			notManager.Notify (notServiceID + 1, notification);
 
-				// Сброс
-				notification.Dispose ();
-				}
+			// Сброс
+			notification.Dispose ();
 			}
 
 		/// <summary>
 		/// Обработчик события запуска службы
 		/// </summary>
-		/// <returns></returns>
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
 			{
 			if (!isStarted)
 				{
-				// Инициализация
+				// Инициализация оповещений
 				ns = new NotificationsSet ();
 
+				// Инициализация сообщений
 				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
-				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
-				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
-				notBuilder.SetVisibility ((int)NotificationVisibility.Private);
 				notBuilder.SetCategory ("CategoryMessage");
-				notBuilder.SetDefaults (0);
-				notBuilder.SetPriority ((int)NotificationPriority.Default);
+				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
 				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", Localization.CurrentLanguage));
+				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
+				notBuilder.SetDefaults (0);         // Для служебного сообщения
+				notBuilder.SetPriority ((int)NotificationPriority.Default);
+				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
+				notBuilder.SetTimeoutAfter (1000);
+				notBuilder.SetVisibility ((int)NotificationVisibility.Private);
 
 				notManager = (NotificationManager)this.GetSystemService (Context.NotificationService);
 				notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
 
 				// Стартовое сообщение
 				Android.App.Notification notification = notBuilder.Build ();
-				notManager.Notify (notID, notification);
+				StartForeground (notServiceID, notification);
+				//notManager.Notify (notServiceID, notification);
 
-				// Настройки основного режима
-				notBuilder.SetDefaults (NotificationsSupport.AllowSound ? (int)NotificationDefaults.Sound : 0);
-				notBuilder.SetPriority ((int)NotificationPriority.High);
+				// Перенастройка для основного режима
+				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
+					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
+				notBuilder.SetPriority ((int)NotificationPriority.Max);
+				notBuilder.SetTimeoutAfter (-1);
 
-				// Запуск
+				masterIntent = new Intent (this, typeof (NotificationLink));
+				masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
+				notBuilder.SetContentIntent (masterPendingIntent);
+
+				// Запуск петли
 				handler.PostDelayed (runnable, masterDelay);
 				isStarted = true;
 				}
 
-			return StartCommandResult.Sticky;
+			return StartCommandResult.NotSticky;
 			}
 
 		/// <summary>
@@ -214,12 +217,15 @@ namespace RD_AAOW.Droid
 			{
 			// Остановка службы
 			handler.RemoveCallbacks (runnable);
+			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+			notificationManager.Cancel (notServiceID);
 			isStarted = false;
 
 			// Освобождение ресурсов
 			ns.Dispose ();
 			notBuilder.Dispose ();
 			notManager.Dispose ();
+
 			masterIntent.Dispose ();
 			masterPendingIntent.Dispose ();
 
@@ -248,8 +254,7 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает запускаемое задание
 	/// </summary>
-	[Service (Name = "com.RD_AAOW.UniNotifierLink",
-		Label = "UniNotifierLink", Icon = "@mipmap/icon")]
+	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink", Icon = "@mipmap/icon")]
 	public class NotificationLink:IntentService
 		{
 		/// <summary>
@@ -264,7 +269,8 @@ namespace RD_AAOW.Droid
 		/// </summary>
 		protected override void OnHandleIntent (Android.Content.Intent intent)
 			{
-			Launcher.OpenAsync (NotificationsSupport.CurrentLink);
+			if (NotificationsSupport.CurrentLink != "")
+				Launcher.OpenAsync (NotificationsSupport.CurrentLink);
 			}
 		}
 	}

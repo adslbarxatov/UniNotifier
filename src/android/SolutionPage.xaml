@@ -7,15 +7,32 @@
 		<StackLayout>
 			<Label x:Name="HeaderLabel" />
 
-			<StackLayout Orientation="Horizontal">
-				<Switch x:Name="AllowStart" />
-				<Label x:Name="AllowStartLabel" />
-			</StackLayout>
+			<Label x:Name="ServiceSettingsLabel" />
 
-			<StackLayout Orientation="Horizontal">
-				<Switch x:Name="AllowSound" />
-				<Label x:Name="AllowSoundLabel" />
-			</StackLayout>
+			<FlexLayout Direction="Row" Wrap="Wrap" >
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowStart" VerticalOptions="Center" />
+					<Label x:Name="AllowStartLabel" VerticalOptions="CenterAndExpand" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowSound" VerticalOptions="Center" />
+					<Label x:Name="AllowSoundLabel" VerticalOptions="CenterAndExpand" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowLight" VerticalOptions="Center" />
+					<Label x:Name="AllowLightLabel" VerticalOptions="CenterAndExpand" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowVibro" VerticalOptions="Center" />
+					<Label x:Name="AllowVibroLabel" VerticalOptions="CenterAndExpand" />
+				</StackLayout>
+
+			</FlexLayout>
+
 		</StackLayout>
 	</ScrollView>
 </ContentPage>

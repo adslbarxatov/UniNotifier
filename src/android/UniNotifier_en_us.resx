@@ -126,11 +126,17 @@
   <data name="ADPPage" xml:space="preserve">
     <value>Policy and EULA</value>
   </data>
+  <data name="AllowLightSwitch" xml:space="preserve">
+    <value>Allow LED notifications</value>
+  </data>
   <data name="AllowSoundSwitch" xml:space="preserve">
     <value>Allow sound notifications</value>
   </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Start service after exit</value>
+  </data>
+  <data name="AllowVibroSwitch" xml:space="preserve">
+    <value>Allow vibration</value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>Go to app webpage</value>
@@ -158,6 +164,9 @@ To decline them just close the application</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select language:</value>
+  </data>
+  <data name="ServiceSettingsLabel" xml:space="preserve">
+    <value>Background service settings</value>
   </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Notifications settings</value>

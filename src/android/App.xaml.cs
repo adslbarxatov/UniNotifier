@@ -16,7 +16,6 @@ namespace RD_AAOW
 
 		private const int masterFontSize = 14;
 		private Thickness margin = new Thickness (6);
-		private bool firstStart = true;
 		private SupportedLanguages al = Localization.CurrentLanguage;
 
 		private readonly Color
@@ -29,8 +28,6 @@ namespace RD_AAOW
 			masterTextColor = Color.FromHex ("#000080"),
 			masterHeaderColor = Color.FromHex ("#202020");
 
-		private const string firstStartRegKey = "HelpShownAt";
-
 		#endregion
 
 		#region Переменные страниц
@@ -39,7 +36,7 @@ namespace RD_AAOW
 
 		private Label aboutLabel;
 
-		private Switch allowStart, allowSound;
+		private Switch allowStart, allowSound, allowLight, allowVibro;
 
 		#endregion
 
@@ -145,6 +142,9 @@ namespace RD_AAOW
 
 			#region Основная страница
 
+			ApplyLabelSettings (solutionPage, "ServiceSettingsLabel", Localization.GetText ("ServiceSettingsLabel", al),
+				masterHeaderColor);
+
 			ApplyLabelSettings (solutionPage, "AllowStartLabel", Localization.GetText ("AllowStartSwitch", al),
 				masterTextColor);
 			allowStart = (Switch)solutionPage.FindByName ("AllowStart");
@@ -157,14 +157,17 @@ namespace RD_AAOW
 			allowSound.IsToggled = NotificationsSupport.AllowSound;
 			allowSound.Toggled += AllowSound_Toggled;
 
-			// Получение настроек перед инициализацией
-			try
-				{
-				firstStart = Preferences.Get (firstStartRegKey, "") == "";
-				}
-			catch
-				{
-				}
+			ApplyLabelSettings (solutionPage, "AllowLightLabel", Localization.GetText ("AllowLightSwitch", al),
+				masterTextColor);
+			allowLight = (Switch)solutionPage.FindByName ("AllowLight");
+			allowLight.IsToggled = NotificationsSupport.AllowLight;
+			allowLight.Toggled += AllowLight_Toggled;
+
+			ApplyLabelSettings (solutionPage, "AllowVibroLabel", Localization.GetText ("AllowVibroSwitch", al),
+				masterTextColor);
+			allowVibro = (Switch)solutionPage.FindByName ("AllowVibro");
+			allowVibro.IsToggled = NotificationsSupport.AllowVibro;
+			allowVibro.Toggled += AllowVibro_Toggled;
 
 			#endregion
 
@@ -209,6 +212,18 @@ namespace RD_AAOW
 			NotificationsSupport.AllowSound = allowSound.IsToggled;
 			}
 
+		// Включение / выключение светодиода
+		private void AllowLight_Toggled (object sender, ToggledEventArgs e)
+			{
+			NotificationsSupport.AllowLight = allowLight.IsToggled;
+			}
+
+		// Включение / выключение светодиода
+		private void AllowVibro_Toggled (object sender, ToggledEventArgs e)
+			{
+			NotificationsSupport.AllowVibro = allowVibro.IsToggled;
+			}
+
 		// Выбор языка приложения
 		private async void SelectLanguage_Clicked (object sender, EventArgs e)
 			{
@@ -229,7 +244,7 @@ namespace RD_AAOW
 		// Метод отображает подсказки при первом запуске
 		private async void ShowTips ()
 			{
-			if (!firstStart)
+			if (NotificationsSupport.HelpShownAt != "")
 				return;
 
 			// Требование принятия Политики
@@ -240,7 +255,7 @@ namespace RD_AAOW
 				{
 				ADPButton_Clicked (null, null);
 				}
-			Preferences.Set (firstStartRegKey, ProgramDescription.AssemblyVersion); // Только после принятия
+			NotificationsSupport.HelpShownAt = ProgramDescription.AssemblyVersion; // Только после принятия
 
 			// Первая подсказка
 			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
