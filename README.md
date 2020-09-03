@@ -1,4 +1,4 @@
-# UniNotifier v 1.9.3
+# UniNotifier v 1.9.4
 
 Controllable notifications service
 
@@ -34,12 +34,12 @@ if available, displays the appropriate notifications
 ## Requirements / Требования
 
 - Windows version requires Windows XP or newer, Framework 4.0 or newer. Interface languages: ru_ru, en_us;
-- Android version requires OS 4.4 or newer. Interface languages: ru_ru, en_us
+- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 4.2 or newer. Interface languages: ru_ru, en_us
 
 #
 
 - Для Windows-версии требуется ОС Windows XP или новее, Framework 4.0 или новее. Языки интерфейса: ru_ru, en_us;
-- Для Android-версии требуется ОС версии 4.4 или новее. Языки интерфейса: ru_ru, en_us
+- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 4.2 или новее. Языки интерфейса: ru_ru, en_us
 
 
 
