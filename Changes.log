@@ -1,5 +1,11 @@
 UniNotifier changes log
 
+Version 1.9.4 / Android:
+- Third method (JobScheduler) brings unacceptable long pauses between news and uncontrolled freezing. It looks like it failed too
+
+Version 1.9.3 / Android:
+- First and second sleep workarounds (variations of ForegroundService) did not work. Trying third one
+
 Version 1.9.2 / Android:
 • Fixed fatal bug in memory management between start and first notification events;
 • Added LED and vibration notifications;
