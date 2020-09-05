@@ -96,6 +96,17 @@ namespace RD_AAOW
 			}
 
 		/// <summary>
+		/// Возвращает флаг, указывающий на необходимость дополнения шаблона перед применением
+		/// </summary>
+		/// <param name="TemplateNumber">Номер шаблона</param>
+		public bool IsTemplateIncomplete (uint TemplateNumber)
+			{
+			return (GetLink (TemplateNumber).Contains ("{") ||
+				GetBeginning (TemplateNumber).Contains ("{") ||
+				GetEnding (TemplateNumber).Contains ("{"));
+			}
+
+		/// <summary>
 		/// Возвращает количество доступных шаблонов
 		/// </summary>
 		public uint TemplatesCount

@@ -16,7 +16,10 @@ namespace RD_AAOW
 
 		private const int masterFontSize = 14;
 		private Thickness margin = new Thickness (6);
+
 		private SupportedLanguages al = Localization.CurrentLanguage;
+		private NotificationsSet ns = new NotificationsSet ();
+		private int currentNotification = 0;
 
 		private readonly Color
 			solutionMasterBackColor = Color.FromHex ("#F0FFF0"),
@@ -33,10 +36,11 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage solutionPage, aboutPage;
-
-		private Label aboutLabel;
-
-		private Switch allowStart, allowSound, allowLight, allowVibro;
+		private Label aboutLabel, freqFieldLabel;
+		private Switch allowStart, allowSound, allowLight, allowVibro, enabledSwitch;
+		private Button selectedNotification, applyButton, addButton, deleteButton;
+		private Editor nameField, linkField, beginningField, endingField;
+		private Stepper freqField;
 
 		#endregion
 
@@ -60,7 +64,6 @@ namespace RD_AAOW
 			Label childLabel = (Label)ParentPage.FindByName (LabelName);
 
 			childLabel.Text = LabelTitle;
-			childLabel.HorizontalOptions = LayoutOptions.Center;
 			childLabel.FontAttributes = FontAttributes.Bold;
 			childLabel.FontSize = masterFontSize;
 			childLabel.TextColor = LabelTextColor;
@@ -140,7 +143,7 @@ namespace RD_AAOW
 			solutionPage = ApplyPageSettings ("SolutionPage", solutionMasterBackColor);
 			aboutPage = ApplyPageSettings ("AboutPage", aboutMasterBackColor);
 
-			#region Основная страница
+			#region Настройки службы
 
 			ApplyLabelSettings (solutionPage, "ServiceSettingsLabel", Localization.GetText ("ServiceSettingsLabel", al),
 				masterHeaderColor);
@@ -171,6 +174,65 @@ namespace RD_AAOW
 
 			#endregion
 
+			#region Настройки оповещений
+
+			ApplyLabelSettings (solutionPage, "NotificationsSettingsLabel",
+				Localization.GetText ("NotificationsSettingsLabel", al), masterHeaderColor);
+			selectedNotification = ApplyButtonSettings (solutionPage, "SelectedNotification",
+				"", solutionFieldBackColor, SelectNotification);
+
+			ApplyLabelSettings (solutionPage, "NameFieldLabel", Localization.GetText ("NameFieldLabel", al),
+				masterTextColor);
+			nameField = ApplyEditorSettings (solutionPage, "NameField", solutionFieldBackColor,
+				Keyboard.Default, 30, "", null);
+
+			ApplyLabelSettings (solutionPage, "LinkFieldLabel", Localization.GetText ("LinkFieldLabel", al),
+				masterTextColor);
+			linkField = ApplyEditorSettings (solutionPage, "LinkField", solutionFieldBackColor,
+				Keyboard.Url, 150, "", null);
+
+			ApplyLabelSettings (solutionPage, "BeginningFieldLabel", Localization.GetText ("BeginningFieldLabel", al),
+				masterTextColor);
+			beginningField = ApplyEditorSettings (solutionPage, "BeginningField", solutionFieldBackColor,
+				Keyboard.Url, 30, "", null);
+
+			ApplyLabelSettings (solutionPage, "EndingFieldLabel", Localization.GetText ("EndingFieldLabel", al),
+				masterTextColor);
+			endingField = ApplyEditorSettings (solutionPage, "EndingField", solutionFieldBackColor,
+				Keyboard.Url, 30, "", null);
+
+			freqFieldLabel = ApplyLabelSettings (solutionPage, "FreqFieldLabel", "", masterTextColor);
+			freqField = (Stepper)solutionPage.FindByName ("FreqField");
+			freqField.BackgroundColor = solutionFieldBackColor;
+			freqField.Increment = 1;
+			freqField.Maximum = 24;
+			freqField.Minimum = 1;
+			freqField.Value = 1.1;
+			freqField.ValueChanged += FrequencyChanged;
+
+			ApplyLabelSettings (solutionPage, "EnabledLabel", Localization.GetText ("EnabledLabel", al),
+				masterTextColor);
+			enabledSwitch = (Switch)solutionPage.FindByName ("EnabledSwitch");
+
+			// Инициализация полей
+			SelectNotification (null, null);
+
+			#endregion
+
+			#region Управление оповещениями
+
+			applyButton = ApplyButtonSettings (solutionPage, "ApplyButton", Localization.GetText ("ApplyButton", al),
+				solutionFieldBackColor, ApplyNotification);
+			addButton = ApplyButtonSettings (solutionPage, "AddButton", Localization.GetText ("AddButton", al),
+				solutionFieldBackColor, AddNotification);
+			deleteButton = ApplyButtonSettings (solutionPage, "DeleteButton", Localization.GetText ("DeleteButton", al),
+				solutionFieldBackColor, DeleteNotification);
+
+			ApplyButtonSettings (solutionPage, "TemplateButton", Localization.GetText ("TemplateButton", al),
+				solutionFieldBackColor, LoadTemplate);
+
+			#endregion
+
 			#region Страница "О программе"
 
 			aboutLabel = ApplyLabelSettings (aboutPage, "AboutLabel",
@@ -190,6 +252,8 @@ namespace RD_AAOW
 				aboutFieldBackColor, ADPButton_Clicked);
 			ApplyButtonSettings (aboutPage, "CommunityPage",
 				"RD AAOW Free utilities production lab", aboutFieldBackColor, CommunityButton_Clicked);
+
+			UpdateButtons1 ();
 
 			ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
 				aboutFieldBackColor, SelectLanguage_Clicked);
@@ -283,11 +347,157 @@ namespace RD_AAOW
 			Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-adp");
 			}
 
+		// Выбор оповещения
+		private async void SelectNotification (object sender, EventArgs e)
+			{
+			// Запрос списка оповещений
+			List<string> list = new List<string> ();
+			foreach (Notification element in ns.Notifications)
+				list.Add (element.Name);
+
+			string res = list[currentNotification];
+			if (e != null)
+				res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
+					Localization.GetText ("CancelButton", al), null, list.ToArray ());
+
+			// Установка результата
+			int i = currentNotification;
+			if ((e == null) || ((i = list.IndexOf (res)) >= 0))
+				{
+				currentNotification = i;
+				selectedNotification.Text = res;
+
+				nameField.Text = ns.Notifications[i].Name;
+				linkField.Text = ns.Notifications[i].Link;
+				beginningField.Text = ns.Notifications[i].Beginning;
+				endingField.Text = ns.Notifications[i].Ending;
+				freqField.Value = ns.Notifications[i].UpdateFrequency;
+				enabledSwitch.IsToggled = ns.Notifications[i].IsEnabled;
+				}
+
+			// Сброс
+			list.Clear ();
+			}
+
+		// Изменение значения частоты опроса
+		private void FrequencyChanged (object sender, ValueChangedEventArgs e)
+			{
+			freqFieldLabel.Text = string.Format (Localization.GetText ("FreqFieldLabel", al),
+				(uint)freqField.Value * 15 * NotificationsSet.MaxNotifications / 60);
+			}
+
+		// Удаление оповещения
+		private async void DeleteNotification (object sender, EventArgs e)
+			{
+			// Контроль
+			if (!await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				Localization.GetText ("DeleteMessage", al), Localization.GetText ("NextButton", al),
+				Localization.GetText ("CancelButton", al)))
+				return;
+
+			// Удаление и переход к другому оповещению
+			ns.Notifications.RemoveAt (currentNotification);
+			if (currentNotification >= ns.Notifications.Count)
+				currentNotification = ns.Notifications.Count - 1;
+			SelectNotification (null, null);
+
+			// Обновление контролов
+			UpdateButtons ();
+			}
+
+		// Добавление нового оповещения
+		private void AddNotification (object sender, EventArgs e)
+			{
+			// Добавление
+			UpdateItem (-1);
+
+			// Выбор нового оповещения
+			currentNotification = ns.Notifications.Count - 1;
+			SelectNotification (null, null);
+			}
+
+		// Обновление оповещения
+		private void ApplyNotification (object sender, EventArgs e)
+			{
+			// Обновление
+			UpdateItem (currentNotification);
+			selectedNotification.Text = nameField.Text;
+			}
+
+		// Общий метод обновления оповещений
+		private async void UpdateItem (int ItemNumber)
+			{
+			// Инициализация оповещения
+			Notification ni = new Notification (nameField.Text, linkField.Text, beginningField.Text, endingField.Text,
+				(uint)freqField.Value);
+			if (!ni.IsInited)
+				{
+				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("NotEnoughDataMessage", al),
+					Localization.GetText ("NextButton", al));
+				return;
+				}
+			ni.IsEnabled = enabledSwitch.IsToggled;
+
+			// Добавление
+			if (ItemNumber < 0)
+				{
+				ns.Notifications.Add (ni);
+				}
+			else if (ItemNumber < ns.Notifications.Count)
+				{
+				ns.Notifications[ItemNumber] = ni;
+				}
+
+			// Обновление контролов
+			UpdateButtons ();
+			}
+
+		// Обновление кнопок
+		private void UpdateButtons ()
+			{
+			addButton.IsVisible = (ns.Notifications.Count < NotificationsSet.MaxNotifications);
+			deleteButton.IsVisible = applyButton.IsVisible = (ns.Notifications.Count > 1);
+			}
+
+		// Метод загружает шаблон оповещения
+		private List<string> templatesNames = new List<string> ();
+		private async void LoadTemplate (object sender, EventArgs e)
+			{
+			// Запрос списка шаблонов
+			if (templatesNames.Count == 0)
+				for (uint i = 0; i < ns.NotificationsTemplates.TemplatesCount; i++)
+					templatesNames.Add (ns.NotificationsTemplates.GetName (i));
+
+			string res = templatesNames[0];
+			res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
+				Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());
+
+			// Установка результата
+			uint templateNumber = 0;
+			int r;
+			if ((r = templatesNames.IndexOf (res)) >= 0)
+				templateNumber = (uint)r;
+
+			// Проверка
+			if (ns.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
+				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("CurlyTemplate", al), Localization.GetText ("NextButton", al));
+
+			// Заполнение
+			nameField.Text = ns.NotificationsTemplates.GetName (templateNumber);
+			linkField.Text = ns.NotificationsTemplates.GetLink (templateNumber);
+			beginningField.Text = ns.NotificationsTemplates.GetBeginning (templateNumber);
+			endingField.Text = ns.NotificationsTemplates.GetEnding (templateNumber);
+			}
+
 		/// <summary>
 		/// Сохранение настроек программы
 		/// </summary>
 		protected override void OnSleep ()
 			{
+			// Сохранение настроек
+			ns.SaveNotifications ();
 			try
 				{
 				Localization.CurrentLanguage = al;

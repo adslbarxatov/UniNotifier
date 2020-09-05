@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--manifest xmlns:android="http://schemas.android.com/apk/res/android" package="uninotifier.huawei"
-		  android:installLocation="internalOnly" android:versionCode="600102" android:versionName="1.9.2"-->
+		  android:installLocation="internalOnly" android:versionCode="600103" android:versionName="1.9.5"-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-		  android:installLocation="internalOnly" android:versionCode="600102" android:versionName="1.9.2">
+		  android:installLocation="internalOnly" android:versionCode="600103" android:versionName="1.9.5">
 
 	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="29" />
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<!--<uses-permission android:name="android.permission.BIND_JOB_SERVICE" />-->
 	<uses-permission android:name="android.permission.INTERNET" />
+	<!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
 
 	<application android:label="UniNotifier" android:icon="@mipmap/icon">
 
 		<service android:label="UniNotifier" android:icon="@mipmap/icon" android:exported="true"
-			android:name="com.RD_AAOW.UniNotifier" >
+			android:name="com.RD_AAOW.UniNotifier">
 			<!--<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED"></action>
 			</intent-filter>-->

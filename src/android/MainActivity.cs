@@ -19,13 +19,16 @@ namespace RD_AAOW.Droid
 	/// Класс описывает загрузчик приложения
 	/// </summary>
 	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+		ScreenOrientation = ScreenOrientation.Landscape)]
 	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
+		// Константы
+		private const int jobID = 4415;
+
 		/// <summary>
 		/// Обработчик события создания экземпляра
 		/// </summary>
-		/// <param name="savedInstanceState"></param>
 		protected override void OnCreate (Bundle savedInstanceState)
 			{
 			// Базовая настройка
@@ -38,6 +41,8 @@ namespace RD_AAOW.Droid
 			// Остановка службы для настройки
 			Intent mainService = new Intent (this, typeof (MainService));
 			StopService (mainService);
+			/*JobScheduler jsch = (JobScheduler)this.GetSystemService (Context.JobSchedulerService);
+			jsch.Cancel (jobID);*/
 
 			// Окно настроек
 			LoadApplication (new App ());
@@ -52,6 +57,18 @@ namespace RD_AAOW.Droid
 				{
 				Intent mainService = new Intent (this, typeof (MainService));
 				StartService (mainService);
+				/*ComponentName js = new ComponentName (this, Java.Lang.Class.FromType (typeof (MainService)));
+				JobInfo.Builder ji = new JobInfo.Builder (jobID, js);
+
+				ji.SetRequiresCharging (false);
+				ji.SetRequiresDeviceIdle (false);
+				ji.SetRequiredNetworkType (NetworkType.Any);
+				ji.SetPeriodic (15 * 60000);
+				ji.SetPersisted (true);
+
+				JobScheduler jsch = (JobScheduler)this.GetSystemService (Context.JobSchedulerService);
+				jsch.Schedule (ji.Build ());	// Результат пока не важен
+				*/
 				}
 
 			base.OnStop ();
@@ -62,7 +79,8 @@ namespace RD_AAOW.Droid
 	/// Класс описывает экран-заставку приложения
 	/// </summary>
 	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+		ScreenOrientation = ScreenOrientation.Landscape)]
 	public class SplashActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
@@ -113,10 +131,93 @@ namespace RD_AAOW.Droid
 		// Дескрипторы уведомлений
 		private NotificationCompat.Builder notBuilder;
 		private NotificationManager notManager;
-		private const int notServiceID = 1001;
+		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
+
 		private Intent masterIntent;
 		private PendingIntent masterPendingIntent;
+
+		/*
+		/// <summary>
+		/// Обработчик события создания задания
+		/// </summary>
+		public override bool OnStartJob (JobParameters jobParams)
+			{
+			if (!isStarted)
+				{
+				// Инициализация оповещений
+				ns = new NotificationsSet ();
+
+				// Инициализация сообщений
+				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
+				notBuilder.SetCategory ("CategoryMessage");
+				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
+				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", Localization.CurrentLanguage));
+				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
+				notBuilder.SetDefaults (0);         // Для служебного сообщения
+				notBuilder.SetPriority ((int)NotificationPriority.Default);
+				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
+				notBuilder.SetVisibility ((int)NotificationVisibility.Private);
+
+				notManager = (NotificationManager)this.GetSystemService (Context.NotificationService);
+				notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
+
+				// Стартовое сообщение
+				Android.App.Notification notification = notBuilder.Build ();
+				//StartForeground (notServiceID, notification);
+				notManager.Notify (notServiceID, notification);
+
+				// Перенастройка для основного режима
+				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
+					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
+				notBuilder.SetPriority ((int)NotificationPriority.Max);
+
+				masterIntent = new Intent (this, typeof (NotificationLink));
+				masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
+				notBuilder.SetContentIntent (masterPendingIntent);
+
+				isStarted = true;
+				}
+
+			// Выполнение заданий
+			for (int i = 0; i < NotificationsSet.MaxNotifications; i++)
+				{
+				Task.Run (() =>
+				{
+					TimerTick ();
+				});
+
+				// Пауза в этом потоке
+				Thread.Sleep (45000);
+				}
+
+			// Отметка о завершении задания
+			JobFinished (jobParams, false);
+
+			// Завершено
+			return false;
+			}
+
+		/// <summary>
+		/// Обработчик события остановки задания
+		/// </summary>
+		public override bool OnStopJob (JobParameters jobParams)
+			{
+			// Освобождение ресурсов
+			ns.Dispose ();
+			notBuilder.Dispose ();
+			notManager.Dispose ();
+
+			masterIntent.Dispose ();
+			masterPendingIntent.Dispose ();
+
+			isStarted = false;
+
+			// При остановке или прерывании повторное создание задания не предусмотрено
+			return false;
+			}
+		*/
 
 		/// <summary>
 		/// Обработчик события создания службы
@@ -130,6 +231,7 @@ namespace RD_AAOW.Droid
 			handler = new Handler ();
 
 			// Аналог таймера (создаёт задание, которое само себя ставит в очередь исполнения ОС)
+			
 			runnable = new Action (() =>
 				{
 					if (isStarted)
@@ -155,7 +257,7 @@ namespace RD_AAOW.Droid
 
 			// Отправка
 			Android.App.Notification notification = notBuilder.Build ();
-			notManager.Notify (notServiceID + 1, notification);
+			notManager.Notify (notServiceID, notification);
 
 			// Сброс
 			notification.Dispose ();
@@ -180,7 +282,6 @@ namespace RD_AAOW.Droid
 				notBuilder.SetDefaults (0);         // Для служебного сообщения
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
 				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
-				notBuilder.SetTimeoutAfter (1000);
 				notBuilder.SetVisibility ((int)NotificationVisibility.Private);
 
 				notManager = (NotificationManager)this.GetSystemService (Context.NotificationService);
@@ -188,15 +289,14 @@ namespace RD_AAOW.Droid
 
 				// Стартовое сообщение
 				Android.App.Notification notification = notBuilder.Build ();
-				StartForeground (notServiceID, notification);
-				//notManager.Notify (notServiceID, notification);
+				//StartForeground (notServiceID, notification);
+				notManager.Notify (notServiceID, notification);
 
 				// Перенастройка для основного режима
 				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
 					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
 					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
-				notBuilder.SetTimeoutAfter (-1);
 
 				masterIntent = new Intent (this, typeof (NotificationLink));
 				masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
@@ -207,7 +307,7 @@ namespace RD_AAOW.Droid
 				isStarted = true;
 				}
 
-			return StartCommandResult.NotSticky;
+			return StartCommandResult.Sticky;
 			}
 
 		/// <summary>
@@ -217,8 +317,8 @@ namespace RD_AAOW.Droid
 			{
 			// Остановка службы
 			handler.RemoveCallbacks (runnable);
-			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
-			notificationManager.Cancel (notServiceID);
+			//NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+			//notificationManager.Cancel (notServiceID);
 			isStarted = false;
 
 			// Освобождение ресурсов

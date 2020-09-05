@@ -42,8 +42,7 @@ namespace RD_AAOW
 			// Загрузка оповещений в список
 			notifications = Notifications;
 
-			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 0);
+			UpdateButtons ();
 
 			for (int i = 0; i < notifications.Notifications.Count; i++)
 				NotificationsList.Items.Add (notifications.Notifications[i].Name +
@@ -58,6 +57,13 @@ namespace RD_AAOW
 
 			// Запуск
 			this.ShowDialog ();
+			}
+
+		// Обновление состояния кнопок
+		private void UpdateButtons ()
+			{
+			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
+			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 1);	// Одно должно остаться
 			}
 
 		// Закрытие окна просмотра
@@ -89,7 +95,11 @@ namespace RD_AAOW
 		// Добавление и обновление позиций
 		private void BAdd_Click (object sender, EventArgs e)
 			{
+			// Добавление
 			UpdateItem (-1);
+
+			// Обновление кнопок
+			UpdateButtons ();
 			}
 
 		private void BUpdate_Click (object sender, EventArgs e)
@@ -132,10 +142,6 @@ namespace RD_AAOW
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
-
-			// Обновление контролов
-			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 0);
 			}
 
 		// Удаление оповещения
@@ -157,9 +163,8 @@ namespace RD_AAOW
 			notifications.Notifications.RemoveAt (NotificationsList.SelectedIndex);
 			NotificationsList.Items.RemoveAt (NotificationsList.SelectedIndex);
 
-			// Обновление контролов
-			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 0);
+			// Обновление кнопок
+			UpdateButtons ();
 			}
 
 		// Загрузка шаблона в поля

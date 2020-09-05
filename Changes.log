@@ -1,16 +1,27 @@
 UniNotifier changes log
 
+ToDo:
+- Add saving of notifications states (last loaded text);
+- Add ability to select number of appearance of targetted text
+
+Version 1.9.5 / Android:
+• Android: added notifications management interface (main functionality);
+• Android: settings app locked in landscape orientation;
+• Android: removed templates auto-add stub;
+• Windows: fixed buttons management in settings window
+
 Version 1.9.4 / Android:
-- Third method (JobScheduler) brings unacceptable long pauses between news and uncontrolled freezing. It looks like it failed too
+• Android: third method (JobScheduler) brings unacceptable long pauses between news and uncontrollable freezing. Looks like it failed too;
+• Android: applied simple notification cycle; it will only work when device is not sleep and / or is connected to power
 
 Version 1.9.3 / Android:
-- First and second sleep workarounds (variations of ForegroundService) did not work. Trying third one
+• First and second sleep workarounds (variations of ForegroundService) don't work. Trying third one
 
 Version 1.9.2 / Android:
-• Fixed fatal bug in memory management between start and first notification events;
-• Added LED and vibration notifications;
-• Found priority bug that disallowed app to show notifications in sleep mode (now in test);
-• Notification's appearance has been adjusted; we're working on locked one (want to hide it)
+• Android: fixed fatal bug in memory management between start and first notification events;
+• Android: added LED and vibration notifications;
+• Android: found priority bug that disallowed app to show notifications in sleep mode (now is in test);
+• Android: notification's appearance has been adjusted
 
 Version 1.9 / Android:
 • Beta release for Android (without settings interface)
