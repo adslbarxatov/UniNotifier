@@ -39,6 +39,8 @@ namespace RD_AAOW
 			FrequencyCombo.SelectedIndex = 2;
 			EnabledCheck.Checked = true;
 
+			NameText.MaxLength = BeginningText.MaxLength = EndingText.MaxLength = Notification.MaxBeginningEndingLength;
+
 			// Загрузка оповещений в список
 			notifications = Notifications;
 
@@ -171,9 +173,7 @@ namespace RD_AAOW
 		private void BLoadTemplate_Click (object sender, EventArgs e)
 			{
 			// Проверка
-			if (notifications.NotificationsTemplates.GetLink ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
-				notifications.NotificationsTemplates.GetBeginning ((uint)TemplatesCombo.SelectedIndex).Contains ("{") ||
-				notifications.NotificationsTemplates.GetEnding ((uint)TemplatesCombo.SelectedIndex).Contains ("{"))
+			if (notifications.NotificationsTemplates.IsTemplateIncomplete ((uint)TemplatesCombo.SelectedIndex))
 				MessageBox.Show (Localization.GetText ("CurlyTemplate", al), ProgramDescription.AssemblyTitle,
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -88,7 +88,7 @@ namespace RD_AAOW
 			this.Hide ();
 
 			// Запуск
-			MainTimer.Interval = 15 * 1000;
+			MainTimer.Interval = 10 * 1000;
 			MainTimer.Enabled = true;
 			}
 

@@ -1,8 +1,14 @@
 UniNotifier changes log
 
 ToDo:
-- [Refused, not needed] Add saving of notifications states (last loaded text);
 - Add ability to select number of appearance of targetted text
+
+Version 1.10 / Windows:
+• Added Yahoo finance template;
+• Fixed too small beginning and ending fields' sizes;
+• Some processing code improvements applied;
+• Application now able to use internal tag fragments (without '<' and '>') for beginning signs;
+• Maximum of allowed notifications increased up to 30
 
 Version 1.9.6 / Android:
 • Android: added (from Windows version) ability to view list of previously received notifications;

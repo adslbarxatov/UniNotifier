@@ -19,5 +19,6 @@ rg.ru		  +			Main page / Главная страница
 vesma.today	  +			News section / Раздел новостей
 vk.com		  +			Community wall / Стена сообщества
 youtube.com	  -			Youtube studio
+finance.yahoo.com	  +			Stock news / Новости акции
 yr.no		  +  		City's weather page / Страница погоды в городе
 ```
