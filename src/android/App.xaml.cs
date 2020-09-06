@@ -22,8 +22,11 @@ namespace RD_AAOW
 		private int currentNotification = 0;
 
 		private readonly Color
-			solutionMasterBackColor = Color.FromHex ("#F0FFF0"),
-			solutionFieldBackColor = Color.FromHex ("#D0FFD0"),
+			logMasterBackColor = Color.FromHex ("#F0F0F0"),
+			logFieldBackColor = Color.FromHex ("#D0D0D0"),
+
+			solutionMasterBackColor = Color.FromHex ("#F0F8FF"),
+			solutionFieldBackColor = Color.FromHex ("#D0E8FF"),
 
 			aboutMasterBackColor = Color.FromHex ("#F0FFF0"),
 			aboutFieldBackColor = Color.FromHex ("#D0FFD0"),
@@ -35,11 +38,11 @@ namespace RD_AAOW
 
 		#region Переменные страниц
 
-		private ContentPage solutionPage, aboutPage;
+		private ContentPage solutionPage, aboutPage, logPage;
 		private Label aboutLabel, freqFieldLabel;
 		private Switch allowStart, allowSound, allowLight, allowVibro, enabledSwitch;
 		private Button selectedNotification, applyButton, addButton, deleteButton;
-		private Editor nameField, linkField, beginningField, endingField;
+		private Editor nameField, linkField, beginningField, endingField, mainLog;
 		private Stepper freqField;
 
 		#endregion
@@ -142,6 +145,7 @@ namespace RD_AAOW
 
 			solutionPage = ApplyPageSettings ("SolutionPage", solutionMasterBackColor);
 			aboutPage = ApplyPageSettings ("AboutPage", aboutMasterBackColor);
+			logPage = ApplyPageSettings ("LogPage", logMasterBackColor);
 
 			#region Настройки службы
 
@@ -230,6 +234,8 @@ namespace RD_AAOW
 
 			ApplyButtonSettings (solutionPage, "TemplateButton", Localization.GetText ("TemplateButton", al),
 				solutionFieldBackColor, LoadTemplate);
+			ApplyButtonSettings (solutionPage, "FindDelimitersButton", Localization.GetText ("FindDelimitersButton", al),
+				solutionFieldBackColor, FindDelimiters);
 
 			#endregion
 
@@ -253,10 +259,21 @@ namespace RD_AAOW
 			ApplyButtonSettings (aboutPage, "CommunityPage",
 				"RD AAOW Free utilities production lab", aboutFieldBackColor, CommunityButton_Clicked);
 
-			UpdateButtons1 ();
+			UpdateButtons ();
 
 			ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
 				aboutFieldBackColor, SelectLanguage_Clicked);
+
+			#endregion
+
+			#region Страница лога приложения
+
+			mainLog = ApplyEditorSettings (logPage, "MainLog", logFieldBackColor, Keyboard.Text, 10000,
+				NotificationsSupport.MasterLog, null);
+			mainLog.IsReadOnly = true;
+
+			ApplyButtonSettings (logPage, "LogNotification", Localization.GetText ("LogNotification", al),
+				logFieldBackColor, SelectLogNotification);
 
 			#endregion
 
@@ -379,6 +396,32 @@ namespace RD_AAOW
 			list.Clear ();
 			}
 
+		// Выбор оповещения для перехода по ссылке
+		private async void SelectLogNotification (object sender, EventArgs e)
+			{
+			List<string> list = new List<string> ();
+			foreach (Notification element in ns.Notifications)
+				list.Add (element.Name);
+
+			string res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
+				Localization.GetText ("CancelButton", al), null, list.ToArray ());
+
+			int i;
+			if ((i = list.IndexOf (res)) >= 0)
+				{
+				try
+					{
+					await Launcher.OpenAsync (ns.Notifications[i].Link);
+					}
+				catch
+					{
+					}
+				}
+
+			// Сброс
+			list.Clear ();
+			}
+
 		// Изменение значения частоты опроса
 		private void FrequencyChanged (object sender, ValueChangedEventArgs e)
 			{
@@ -412,8 +455,11 @@ namespace RD_AAOW
 			UpdateItem (-1);
 
 			// Выбор нового оповещения
-			currentNotification = ns.Notifications.Count - 1;
-			SelectNotification (null, null);
+			if (itemUpdated)
+				{
+				currentNotification = ns.Notifications.Count - 1;
+				SelectNotification (null, null);
+				}
 			}
 
 		// Обновление оповещения
@@ -421,10 +467,13 @@ namespace RD_AAOW
 			{
 			// Обновление
 			UpdateItem (currentNotification);
-			selectedNotification.Text = nameField.Text;
+
+			if (itemUpdated)
+				selectedNotification.Text = nameField.Text;
 			}
 
 		// Общий метод обновления оповещений
+		private bool itemUpdated = false;
 		private async void UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
@@ -433,8 +482,10 @@ namespace RD_AAOW
 			if (!ni.IsInited)
 				{
 				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("NotEnoughDataMessage", al),
-					Localization.GetText ("NextButton", al));
+					Localization.GetText ("NotEnoughDataMessage", al), Localization.GetText ("NextButton", al));
+				
+				itemUpdated = false;
+				nameField.Focus ();
 				return;
 				}
 			ni.IsEnabled = enabledSwitch.IsToggled;
@@ -451,6 +502,7 @@ namespace RD_AAOW
 
 			// Обновление контролов
 			UpdateButtons ();
+			itemUpdated = true;
 			}
 
 		// Обновление кнопок
@@ -469,8 +521,7 @@ namespace RD_AAOW
 				for (uint i = 0; i < ns.NotificationsTemplates.TemplatesCount; i++)
 					templatesNames.Add (ns.NotificationsTemplates.GetName (i));
 
-			string res = templatesNames[0];
-			res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
+			string res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
 				Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());
 
 			// Установка результата
@@ -489,6 +540,41 @@ namespace RD_AAOW
 			linkField.Text = ns.NotificationsTemplates.GetLink (templateNumber);
 			beginningField.Text = ns.NotificationsTemplates.GetBeginning (templateNumber);
 			endingField.Text = ns.NotificationsTemplates.GetEnding (templateNumber);
+			}
+
+		// Автоматизированный поиск ограничителей
+		private async void FindDelimiters (object sender, EventArgs e)
+			{
+			// Контроль
+			beginningField.Focus ();
+
+			if (beginningField.Text == "")
+				{
+				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("KeywordNotSpecified", al), Localization.GetText ("NextButton", al));
+				return;
+				}
+
+			if (beginningField.Text.Contains ("<") || beginningField.Text.Contains (">"))
+				{
+				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("Tip03", al), Localization.GetText ("NextButton", al));
+				beginningField.Text = "";
+				return;
+				}
+
+			// Поиск
+			string beginning = "", ending = "";
+			if (!Notification.FindDelimiters (linkField.Text, beginningField.Text, out beginning, out ending))
+				{
+				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("SearchFailure", al), Localization.GetText ("NextButton", al));
+				return;
+				}
+
+			// Успешно
+			beginningField.Text = beginning.Trim ();
+			endingField.Text = ending.Trim ();
 			}
 
 		/// <summary>

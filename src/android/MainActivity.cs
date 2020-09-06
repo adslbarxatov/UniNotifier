@@ -24,7 +24,7 @@ namespace RD_AAOW.Droid
 	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		// Константы
-		private const int jobID = 4415;
+		//private const int jobID = 4415;
 
 		/// <summary>
 		/// Обработчик события создания экземпляра
@@ -231,7 +231,7 @@ namespace RD_AAOW.Droid
 			handler = new Handler ();
 
 			// Аналог таймера (создаёт задание, которое само себя ставит в очередь исполнения ОС)
-			
+
 			runnable = new Action (() =>
 				{
 					if (isStarted)
@@ -254,6 +254,7 @@ namespace RD_AAOW.Droid
 			notTextStyle.BigText (newText);
 
 			NotificationsSupport.CurrentLink = ns.Notifications[ns.CurrentNotificationNumber].Link;
+			NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
 
 			// Отправка
 			Android.App.Notification notification = notBuilder.Build ();

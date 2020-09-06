@@ -41,6 +41,7 @@
 
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 				WidthRequest="200" Color="#606060" />
+			<Label />
 
 			<!-- Управление оповещениями -->
 
@@ -48,27 +49,31 @@
 
 			<Button x:Name="SelectedNotification" />
 
-			<StackLayout Orientation="Horizontal">
-				<Label x:Name="NameFieldLabel" VerticalOptions="Center" />
-				<Editor x:Name="NameField" VerticalOptions="Center" />
-			</StackLayout>
+			<FlexLayout Direction="Row" Wrap="Wrap" >
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="NameFieldLabel" VerticalOptions="Center" />
+					<Editor x:Name="NameField" VerticalOptions="Center" />
+				</StackLayout>
 
-			<StackLayout Orientation="Horizontal">
-				<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
-				<Editor x:Name="LinkField" VerticalOptions="Center" />
-			</StackLayout>
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
+					<Editor x:Name="LinkField" VerticalOptions="Center" />
+				</StackLayout>
 
-			<StackLayout Orientation="Horizontal">
-				<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
-				<Editor x:Name="BeginningField" VerticalOptions="Center" />
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
+					<Editor x:Name="BeginningField" VerticalOptions="Center" />
+				</StackLayout>
 
-				<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
-				<Editor x:Name="EndingField" VerticalOptions="Center" />
-			</StackLayout>
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
+					<Editor x:Name="EndingField" VerticalOptions="Center" />
+				</StackLayout>
+			</FlexLayout>
 
 			<StackLayout Orientation="Horizontal">
 				<Label x:Name="FreqFieldLabel" VerticalTextAlignment="Center" LineBreakMode="WordWrap" 
-					WidthRequest="200" HeightRequest="100" />
+					WidthRequest="200" HeightRequest="75" />
 				<Stepper x:Name="FreqField" VerticalOptions="Center" />
 
 				<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
@@ -77,17 +82,21 @@
 
 			<!-- Операции с оповещениями -->
 
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="100" Color="#606060" />
-
-			<FlexLayout Direction="Row" Wrap="NoWrap">
+			<FlexLayout Direction="Row" Wrap="NoWrap" JustifyContent="Center">
 				<Button x:Name="ApplyButton" HorizontalOptions="Center" HeightRequest="75" />
 				<Button x:Name="AddButton" HorizontalOptions="Center" HeightRequest="75" />
 				<Button x:Name="DeleteButton" HorizontalOptions="Center" HeightRequest="75" />
 			</FlexLayout>
-			<Button x:Name="TemplateButton" HorizontalOptions="Center" />
 
-			<Label x:Name="Filler" />
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" />
+
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+				<Button x:Name="TemplateButton" HorizontalOptions="Center" />
+				<Button x:Name="FindDelimitersButton" HorizontalOptions="Center" />
+			</StackLayout>
+
+			<Label />
 
 		</StackLayout>
 	</ScrollView>

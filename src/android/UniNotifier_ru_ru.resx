@@ -171,8 +171,14 @@
   <data name="EndingFieldLabel" xml:space="preserve">
     <value>Конец:</value>
   </data>
+  <data name="FindDelimitersButton" xml:space="preserve">
+    <value>Найти слово</value>
+  </data>
   <data name="FreqFieldLabel" xml:space="preserve">
-    <value>Частота обновления: {0:D} минут</value>
+    <value>Обновлять каждые {0:D} минут</value>
+  </data>
+  <data name="KeywordNotSpecified" xml:space="preserve">
+    <value>В поле «Начало» не указано ключевое слово для поиска</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Служба оповещений успешно запущена.
@@ -180,6 +186,12 @@
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Ссылка:</value>
+  </data>
+  <data name="LogNotification" xml:space="preserve">
+    <value>Перейти</value>
+  </data>
+  <data name="LogPage" xml:space="preserve">
+    <value>Журнал оповещений</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Название:</value>
@@ -200,6 +212,9 @@
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Перезапустите приложение</value>
+  </data>
+  <data name="SearchFailure" xml:space="preserve">
+    <value>Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Выберите язык:</value>
@@ -226,7 +241,10 @@
     <value>Здесь вы можете указать настройки уведомлений. Обратите внимание, что каждый запуск интерфейса настроек будет отключать фоновую службу. Она продолжит работу после закрытия приложения</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>Интерфейс настроек сейчас находится в разработке. На данный момент доступны только предустановленные уведомления</value>
+    <value>ВНИМАНИЕ! Приложение может получать уведомления, только если устройство подключено к электросети и/или экран не находится в спящем режиме. Мы над этим работаем</value>
+  </data>
+  <data name="Tip03" xml:space="preserve">
+    <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Здравствуйте, уважаемый пользователь!</value>

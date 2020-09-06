@@ -1,8 +1,16 @@
 UniNotifier changes log
 
 ToDo:
-- Add saving of notifications states (last loaded text);
+- [Refused, not needed] Add saving of notifications states (last loaded text);
 - Add ability to select number of appearance of targetted text
+
+Version 1.9.6 / Android:
+• Android: added (from Windows version) ability to view list of previously received notifications;
+• Android: fixed first start tips;
+• Android: fixed buttons placement bug;
+• Android: fixed first start buttons' appearance;
+• Android: fixed bug in new notifications check algorithm;
+• Android: added (from Windows version) ability to automatically find notifications delimiters
 
 Version 1.9.5 / Android:
 • Android: added notifications management interface (main functionality);

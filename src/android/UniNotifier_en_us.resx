@@ -171,15 +171,27 @@
   <data name="EndingFieldLabel" xml:space="preserve">
     <value>Ending:</value>
   </data>
+  <data name="FindDelimitersButton" xml:space="preserve">
+    <value>Find keyword</value>
+  </data>
   <data name="FreqFieldLabel" xml:space="preserve">
     <value>Update frequency: {0:D} minutes</value>
   </data>
+  <data name="KeywordNotSpecified" xml:space="preserve">
+    <value>Search keyword is missing in “Beginning” field</value>
+  </data>
   <data name="LaunchMessage" xml:space="preserve">
-    <value>Notification service successfully started.
-Launch main application for setup or turning off service</value>
+    <value>Notification service has been successfully started.
+Launch main application for setup or turning off the service</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Link:</value>
+  </data>
+  <data name="LogNotification" xml:space="preserve">
+    <value>Go to</value>
+  </data>
+  <data name="LogPage" xml:space="preserve">
+    <value>Notifications log</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Name:</value>
@@ -200,6 +212,9 @@ To decline them just close the application</value>
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>
+  </data>
+  <data name="SearchFailure" xml:space="preserve">
+    <value>Link to webpage is incorrect or keyword is not found on this page</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select language:</value>
@@ -223,7 +238,10 @@ To decline them just close the application</value>
     <value>Here you can specify notifications settings. Note that every start of settings interface will turn off the background service. It will resume after closing of application</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>Settings interface now is in development. Only hard-coded notifications are available for now</value>
+    <value>ATTENTION! App can only receive notifications if your device is plugged in and / or the screen is not in sleep mode. We are working on it</value>
+  </data>
+  <data name="Tip03" xml:space="preserve">
+    <value>For using this function specify some keyword from needed site's area in “Beginning” field</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Hello dear user!</value>
