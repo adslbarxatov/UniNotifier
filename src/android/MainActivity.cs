@@ -121,7 +121,7 @@ namespace RD_AAOW.Droid
 		// Основной набор оповещений
 		private NotificationsSet ns;
 
-		private const long masterDelay = 15000;
+		private const long masterDelay = 10000;
 
 		// Идентификаторы процесса
 		private Handler handler;

@@ -79,7 +79,7 @@ namespace RD_AAOW
 			}
 
 		// Загрузка значений в поля
-		private void NotificationsList_DoubleClick (object sender, EventArgs e)
+		private void NotificationsList_Select (object sender, EventArgs e)
 			{
 			// Контроль
 			if (NotificationsList.SelectedIndex < 0)
@@ -106,9 +106,9 @@ namespace RD_AAOW
 
 		private void BUpdate_Click (object sender, EventArgs e)
 			{
-			if (MessageBox.Show (Localization.GetText ("UpdateMessage", al), ProgramDescription.AssemblyTitle,
+			/*if (MessageBox.Show (Localization.GetText ("UpdateMessage", al), ProgramDescription.AssemblyTitle,
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-				return;
+				return;*/
 
 			UpdateItem (NotificationsList.SelectedIndex);
 			}
@@ -119,12 +119,20 @@ namespace RD_AAOW
 			// Инициализация оповещения
 			Notification ni = new Notification (NameText.Text, LinkText.Text, BeginningText.Text, EndingText.Text,
 				(uint)(FrequencyCombo.SelectedIndex + 1));
+
 			if (!ni.IsInited)
 				{
 				MessageBox.Show (Localization.GetText ("NotEnoughDataMessage", al),
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
+			if ((ItemNumber < 0) && notifications.Notifications.Contains (ni))
+				{
+				MessageBox.Show (Localization.GetText ("NotMatchingNames", al),
+					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+				}
+
 			ni.IsEnabled = EnabledCheck.Checked;
 
 			// Добавление

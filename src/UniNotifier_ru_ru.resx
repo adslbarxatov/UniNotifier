@@ -159,6 +159,9 @@
 
 {2:S}</value>
   </data>
+  <data name="NotMatchingNames" xml:space="preserve">
+    <value>Оповещение с таким именем уже добавлено</value>
+  </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается</value>
   </data>

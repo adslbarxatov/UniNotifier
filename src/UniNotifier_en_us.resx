@@ -159,6 +159,9 @@ In addition, the utility automatically requests new records in 5-minute incremen
 
 {2:S}</value>
   </data>
+  <data name="NotMatchingNames" xml:space="preserve">
+    <value>Notification with the same name already added</value>
+  </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Link to webpage is incorrect or keyword is not found on this page</value>
   </data>

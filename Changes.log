@@ -1,10 +1,14 @@
 UniNotifier changes log
 
-ToDo:
-- Add ability to select number of appearance of targetted text
+Version 1.10.2:
+• Implemented counter function that will allow you (in the next version) to specify what occurence from the top of page will be shown;
+• Some processing improvements applied;
+• Symbols 'lt' and 'gt' will now be processed properly;
+• Added checking for matching names of notifications;
+• Android: all previously implemented functions for Windows have been included into new version
 
 Version 1.10 / Windows:
-• Added Yahoo finance template;
+• Added template for Yahoo finance;
 • Fixed too small beginning and ending fields' sizes;
 • Some processing code improvements applied;
 • Application now able to use internal tag fragments (without '<' and '>') for beginning signs;
@@ -64,7 +68,7 @@ Version 1.6.2p:
 • Some notifications templates has been updated
 
 Version 1.6p:
-• Notifications templates storage has been reviewed;
+• Notifications templates storage has been rebuilt;
 • Some settings interface improvements applied;
 • Added ability to accept/decline ADP at first start to the application info interface
 

@@ -205,6 +205,9 @@ Launch main application for setup or turning off the service</value>
   <data name="NotificationsSettingsLabel" xml:space="preserve">
     <value>Notification parameters:</value>
   </data>
+  <data name="NotMatchingNames" xml:space="preserve">
+    <value>Notification with the same name already added</value>
+  </data>
   <data name="PolicyMessage" xml:space="preserve">
     <value>Before you can start using this tool, you must accept Application development policy and EULA. Do you want to open them in browser?
 

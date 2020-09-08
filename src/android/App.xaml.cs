@@ -188,7 +188,7 @@ namespace RD_AAOW
 			ApplyLabelSettings (solutionPage, "NameFieldLabel", Localization.GetText ("NameFieldLabel", al),
 				masterTextColor);
 			nameField = ApplyEditorSettings (solutionPage, "NameField", solutionFieldBackColor,
-				Keyboard.Default, 30, "", null);
+				Keyboard.Default, Notification.MaxBeginningEndingLength, "", null);
 
 			ApplyLabelSettings (solutionPage, "LinkFieldLabel", Localization.GetText ("LinkFieldLabel", al),
 				masterTextColor);
@@ -198,12 +198,12 @@ namespace RD_AAOW
 			ApplyLabelSettings (solutionPage, "BeginningFieldLabel", Localization.GetText ("BeginningFieldLabel", al),
 				masterTextColor);
 			beginningField = ApplyEditorSettings (solutionPage, "BeginningField", solutionFieldBackColor,
-				Keyboard.Url, 30, "", null);
+				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
 			ApplyLabelSettings (solutionPage, "EndingFieldLabel", Localization.GetText ("EndingFieldLabel", al),
 				masterTextColor);
 			endingField = ApplyEditorSettings (solutionPage, "EndingField", solutionFieldBackColor,
-				Keyboard.Url, 30, "", null);
+				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
 			freqFieldLabel = ApplyLabelSettings (solutionPage, "FreqFieldLabel", "", masterTextColor);
 			freqField = (Stepper)solutionPage.FindByName ("FreqField");
@@ -479,6 +479,7 @@ namespace RD_AAOW
 			// Инициализация оповещения
 			Notification ni = new Notification (nameField.Text, linkField.Text, beginningField.Text, endingField.Text,
 				(uint)freqField.Value);
+
 			if (!ni.IsInited)
 				{
 				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
@@ -488,6 +489,16 @@ namespace RD_AAOW
 				nameField.Focus ();
 				return;
 				}
+			if ((ItemNumber < 0) && ns.Notifications.Contains (ni))	// Не относится к обновлению позиции
+				{
+				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("NotMatchingNames", al), Localization.GetText ("NextButton", al));
+
+				itemUpdated = false;
+				nameField.Focus ();
+				return;
+				}
+
 			ni.IsEnabled = enabledSwitch.IsToggled;
 
 			// Добавление

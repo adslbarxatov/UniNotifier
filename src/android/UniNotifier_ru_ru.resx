@@ -205,6 +205,9 @@
   <data name="NotificationsSettingsLabel" xml:space="preserve">
     <value>Параметры оповещения:</value>
   </data>
+  <data name="NotMatchingNames" xml:space="preserve">
+    <value>Оповещение с таким именем уже добавлено</value>
+  </data>
   <data name="PolicyMessage" xml:space="preserve">
     <value>Перед началом работы с этим инструментом Вы должны принять Политику разработки приложений и Пользовательское соглашение. Хотите открыть их тексты в браузере?
 
