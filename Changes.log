@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+ToDo:
+- Fix Windows interface at Update button (old setting reverse);
+- Reset current notification's number at settings save in Windows;
+- Fix '&' appearance
+
 Version 1.10.2:
 • Implemented counter function that will allow you (in the next version) to specify what occurence from the top of page will be shown;
 • Some processing improvements applied;

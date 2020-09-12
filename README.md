@@ -13,7 +13,7 @@ This service provides ability to receive notifications about changes in the stat
 The context menu invoked by right-clicking on the application icon in system tray allows you to manage and build notifications,
 view them in main window, as well as request information about the application and go to monitored pages.
 
-In addition, the utility automatically requests new records in 5-minute increments and specified update rate and,
+In addition, the utility automatically requests new records with specified update rate and,
 if available, displays the appropriate notifications
 
 
@@ -26,7 +26,7 @@ if available, displays the appropriate notifications
 Контекстное меню, вызываемое по правому щелчку на значке приложения в трее, позволяет управлять оповещениями и конструировать их,
 просматривать их в большом окне, а также запрашивать информацию о приложении и переходить на отслеживаемые страницы.
 
-Кроме того, приложение с шагом в 5 минут и указанной частотой обновления самостоятельно запрашивает новые записи
+Кроме того, приложение с указанной частотой обновления самостоятельно запрашивает новые записи
 и при их наличии отображает соответствующие оповещения
 
 
@@ -34,12 +34,14 @@ if available, displays the appropriate notifications
 ## Requirements / Требования
 
 - Windows version requires Windows XP or newer, Framework 4.0 or newer. Interface languages: ru_ru, en_us;
-- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 4.2 or newer. Interface languages: ru_ru, en_us
+- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 4.2 or newer. Interface languages: ru_ru, en_us;
+- Application available in AppGallery
 
 #
 
 - Для Windows-версии требуется ОС Windows XP или новее, Framework 4.0 или новее. Языки интерфейса: ru_ru, en_us;
-- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 4.2 или новее. Языки интерфейса: ru_ru, en_us
+- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 4.2 или новее. Языки интерфейса: ru_ru, en_us;
+- Приложение доступно в AppGallery
 
 
 
