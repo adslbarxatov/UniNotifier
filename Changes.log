@@ -1,11 +1,15 @@
 UniNotifier changes log
 
+ToDo:
+- Fix templates loading on Android
+
 Version 1.11:
-• Windows: fixed interface bug that made app show old settings after pressing Update button;
-• Fixed '&' sign appearance;
-• Windows: application will reset notification timer on settings change;
-• Windows: added ability to set number of occurence of needed fragment on the page (from its beginning);
-• Updated all notification templates; improved templates for VK wall
+• Windows: fixed an interface bug that caused the app to show old settings after clicking "Update" button;
+• Fixed display of '&' sign;
+• Windows: app resets notification timer when settings are changed; this is convenient because it allows you to immediately check their correctness;
+• Added ability to set number of occurrence of needed text fragment on the webpage (from its beginning);
+• Updated all notification templates; improved templates for VK wall;
+• Android: fixed incorrect display of refresh frequency
 
 Version 1.10.2:
 • Implemented counter function that will allow you (in the next version) to specify what occurence from the top of page will be shown;
