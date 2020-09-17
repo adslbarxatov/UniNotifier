@@ -35,10 +35,10 @@ namespace RD_AAOW
 			while ((str = SR.ReadLine ()) != null)
 				{
 				string[] values = str.Split (splitters, StringSplitOptions.RemoveEmptyEntries);
-				if (values.Length != 4)
+				if (values.Length != 5)
 					continue;
 
-				templatesElements.Add (new string[] { values[0], values[1], values[2], values[3] });
+				templatesElements.Add (new string[] { values[0], values[1], values[2], values[3], values[4] });
 				}
 
 			// Завершено
@@ -82,6 +82,29 @@ namespace RD_AAOW
 		public string GetEnding (uint TemplateNumber)
 			{
 			return GetTemplateElement (TemplateNumber, 3);
+			}
+
+		/// <summary>
+		/// Возвращает номер вхождения шаблона от начала страницы
+		/// </summary>
+		/// <param name="TemplateNumber">Номер шаблона</param>
+		/// <returns>Номер вхождения</returns>
+		public uint GetOccurenceNumber (uint TemplateNumber)
+			{
+			if (templatesElements == null)
+				return 1;
+
+			uint res = 1;
+			try
+				{
+				res = uint.Parse (templatesElements[(int)TemplateNumber][4]);
+				}
+			catch
+				{
+				throw new Exception ("Invalid internal method call. Debug required");
+				}
+
+			return res;
 			}
 
 		private string GetTemplateElement (uint TemplateNumber, uint ElementNumber)

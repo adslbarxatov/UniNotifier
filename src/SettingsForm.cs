@@ -39,6 +39,9 @@ namespace RD_AAOW
 			FrequencyCombo.SelectedIndex = 2;
 			EnabledCheck.Checked = true;
 
+			OccurenceField.Minimum = 1;
+			OccurenceField.Maximum = Notification.MaxOccurenceNumber;
+
 			NameText.MaxLength = BeginningText.MaxLength = EndingText.MaxLength = Notification.MaxBeginningEndingLength;
 
 			// Загрузка оповещений в список
@@ -86,12 +89,14 @@ namespace RD_AAOW
 				return;
 
 			// Загрузка
-			NameText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Name;
-			LinkText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Link;
-			BeginningText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Beginning;
-			EndingText.Text = notifications.Notifications[NotificationsList.SelectedIndex].Ending;
-			FrequencyCombo.SelectedIndex = (int)notifications.Notifications[NotificationsList.SelectedIndex].UpdateFrequency - 1;
-			EnabledCheck.Checked = notifications.Notifications[NotificationsList.SelectedIndex].IsEnabled;
+			int i = NotificationsList.SelectedIndex;
+			NameText.Text = notifications.Notifications[i].Name;
+			LinkText.Text = notifications.Notifications[i].Link;
+			BeginningText.Text = notifications.Notifications[i].Beginning;
+			EndingText.Text = notifications.Notifications[i].Ending;
+			FrequencyCombo.SelectedIndex = (int)notifications.Notifications[i].UpdateFrequency - 1;
+			EnabledCheck.Checked = notifications.Notifications[i].IsEnabled;
+			OccurenceField.Value = notifications.Notifications[i].OccurenceNumber;
 			}
 
 		// Добавление и обновление позиций
@@ -106,10 +111,6 @@ namespace RD_AAOW
 
 		private void BUpdate_Click (object sender, EventArgs e)
 			{
-			/*if (MessageBox.Show (Localization.GetText ("UpdateMessage", al), ProgramDescription.AssemblyTitle,
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-				return;*/
-
 			UpdateItem (NotificationsList.SelectedIndex);
 			}
 
@@ -118,7 +119,7 @@ namespace RD_AAOW
 			{
 			// Инициализация оповещения
 			Notification ni = new Notification (NameText.Text, LinkText.Text, BeginningText.Text, EndingText.Text,
-				(uint)(FrequencyCombo.SelectedIndex + 1));
+				(uint)(FrequencyCombo.SelectedIndex + 1), (uint)OccurenceField.Value);
 
 			if (!ni.IsInited)
 				{
@@ -138,13 +139,13 @@ namespace RD_AAOW
 			// Добавление
 			if (ItemNumber < 0)
 				{
-				NotificationsList.Items.Add (ni.Name + (ni.IsEnabled ? " (+)" : " (–)"));
 				notifications.Notifications.Add (ni);
+				NotificationsList.Items.Add (ni.Name + (ni.IsEnabled ? " (+)" : " (–)"));
 				}
 			else if (ItemNumber < NotificationsList.Items.Count)
 				{
-				NotificationsList.Items[ItemNumber] = ni.Name + (ni.IsEnabled ? " (+)" : " (–)");
 				notifications.Notifications[ItemNumber] = ni;
+				NotificationsList.Items[ItemNumber] = ni.Name + (ni.IsEnabled ? " (+)" : " (–)");
 				}
 			else
 				{
@@ -186,10 +187,12 @@ namespace RD_AAOW
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			// Заполнение
-			NameText.Text = notifications.NotificationsTemplates.GetName ((uint)TemplatesCombo.SelectedIndex);
-			LinkText.Text = notifications.NotificationsTemplates.GetLink ((uint)TemplatesCombo.SelectedIndex);
-			BeginningText.Text = notifications.NotificationsTemplates.GetBeginning ((uint)TemplatesCombo.SelectedIndex);
-			EndingText.Text = notifications.NotificationsTemplates.GetEnding ((uint)TemplatesCombo.SelectedIndex);
+			uint i = (uint)TemplatesCombo.SelectedIndex;
+			NameText.Text = notifications.NotificationsTemplates.GetName (i);
+			LinkText.Text = notifications.NotificationsTemplates.GetLink (i);
+			BeginningText.Text = notifications.NotificationsTemplates.GetBeginning (i);
+			EndingText.Text = notifications.NotificationsTemplates.GetEnding (i);
+			OccurenceField.Value = notifications.NotificationsTemplates.GetOccurenceNumber (i);
 			}
 
 		// Автоматизированный поиск ограничителей

@@ -201,4 +201,7 @@
   <data name="UpdateMessage" xml:space="preserve">
     <value>Обновить выбранное оповещение?</value>
   </data>
+  <data name="SettingsForm_Label07" xml:space="preserve">
+    <value>Номер вхождения:</value>
+  </data>
 </root>

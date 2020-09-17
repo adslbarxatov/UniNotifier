@@ -1,9 +1,11 @@
 UniNotifier changes log
 
-ToDo:
-- Fix Windows interface at Update button (old setting reverse);
-- Reset current notification's number at settings save in Windows;
-- Fix '&' appearance
+Version 1.11:
+• Windows: fixed interface bug that made app show old settings after pressing Update button;
+• Fixed '&' sign appearance;
+• Windows: application will reset notification timer on settings change;
+• Windows: added ability to set number of occurence of needed fragment on the page (from its beginning);
+• Updated all notification templates; improved templates for VK wall
 
 Version 1.10.2:
 • Implemented counter function that will allow you (in the next version) to specify what occurence from the top of page will be shown;

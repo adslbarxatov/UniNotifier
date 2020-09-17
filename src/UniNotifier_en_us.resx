@@ -201,4 +201,7 @@ In addition, the utility automatically requests new records in 5-minute incremen
   <data name="UpdateMessage" xml:space="preserve">
     <value>Update selected notification?</value>
   </data>
+  <data name="SettingsForm_Label07" xml:space="preserve">
+    <value>Occurence number:</value>
+  </data>
 </root>

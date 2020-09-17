@@ -1,11 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Windows.Forms;
 using System.IO;
-using System.ComponentModel;
-using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace RD_AAOW
 	{
@@ -224,6 +224,7 @@ namespace RD_AAOW
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 1).ToString ("D02"), al);
 
 			// Перезапуск
+			ns.ResetTimer ();
 			MainTimer.Enabled = true;
 			}
 
