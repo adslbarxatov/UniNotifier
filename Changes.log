@@ -1,7 +1,8 @@
 UniNotifier changes log
 
-ToDo:
-- Fix templates loading on Android
+Version 1.11.1:
+• Android: fixed templates loading;
+• Android: fixed occurence number's processing bug
 
 Version 1.11:
 • Windows: fixed an interface bug that caused the app to show old settings after clicking "Update" button;
