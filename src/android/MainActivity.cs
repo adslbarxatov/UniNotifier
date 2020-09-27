@@ -56,7 +56,10 @@ namespace RD_AAOW.Droid
 			if (NotificationsSupport.AllowServiceToStart)
 				{
 				Intent mainService = new Intent (this, typeof (MainService));
-				StartService (mainService);
+				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+					StartForegroundService (mainService);
+				else
+					StartService (mainService);
 				/*ComponentName js = new ComponentName (this, Java.Lang.Class.FromType (typeof (MainService)));
 				JobInfo.Builder ji = new JobInfo.Builder (jobID, js);
 
@@ -134,8 +137,8 @@ namespace RD_AAOW.Droid
 		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
 
-		private Intent masterIntent;
-		private PendingIntent masterPendingIntent;
+		private Intent masterIntent, actIntent;
+		private PendingIntent masterPendingIntent, actPendingIntent;
 
 		/*
 		/// <summary>
@@ -231,7 +234,6 @@ namespace RD_AAOW.Droid
 			handler = new Handler ();
 
 			// Аналог таймера (создаёт задание, которое само себя ставит в очередь исполнения ОС)
-
 			runnable = new Action (() =>
 				{
 					if (isStarted)
@@ -290,14 +292,19 @@ namespace RD_AAOW.Droid
 
 				// Стартовое сообщение
 				Android.App.Notification notification = notBuilder.Build ();
-				//StartForeground (notServiceID, notification);
-				notManager.Notify (notServiceID, notification);
+				StartForeground (notServiceID, notification);
+				//notManager.Notify (notServiceID, notification);
 
 				// Перенастройка для основного режима
 				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
 					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
 					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
+
+				actIntent = new Intent (this, typeof (MainActivity));
+				actPendingIntent = PendingIntent.GetActivity (this, 0, actIntent, 0);
+				notBuilder.AddAction (new NotificationCompat.Action (0, Localization.GetText ("ViewFullTextButton",
+					Localization.CurrentLanguage), actPendingIntent));
 
 				masterIntent = new Intent (this, typeof (NotificationLink));
 				masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
@@ -318,8 +325,8 @@ namespace RD_AAOW.Droid
 			{
 			// Остановка службы
 			handler.RemoveCallbacks (runnable);
-			//NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
-			//notificationManager.Cancel (notServiceID);
+			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+			notificationManager.Cancel (notServiceID);
 			isStarted = false;
 
 			// Освобождение ресурсов
@@ -329,6 +336,8 @@ namespace RD_AAOW.Droid
 
 			masterIntent.Dispose ();
 			masterPendingIntent.Dispose ();
+			actIntent.Dispose ();
+			actPendingIntent.Dispose ();
 
 			// Стандартная обработка
 			base.OnDestroy ();

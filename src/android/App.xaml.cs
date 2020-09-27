@@ -39,11 +39,11 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage solutionPage, aboutPage, logPage;
-		private Label aboutLabel, freqFieldLabel;
+		private Label aboutLabel, freqFieldLabel, occFieldLabel;
 		private Switch allowStart, allowSound, allowLight, allowVibro, enabledSwitch;
 		private Button selectedNotification, applyButton, addButton, deleteButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
-		private Stepper freqField;
+		private Stepper freqField, occField;
 
 		#endregion
 
@@ -210,9 +210,18 @@ namespace RD_AAOW
 			freqField.BackgroundColor = solutionFieldBackColor;
 			freqField.Increment = 1;
 			freqField.Maximum = 24;
-			freqField.Minimum = 1;
-			freqField.Value = 1.1;
+			freqField.Minimum = freqField.Value = 1;
 			freqField.ValueChanged += FrequencyChanged;
+			FrequencyChanged (null, null);  // Принудительная инициализация подписи
+
+			occFieldLabel = ApplyLabelSettings (solutionPage, "OccFieldLabel", "", masterTextColor);
+			occField = (Stepper)solutionPage.FindByName ("OccField");
+			occField.BackgroundColor = solutionFieldBackColor;
+			occField.Increment = 1;
+			occField.Maximum = Notification.MaxOccurenceNumber;
+			occField.Minimum = occField.Value = 1;
+			occField.ValueChanged += OccurenceChanged;
+			OccurenceChanged (null, null); // Принудительная инициализация подписи
 
 			ApplyLabelSettings (solutionPage, "EnabledLabel", Localization.GetText ("EnabledLabel", al),
 				masterTextColor);
@@ -389,6 +398,7 @@ namespace RD_AAOW
 				beginningField.Text = ns.Notifications[i].Beginning;
 				endingField.Text = ns.Notifications[i].Ending;
 				freqField.Value = ns.Notifications[i].UpdateFrequency;
+				occField.Value = ns.Notifications[i].OccurenceNumber;
 				enabledSwitch.IsToggled = ns.Notifications[i].IsEnabled;
 				}
 
@@ -426,7 +436,13 @@ namespace RD_AAOW
 		private void FrequencyChanged (object sender, ValueChangedEventArgs e)
 			{
 			freqFieldLabel.Text = string.Format (Localization.GetText ("FreqFieldLabel", al),
-				(uint)freqField.Value * 15 * NotificationsSet.MaxNotifications / 60);
+				(uint)freqField.Value * 10 * NotificationsSet.MaxNotifications / 60);
+			}
+
+		// Изменение порядкового номера вхождения
+		private void OccurenceChanged (object sender, ValueChangedEventArgs e)
+			{
+			occFieldLabel.Text = string.Format (Localization.GetText ("OccFieldLabel", al), (uint)occField.Value);
 			}
 
 		// Удаление оповещения
@@ -478,18 +494,18 @@ namespace RD_AAOW
 			{
 			// Инициализация оповещения
 			Notification ni = new Notification (nameField.Text, linkField.Text, beginningField.Text, endingField.Text,
-				(uint)freqField.Value);
+				(uint)freqField.Value, (uint)occField.Value);
 
 			if (!ni.IsInited)
 				{
 				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("NotEnoughDataMessage", al), Localization.GetText ("NextButton", al));
-				
+
 				itemUpdated = false;
 				nameField.Focus ();
 				return;
 				}
-			if ((ItemNumber < 0) && ns.Notifications.Contains (ni))	// Не относится к обновлению позиции
+			if ((ItemNumber < 0) && ns.Notifications.Contains (ni)) // Не относится к обновлению позиции
 				{
 				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("NotMatchingNames", al), Localization.GetText ("NextButton", al));
@@ -520,7 +536,7 @@ namespace RD_AAOW
 		private void UpdateButtons ()
 			{
 			addButton.IsVisible = (ns.Notifications.Count < NotificationsSet.MaxNotifications);
-			deleteButton.IsVisible = applyButton.IsVisible = (ns.Notifications.Count > 1);
+			deleteButton.IsVisible = (ns.Notifications.Count > 1);
 			}
 
 		// Метод загружает шаблон оповещения
@@ -551,6 +567,7 @@ namespace RD_AAOW
 			linkField.Text = ns.NotificationsTemplates.GetLink (templateNumber);
 			beginningField.Text = ns.NotificationsTemplates.GetBeginning (templateNumber);
 			endingField.Text = ns.NotificationsTemplates.GetEnding (templateNumber);
+			occField.Value = ns.NotificationsTemplates.GetOccurenceNumber (templateNumber);
 			}
 
 		// Автоматизированный поиск ограничителей
@@ -594,7 +611,16 @@ namespace RD_AAOW
 		protected override void OnSleep ()
 			{
 			// Сохранение настроек
+			if (!allowStart.IsToggled)
+				{
+				// Сброс текстов при отключении приложения, чтобы обеспечить повтор новостей
+				// при следующем запуске. Позволяет не отображать повторно все новости при вызове
+				// приложения для просмотра полных текстов
+				foreach (Notification n in ns.Notifications)
+					n.ResetTimer ();
+				}
 			ns.SaveNotifications ();
+
 			try
 				{
 				Localization.CurrentLanguage = al;

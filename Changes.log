@@ -1,6 +1,14 @@
 UniNotifier changes log
 
-Version 1.11.1:
+Version 1.11.2 / Android:
+• Android: fixed occurence number display;
+• Android: fixed apply button display;
+• Android: fixed first start's template parameters;
+• Android: added 'view full text' button to all notifications;
+• Android: app will not show previously loaded news again after making settings;
+• Android: still failed to make app work without power connected and with screen turned off
+
+Version 1.11.1 / Android:
 • Android: fixed templates loading;
 • Android: fixed occurence number's processing bug
 

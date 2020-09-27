@@ -28,7 +28,7 @@
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowLight" VerticalOptions="Center" />
 					<Label x:Name="AllowLightLabel" VerticalTextAlignment="Center" LineBreakMode="WordWrap" 
-						WidthRequest="200" HeightRequest="50" />
+						WidthRequest="200" HeightRequest="75" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">
@@ -68,6 +68,11 @@
 				<StackLayout Orientation="Horizontal">
 					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="EndingField" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
+					<Stepper x:Name="OccField" VerticalOptions="Center" />
 				</StackLayout>
 			</FlexLayout>
 

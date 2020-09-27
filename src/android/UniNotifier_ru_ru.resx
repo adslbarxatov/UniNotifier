@@ -208,6 +208,9 @@
   <data name="NotMatchingNames" xml:space="preserve">
     <value>Оповещение с таким именем уже добавлено</value>
   </data>
+  <data name="OccFieldLabel" xml:space="preserve">
+    <value>Вхождение №{0:D}</value>
+  </data>
   <data name="PolicyMessage" xml:space="preserve">
     <value>Перед началом работы с этим инструментом Вы должны принять Политику разработки приложений и Пользовательское соглашение. Хотите открыть их тексты в браузере?
 
@@ -251,5 +254,8 @@
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Здравствуйте, уважаемый пользователь!</value>
+  </data>
+  <data name="ViewFullTextButton" xml:space="preserve">
+    <value>Смотреть полностью / настроить</value>
   </data>
 </root>
