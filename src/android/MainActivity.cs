@@ -45,7 +45,16 @@ namespace RD_AAOW.Droid
 			jsch.Cancel (jobID);*/
 
 			// Окно настроек
-			LoadApplication (new App ());
+			uint currentTab = 1;    // Страница настроек (по умолчанию)
+			if (Intent.GetSerializableExtra ("Tab") != null)
+				{
+				try
+					{
+					currentTab = uint.Parse (Intent.GetSerializableExtra ("Tab").ToString ());
+					}
+				catch { }
+				}
+			LoadApplication (new App (currentTab));
 			}
 
 		/// <summary>
@@ -116,7 +125,7 @@ namespace RD_AAOW.Droid
 		}
 
 	/// <summary>
-	/// Класс описывает службу новостей приложения
+	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier", Icon = "@mipmap/icon", Exported = true)]
 	public class MainService:global::Android.App.Service
@@ -137,8 +146,10 @@ namespace RD_AAOW.Droid
 		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
 
-		private Intent masterIntent, actIntent;
-		private PendingIntent masterPendingIntent, actPendingIntent;
+		private Intent masterIntent;
+		private Intent[] actIntent = new Intent[2];
+		private PendingIntent masterPendingIntent;
+		private PendingIntent[] actPendingIntent = new PendingIntent[2];
 
 		/*
 		/// <summary>
@@ -285,10 +296,21 @@ namespace RD_AAOW.Droid
 				notBuilder.SetDefaults (0);         // Для служебного сообщения
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
 				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
-				notBuilder.SetVisibility ((int)NotificationVisibility.Private);
+				notBuilder.SetVisibility (NotificationsSupport.AllowOnLockedScreen ? (int)NotificationVisibility.Public :
+					(int)NotificationVisibility.Private);
 
 				notManager = (NotificationManager)this.GetSystemService (Context.NotificationService);
 				notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
+
+				// Основные действия управления
+				for (int i = 0; i < actIntent.Length; i++)
+					{
+					actIntent[i] = new Intent (this, typeof (MainActivity));
+					actIntent[i].PutExtra ("Tab", i);
+					actPendingIntent[i] = PendingIntent.GetActivity (this, i, actIntent[i], 0);
+					notBuilder.AddAction (new NotificationCompat.Action (0,
+						Localization.GetText ("CommandButton" + i.ToString (), Localization.CurrentLanguage), actPendingIntent[i]));
+					}
 
 				// Стартовое сообщение
 				Android.App.Notification notification = notBuilder.Build ();
@@ -300,11 +322,6 @@ namespace RD_AAOW.Droid
 					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
 					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
-
-				actIntent = new Intent (this, typeof (MainActivity));
-				actPendingIntent = PendingIntent.GetActivity (this, 0, actIntent, 0);
-				notBuilder.AddAction (new NotificationCompat.Action (0, Localization.GetText ("ViewFullTextButton",
-					Localization.CurrentLanguage), actPendingIntent));
 
 				masterIntent = new Intent (this, typeof (NotificationLink));
 				masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
@@ -336,8 +353,10 @@ namespace RD_AAOW.Droid
 
 			masterIntent.Dispose ();
 			masterPendingIntent.Dispose ();
-			actIntent.Dispose ();
-			actPendingIntent.Dispose ();
+			foreach (Intent i in actIntent)
+				i.Dispose ();
+			foreach (PendingIntent pi in actPendingIntent)
+				pi.Dispose ();
 
 			// Стандартная обработка
 			base.OnDestroy ();
@@ -362,7 +381,7 @@ namespace RD_AAOW.Droid
 		}
 
 	/// <summary>
-	/// Класс описывает запускаемое задание
+	/// Класс описывает запускаемое задание загрузки данных
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink", Icon = "@mipmap/icon")]
 	public class NotificationLink:IntentService
@@ -377,10 +396,36 @@ namespace RD_AAOW.Droid
 		/// <summary>
 		/// Обработка события выполнения задания
 		/// </summary>
-		protected override void OnHandleIntent (Android.Content.Intent intent)
+		protected override void OnHandleIntent (Intent intent)
 			{
 			if (NotificationsSupport.CurrentLink != "")
 				Launcher.OpenAsync (NotificationsSupport.CurrentLink);
+			}
+		}
+
+	/// <summary>
+	/// Класс описывает приёмник события окончания загрузки ОС
+	/// </summary>
+	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot", Icon = "@mipmap/icon")]
+	public class BootReceiver:BroadcastReceiver
+		{
+		/// <summary>
+		/// Обработчик события наступления события окончания загрузки
+		/// </summary>
+		public override void OnReceive (Context context, Intent intent)
+			{
+			if (!NotificationsSupport.AllowServiceToStart || (intent == null))
+				return;
+
+			if (intent.Action.Equals (Intent.ActionBootCompleted, StringComparison.CurrentCultureIgnoreCase) ||
+				intent.Action.Equals (Intent.ActionReboot, StringComparison.CurrentCultureIgnoreCase))
+				{
+				Intent mainService = new Intent (context, typeof (MainService));
+				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+					context.StartForegroundService (mainService);
+				else
+					context.StartService (mainService);
+				}
 			}
 		}
 	}

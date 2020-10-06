@@ -10,14 +10,15 @@
 			<Label x:Name="AboutLabel" />
 
 			<Button x:Name="AppPage" />
+			<Button x:Name="ManualPage" />
+			<Label x:Name="Filler1" />
+
 			<Button x:Name="ADPPage" />
 			<Button x:Name="CommunityPage" />
-
 			<Label x:Name="Filler2" />
 
-            <Button x:Name="LanguageSelector" />
-
-            <Label x:Name="Filler3" />
+			<Button x:Name="LanguageSelector" />
+			<Label x:Name="Filler3" />
         </StackLayout>
 	</ScrollView>
 </ContentPage>

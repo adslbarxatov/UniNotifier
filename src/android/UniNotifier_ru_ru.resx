@@ -124,22 +124,28 @@
     <value>Нет, я уже знаком(а) и полностью принял(а) их</value>
   </data>
   <data name="AddButton" xml:space="preserve">
-    <value>Добавить новое</value>
+    <value>Добавить как новое</value>
   </data>
   <data name="ADPPage" xml:space="preserve">
     <value>Политика и EULA</value>
   </data>
+  <data name="AlarmSettingsLabel" xml:space="preserve">
+    <value>Разрешить:</value>
+  </data>
   <data name="AllowLightSwitch" xml:space="preserve">
-    <value>Разрешить светодиодные оповещения</value>
+    <value>Светодиод</value>
+  </data>
+  <data name="AllowOnLockedScreenSwitch" xml:space="preserve">
+    <value>Текст на заблок. экране</value>
   </data>
   <data name="AllowSoundSwitch" xml:space="preserve">
-    <value>Разрешить звуковые оповещения</value>
+    <value>Звук</value>
   </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Запустить службу после выхода</value>
   </data>
   <data name="AllowVibroSwitch" xml:space="preserve">
-    <value>Разрешить вибрацию</value>
+    <value>Вибрацию</value>
   </data>
   <data name="ApplyButton" xml:space="preserve">
     <value>Обновить выбранное</value>
@@ -152,6 +158,12 @@
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Отмена</value>
+  </data>
+  <data name="CommandButton0" xml:space="preserve">
+    <value>Смотреть все</value>
+  </data>
+  <data name="CommandButton1" xml:space="preserve">
+    <value>Настроить</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Не забудьте заменить элементы, заключённые в фигурные скобки, на то, что Вам нужно</value>
@@ -172,7 +184,7 @@
     <value>Конец:</value>
   </data>
   <data name="FindDelimitersButton" xml:space="preserve">
-    <value>Найти слово</value>
+    <value>Найти</value>
   </data>
   <data name="FreqFieldLabel" xml:space="preserve">
     <value>Обновлять каждые {0:D} минут</value>
@@ -193,6 +205,9 @@
   <data name="LogPage" xml:space="preserve">
     <value>Журнал оповещений</value>
   </data>
+  <data name="ManualPage" xml:space="preserve">
+    <value>Посмотреть руководство пользователя</value>
+  </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Название:</value>
   </data>
@@ -203,7 +218,7 @@
     <value>Одно из обязательных полей не заполнено, или ссылка на ресурс указана некорректно</value>
   </data>
   <data name="NotificationsSettingsLabel" xml:space="preserve">
-    <value>Параметры оповещения:</value>
+    <value>Параметры оповещений:</value>
   </data>
   <data name="NotMatchingNames" xml:space="preserve">
     <value>Оповещение с таким именем уже добавлено</value>
@@ -232,16 +247,13 @@
     <value>Выберите шаблон:</value>
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
-    <value>Фоновая служба</value>
-  </data>
-  <data name="SolutionAboutPage" xml:space="preserve">
-    <value>Как принимается решение</value>
+    <value>Фоновая служба:</value>
   </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Настройки оповещений</value>
   </data>
   <data name="TemplateButton" xml:space="preserve">
-    <value>Загрузить шаблон</value>
+    <value>Шаблон</value>
   </data>
   <data name="Tip01" xml:space="preserve">
     <value>Здесь вы можете указать настройки уведомлений. Обратите внимание, что каждый запуск интерфейса настроек будет отключать фоновую службу. Она продолжит работу после закрытия приложения</value>
@@ -252,10 +264,10 @@
   <data name="Tip03" xml:space="preserve">
     <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
   </data>
+  <data name="Tip04" xml:space="preserve">
+    <value>Все изменения в настройках, включая включение/выключение оповещения, нужно подтверждать кнопками «Обновить» или «Добавить»</value>
+  </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Здравствуйте, уважаемый пользователь!</value>
-  </data>
-  <data name="ViewFullTextButton" xml:space="preserve">
-    <value>Смотреть полностью / настроить</value>
   </data>
 </root>

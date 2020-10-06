@@ -40,10 +40,10 @@ namespace RD_AAOW
 
 		private ContentPage solutionPage, aboutPage, logPage;
 		private Label aboutLabel, freqFieldLabel, occFieldLabel;
-		private Switch allowStart, allowSound, allowLight, allowVibro, enabledSwitch;
+		private Switch allowStart, allowSound, allowLight, allowVibro, allowOnLockedScreen, enabledSwitch;
 		private Button selectedNotification, applyButton, addButton, deleteButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
-		private Stepper freqField, occField;
+		private uint currentOcc, currentFreq;
 
 		#endregion
 
@@ -84,7 +84,8 @@ namespace RD_AAOW
 			childButton.FontAttributes = FontAttributes.None;
 			childButton.FontSize = masterFontSize;
 			childButton.TextColor = masterTextColor;
-			childButton.Margin = margin;
+			if ((ButtonTitle != "+") && (ButtonTitle != "–"))
+				childButton.Margin = margin;
 			childButton.Text = ButtonTitle;
 			if (ButtonMethod != null)
 				childButton.Clicked += ButtonMethod;
@@ -135,7 +136,8 @@ namespace RD_AAOW
 		/// <summary>
 		/// Конструктор. Точка входа приложения
 		/// </summary>
-		public App ()
+		/// <param name="CurrentTabNumber">Номер текущей вкладки при старте</param>
+		public App (uint CurrentTabNumber)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -147,6 +149,10 @@ namespace RD_AAOW
 			aboutPage = ApplyPageSettings ("AboutPage", aboutMasterBackColor);
 			logPage = ApplyPageSettings ("LogPage", logMasterBackColor);
 
+			if (CurrentTabNumber > 1)
+				CurrentTabNumber = 1;
+			((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[(int)CurrentTabNumber];
+
 			#region Настройки службы
 
 			ApplyLabelSettings (solutionPage, "ServiceSettingsLabel", Localization.GetText ("ServiceSettingsLabel", al),
@@ -157,6 +163,9 @@ namespace RD_AAOW
 			allowStart = (Switch)solutionPage.FindByName ("AllowStart");
 			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
+
+			ApplyLabelSettings (solutionPage, "AlarmSettingsLabel", Localization.GetText ("AlarmSettingsLabel", al),
+				masterHeaderColor);
 
 			ApplyLabelSettings (solutionPage, "AllowSoundLabel", Localization.GetText ("AllowSoundSwitch", al),
 				masterTextColor);
@@ -175,6 +184,12 @@ namespace RD_AAOW
 			allowVibro = (Switch)solutionPage.FindByName ("AllowVibro");
 			allowVibro.IsToggled = NotificationsSupport.AllowVibro;
 			allowVibro.Toggled += AllowVibro_Toggled;
+
+			ApplyLabelSettings (solutionPage, "AllowOnLockedScreenLabel", Localization.GetText ("AllowOnLockedScreenSwitch", al),
+				masterTextColor);
+			allowOnLockedScreen = (Switch)solutionPage.FindByName ("AllowOnLockedScreen");
+			allowOnLockedScreen.IsToggled = NotificationsSupport.AllowOnLockedScreen;
+			allowOnLockedScreen.Toggled += AllowOnLockedScreen_Toggled;
 
 			#endregion
 
@@ -206,25 +221,15 @@ namespace RD_AAOW
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
 			freqFieldLabel = ApplyLabelSettings (solutionPage, "FreqFieldLabel", "", masterTextColor);
-			freqField = (Stepper)solutionPage.FindByName ("FreqField");
-			freqField.BackgroundColor = solutionFieldBackColor;
-			freqField.Increment = 1;
-			freqField.Maximum = 24;
-			freqField.Minimum = freqField.Value = 1;
-			freqField.ValueChanged += FrequencyChanged;
-			FrequencyChanged (null, null);  // Принудительная инициализация подписи
+			ApplyButtonSettings (solutionPage, "FreqIncButton", "+", solutionFieldBackColor, FrequencyChanged);
+			ApplyButtonSettings (solutionPage, "FreqDecButton", "–", solutionFieldBackColor, FrequencyChanged);
+			currentFreq = 1;
 
 			occFieldLabel = ApplyLabelSettings (solutionPage, "OccFieldLabel", "", masterTextColor);
-			occField = (Stepper)solutionPage.FindByName ("OccField");
-			occField.BackgroundColor = solutionFieldBackColor;
-			occField.Increment = 1;
-			occField.Maximum = Notification.MaxOccurenceNumber;
-			occField.Minimum = occField.Value = 1;
-			occField.ValueChanged += OccurenceChanged;
-			OccurenceChanged (null, null); // Принудительная инициализация подписи
+			ApplyButtonSettings (solutionPage, "OccIncButton", "+", solutionFieldBackColor, OccurenceChanged);
+			ApplyButtonSettings (solutionPage, "OccDecButton", "–", solutionFieldBackColor, OccurenceChanged);
+			currentOcc = 1;
 
-			ApplyLabelSettings (solutionPage, "EnabledLabel", Localization.GetText ("EnabledLabel", al),
-				masterTextColor);
 			enabledSwitch = (Switch)solutionPage.FindByName ("EnabledSwitch");
 
 			// Инициализация полей
@@ -263,6 +268,8 @@ namespace RD_AAOW
 
 			ApplyButtonSettings (aboutPage, "AppPage", Localization.GetText ("AppPage", al),
 				aboutFieldBackColor, AppButton_Clicked);
+			ApplyButtonSettings (aboutPage, "ManualPage", Localization.GetText ("ManualPage", al),
+				aboutFieldBackColor, ManualButton_Clicked);
 			ApplyButtonSettings (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
 				aboutFieldBackColor, ADPButton_Clicked);
 			ApplyButtonSettings (aboutPage, "CommunityPage",
@@ -314,6 +321,12 @@ namespace RD_AAOW
 			NotificationsSupport.AllowVibro = allowVibro.IsToggled;
 			}
 
+		// Включение / выключение отображения текста сообщений на заблокированном экране
+		private void AllowOnLockedScreen_Toggled (object sender, ToggledEventArgs e)
+			{
+			NotificationsSupport.AllowOnLockedScreen = allowOnLockedScreen.IsToggled;
+			}
+
 		// Выбор языка приложения
 		private async void SelectLanguage_Clicked (object sender, EventArgs e)
 			{
@@ -352,6 +365,9 @@ namespace RD_AAOW
 				Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
 
 			await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				Localization.GetText ("Tip04", al), Localization.GetText ("NextButton", al));
+
+			await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 				Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
 			}
 
@@ -359,6 +375,12 @@ namespace RD_AAOW
 		private void AppButton_Clicked (object sender, EventArgs e)
 			{
 			Launcher.OpenAsync ("https://github.com/adslbarxatov/" + ProgramDescription.AssemblyMainName);
+			}
+
+		// Страница видеоруководства
+		private void ManualButton_Clicked (object sender, EventArgs e)
+			{
+			Launcher.OpenAsync ("https://www.youtube.com/watch?v=QqNsfbzw6sE");
 			}
 
 		// Страница лаборатории
@@ -397,8 +419,10 @@ namespace RD_AAOW
 				linkField.Text = ns.Notifications[i].Link;
 				beginningField.Text = ns.Notifications[i].Beginning;
 				endingField.Text = ns.Notifications[i].Ending;
-				freqField.Value = ns.Notifications[i].UpdateFrequency;
-				occField.Value = ns.Notifications[i].OccurenceNumber;
+				currentFreq = ns.Notifications[i].UpdateFrequency;
+				FrequencyChanged (null, null);
+				currentOcc = ns.Notifications[i].OccurenceNumber;
+				OccurenceChanged (null, null);
 				enabledSwitch.IsToggled = ns.Notifications[i].IsEnabled;
 				}
 
@@ -433,16 +457,34 @@ namespace RD_AAOW
 			}
 
 		// Изменение значения частоты опроса
-		private void FrequencyChanged (object sender, ValueChangedEventArgs e)
+		private void FrequencyChanged (object sender, EventArgs e)
 			{
+			if (sender != null)
+				{
+				Button b = (Button)sender;
+				if ((b.Text == "+") && (currentFreq < 24))
+					currentFreq++;
+				else if ((b.Text == "–") && (currentFreq > 1))
+					currentFreq--;
+				}
+
 			freqFieldLabel.Text = string.Format (Localization.GetText ("FreqFieldLabel", al),
-				(uint)freqField.Value * 10 * NotificationsSet.MaxNotifications / 60);
+				currentFreq * 10 * NotificationsSet.MaxNotifications / 60);
 			}
 
 		// Изменение порядкового номера вхождения
-		private void OccurenceChanged (object sender, ValueChangedEventArgs e)
+		private void OccurenceChanged (object sender, EventArgs e)
 			{
-			occFieldLabel.Text = string.Format (Localization.GetText ("OccFieldLabel", al), (uint)occField.Value);
+			if (sender != null)
+				{
+				Button b = (Button)sender;
+				if ((b.Text == "+") && (currentOcc < Notification.MaxOccurenceNumber))
+					currentOcc++;
+				else if ((b.Text == "–") && (currentOcc > 1))
+					currentOcc--;
+				}
+
+			occFieldLabel.Text = string.Format (Localization.GetText ("OccFieldLabel", al), currentOcc);
 			}
 
 		// Удаление оповещения
@@ -494,7 +536,7 @@ namespace RD_AAOW
 			{
 			// Инициализация оповещения
 			Notification ni = new Notification (nameField.Text, linkField.Text, beginningField.Text, endingField.Text,
-				(uint)freqField.Value, (uint)occField.Value);
+				currentFreq, currentOcc);
 
 			if (!ni.IsInited)
 				{
@@ -567,7 +609,8 @@ namespace RD_AAOW
 			linkField.Text = ns.NotificationsTemplates.GetLink (templateNumber);
 			beginningField.Text = ns.NotificationsTemplates.GetBeginning (templateNumber);
 			endingField.Text = ns.NotificationsTemplates.GetEnding (templateNumber);
-			occField.Value = ns.NotificationsTemplates.GetOccurenceNumber (templateNumber);
+			currentOcc = ns.NotificationsTemplates.GetOccurenceNumber (templateNumber);
+			OccurenceChanged (null, null);
 			}
 
 		// Автоматизированный поиск ограничителей

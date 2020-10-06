@@ -8,98 +8,92 @@
 			<Label x:Name="HeaderLabel" />
 
 			<!-- Управление службой -->
-
 			<Label x:Name="ServiceSettingsLabel" />
+
+			<StackLayout Orientation="Horizontal">
+				<Switch x:Name="AllowStart" VerticalOptions="Center" />
+				<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
+			</StackLayout>
+
+			<Label x:Name="AlarmSettingsLabel" />
 
 			<FlexLayout Direction="Row" Wrap="Wrap" >
 
 				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="AllowStart" VerticalOptions="Center" />
-					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" LineBreakMode="WordWrap" 
-						WidthRequest="200" HeightRequest="50" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowSound" VerticalOptions="Center" />
-					<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" LineBreakMode="WordWrap" 
-						WidthRequest="200" HeightRequest="50" />
+					<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowLight" VerticalOptions="Center" />
-					<Label x:Name="AllowLightLabel" VerticalTextAlignment="Center" LineBreakMode="WordWrap" 
-						WidthRequest="200" HeightRequest="75" />
+					<Label x:Name="AllowLightLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowVibro" VerticalOptions="Center" />
-					<Label x:Name="AllowVibroLabel" VerticalTextAlignment="Center" LineBreakMode="WordWrap" 
-						WidthRequest="200" HeightRequest="50" />
+					<Label x:Name="AllowVibroLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowOnLockedScreen" VerticalOptions="Center" />
+					<Label x:Name="AllowOnLockedScreenLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
 			</FlexLayout>
 
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" />
-			<Label />
-
 			<!-- Управление оповещениями -->
-
 			<Label x:Name="NotificationsSettingsLabel" />
 
-			<Button x:Name="SelectedNotification" />
+			<StackLayout Orientation="Horizontal">
+				<Button x:Name="SelectedNotification" HorizontalOptions="FillAndExpand" />
+				<Switch x:Name="EnabledSwitch" VerticalOptions="Center" HorizontalOptions="End" Rotation="270" />
+				<Button x:Name="TemplateButton" HorizontalOptions="End" />
+			</StackLayout>
 
-			<FlexLayout Direction="Row" Wrap="Wrap" >
-				<StackLayout Orientation="Horizontal">
+			<FlexLayout Direction="Row" Wrap="NoWrap" JustifyContent="Center">
+				<Button x:Name="ApplyButton" HorizontalOptions="Center" HeightRequest="65" />
+				<Button x:Name="AddButton" HorizontalOptions="Center" HeightRequest="65" />
+				<Button x:Name="DeleteButton" HorizontalOptions="Center" HeightRequest="65" />
+			</FlexLayout>
+
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" />
+
+			<FlexLayout Direction="Row" Wrap="Wrap">
+				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="NameFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="NameField" VerticalOptions="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="LinkField" VerticalOptions="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="BeginningField" VerticalOptions="Center" />
+					<Button x:Name="FindDelimitersButton" VerticalOptions="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="EndingField" VerticalOptions="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Button x:Name="OccIncButton" HorizontalOptions="Start" WidthRequest="40" />
 					<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
-					<Stepper x:Name="OccField" VerticalOptions="Center" />
+					<Button x:Name="OccDecButton" HorizontalOptions="Start" WidthRequest="40" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Button x:Name="FreqIncButton" HorizontalOptions="Start" WidthRequest="40" />
+					<Label x:Name="FreqFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
+						LineBreakMode="WordWrap" WidthRequest="180" HeightRequest="55" />
+					<Button x:Name="FreqDecButton" HorizontalOptions="Start" WidthRequest="40" />
 				</StackLayout>
 			</FlexLayout>
-
-			<StackLayout Orientation="Horizontal">
-				<Label x:Name="FreqFieldLabel" VerticalTextAlignment="Center" LineBreakMode="WordWrap" 
-					WidthRequest="200" HeightRequest="75" />
-				<Stepper x:Name="FreqField" VerticalOptions="Center" />
-
-				<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
-				<Label x:Name="EnabledLabel" VerticalTextAlignment="Center" />
-			</StackLayout>
-
-			<!-- Операции с оповещениями -->
-
-			<FlexLayout Direction="Row" Wrap="NoWrap" JustifyContent="Center">
-				<Button x:Name="ApplyButton" HorizontalOptions="Center" HeightRequest="75" />
-				<Button x:Name="AddButton" HorizontalOptions="Center" HeightRequest="75" />
-				<Button x:Name="DeleteButton" HorizontalOptions="Center" HeightRequest="75" />
-			</FlexLayout>
-
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" />
-
-			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-				<Button x:Name="TemplateButton" HorizontalOptions="Center" />
-				<Button x:Name="FindDelimitersButton" HorizontalOptions="Center" />
-			</StackLayout>
 
 			<Label />
 

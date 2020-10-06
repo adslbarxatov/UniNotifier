@@ -124,22 +124,28 @@
     <value>No, I already read and completely accepted them</value>
   </data>
   <data name="AddButton" xml:space="preserve">
-    <value>Add new</value>
+    <value>Add as new</value>
   </data>
   <data name="ADPPage" xml:space="preserve">
     <value>Policy and EULA</value>
   </data>
+  <data name="AlarmSettingsLabel" xml:space="preserve">
+    <value>Allow:</value>
+  </data>
   <data name="AllowLightSwitch" xml:space="preserve">
-    <value>Allow LED notifications</value>
+    <value>LED</value>
+  </data>
+  <data name="AllowOnLockedScreenSwitch" xml:space="preserve">
+    <value>Text on locked screen</value>
   </data>
   <data name="AllowSoundSwitch" xml:space="preserve">
-    <value>Allow sound notifications</value>
+    <value>Sound</value>
   </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Start service after exit</value>
   </data>
   <data name="AllowVibroSwitch" xml:space="preserve">
-    <value>Allow vibration</value>
+    <value>Vibration</value>
   </data>
   <data name="ApplyButton" xml:space="preserve">
     <value>Update selected</value>
@@ -152,6 +158,12 @@
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="CommandButton0" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="CommandButton1" xml:space="preserve">
+    <value>Customize</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces with what you want</value>
@@ -172,7 +184,7 @@
     <value>Ending:</value>
   </data>
   <data name="FindDelimitersButton" xml:space="preserve">
-    <value>Find keyword</value>
+    <value>Find</value>
   </data>
   <data name="FreqFieldLabel" xml:space="preserve">
     <value>Update frequency: {0:D} minutes</value>
@@ -193,6 +205,9 @@ Launch main application for setup or turning off the service</value>
   <data name="LogPage" xml:space="preserve">
     <value>Notifications log</value>
   </data>
+  <data name="ManualPage" xml:space="preserve">
+    <value>View user manual</value>
+  </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Name:</value>
   </data>
@@ -203,7 +218,7 @@ Launch main application for setup or turning off the service</value>
     <value>One of required fields is empty, or link to website is specified incorrectly</value>
   </data>
   <data name="NotificationsSettingsLabel" xml:space="preserve">
-    <value>Notification parameters:</value>
+    <value>Notifications parameters:</value>
   </data>
   <data name="NotMatchingNames" xml:space="preserve">
     <value>Notification with the same name already added</value>
@@ -232,13 +247,13 @@ To decline them just close the application</value>
     <value>Select template:</value>
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
-    <value>Background service</value>
+    <value>Background service:</value>
   </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Notifications settings</value>
   </data>
   <data name="TemplateButton" xml:space="preserve">
-    <value>Load template</value>
+    <value>Template</value>
   </data>
   <data name="Tip01" xml:space="preserve">
     <value>Here you can specify notifications settings. Note that every start of settings interface will turn off the background service. It will resume after closing of application</value>
@@ -249,10 +264,10 @@ To decline them just close the application</value>
   <data name="Tip03" xml:space="preserve">
     <value>For using this function specify some keyword from needed site's area in “Beginning” field</value>
   </data>
-  <data name="TipHeader01" xml:space="preserve">
-    <value>Hello dear user!</value>
+  <data name="Tip04" xml:space="preserve">
+    <value>All changes in settings, including turning the notification on/off, must be confirmed by “Add” or “Apply” buttons</value>
   </data>
-  <data name="ViewFullTextButton" xml:space="preserve">
-    <value>View fully / change settings</value>
+  <data name="TipHeader01" xml:space="preserve">
+    <value>Hello, dear user!</value>
   </data>
 </root>

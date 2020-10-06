@@ -1,5 +1,19 @@
 UniNotifier changes log
 
+Version 1.12:
+• Fixed main VK wall template;
+• Android: control buttons added to the first (start) notification;
+• Android: single control button has been splitted to 'view all' and 'customize' buttons;
+• Android: added ability to show/hide texts of notifications on locked screen;
+• Android: app will automatically restart at reboot and power on if 'start service after exit' switch is on;
+• Android: failed to make app continue work in sleep mode
+
+Version 1.11.3 / Android:
+• Android: fixed previous notifications logging bug;
+• Android: fixed some interface bugs;
+• Android: settings interface has been completely rebuilt;
+• Android: added link to video user manual
+
 Version 1.11.2 / Android:
 • Android: fixed occurence number display;
 • Android: fixed apply button display;
