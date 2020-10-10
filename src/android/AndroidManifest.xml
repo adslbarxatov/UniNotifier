@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--manifest xmlns:android="http://schemas.android.com/apk/res/android" package="uninotifier.huawei"
-	android:installLocation="internalOnly" android:versionCode="600110" android:versionName="1.12"-->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifierDebug"
-	android:installLocation="internalOnly" android:versionCode="600110" android:versionName="1.12">
+<!--package="uninotifier.huawei" package="com.RD_AAOW.UniNotifier"-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
+	android:installLocation="internalOnly" android:versionCode="600112" android:versionName="1.13">
 
 	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="29" />
 
@@ -10,7 +9,7 @@
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-	<application android:label="UniNotifierDebug" android:icon="@mipmap/icon">
+	<application android:label="UniNotifier" android:icon="@mipmap/icon">
 		<receiver android:name="com.RD_AAOW.UniNotifierBoot" android:label="UniNotifierBoot">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />

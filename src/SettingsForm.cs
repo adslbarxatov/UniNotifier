@@ -39,8 +39,8 @@ namespace RD_AAOW
 			FrequencyCombo.SelectedIndex = 2;
 			EnabledCheck.Checked = true;
 
-			OccurenceField.Minimum = 1;
-			OccurenceField.Maximum = Notification.MaxOccurenceNumber;
+			OccurrenceField.Minimum = 1;
+			OccurrenceField.Maximum = Notification.MaxOccurrenceNumber;
 
 			NameText.MaxLength = BeginningText.MaxLength = EndingText.MaxLength = Notification.MaxBeginningEndingLength;
 
@@ -96,7 +96,7 @@ namespace RD_AAOW
 			EndingText.Text = notifications.Notifications[i].Ending;
 			FrequencyCombo.SelectedIndex = (int)notifications.Notifications[i].UpdateFrequency - 1;
 			EnabledCheck.Checked = notifications.Notifications[i].IsEnabled;
-			OccurenceField.Value = notifications.Notifications[i].OccurenceNumber;
+			OccurrenceField.Value = notifications.Notifications[i].OccurrenceNumber;
 			}
 
 		// Добавление и обновление позиций
@@ -119,7 +119,7 @@ namespace RD_AAOW
 			{
 			// Инициализация оповещения
 			Notification ni = new Notification (NameText.Text, LinkText.Text, BeginningText.Text, EndingText.Text,
-				(uint)(FrequencyCombo.SelectedIndex + 1), (uint)OccurenceField.Value);
+				(uint)(FrequencyCombo.SelectedIndex + 1), (uint)OccurrenceField.Value);
 
 			if (!ni.IsInited)
 				{
@@ -192,7 +192,7 @@ namespace RD_AAOW
 			LinkText.Text = notifications.NotificationsTemplates.GetLink (i);
 			BeginningText.Text = notifications.NotificationsTemplates.GetBeginning (i);
 			EndingText.Text = notifications.NotificationsTemplates.GetEnding (i);
-			OccurenceField.Value = notifications.NotificationsTemplates.GetOccurenceNumber (i);
+			OccurrenceField.Value = notifications.NotificationsTemplates.GetOccurrenceNumber (i);
 			}
 
 		// Автоматизированный поиск ограничителей
@@ -216,8 +216,8 @@ namespace RD_AAOW
 				}
 
 			// Успешно
-			BeginningText.Text = beginning.Trim ();
-			EndingText.Text = ending.Trim ();
+			BeginningText.Text = beginning;
+			EndingText.Text = ending;
 			}
 
 		// Локализация формы

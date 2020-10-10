@@ -154,7 +154,7 @@
     <value>Перейти на страницу проекта</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
-    <value>Начало:</value>
+    <value>Начало</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Отмена</value>
@@ -177,11 +177,14 @@
   <data name="DeleteMessage" xml:space="preserve">
     <value>Удалить выбранное оповещение?</value>
   </data>
+  <data name="EarlierMessage" xml:space="preserve">
+    <value>--- Ранее ---</value>
+  </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Включено</value>
   </data>
   <data name="EndingFieldLabel" xml:space="preserve">
-    <value>Конец:</value>
+    <value>Конец</value>
   </data>
   <data name="FindDelimitersButton" xml:space="preserve">
     <value>Найти</value>
@@ -192,12 +195,16 @@
   <data name="KeywordNotSpecified" xml:space="preserve">
     <value>В поле «Начало» не указано ключевое слово для поиска</value>
   </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Язык интерфейса:</value>
+  </data>
   <data name="LaunchMessage" xml:space="preserve">
-    <value>Служба оповещений успешно запущена.
-Откройте основное приложение для настройки или отключения службы</value>
+    <value>Служба оповещений начала наблюдение...
+• Используйте эти кнопки для просмотра полных текстов оповещений и настройки UniNotifier
+• Нажимайте на оповещение, чтобы перейти на ресурс, с которого оно получено</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Ссылка:</value>
+    <value>Ссылка</value>
   </data>
   <data name="LogNotification" xml:space="preserve">
     <value>Перейти</value>
@@ -209,7 +216,7 @@
     <value>Посмотреть руководство пользователя</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
-    <value>Название:</value>
+    <value>Название</value>
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
@@ -256,7 +263,7 @@
     <value>Шаблон</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Здесь вы можете указать настройки уведомлений. Обратите внимание, что каждый запуск интерфейса настроек будет отключать фоновую службу. Она продолжит работу после закрытия приложения</value>
+    <value>Здесь Вы можете задать настройки уведомлений. Обратите внимание, что переход к настройкам и полным текстам оповещений будет приостанавливать фоновую службу. Она продолжит работу после закрытия формы настроек</value>
   </data>
   <data name="Tip02" xml:space="preserve">
     <value>ВНИМАНИЕ! Приложение может получать уведомления, только если устройство подключено к электросети и/или экран не находится в спящем режиме. Мы над этим работаем</value>
@@ -265,7 +272,7 @@
     <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
   </data>
   <data name="Tip04" xml:space="preserve">
-    <value>Все изменения в настройках, включая включение/выключение оповещения, нужно подтверждать кнопками «Обновить» или «Добавить»</value>
+    <value>Подробная инструкция по настройке службы доступна на YouTube. Смахните экран вправо до страницы сведений о приложении и выберите видеоруководство пользователя</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Здравствуйте, уважаемый пользователь!</value>

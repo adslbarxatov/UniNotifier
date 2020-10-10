@@ -89,7 +89,7 @@ namespace RD_AAOW
 		/// </summary>
 		/// <param name="TemplateNumber">Номер шаблона</param>
 		/// <returns>Номер вхождения</returns>
-		public uint GetOccurenceNumber (uint TemplateNumber)
+		public uint GetOccurrenceNumber (uint TemplateNumber)
 			{
 			if (templatesElements == null)
 				return 1;

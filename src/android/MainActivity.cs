@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -132,6 +133,8 @@ namespace RD_AAOW.Droid
 		{
 		// Основной набор оповещений
 		private NotificationsSet ns;
+		private SupportedLanguages al = Localization.CurrentLanguage;
+		private DateTime lastNotStamp = new DateTime (2000, 1, 1, 0, 0, 0);
 
 		private const long masterDelay = 10000;
 
@@ -166,7 +169,7 @@ namespace RD_AAOW.Droid
 				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
 				notBuilder.SetCategory ("CategoryMessage");
 				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
-				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", Localization.CurrentLanguage));
+				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", al));
 				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
 				notBuilder.SetDefaults (0);         // Для служебного сообщения
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
@@ -267,6 +270,35 @@ namespace RD_AAOW.Droid
 			notTextStyle.BigText (newText);
 
 			NotificationsSupport.CurrentLink = ns.Notifications[ns.CurrentNotificationNumber].Link;
+			if (DateTime.Today > lastNotStamp)
+				{
+				if (NotificationsSupport.MasterLog != "")
+					{
+					// Запрос текущего формата представления даты
+					CultureInfo ci;
+					try
+						{
+						if (al == SupportedLanguages.ru_ru)
+							ci = new CultureInfo ("ru-ru");
+						else
+							ci = new CultureInfo ("en-us");
+						}
+					catch
+						{
+						ci = CultureInfo.InstalledUICulture;
+						}
+
+					// Добавление отступа
+					if (lastNotStamp.Year == 2000)
+						NotificationsSupport.MasterLog = Localization.GetText ("EarlierMessage", al) +
+							"\r\n\r\n" + NotificationsSupport.MasterLog;
+					else
+						NotificationsSupport.MasterLog = "--- " + lastNotStamp.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
+							" ---\r\n\r\n" + NotificationsSupport.MasterLog;
+					}
+
+				lastNotStamp = DateTime.Today;
+				}
 			NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
 
 			// Отправка
@@ -291,7 +323,7 @@ namespace RD_AAOW.Droid
 				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
 				notBuilder.SetCategory ("CategoryMessage");
 				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
-				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", Localization.CurrentLanguage));
+				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", al));
 				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
 				notBuilder.SetDefaults (0);         // Для служебного сообщения
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
@@ -308,8 +340,10 @@ namespace RD_AAOW.Droid
 					actIntent[i] = new Intent (this, typeof (MainActivity));
 					actIntent[i].PutExtra ("Tab", i);
 					actPendingIntent[i] = PendingIntent.GetActivity (this, i, actIntent[i], 0);
-					notBuilder.AddAction (new NotificationCompat.Action (0,
-						Localization.GetText ("CommandButton" + i.ToString (), Localization.CurrentLanguage), actPendingIntent[i]));
+					/*notBuilder.AddAction (new NotificationCompat.Action (0,
+						Localization.GetText ("CommandButton" + i.ToString (), al), actPendingIntent[i]));*/
+					notBuilder.AddAction (new NotificationCompat.Action.Builder (0,
+						Localization.GetText ("CommandButton" + i.ToString (), al), actPendingIntent[i]).Build ());
 					}
 
 				// Стартовое сообщение

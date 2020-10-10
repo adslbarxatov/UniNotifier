@@ -8,17 +8,23 @@
 			<Label x:Name="HeaderLabel" />
 
 			<Label x:Name="AboutLabel" />
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="9" />
+
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+				<Label x:Name="LanguageLabel" VerticalOptions="Center" />
+				<Button x:Name="LanguageSelector" />
+			</StackLayout>
+
+			<Button x:Name="ManualPage" />
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="9" />
 
 			<Button x:Name="AppPage" />
-			<Button x:Name="ManualPage" />
-			<Label x:Name="Filler1" />
-
 			<Button x:Name="ADPPage" />
 			<Button x:Name="CommunityPage" />
-			<Label x:Name="Filler2" />
-
-			<Button x:Name="LanguageSelector" />
 			<Label x:Name="Filler3" />
+
         </StackLayout>
 	</ScrollView>
 </ContentPage>

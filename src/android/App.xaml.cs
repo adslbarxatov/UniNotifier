@@ -14,7 +14,7 @@ namespace RD_AAOW
 		{
 		#region Общие переменные и константы
 
-		private const int masterFontSize = 14;
+		private const int masterFontSize = 18;
 		private Thickness margin = new Thickness (6);
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
@@ -84,6 +84,7 @@ namespace RD_AAOW
 			childButton.FontAttributes = FontAttributes.None;
 			childButton.FontSize = masterFontSize;
 			childButton.TextColor = masterTextColor;
+			childButton.TextTransform = TextTransform.None;
 			if ((ButtonTitle != "+") && (ButtonTitle != "–"))
 				childButton.Margin = margin;
 			childButton.Text = ButtonTitle;
@@ -226,8 +227,8 @@ namespace RD_AAOW
 			currentFreq = 1;
 
 			occFieldLabel = ApplyLabelSettings (solutionPage, "OccFieldLabel", "", masterTextColor);
-			ApplyButtonSettings (solutionPage, "OccIncButton", "+", solutionFieldBackColor, OccurenceChanged);
-			ApplyButtonSettings (solutionPage, "OccDecButton", "–", solutionFieldBackColor, OccurenceChanged);
+			ApplyButtonSettings (solutionPage, "OccIncButton", "+", solutionFieldBackColor, OccurrenceChanged);
+			ApplyButtonSettings (solutionPage, "OccDecButton", "–", solutionFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
 			enabledSwitch = (Switch)solutionPage.FindByName ("EnabledSwitch");
@@ -279,6 +280,7 @@ namespace RD_AAOW
 
 			ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
 				aboutFieldBackColor, SelectLanguage_Clicked);
+			ApplyLabelSettings (aboutPage, "LanguageLabel", Localization.GetText ("LanguageLabel", al), masterTextColor);
 
 			#endregion
 
@@ -380,7 +382,7 @@ namespace RD_AAOW
 		// Страница видеоруководства
 		private void ManualButton_Clicked (object sender, EventArgs e)
 			{
-			Launcher.OpenAsync ("https://www.youtube.com/watch?v=QqNsfbzw6sE");
+			Launcher.OpenAsync (ProgramDescription.AboutLink);
 			}
 
 		// Страница лаборатории
@@ -421,8 +423,8 @@ namespace RD_AAOW
 				endingField.Text = ns.Notifications[i].Ending;
 				currentFreq = ns.Notifications[i].UpdateFrequency;
 				FrequencyChanged (null, null);
-				currentOcc = ns.Notifications[i].OccurenceNumber;
-				OccurenceChanged (null, null);
+				currentOcc = ns.Notifications[i].OccurrenceNumber;
+				OccurrenceChanged (null, null);
 				enabledSwitch.IsToggled = ns.Notifications[i].IsEnabled;
 				}
 
@@ -473,12 +475,12 @@ namespace RD_AAOW
 			}
 
 		// Изменение порядкового номера вхождения
-		private void OccurenceChanged (object sender, EventArgs e)
+		private void OccurrenceChanged (object sender, EventArgs e)
 			{
 			if (sender != null)
 				{
 				Button b = (Button)sender;
-				if ((b.Text == "+") && (currentOcc < Notification.MaxOccurenceNumber))
+				if ((b.Text == "+") && (currentOcc < Notification.MaxOccurrenceNumber))
 					currentOcc++;
 				else if ((b.Text == "–") && (currentOcc > 1))
 					currentOcc--;
@@ -609,8 +611,8 @@ namespace RD_AAOW
 			linkField.Text = ns.NotificationsTemplates.GetLink (templateNumber);
 			beginningField.Text = ns.NotificationsTemplates.GetBeginning (templateNumber);
 			endingField.Text = ns.NotificationsTemplates.GetEnding (templateNumber);
-			currentOcc = ns.NotificationsTemplates.GetOccurenceNumber (templateNumber);
-			OccurenceChanged (null, null);
+			currentOcc = ns.NotificationsTemplates.GetOccurrenceNumber (templateNumber);
+			OccurrenceChanged (null, null);
 			}
 
 		// Автоматизированный поиск ограничителей

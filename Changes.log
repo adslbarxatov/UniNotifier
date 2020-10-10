@@ -1,5 +1,14 @@
 UniNotifier changes log
 
+Version 1.13:
+• Improved beginning / ending search algorithm (results are now more accurate; search is not case-sensitive now);
+• The word 'Occurrence' is now correct;
+• User manual has been recreated and now available through the corresponding button;
+• Application will now add current date to the notification log when starting or changing current date;
+• Method of retrieving of OS language at first start is more accurate now;
+• Android: fixed some interface bugs;
+• Android: applied attempt to fix fatal 'RemoteServiceException' bug on Android 9
+
 Version 1.12:
 • Fixed main VK wall template;
 • Android: control buttons added to the first (start) notification;
@@ -15,7 +24,7 @@ Version 1.11.3 / Android:
 • Android: added link to video user manual
 
 Version 1.11.2 / Android:
-• Android: fixed occurence number display;
+• Android: fixed occurrence number display;
 • Android: fixed apply button display;
 • Android: fixed first start's template parameters;
 • Android: added 'view full text' button to all notifications;
@@ -24,7 +33,7 @@ Version 1.11.2 / Android:
 
 Version 1.11.1 / Android:
 • Android: fixed templates loading;
-• Android: fixed occurence number's processing bug
+• Android: fixed occurrence number's processing bug
 
 Version 1.11:
 • Windows: fixed an interface bug that caused the app to show old settings after clicking "Update" button;
@@ -35,7 +44,7 @@ Version 1.11:
 • Android: fixed incorrect display of refresh frequency
 
 Version 1.10.2:
-• Implemented counter function that will allow you (in the next version) to specify what occurence from the top of page will be shown;
+• Implemented counter function that will allow you (in the next version) to specify what occurrence from the top of page will be shown;
 • Some processing improvements applied;
 • Symbols 'lt' and 'gt' will now be processed properly;
 • Added checking for matching names of notifications;

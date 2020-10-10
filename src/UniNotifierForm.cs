@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace RD_AAOW
 	{
@@ -17,6 +18,8 @@ namespace RD_AAOW
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
 		private SupportedLanguages al = Localization.CurrentLanguage;
+		private CultureInfo ci;
+		private DateTime lastNotStamp = new DateTime (2000, 1, 1, 0, 0, 0);
 
 		private bool allowExit = false;
 		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read" };
@@ -42,6 +45,7 @@ namespace RD_AAOW
 			MainText.Font = new Font (SystemFonts.DialogFont.FontFamily.Name, 13);
 
 			ReloadNotificationsList ();
+			ResetCulture ();
 
 			// Получение настроек
 			try
@@ -110,6 +114,22 @@ namespace RD_AAOW
 				}
 			}
 
+		// Установка текущей культуры представления даты
+		private void ResetCulture ()
+			{
+			try
+				{
+				if (al == SupportedLanguages.ru_ru)
+					ci = new CultureInfo ("ru-ru");
+				else
+					ci = new CultureInfo ("en-us");
+				}
+			catch
+				{
+				ci = CultureInfo.InstalledUICulture;
+				}
+			}
+
 		// Завершение работы службы
 		private void CloseService (object sender, EventArgs e)
 			{
@@ -169,6 +189,11 @@ namespace RD_AAOW
 					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
 					MainText.AppendText ("\r\n\r\n");
+				if (DateTime.Today > lastNotStamp)
+					{
+					lastNotStamp = DateTime.Today;
+					MainText.AppendText ("--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) + " ---\r\n\r\n");
+					}
 				MainText.AppendText (texts[0]);
 
 				// Отображение всплывающего сообщения
@@ -218,8 +243,9 @@ namespace RD_AAOW
 
 			// Обновление настроек
 			ReloadNotificationsList ();
-
 			al = Localization.CurrentLanguage;
+			ResetCulture ();
+
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 1).ToString ("D02"), al);
 

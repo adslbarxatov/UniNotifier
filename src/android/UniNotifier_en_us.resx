@@ -154,7 +154,7 @@
     <value>Go to app webpage</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
-    <value>Beginning:</value>
+    <value>Beginning</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
@@ -177,11 +177,14 @@
   <data name="DeleteMessage" xml:space="preserve">
     <value>Delete selected notification?</value>
   </data>
+  <data name="EarlierMessage" xml:space="preserve">
+    <value>--- Earlier ---</value>
+  </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Enabled</value>
   </data>
   <data name="EndingFieldLabel" xml:space="preserve">
-    <value>Ending:</value>
+    <value>Ending</value>
   </data>
   <data name="FindDelimitersButton" xml:space="preserve">
     <value>Find</value>
@@ -192,12 +195,16 @@
   <data name="KeywordNotSpecified" xml:space="preserve">
     <value>Search keyword is missing in “Beginning” field</value>
   </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Interface language:</value>
+  </data>
   <data name="LaunchMessage" xml:space="preserve">
-    <value>Notification service has been successfully started.
-Launch main application for setup or turning off the service</value>
+    <value>Notification service has started monitoring...
+• Use buttons below to view full texts and customize UniNotifier;
+• Click on notification to go to webpage from which it was received</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Link:</value>
+    <value>Link</value>
   </data>
   <data name="LogNotification" xml:space="preserve">
     <value>Go to</value>
@@ -209,7 +216,7 @@ Launch main application for setup or turning off the service</value>
     <value>View user manual</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
-    <value>Name:</value>
+    <value>Name</value>
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
@@ -224,7 +231,7 @@ Launch main application for setup or turning off the service</value>
     <value>Notification with the same name already added</value>
   </data>
   <data name="OccFieldLabel" xml:space="preserve">
-    <value>Occurence #{0:D}</value>
+    <value>Occurrence #{0:D}</value>
   </data>
   <data name="PolicyMessage" xml:space="preserve">
     <value>Before you can start using this tool, you must accept Application development policy and EULA. Do you want to open them in browser?
@@ -256,7 +263,7 @@ To decline them just close the application</value>
     <value>Template</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Here you can specify notifications settings. Note that every start of settings interface will turn off the background service. It will resume after closing of application</value>
+    <value>Here you can configure notifications settings. Note that going to settings and full texts will pause the background service. It will continue to work after closing the settings form</value>
   </data>
   <data name="Tip02" xml:space="preserve">
     <value>ATTENTION! App can only receive notifications if your device is plugged in and / or the screen is not in sleep mode. We are working on it</value>
@@ -265,7 +272,7 @@ To decline them just close the application</value>
     <value>For using this function specify some keyword from needed site's area in “Beginning” field</value>
   </data>
   <data name="Tip04" xml:space="preserve">
-    <value>All changes in settings, including turning the notification on/off, must be confirmed by “Add” or “Apply” buttons</value>
+    <value>Detailed instructions for setting up the service are available on YouTube. Swipe right to the app details page and select the video user manual</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Hello, dear user!</value>
