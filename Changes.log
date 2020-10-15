@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 1.13.1:
+- Add bigger logo for tabs;
+- Add new line before date breaker in Windows notifications log
+
 Version 1.13:
 • Improved beginning / ending search algorithm (results are now more accurate; search is not case-sensitive now);
 • The word 'Occurrence' is now correct;
