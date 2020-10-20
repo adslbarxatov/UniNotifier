@@ -646,8 +646,8 @@ namespace RD_AAOW
 				}
 
 			// Успешно
-			beginningField.Text = beginning.Trim ();
-			endingField.Text = ending.Trim ();
+			beginningField.Text = beginning;
+			endingField.Text = ending;
 			}
 
 		/// <summary>
