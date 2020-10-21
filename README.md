@@ -2,11 +2,9 @@
 > PCC: 00028EFC09925535
 
 
-
 Controllable notifications service
 
 Служба настраиваемых оповещений
-
 
 
 ## Description
@@ -20,7 +18,7 @@ view them in main window, as well as request information about the application a
 In addition, the utility automatically requests new records with specified update rate and,
 if available, displays the appropriate notifications
 
-
+#
 
 ## Описание
 
@@ -33,19 +31,23 @@ if available, displays the appropriate notifications
 Кроме того, приложение с указанной частотой обновления самостоятельно запрашивает новые записи
 и при их наличии отображает соответствующие оповещения
 
+&nbsp;
+
 
 
 ## Requirements / Требования
 
 - Windows version requires Windows XP or newer, Framework 4.0 or newer. Interface languages: ru_ru, en_us;
-- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 4.2 or newer. Interface languages: ru_ru, en_us;
+- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 6.0 or newer. Interface languages: ru_ru, en_us;
 - Application available in AppGallery
 
 #
 
 - Для Windows-версии требуется ОС Windows XP или новее, Framework 4.0 или новее. Языки интерфейса: ru_ru, en_us;
-- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 4.2 или новее. Языки интерфейса: ru_ru, en_us;
+- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 6.0 или новее. Языки интерфейса: ru_ru, en_us;
 - Приложение доступно в AppGallery
+
+&nbsp;
 
 
 
@@ -56,6 +58,8 @@ describes general rules that we follow in all of our development processes, rele
 ideas.
 **It must be acquainted by participants and users before using any of laboratory's products.
 By downloading them, you agree to this Policy**
+
+#
 
 Данная [Политика (ADP)](https://vk.com/@rdaaow_fupl-adp), её положения, заключение, EULA и способы применения
 описывают общие правила, которым мы следуем во всех наших процессах разработки, вышедших в релиз приложениях
