@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
 using System;
@@ -328,6 +329,10 @@ namespace RD_AAOW.Droid
 				notBuilder.SetDefaults (0);         // Для служебного сообщения
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
 				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
+
+				if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+					notBuilder.SetLargeIcon (BitmapFactory.DecodeResource (this.Resources, Resource.Drawable.ic_not_large));
+
 				notBuilder.SetVisibility (NotificationsSupport.AllowOnLockedScreen ? (int)NotificationVisibility.Public :
 					(int)NotificationVisibility.Private);
 

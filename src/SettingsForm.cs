@@ -68,7 +68,7 @@ namespace RD_AAOW
 		private void UpdateButtons ()
 			{
 			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 1);	// Одно должно остаться
+			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 1);    // Одно должно остаться
 			}
 
 		// Закрытие окна просмотра

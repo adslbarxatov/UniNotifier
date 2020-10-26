@@ -192,7 +192,8 @@ namespace RD_AAOW
 				if (DateTime.Today > lastNotStamp)
 					{
 					lastNotStamp = DateTime.Today;
-					MainText.AppendText ("--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) + " ---\r\n\r\n");
+					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) + 
+						" ---\r\n\r\n");
 					}
 				MainText.AppendText (texts[0]);
 
