@@ -1,8 +1,11 @@
 UniNotifier changes log
 
+ToDo:
+- Add pseudo-commenting?
+
 Version 1.13.1:
-- Add bigger logo for tabs;
-- Add new line before date breaker in Windows notifications log
+• Windows: added additional new line before date line in notifications log;
+• Android: added big notification icon for tabs
 
 Version 1.13:
 • Improved beginning / ending search algorithm (results are now more accurate; search is not case-sensitive now);
