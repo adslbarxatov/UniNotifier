@@ -5,7 +5,9 @@ ToDo:
 
 Version 1.13.1:
 • Windows: added additional new line before date line in notifications log;
-• Android: added big notification icon for tabs
+• Android: added big notification icon for tabs;
+• Android: trying to fix notifications absence on Android Oreo and newer;
+• Android: application crashes caused by damaged OS; no critical bugs found in current version
 
 Version 1.13:
 • Improved beginning / ending search algorithm (results are now more accurate; search is not case-sensitive now);
