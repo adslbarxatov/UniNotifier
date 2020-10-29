@@ -320,6 +320,18 @@ namespace RD_AAOW.Droid
 				// Инициализация оповещений
 				ns = new NotificationsSet ();
 
+				// Создание канала (для Android O и выше)
+				notManager = (NotificationManager)GetSystemService (NotificationService);
+
+				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+					{
+					Java.Lang.String channelNameJava = new Java.Lang.String (ProgramDescription.AssemblyMainName);
+					NotificationChannel channel = new NotificationChannel (ProgramDescription.AssemblyMainName.ToLower (),
+						channelNameJava, NotificationImportance.Max);
+					channel.Description = ProgramDescription.AssemblyTitle;
+					notManager.CreateNotificationChannel (channel);
+					}
+
 				// Инициализация сообщений
 				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
 				notBuilder.SetCategory ("CategoryMessage");
@@ -330,13 +342,16 @@ namespace RD_AAOW.Droid
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
 				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
 
-				if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+				if ((Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop) &&
+					((DeviceInfo.Idiom == DeviceIdiom.Desktop) || (DeviceInfo.Idiom == DeviceIdiom.Tablet) ||
+					(DeviceInfo.Idiom == DeviceIdiom.TV)))
+					{
 					notBuilder.SetLargeIcon (BitmapFactory.DecodeResource (this.Resources, Resource.Drawable.ic_not_large));
+					}
 
 				notBuilder.SetVisibility (NotificationsSupport.AllowOnLockedScreen ? (int)NotificationVisibility.Public :
 					(int)NotificationVisibility.Private);
 
-				notManager = (NotificationManager)this.GetSystemService (Context.NotificationService);
 				notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
 
 				// Основные действия управления
@@ -345,8 +360,6 @@ namespace RD_AAOW.Droid
 					actIntent[i] = new Intent (this, typeof (MainActivity));
 					actIntent[i].PutExtra ("Tab", i);
 					actPendingIntent[i] = PendingIntent.GetActivity (this, i, actIntent[i], 0);
-					/*notBuilder.AddAction (new NotificationCompat.Action (0,
-						Localization.GetText ("CommandButton" + i.ToString (), al), actPendingIntent[i]));*/
 					notBuilder.AddAction (new NotificationCompat.Action.Builder (0,
 						Localization.GetText ("CommandButton" + i.ToString (), al), actPendingIntent[i]).Build ());
 					}
@@ -354,7 +367,6 @@ namespace RD_AAOW.Droid
 				// Стартовое сообщение
 				Android.App.Notification notification = notBuilder.Build ();
 				StartForeground (notServiceID, notification);
-				//notManager.Notify (notServiceID, notification);
 
 				// Перенастройка для основного режима
 				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
@@ -363,7 +375,7 @@ namespace RD_AAOW.Droid
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
 
 				masterIntent = new Intent (this, typeof (NotificationLink));
-				masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
+				masterPendingIntent = PendingIntent.GetService (this, 10, masterIntent, 0);
 				notBuilder.SetContentIntent (masterPendingIntent);
 
 				// Запуск петли
@@ -381,8 +393,10 @@ namespace RD_AAOW.Droid
 			{
 			// Остановка службы
 			handler.RemoveCallbacks (runnable);
-			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
-			notificationManager.Cancel (notServiceID);
+			//NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+			notManager.Cancel (notServiceID);
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+				notManager.DeleteNotificationChannel (ProgramDescription.AssemblyMainName.ToLower ());
 			isStarted = false;
 
 			// Освобождение ресурсов
