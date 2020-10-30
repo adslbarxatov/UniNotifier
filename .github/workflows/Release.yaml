@@ -5,7 +5,8 @@ name: Release
 on:
   push:
     branches: [ master ]
-    paths: Release/*.exe
+    paths: .release/*.exe
+    types: [ created ]
 
 # Содержит одно задание build с названием Project release с несколькими шагами
 jobs:
@@ -32,7 +33,7 @@ jobs:
         with:
           tag_name: v${{ env.TAG }}
           release_name: ${{ env.PROJ }} v ${{ env.TAG }}
-          body_path: Release/Release.md
+          body_path: .release/Release.md
           draft: false
           prerelease: false
 
@@ -46,12 +47,12 @@ jobs:
             const fs = require('fs').promises;
             const { repo: { owner, repo }, sha } = context;
 
-            await fs.unlink (`./Release/Release.md`);
-            for (let file of await fs.readdir('./Release')){
+            await fs.unlink (`./.release/Release.md`);
+            for (let file of await fs.readdir('./.release')){
               await github.repos.uploadReleaseAsset({
                 owner, repo,
                 release_id: ${{ steps.create_release.outputs.id }},
                 name: file,
-                data: await fs.readFile(`./Release/${file}`)
+                data: await fs.readFile(`./.release/${file}`)
                 });
               }
