@@ -2,6 +2,8 @@ UniNotifier changes log
 
 ToDo:
 - Add pseudo-commenting?
+- Add ability to call previous notification for current source?
+- Disallow multiple starts
 
 Version 1.13.1:
 • Windows: added additional new line before date line in notifications log;
