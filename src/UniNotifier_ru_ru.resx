@@ -204,4 +204,7 @@
   <data name="SettingsForm_Label07" xml:space="preserve">
     <value>Номер вхождения:</value>
   </data>
+  <data name="AlreadyStarted" xml:space="preserve">
+    <value>Программа {0:S} уже запущена</value>
+  </data>
 </root>

@@ -204,4 +204,7 @@ In addition, the utility automatically requests new records with specified updat
   <data name="SettingsForm_Label07" xml:space="preserve">
     <value>Occurrence number:</value>
   </data>
+  <data name="AlreadyStarted" xml:space="preserve">
+    <value>{0:S} is already running</value>
+  </data>
 </root>

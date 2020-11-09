@@ -344,7 +344,7 @@ namespace RD_AAOW.Droid
 
 				if ((Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop) &&
 					((DeviceInfo.Idiom == DeviceIdiom.Desktop) || (DeviceInfo.Idiom == DeviceIdiom.Tablet) ||
-					(DeviceInfo.Idiom == DeviceIdiom.TV)))
+					(DeviceInfo.Idiom == DeviceIdiom.TV) || (Build.VERSION.SdkInt < BuildVersionCodes.N)))
 					{
 					notBuilder.SetLargeIcon (BitmapFactory.DecodeResource (this.Resources, Resource.Drawable.ic_not_large));
 					}
@@ -353,6 +353,7 @@ namespace RD_AAOW.Droid
 					(int)NotificationVisibility.Private);
 
 				notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
+				notTextStyle.BigText (Localization.GetText ("LaunchMessage", al));
 
 				// Основные действия управления
 				for (int i = 0; i < actIntent.Length; i++)

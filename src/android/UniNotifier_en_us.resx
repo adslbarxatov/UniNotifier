@@ -121,7 +121,7 @@
     <value>About application</value>
   </data>
   <data name="AcceptButton" xml:space="preserve">
-    <value>No, I already read and completely accepted them</value>
+    <value>Accept</value>
   </data>
   <data name="AddButton" xml:space="preserve">
     <value>Add as new</value>
@@ -169,7 +169,7 @@
     <value>Remember to replace items enclosed in curly braces with what you want</value>
   </data>
   <data name="DeclineButton" xml:space="preserve">
-    <value>Yes, I want to read them</value>
+    <value>Read</value>
   </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Delete selected</value>
@@ -235,8 +235,9 @@
   </data>
   <data name="PolicyMessage" xml:space="preserve">
     <value>Before you can start using this tool, you must accept Application development policy and EULA. Do you want to open them in browser?
-
-To decline them just close the application</value>
+• Click “Accept” if you are already familiar and fully accepted them;
+• Click “Read” if you want to open them in browser;
+• To cancel them, close the application</value>
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>
