@@ -4,6 +4,10 @@ ToDo:
 - Add pseudo-commenting?
 - Add ability to call previous notification for current source?
 
+Version 1.13.1.4 / Android:
+• Android: trying to fix incorrect start screen display;
+• Android: trying to fix notifications absense, step 3
+
 Version 1.13.2:
 • Added protection against multiple launch
 
