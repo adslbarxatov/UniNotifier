@@ -237,7 +237,7 @@
     <value>Before you can start using this tool, you must accept Application development policy and EULA. Do you want to open them in browser?
 • Click “Accept” if you are already familiar and fully accepted them;
 • Click “Read” if you want to open them in browser;
-• To cancel them, close the application</value>
+• To decline them, close the application</value>
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>
@@ -267,7 +267,7 @@
     <value>Here you can configure notifications settings. Note that going to settings and full texts will pause the background service. It will continue to work after closing the settings form</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>ATTENTION! App can only receive notifications if your device is plugged in and / or the screen is not in sleep mode. We are working on it</value>
+    <value>WARNING! App can only receive notifications if your device is plugged in and / or the screen is not in sleep mode</value>
   </data>
   <data name="Tip03" xml:space="preserve">
     <value>For using this function specify some keyword from needed site's area in “Beginning” field</value>

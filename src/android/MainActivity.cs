@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
+//using Android.Media;
 using Android.OS;
 using Android.Support.V4.App;
 using System;
@@ -93,8 +94,8 @@ namespace RD_AAOW.Droid
 	/// Класс описывает экран-заставку приложения
 	/// </summary>
 	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
-		ScreenOrientation = ScreenOrientation.Landscape)]
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+		//ScreenOrientation = ScreenOrientation.Landscape)]
 	public class SplashActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
@@ -322,18 +323,21 @@ namespace RD_AAOW.Droid
 
 				// Создание канала (для Android O и выше)
 				notManager = (NotificationManager)GetSystemService (NotificationService);
+				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
 
 				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
 					{
 					Java.Lang.String channelNameJava = new Java.Lang.String (ProgramDescription.AssemblyMainName);
 					NotificationChannel channel = new NotificationChannel (ProgramDescription.AssemblyMainName.ToLower (),
 						channelNameJava, NotificationImportance.Max);
+					
 					channel.Description = ProgramDescription.AssemblyTitle;
+
 					notManager.CreateNotificationChannel (channel);
+					notBuilder.SetChannelId (ProgramDescription.AssemblyMainName.ToLower ());
 					}
 
 				// Инициализация сообщений
-				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
 				notBuilder.SetCategory ("CategoryMessage");
 				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
 				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", al));
@@ -394,7 +398,6 @@ namespace RD_AAOW.Droid
 			{
 			// Остановка службы
 			handler.RemoveCallbacks (runnable);
-			//NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
 			notManager.Cancel (notServiceID);
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
 				notManager.DeleteNotificationChannel (ProgramDescription.AssemblyMainName.ToLower ());

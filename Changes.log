@@ -4,6 +4,13 @@ ToDo:
 - Add pseudo-commenting?
 - Add ability to call previous notification for current source?
 
+Version 1.14 / Android:
+• Android: fixed incorrect start screen display on Oreo and newer;
+• Android: fixed notifications absense on Oreo and newer;
+• Android: fixed some interface bugs;
+• Windows: ADP loader has been rebuilt; policy text now formatted properly;
+• Windows: App about and Policy windows are now fully expandaple
+
 Version 1.13.1.4 / Android:
 • Android: trying to fix incorrect start screen display;
 • Android: trying to fix notifications absense, step 3
