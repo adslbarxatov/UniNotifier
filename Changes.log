@@ -4,6 +4,12 @@ ToDo:
 - Add pseudo-commenting?
 - Add ability to call previous notification for current source?
 
+Version 1.14.1.2 / Android:
+• Android: fixed some interface bugs;
+• Android: trying to reduce size of an app;
+• Android: updating app core assemblies;
+• Android: updating forms styling
+
 Version 1.14 / Android:
 • Android: fixed incorrect start screen display on Oreo and newer;
 • Android: fixed notifications absense on Oreo and newer;
