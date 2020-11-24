@@ -1,8 +1,9 @@
 UniNotifier changes log
 
-ToDo:
-- Add pseudo-commenting?
-- Add ability to call previous notification for current source?
+Version 1.14.2:
+• Windows: fixed incorrect behavior of context menu in some cases;
+• Added some keywords replacement for VK pages;
+• Added template for checking subscribers count on VK community
 
 Version 1.14.1.2 / Android:
 • Android: fixed some interface bugs;
@@ -12,7 +13,7 @@ Version 1.14.1.2 / Android:
 
 Version 1.14 / Android:
 • Android: fixed incorrect start screen display on Oreo and newer;
-• Android: fixed notifications absense on Oreo and newer;
+• Android: fixed notifications absence on Oreo and newer;
 • Android: fixed some interface bugs;
 • Windows: ADP loader has been rebuilt; policy text now formatted properly;
 • Windows: App about and Policy windows are now fully expandaple
