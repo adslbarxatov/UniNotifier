@@ -1,7 +1,11 @@
 UniNotifier changes log
 
-ToDo:
-- Add templates loader on app start and restart after settings changes. It must check
+Version 1.15:
+• Added templates loader. Now extended notification templates will be received
+  from the app hosting (GitHub) and stored on the device. They will be updated
+  automatically when new set of templates will be available
+
+on app start and restart after settings changes. It must check
   templates set version and store the entire set into registry. Downloaded set must be
   merged with hard-coded templates and sent to settings window
 
