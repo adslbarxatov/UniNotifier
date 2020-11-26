@@ -8,6 +8,7 @@
 Weather from YR (Norway)	https://www.yr.no/place/{COUNTRY}/{CITY}/{STATION}			og:description" content="		" />	1
 Погода на YR (Норвегия)		https://www.yr.no/place/Russia/{ГОРОД}/{СТАНЦИЯ}			og:description" content="		" />	1
 Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>	1
+Test	1	2	3	4
 
 ***
 
