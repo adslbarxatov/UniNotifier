@@ -235,6 +235,7 @@
   </data>
   <data name="PolicyMessage" xml:space="preserve">
     <value>Before you can start using this tool, you must accept Application development policy and EULA. Do you want to open them in browser?
+
 • Click “Accept” if you are already familiar and fully accepted them;
 • Click “Read” if you want to open them in browser;
 • To decline them, close the application</value>

@@ -2,7 +2,6 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
-//using Android.Media;
 using Android.OS;
 using Android.Support.V4.App;
 using System;
@@ -95,7 +94,6 @@ namespace RD_AAOW.Droid
 	/// </summary>
 	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-		//ScreenOrientation = ScreenOrientation.Landscape)]
 	public class SplashActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
@@ -155,88 +153,6 @@ namespace RD_AAOW.Droid
 		private Intent[] actIntent = new Intent[2];
 		private PendingIntent masterPendingIntent;
 		private PendingIntent[] actPendingIntent = new PendingIntent[2];
-
-		/*
-		/// <summary>
-		/// Обработчик события создания задания
-		/// </summary>
-		public override bool OnStartJob (JobParameters jobParams)
-			{
-			if (!isStarted)
-				{
-				// Инициализация оповещений
-				ns = new NotificationsSet ();
-
-				// Инициализация сообщений
-				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
-				notBuilder.SetCategory ("CategoryMessage");
-				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
-				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", al));
-				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
-				notBuilder.SetDefaults (0);         // Для служебного сообщения
-				notBuilder.SetPriority ((int)NotificationPriority.Default);
-				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
-				notBuilder.SetVisibility ((int)NotificationVisibility.Private);
-
-				notManager = (NotificationManager)this.GetSystemService (Context.NotificationService);
-				notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
-
-				// Стартовое сообщение
-				Android.App.Notification notification = notBuilder.Build ();
-				//StartForeground (notServiceID, notification);
-				notManager.Notify (notServiceID, notification);
-
-				// Перенастройка для основного режима
-				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
-					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
-					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
-				notBuilder.SetPriority ((int)NotificationPriority.Max);
-
-				masterIntent = new Intent (this, typeof (NotificationLink));
-				masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
-				notBuilder.SetContentIntent (masterPendingIntent);
-
-				isStarted = true;
-				}
-
-			// Выполнение заданий
-			for (int i = 0; i < NotificationsSet.MaxNotifications; i++)
-				{
-				Task.Run (() =>
-				{
-					TimerTick ();
-				});
-
-				// Пауза в этом потоке
-				Thread.Sleep (45000);
-				}
-
-			// Отметка о завершении задания
-			JobFinished (jobParams, false);
-
-			// Завершено
-			return false;
-			}
-
-		/// <summary>
-		/// Обработчик события остановки задания
-		/// </summary>
-		public override bool OnStopJob (JobParameters jobParams)
-			{
-			// Освобождение ресурсов
-			ns.Dispose ();
-			notBuilder.Dispose ();
-			notManager.Dispose ();
-
-			masterIntent.Dispose ();
-			masterPendingIntent.Dispose ();
-
-			isStarted = false;
-
-			// При остановке или прерывании повторное создание задания не предусмотрено
-			return false;
-			}
-		*/
 
 		/// <summary>
 		/// Обработчик события создания службы
@@ -319,7 +235,7 @@ namespace RD_AAOW.Droid
 			if (!isStarted)
 				{
 				// Инициализация оповещений
-				ns = new NotificationsSet ();
+				ns = new NotificationsSet (true);
 
 				// Создание канала (для Android O и выше)
 				notManager = (NotificationManager)GetSystemService (NotificationService);

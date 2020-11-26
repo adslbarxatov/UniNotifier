@@ -1,5 +1,11 @@
-﻿using System;
+﻿#if ANDROID
+	using Xamarin.Essentials;
+#else
+using Microsoft.Win32;
+#endif
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 
@@ -8,26 +14,52 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс предоставляет доступ к шаблонам оповещений
 	/// </summary>
-	public class NotificationsTemplatesProvider:IDisposable
+	public class NotificationsTemplatesProvider: IDisposable
 		{
-		// Переменные
+		// Переменные и константы
 		private List<string[]> templatesElements = new List<string[]> ();
+		private const string externalTemplatesSubkey = "ExternalTemplates";
+		private const string externalTemplatesVersionSubkey = "ExternalTemplatesVersion";
+		private const string listLink = "https://github.com/adslbarxatov/UniNotifier/blob/master/TemplatesList.md";
 
 		/// <summary>
 		/// Конструктор. Инициализирует список шаблонов
 		/// </summary>
-		public NotificationsTemplatesProvider ()
+		/// <param name="FullyInitializeTemplates">Флаг указывает, следует ли полностью инициализировать 
+		/// шаблоны в данном экземпляре</param>
+		public NotificationsTemplatesProvider (bool FullyInitializeTemplates)
 			{
-			// Получение файла
+			// Получение встроенных шаблонов и попытка получения внешних шаблонов
 #if !ANDROID
 			byte[] s = Properties.GMJNotifier.Templates;
+			if (FullyInitializeTemplates)
+				{
+				HardWorkExecutor hwe = new HardWorkExecutor (TemplatesListLoader, null, null);
+				}
 #else
 			byte[] s = Properties.Resources.Templates;
+			if (FullyInitializeTemplates)
+				TemplatesListLoader (null, null);
 #endif
 			string buf = Encoding.UTF8.GetString (s);
-			StringReader SR = new StringReader (buf);
+
+			// Получение загруженных шаблонов
+			string buf2 = "";
+			try
+				{
+#if ANDROID
+				buf2 = Preferences.Get (externalTemplatesSubkey, "");
+#else
+				buf2 = Registry.GetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesSubkey, "").ToString ();
+#endif
+				}
+			catch
+				{
+				}
+			buf += buf2;
 
 			// Разбор
+			StringReader SR = new StringReader (buf);
 			char[] splitters = new char[] { '\x9' };
 
 			// Формирование массива 
@@ -151,5 +183,83 @@ namespace RD_AAOW
 			templatesElements.Clear ();
 			templatesElements = null;
 			}
+
+		// Получение списка шаблонов
+		private void TemplatesListLoader (object sender, DoWorkEventArgs e)
+			{
+			// Запрос списка пакетов
+#if ANDROID
+			string html = NotificationsSupport.GetHTML (listLink);
+#else
+			string html = AboutForm.GetHTML (listLink);
+#endif
+			if (html == "")
+				{
+				if (e != null)
+					e.Result = -1;
+				return;
+				}
+
+			// Разбор
+			int left, right;
+			if (((left = html.IndexOf ("<code>")) < 0) || ((right = html.IndexOf ("</code>", left)) < 0))
+				{
+				if (e != null)
+					e.Result = -2;
+				return;
+				}
+			html = html.Substring (left + 6, right - left - 6);
+
+			// Получение списка
+			StringReader SR = new StringReader (html);
+			string newVersion = SR.ReadLine ();
+			string oldVersion = "";
+#if ANDROID
+			oldVersion = Preferences.Get (externalTemplatesVersionSubkey, "");
+#else
+			oldVersion = Registry.GetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesVersionSubkey,
+				"").ToString ();
+#endif
+			if (oldVersion == newVersion)
+				{
+				if (e != null)
+					e.Result = 1;
+				return;
+				}
+
+			// Запись
+			string tmp = SR.ReadToEnd ().Replace ("&lt;", "<").Replace ("&gt;", ">");
+			try
+				{
+#if ANDROID
+				Preferences.Set (externalTemplatesVersionSubkey, newVersion);
+				Preferences.Set (externalTemplatesSubkey, tmp);
+#else
+				Registry.SetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesVersionSubkey, newVersion);
+				Registry.SetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesSubkey, tmp);
+#endif
+				}
+			catch
+				{
+				}
+
+			// Завершено
+			SR.Close ();
+			reloadRequired = true;
+			if (e != null)
+				e.Result = 0;
+			}
+
+		/// <summary>
+		/// Возвращает флаг, указывающий на необходимость перезагрузки списка шаблонов после обновления
+		/// </summary>
+		public bool ReloadRequired
+			{
+			get
+				{
+				return reloadRequired;
+				}
+			}
+		private bool reloadRequired = false;
 		}
 	}

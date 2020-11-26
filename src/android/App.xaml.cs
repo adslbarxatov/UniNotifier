@@ -10,11 +10,11 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает функционал приложения
 	/// </summary>
-	public partial class App:Application
+	public partial class App: Application
 		{
 		#region Общие переменные и константы
 
-		private const int masterFontSize = 18;
+		private const int masterFontSize = 13;
 		private Thickness margin = new Thickness (6);
 
 		private SupportedLanguages al = Localization.CurrentLanguage;

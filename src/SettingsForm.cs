@@ -6,7 +6,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает форму настроек оповещений
 	/// </summary>
-	public partial class SettingsForm:Form
+	public partial class SettingsForm: Form
 		{
 		// Переменные и константы
 		private NotificationsSet notifications;
@@ -56,6 +56,7 @@ namespace RD_AAOW
 				NotificationsList.SelectedIndex = 0;
 
 			// Загрузка шаблонов
+			notifications.ReloadNotificationsTemplates ();  // При обновлении списка шаблонов "протянет" их в интерфейс
 			for (uint i = 0; i < notifications.NotificationsTemplates.TemplatesCount; i++)
 				TemplatesCombo.Items.Add (notifications.NotificationsTemplates.GetName (i));
 			TemplatesCombo.SelectedIndex = 0;

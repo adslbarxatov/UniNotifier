@@ -13,7 +13,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает главную форму приложения
 	/// </summary>
-	public partial class UniNotifierForm:Form
+	public partial class UniNotifierForm: Form
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
@@ -24,7 +24,7 @@ namespace RD_AAOW
 		private bool allowExit = false;
 		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read" };
 
-		private NotificationsSet ns = new NotificationsSet ();
+		private NotificationsSet ns = new NotificationsSet (true);
 
 		private string startupLink = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup) + "\\" +
 			ProgramDescription.AssemblyMainName + ".lnk";
@@ -80,10 +80,7 @@ namespace RD_AAOW
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption04", al), CloseService));
 
 			if (!File.Exists (startupLink))
-				{
-				ni.ContextMenu.MenuItems.Add ("-");
 				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05", al), AddToStartup));
-				}
 			}
 
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
@@ -171,7 +168,7 @@ namespace RD_AAOW
 			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath, ProgramDescription.AssemblyMainName, "");
 
 			// Контроль
-			ni.ContextMenu.MenuItems[5].Enabled = !File.Exists (startupLink);
+			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled = !File.Exists (startupLink);
 			}
 
 		// Итерация таймера обновления
@@ -192,7 +189,7 @@ namespace RD_AAOW
 				if (DateTime.Today > lastNotStamp)
 					{
 					lastNotStamp = DateTime.Today;
-					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) + 
+					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
 						" ---\r\n\r\n");
 					}
 				MainText.AppendText (texts[0]);
