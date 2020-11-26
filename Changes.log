@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+ToDo:
+- Add templates loader on app start and restart after settings changes. It must check
+  templates set version and store the entire set into registry. Downloaded set must be
+  merged with hard-coded templates and sent to settings window
+
 Version 1.14.2:
 • Windows: fixed incorrect behavior of context menu in some cases;
 • Added some keywords replacement for VK pages;
