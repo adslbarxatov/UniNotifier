@@ -1,5 +1,5 @@
 ```
-27 nov 2020
+27.11.2020
 Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>	2
 Число подписчиков ВК		https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						act=members">					</em>	1
 КоммерсантЪ					https://www.kommersant.ru									from=hotnews">					</h3>	1
@@ -8,7 +8,6 @@
 Weather from YR (Norway)	https://www.yr.no/place/{COUNTRY}/{CITY}/{STATION}			og:description" content="		" />	1
 Погода на YR (Норвегия)		https://www.yr.no/place/Russia/{ГОРОД}/{СТАНЦИЯ}			og:description" content="		" />	1
 Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>	1
-Test	1	2	3	4
 
 ***
 
