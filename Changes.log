@@ -1,9 +1,13 @@
 UniNotifier changes log
 
+ToDo:
+- Solve problem with incorrect indication settings
+
 Version 1.15:
 • Added templates loader. Now extended notification templates will be received
   from the app hosting (GitHub) and stored on the device. They will be updated
-  automatically when new set of templates will be available
+  automatically when new set of templates will be available;
+• Android: log screen is now more comfortable for use
 
 Version 1.14.2:
 • Windows: fixed incorrect behavior of context menu in some cases;
