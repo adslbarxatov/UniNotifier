@@ -18,7 +18,7 @@ namespace RD_AAOW
 		private Thickness margin = new Thickness (6);
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
-		private NotificationsSet ns = new NotificationsSet ();
+		private NotificationsSet ns = new NotificationsSet (false);
 		private int currentNotification = 0;
 
 		private readonly Color
@@ -367,10 +367,10 @@ namespace RD_AAOW
 				Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
 
 			await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-				Localization.GetText ("Tip04", al), Localization.GetText ("NextButton", al));
+				Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
 
 			await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-				Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
+				Localization.GetText ("Tip04", al), Localization.GetText ("NextButton", al));
 			}
 
 		// Страница проекта

@@ -1,5 +1,5 @@
-# UniNotifier v 1.15
-> PCC: 00029EFC62147F6E
+# UniNotifier v 1.15.2
+> PCC: 00029EFE5E9FDECB
 
 
 Controllable notifications service

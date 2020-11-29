@@ -1,7 +1,9 @@
 UniNotifier changes log
 
-ToDo:
-- Solve problem with incorrect indication settings
+Version 1.15.2:
+• Android: trying to solve problem with notifications attributes (vibro, lights, sounds);
+• Android: added new startup tips;
+• Windows: fixed bug in Policy acception interface that disallowed to accept it in offline mode at first start
 
 Version 1.15:
 • Added templates loader. Now extended notification templates will be received

@@ -265,10 +265,14 @@
     <value>Template</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Here you can configure notifications settings. Note that going to settings and full texts will pause the background service. It will continue to work after closing the settings form</value>
+    <value>Here you can configure notifications settings.
+
+Note that going to settings and full texts will pause the background service. It will continue working after closing / hiding the settings form</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>WARNING! App can only receive notifications if your device is plugged in and / or the screen is not in sleep mode</value>
+    <value>WARNING!
+1. App can only receive notifications if your device is plugged in and / or the screen is not in sleep mode.
+2. Some devices require manual setting of notification attributes (vibro, lights, sounds). App settings may not work</value>
   </data>
   <data name="Tip03" xml:space="preserve">
     <value>For using this function specify some keyword from needed site's area in “Beginning” field</value>

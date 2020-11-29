@@ -3,29 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RD_AAOW.AboutPage">
 
-	<ScrollView>
-		<StackLayout>
-			<Label x:Name="HeaderLabel" />
+	<StackLayout>
+		
+		<Label x:Name="HeaderLabel" />
 
-			<Label x:Name="AboutLabel" />
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+		<ScrollView>
+			<StackLayout >
+				
+				<Label x:Name="AboutLabel" />
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 				WidthRequest="200" Color="#606060" Margin="9" />
 
-			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-				<Label x:Name="LanguageLabel" VerticalOptions="Center" />
-				<Button x:Name="LanguageSelector" />
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+					<Label x:Name="LanguageLabel" VerticalOptions="Center" />
+					<Button x:Name="LanguageSelector" />
+				</StackLayout>
+
+				<Button x:Name="ManualPage" />
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="9" />
+
+				<Button x:Name="AppPage" />
+				<Button x:Name="ADPPage" />
+				<Button x:Name="CommunityPage" />
+				<Label x:Name="Filler3" />
+
 			</StackLayout>
-
-			<Button x:Name="ManualPage" />
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" Margin="9" />
-
-			<Button x:Name="AppPage" />
-			<Button x:Name="ADPPage" />
-			<Button x:Name="CommunityPage" />
-			<Label x:Name="Filler3" />
-
-        </StackLayout>
-	</ScrollView>
+		</ScrollView>
+		
+	</StackLayout>
 </ContentPage>
     

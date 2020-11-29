@@ -51,9 +51,9 @@
 			</StackLayout>
 
 			<FlexLayout Direction="Row" Wrap="NoWrap" JustifyContent="Center">
-				<Button x:Name="ApplyButton" HorizontalOptions="Center" HeightRequest="65" />
-				<Button x:Name="AddButton" HorizontalOptions="Center" HeightRequest="65" />
-				<Button x:Name="DeleteButton" HorizontalOptions="Center" HeightRequest="65" />
+				<Button x:Name="ApplyButton" HorizontalOptions="Center" HeightRequest="55" />
+				<Button x:Name="AddButton" HorizontalOptions="Center" HeightRequest="55" />
+				<Button x:Name="DeleteButton" HorizontalOptions="Center" HeightRequest="55" />
 			</FlexLayout>
 
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 

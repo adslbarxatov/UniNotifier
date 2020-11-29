@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
+using Android.Media;
 using Android.OS;
 using Android.Support.V4.App;
 using System;
@@ -23,7 +24,7 @@ namespace RD_AAOW.Droid
 	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
 		ScreenOrientation = ScreenOrientation.Landscape)]
-	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		// Константы
 		//private const int jobID = 4415;
@@ -94,7 +95,7 @@ namespace RD_AAOW.Droid
 	/// </summary>
 	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class SplashActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	public class SplashActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
 		/// Обработчик события создания экземпляра
@@ -129,7 +130,7 @@ namespace RD_AAOW.Droid
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier", Icon = "@mipmap/icon", Exported = true)]
-	public class MainService:global::Android.App.Service
+	public class MainService: global::Android.App.Service
 		{
 		// Основной набор оповещений
 		private NotificationsSet ns;
@@ -234,21 +235,41 @@ namespace RD_AAOW.Droid
 			{
 			if (!isStarted)
 				{
-				// Инициализация оповещений
-				ns = new NotificationsSet (true);
+				// Инициализация объектов настройки
+				notManager = (NotificationManager)GetSystemService (NotificationService);
+				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName.ToLower ());
 
 				// Создание канала (для Android O и выше)
-				notManager = (NotificationManager)GetSystemService (NotificationService);
-				notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName);
-
 				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
 					{
-					Java.Lang.String channelNameJava = new Java.Lang.String (ProgramDescription.AssemblyMainName);
 					NotificationChannel channel = new NotificationChannel (ProgramDescription.AssemblyMainName.ToLower (),
-						channelNameJava, NotificationImportance.Max);
-					
-					channel.Description = ProgramDescription.AssemblyTitle;
+						ProgramDescription.AssemblyMainName, NotificationImportance.High);
 
+					// Настройка
+					channel.Description = ProgramDescription.AssemblyTitle;
+					channel.SetBypassDnd (true);
+					if (NotificationsSupport.AllowLight)
+						{
+						channel.LightColor = Color.Green;
+						channel.EnableLights (true);
+						}
+					if (NotificationsSupport.AllowVibro)
+						{
+						channel.SetVibrationPattern (new long[] { 200, 600, 200 });
+						channel.EnableVibration (true);
+						}
+					if (NotificationsSupport.AllowSound)
+						{
+						AudioAttributes att = new AudioAttributes.Builder ()
+							.SetUsage (AudioUsageKind.Notification)
+							.SetContentType (AudioContentType.Music)
+							.Build ();
+						channel.SetSound (RingtoneManager.GetDefaultUri (RingtoneType.Notification), att);
+						}
+					channel.LockscreenVisibility = NotificationsSupport.AllowOnLockedScreen ? NotificationVisibility.Public :
+						NotificationVisibility.Private;
+
+					// Запуск
 					notManager.CreateNotificationChannel (channel);
 					notBuilder.SetChannelId (ProgramDescription.AssemblyMainName.ToLower ());
 					}
@@ -258,10 +279,28 @@ namespace RD_AAOW.Droid
 				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
 				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", al));
 				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
-				notBuilder.SetDefaults (0);         // Для служебного сообщения
-				notBuilder.SetPriority ((int)NotificationPriority.Default);
-				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
 
+				if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+					{
+					notBuilder.SetDefaults (0);         // Для служебного сообщения
+					notBuilder.SetPriority ((int)NotificationPriority.Default);
+					}
+				else
+					{
+					notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+						(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
+						(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
+					notBuilder.SetPriority ((int)NotificationPriority.High);
+
+					notBuilder.SetLights (0x00FF80, 1000, 1000);
+					//notBuilder.SetOngoing (true);
+					notBuilder.SetVibrate (new long[] { 200, 600, 200 });
+
+					if (NotificationsSupport.AllowSound)
+						notBuilder.SetSound (RingtoneManager.GetDefaultUri (RingtoneType.Notification));
+					}
+
+				notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
 				if ((Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop) &&
 					((DeviceInfo.Idiom == DeviceIdiom.Desktop) || (DeviceInfo.Idiom == DeviceIdiom.Tablet) ||
 					(DeviceInfo.Idiom == DeviceIdiom.TV) || (Build.VERSION.SdkInt < BuildVersionCodes.N)))
@@ -290,14 +329,23 @@ namespace RD_AAOW.Droid
 				StartForeground (notServiceID, notification);
 
 				// Перенастройка для основного режима
-				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
-					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
-					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
-				notBuilder.SetPriority ((int)NotificationPriority.Max);
+				if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+					{
+					notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+						(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
+						(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
+					notBuilder.SetPriority ((int)NotificationPriority.Max);
+					}
+				else
+					{
+					}
 
 				masterIntent = new Intent (this, typeof (NotificationLink));
 				masterPendingIntent = PendingIntent.GetService (this, 10, masterIntent, 0);
 				notBuilder.SetContentIntent (masterPendingIntent);
+
+				// Инициализация оповещений и запроса шаблонов
+				ns = new NotificationsSet (true);
 
 				// Запуск петли
 				handler.PostDelayed (runnable, masterDelay);
@@ -357,7 +405,7 @@ namespace RD_AAOW.Droid
 	/// Класс описывает запускаемое задание загрузки данных
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink", Icon = "@mipmap/icon")]
-	public class NotificationLink:IntentService
+	public class NotificationLink: IntentService
 		{
 		/// <summary>
 		/// Конструктор (заглушка)
@@ -380,7 +428,7 @@ namespace RD_AAOW.Droid
 	/// Класс описывает приёмник события окончания загрузки ОС
 	/// </summary>
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot", Icon = "@mipmap/icon")]
-	public class BootReceiver:BroadcastReceiver
+	public class BootReceiver: BroadcastReceiver
 		{
 		/// <summary>
 		/// Обработчик события наступления события окончания загрузки
