@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+ToDo:
+- Create GMJ call button
+
 Version 1.15.2:
 • Android: trying to solve problem with notifications attributes (vibro, lights, sounds);
 • Android: added new startup tips;
