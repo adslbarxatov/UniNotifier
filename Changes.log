@@ -1,7 +1,11 @@
 UniNotifier changes log
 
-ToDo:
-- Create GMJ call button
+Version 1.16:
+• Added ability to request random record from Grammar must joy (for ru_ru UI language only);
+• Fixed '$' sign appearance;
+• Android: notification settings removed from version for Android 10 and higher (they doesn't work);
+• Android: notifications log extended up to 15000 characters;
+• Fixed hidden bug in paths processing algorithm
 
 Version 1.15.2:
 • Android: trying to solve problem with notifications attributes (vibro, lights, sounds);

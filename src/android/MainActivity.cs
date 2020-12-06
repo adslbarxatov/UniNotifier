@@ -26,9 +26,6 @@ namespace RD_AAOW.Droid
 		ScreenOrientation = ScreenOrientation.Landscape)]
 	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
-		// Константы
-		//private const int jobID = 4415;
-
 		/// <summary>
 		/// Обработчик события создания экземпляра
 		/// </summary>
@@ -44,8 +41,6 @@ namespace RD_AAOW.Droid
 			// Остановка службы для настройки
 			Intent mainService = new Intent (this, typeof (MainService));
 			StopService (mainService);
-			/*JobScheduler jsch = (JobScheduler)this.GetSystemService (Context.JobSchedulerService);
-			jsch.Cancel (jobID);*/
 
 			// Окно настроек
 			uint currentTab = 1;    // Страница настроек (по умолчанию)
@@ -57,7 +52,7 @@ namespace RD_AAOW.Droid
 					}
 				catch { }
 				}
-			LoadApplication (new App (currentTab));
+			LoadApplication (new App (currentTab, Build.VERSION.SdkInt < BuildVersionCodes.Q));
 			}
 
 		/// <summary>

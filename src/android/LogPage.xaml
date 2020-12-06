@@ -6,7 +6,11 @@
 	<StackLayout>
 
 		<Label x:Name="HeaderLabel" />
-		<Button x:Name="LogNotification" HorizontalOptions="Center" />
+
+		<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+			<Button x:Name="LogNotification" HorizontalOptions="Center" />
+			<Button x:Name="GetGMJ" HorizontalOptions="Center" />
+		</StackLayout>
 
 		<ScrollView>
 			<StackLayout>

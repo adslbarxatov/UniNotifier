@@ -41,7 +41,7 @@ namespace RD_AAOW
 		private ContentPage solutionPage, aboutPage, logPage;
 		private Label aboutLabel, freqFieldLabel, occFieldLabel;
 		private Switch allowStart, allowSound, allowLight, allowVibro, allowOnLockedScreen, enabledSwitch;
-		private Button selectedNotification, applyButton, addButton, deleteButton;
+		private Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
 		private uint currentOcc, currentFreq;
 
@@ -138,7 +138,8 @@ namespace RD_AAOW
 		/// Конструктор. Точка входа приложения
 		/// </summary>
 		/// <param name="CurrentTabNumber">Номер текущей вкладки при старте</param>
-		public App (uint CurrentTabNumber)
+		/// <param name="AllowNotificationSettings">Флаг, указывающий на возможность настройки оповещений из приложения</param>
+		public App (uint CurrentTabNumber, bool AllowNotificationSettings)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -165,32 +166,41 @@ namespace RD_AAOW
 			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
-			ApplyLabelSettings (solutionPage, "AlarmSettingsLabel", Localization.GetText ("AlarmSettingsLabel", al),
+			if (AllowNotificationSettings)
+				ApplyLabelSettings (solutionPage, "AlarmSettingsLabel", Localization.GetText ("AlarmSettingsLabel", al),
 				masterHeaderColor);
 
-			ApplyLabelSettings (solutionPage, "AllowSoundLabel", Localization.GetText ("AllowSoundSwitch", al),
+			if (AllowNotificationSettings)
+				ApplyLabelSettings (solutionPage, "AllowSoundLabel", Localization.GetText ("AllowSoundSwitch", al),
 				masterTextColor);
 			allowSound = (Switch)solutionPage.FindByName ("AllowSound");
 			allowSound.IsToggled = NotificationsSupport.AllowSound;
 			allowSound.Toggled += AllowSound_Toggled;
+			allowSound.IsVisible = AllowNotificationSettings;
 
-			ApplyLabelSettings (solutionPage, "AllowLightLabel", Localization.GetText ("AllowLightSwitch", al),
+			if (AllowNotificationSettings)
+				ApplyLabelSettings (solutionPage, "AllowLightLabel", Localization.GetText ("AllowLightSwitch", al),
 				masterTextColor);
 			allowLight = (Switch)solutionPage.FindByName ("AllowLight");
 			allowLight.IsToggled = NotificationsSupport.AllowLight;
 			allowLight.Toggled += AllowLight_Toggled;
+			allowLight.IsVisible = AllowNotificationSettings;
 
-			ApplyLabelSettings (solutionPage, "AllowVibroLabel", Localization.GetText ("AllowVibroSwitch", al),
+			if (AllowNotificationSettings)
+				ApplyLabelSettings (solutionPage, "AllowVibroLabel", Localization.GetText ("AllowVibroSwitch", al),
 				masterTextColor);
 			allowVibro = (Switch)solutionPage.FindByName ("AllowVibro");
 			allowVibro.IsToggled = NotificationsSupport.AllowVibro;
 			allowVibro.Toggled += AllowVibro_Toggled;
+			allowVibro.IsVisible = AllowNotificationSettings;
 
-			ApplyLabelSettings (solutionPage, "AllowOnLockedScreenLabel", Localization.GetText ("AllowOnLockedScreenSwitch", al),
+			if (AllowNotificationSettings)
+				ApplyLabelSettings (solutionPage, "AllowOnLockedScreenLabel", Localization.GetText ("AllowOnLockedScreenSwitch", al),
 				masterTextColor);
 			allowOnLockedScreen = (Switch)solutionPage.FindByName ("AllowOnLockedScreen");
 			allowOnLockedScreen.IsToggled = NotificationsSupport.AllowOnLockedScreen;
 			allowOnLockedScreen.Toggled += AllowOnLockedScreen_Toggled;
+			allowOnLockedScreen.IsVisible = AllowNotificationSettings;
 
 			#endregion
 
@@ -292,6 +302,8 @@ namespace RD_AAOW
 
 			ApplyButtonSettings (logPage, "LogNotification", Localization.GetText ("LogNotification", al),
 				logFieldBackColor, SelectLogNotification);
+			getGMJButton = ApplyButtonSettings (logPage, "GetGMJ", "GMJ", logFieldBackColor, GetGMJ);
+			getGMJButton.IsVisible = (al == SupportedLanguages.ru_ru);
 
 			#endregion
 
@@ -456,6 +468,20 @@ namespace RD_AAOW
 
 			// Сброс
 			list.Clear ();
+			}
+
+		// Запрос записи из GMJ
+		private async void GetGMJ (object sender, EventArgs e)
+			{
+			getGMJButton.IsEnabled = false;
+
+			string s = Notification.GetRandomGMJ ();
+			if (s == "")
+				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle, "GMJ не вернула сообщение. Попробуйте ещё раз", "ОК");
+			else
+				mainLog.Text = NotificationsSupport.MasterLog = s + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
+
+			getGMJButton.IsEnabled = true;
 			}
 
 		// Изменение значения частоты опроса

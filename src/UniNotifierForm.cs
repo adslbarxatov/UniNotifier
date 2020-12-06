@@ -46,6 +46,7 @@ namespace RD_AAOW
 
 			ReloadNotificationsList ();
 			ResetCulture ();
+			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
 
 			// Получение настроек
 			try
@@ -208,6 +209,8 @@ namespace RD_AAOW
 
 				texts.RemoveAt (0);
 				notNumbers.RemoveAt (0);
+
+				GetGMJ.Enabled = true;
 				}
 			}
 
@@ -243,6 +246,7 @@ namespace RD_AAOW
 			ReloadNotificationsList ();
 			al = Localization.CurrentLanguage;
 			ResetCulture ();
+			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
 
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 1).ToString ("D02"), al);
@@ -301,7 +305,7 @@ namespace RD_AAOW
 			MainText.Width = this.Width - 30;
 			MainText.Height = this.Height - 80;
 
-			BClose.Top = BGo.Top = ReadMode.Top = this.Height - 60;
+			BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 60;
 			NamesCombo.Top = BClose.Top + 2;
 			}
 
@@ -318,6 +322,19 @@ namespace RD_AAOW
 			catch
 				{
 				}
+			}
+
+		// Запрос сообщения от GMJ
+		private void GetGMJ_Click (object sender, EventArgs e)
+			{
+			GetGMJ.Enabled = false;
+			string s = Notification.GetRandomGMJ ();
+
+			if (s != "")
+				texts.Add (s);
+			else
+				texts.Add ("GMJ не вернула сообщение.Попробуйте ещё раз");
+			notNumbers.Add (0);
 			}
 		}
 	}
