@@ -1,11 +1,9 @@
 UniNotifier changes log
 
-ToDo:
-- Update templates saving
-
-Version 1.16.1:
-• Fixed GMJ message;
-• Replaced RG template due to clickbaits in previously mapped section
+Version 1.16.2:
+• Replaced RG template due to clickbaits in previously mapped section;
+• Updated templates saving algorithm;
+• Updated some tips and names
 
 Version 1.16:
 • Added ability to request random record from Grammar must joy (for ru_ru UI language only);

@@ -203,6 +203,10 @@
 • Use buttons below to view full texts and customize UniNotifier;
 • Click on notification to go to webpage from which it was received</value>
   </data>
+  <data name="LaunchMessage10" xml:space="preserve">
+    <value>;
+• Set up notification sound, vibro, lights and visibility in system menu</value>
+  </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Link</value>
   </data>

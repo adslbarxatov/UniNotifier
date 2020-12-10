@@ -21,6 +21,7 @@ namespace RD_AAOW
 		private const string externalTemplatesSubkey = "ExternalTemplates";
 		private const string externalTemplatesVersionSubkey = "ExternalTemplatesVersion";
 		private const string listLink = "https://github.com/adslbarxatov/UniNotifier/blob/master/TemplatesList.md";
+		private char[] splitters = new char[] { '\t' };
 
 		/// <summary>
 		/// Конструктор. Инициализирует список шаблонов
@@ -39,7 +40,9 @@ namespace RD_AAOW
 #else
 			byte[] s = Properties.Resources.Templates;
 			if (FullyInitializeTemplates)
+				{
 				TemplatesListLoader (null, null);
+				}
 #endif
 			string buf = Encoding.UTF8.GetString (s);
 
@@ -60,7 +63,6 @@ namespace RD_AAOW
 
 			// Разбор
 			StringReader SR = new StringReader (buf);
-			char[] splitters = new char[] { '\x9' };
 
 			// Формирование массива 
 			string str = "";
@@ -227,8 +229,21 @@ namespace RD_AAOW
 				return;
 				}
 
+			// Интерпретация (удаление лишних элементов)
+			string tmp = "", str;
+			while ((str = SR.ReadLine ()) != null)
+				{
+				string[] values = str.Split (splitters, StringSplitOptions.RemoveEmptyEntries);
+				if (values.Length != 5)
+					continue;
+
+				for (int i = 0; i < 4; i++)
+					tmp += (values[i] + splitters[0].ToString ());
+				tmp += (values[4] + "\n");
+				}
+
 			// Запись
-			string tmp = SR.ReadToEnd ().Replace ("&lt;", "<").Replace ("&gt;", ">");
+			tmp = tmp.Replace ("&lt;", "<").Replace ("&gt;", ">");
 			try
 				{
 #if ANDROID

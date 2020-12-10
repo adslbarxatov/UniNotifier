@@ -203,6 +203,10 @@
 • Используйте эти кнопки для просмотра полных текстов оповещений и настройки UniNotifier;
 • Нажимайте на оповещение, чтобы перейти на ресурс, с которого оно получено</value>
   </data>
+  <data name="LaunchMessage10" xml:space="preserve">
+    <value>;
+• Настройте звук, виброотклик, световую индикацию и видимость в системном меню</value>
+  </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Ссылка</value>
   </data>

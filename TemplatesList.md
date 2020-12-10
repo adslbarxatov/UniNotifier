@@ -1,5 +1,5 @@
 ```
-07.12.2020
+08.12.2020
 Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>	2
 Число подписчиков ВК		https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						act=members">					</em>	1
 КоммерсантЪ					https://www.kommersant.ru									from=hotnews">					</h3>	1

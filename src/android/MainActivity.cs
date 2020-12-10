@@ -272,7 +272,10 @@ namespace RD_AAOW.Droid
 				// Инициализация сообщений
 				notBuilder.SetCategory ("CategoryMessage");
 				notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
-				notBuilder.SetContentText (Localization.GetText ("LaunchMessage", al));
+
+				string launchMessage = Localization.GetText ("LaunchMessage", al) +
+					((Build.VERSION.SdkInt >= BuildVersionCodes.Q) ? Localization.GetText ("LaunchMessage10", al) : "");
+				notBuilder.SetContentText (launchMessage);
 				notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
 
 				if (Build.VERSION.SdkInt < BuildVersionCodes.O)
@@ -288,7 +291,6 @@ namespace RD_AAOW.Droid
 					notBuilder.SetPriority ((int)NotificationPriority.High);
 
 					notBuilder.SetLights (0x00FF80, 1000, 1000);
-					//notBuilder.SetOngoing (true);
 					notBuilder.SetVibrate (new long[] { 200, 600, 200 });
 
 					if (NotificationsSupport.AllowSound)
@@ -307,7 +309,7 @@ namespace RD_AAOW.Droid
 					(int)NotificationVisibility.Private);
 
 				notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
-				notTextStyle.BigText (Localization.GetText ("LaunchMessage", al));
+				notTextStyle.BigText (launchMessage);
 
 				// Основные действия управления
 				for (int i = 0; i < actIntent.Length; i++)
