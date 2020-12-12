@@ -7,17 +7,21 @@
 
 		<Label x:Name="HeaderLabel" />
 
-		<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-			<Button x:Name="LogNotification" HorizontalOptions="Center" />
-			<Button x:Name="GetGMJ" HorizontalOptions="Center" />
+		<StackLayout Orientation="Horizontal" HorizontalOptions="Fill" >
+			
+			<StackLayout Orientation="Vertical" HorizontalOptions="Start" >
+				<Button x:Name="LogNotification" HorizontalOptions="Center" />
+				<Button x:Name="GetGMJ" HorizontalOptions="Center" />
+			</StackLayout>
+
+			<ScrollView>
+				<StackLayout>
+					<Editor x:Name="MainLog" VerticalOptions="Fill" HorizontalOptions="Fill" />
+				</StackLayout>
+			</ScrollView>
+			
 		</StackLayout>
 
-		<ScrollView>
-			<StackLayout>
-				<Editor x:Name="MainLog" VerticalOptions="Fill" HorizontalOptions="Fill" />
-			</StackLayout>
-		</ScrollView>
-		
 	</StackLayout>
 </ContentPage>
     

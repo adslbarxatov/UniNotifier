@@ -333,7 +333,7 @@ namespace RD_AAOW
 			if (s != "")
 				texts.Add (s);
 			else
-				texts.Add ("GMJ не вернула сообщение.Попробуйте ещё раз");
+				texts.Add ("GMJ не вернула сообщение. Попробуйте ещё раз");
 			notNumbers.Add (0);
 			}
 		}

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--package="uninotifier.huawei" package="com.RD_AAOW.UniNotifier"-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-	android:installLocation="internalOnly" android:versionCode="600124" android:versionName="1.16.2">
+	android:installLocation="internalOnly" android:versionCode="600125" android:versionName="1.16.3">
 
 	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="29" />
 
