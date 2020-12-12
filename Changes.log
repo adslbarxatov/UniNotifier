@@ -2,7 +2,7 @@ UniNotifier changes log
 
 Version 1.16.3:
 • Updated list of known GMJ records;
-• Records reader will not lose them from the list in case of internet absence;
+• GMJ records reader will not lose them from the list in case of internet absence;
 • Updated (universalized) text processing algorithm;
 • Android: changed placement of buttons near from notifications log;
 • Some interface bugs fixed
