@@ -1,5 +1,12 @@
 UniNotifier changes log
 
+ToDo:
+- Add sharing function (with link and name);
+- Add agreement for GMJ
+
+Version 1.16.4 (preparing):
+• Added free GMJ records counter
+
 Version 1.16.3:
 • Updated list of known GMJ records;
 • GMJ records reader will not lose them from the list in case of internet absence;
