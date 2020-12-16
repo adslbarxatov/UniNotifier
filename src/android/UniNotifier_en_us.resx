@@ -262,6 +262,12 @@
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Background service:</value>
   </data>
+  <data name="ShareButton" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ShareDisclaimer" xml:space="preserve">
+    <value>Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
+  </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Notifications settings</value>
   </data>

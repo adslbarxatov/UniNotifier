@@ -302,6 +302,9 @@ namespace RD_AAOW
 
 			ApplyButtonSettings (logPage, "LogNotification", Localization.GetText ("LogNotification", al),
 				logFieldBackColor, SelectLogNotification);
+			ApplyButtonSettings (logPage, "ShareButton", Localization.GetText ("ShareButton", al),
+				logFieldBackColor, ShareText);
+
 			getGMJButton = ApplyButtonSettings (logPage, "GetGMJ", "GMJ", logFieldBackColor, GetGMJ);
 			getGMJButton.IsVisible = (al == SupportedLanguages.ru_ru);
 
@@ -674,6 +677,44 @@ namespace RD_AAOW
 			// Успешно
 			beginningField.Text = beginning;
 			endingField.Text = ending;
+			}
+
+		// Метод запускает интерфейс "Поделиться" для последней записи в журнале
+		private async void ShareText (object sender, EventArgs e)
+			{
+			// Контроль
+			if (!NotificationsSupport.ShareDisclaimerShown)
+				{
+				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("ShareDisclaimer", al), Localization.GetText ("NextButton", al));
+
+				NotificationsSupport.ShareDisclaimerShown = true;
+				}
+
+			// Получение текста
+			string text = NotificationsSupport.MasterLog;
+			int end = text.IndexOf ("\r\n\r\n\r\n");
+			if (end < 0)
+				return;
+			text = text.Substring (0, end);
+
+			// Получение ссылки
+			int i;
+			for (i = 0; i < ns.Notifications.Count; i++)
+				{
+				if (text.Contains (ns.Notifications[i].Name))
+					{
+					text += ("\r\n\r\n" + ns.Notifications[i].Link);
+					break;
+					}
+				}
+
+			// Запуск
+			await Share.RequestAsync (new ShareTextRequest
+				{
+				Text = text,
+				Title = ProgramDescription.AssemblyTitle
+				});
 			}
 
 		/// <summary>
