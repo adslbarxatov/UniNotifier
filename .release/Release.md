@@ -1,6 +1,9 @@
-_Changes for v 1.17_:
-- Added free GMJ records counter;
-- Android: added sharing function for the last message in log (with link and name);
-- Added user agreement for GMJ;
-- Updated (universalized) text processing algorithm;
-- Android: changed placement of buttons near from notifications log
+_Changes for v 1.18_:
+- Android: app will not start the background service on share button pressing (in previous
+  version this led to unpredictable result of calling of last notification's text);
+- Android: app will stop the background service if it's already started, but corresponding
+  switch is off;
+- Android: log length in now 20'000 symbols;
+- Android: log field is now customizable: read mode and font size now can be specified by user;
+- Updated list of known GMJ records;
+- Some code improvements applied

@@ -42,16 +42,19 @@ namespace RD_AAOW.Droid
 			Intent mainService = new Intent (this, typeof (MainService));
 			StopService (mainService);
 
-			// Окно настроек
+			// Выбор требуемого экрана для отображения
 			uint currentTab = 1;    // Страница настроек (по умолчанию)
-			if (Intent.GetSerializableExtra ("Tab") != null)
+			var tab = Intent.GetSerializableExtra ("Tab");
+			if (tab != null)
 				{
 				try
 					{
-					currentTab = uint.Parse (Intent.GetSerializableExtra ("Tab").ToString ());
+					currentTab = uint.Parse (tab.ToString ());
 					}
 				catch { }
 				}
+
+			// Запуск
 			LoadApplication (new App (currentTab, Build.VERSION.SdkInt < BuildVersionCodes.Q));
 			}
 
@@ -60,25 +63,20 @@ namespace RD_AAOW.Droid
 		/// </summary>
 		protected override void OnStop ()
 			{
+			Intent mainService = new Intent (this, typeof (MainService));
+
 			if (NotificationsSupport.AllowServiceToStart)
 				{
-				Intent mainService = new Intent (this, typeof (MainService));
 				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
 					StartForegroundService (mainService);
 				else
 					StartService (mainService);
-				/*ComponentName js = new ComponentName (this, Java.Lang.Class.FromType (typeof (MainService)));
-				JobInfo.Builder ji = new JobInfo.Builder (jobID, js);
+				}
 
-				ji.SetRequiresCharging (false);
-				ji.SetRequiresDeviceIdle (false);
-				ji.SetRequiredNetworkType (NetworkType.Any);
-				ji.SetPeriodic (15 * 60000);
-				ji.SetPersisted (true);
-
-				JobScheduler jsch = (JobScheduler)this.GetSystemService (Context.JobSchedulerService);
-				jsch.Schedule (ji.Build ());	// Результат пока не важен
-				*/
+			// Добавим уверенности в том, что служба не запустится, если она отключена
+			else
+				{
+				StopService (mainService);
 				}
 
 			base.OnStop ();

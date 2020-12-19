@@ -189,6 +189,9 @@
   <data name="FindDelimitersButton" xml:space="preserve">
     <value>Найти</value>
   </data>
+  <data name="FontSizeLabel" xml:space="preserve">
+    <value>Размер шрифта: </value>
+  </data>
   <data name="FreqFieldLabel" xml:space="preserve">
     <value>Обновлять каждые {0:D} минут</value>
   </data>
@@ -232,11 +235,11 @@
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Ссылка</value>
   </data>
-  <data name="LogNotification" xml:space="preserve">
-    <value>Перейти</value>
-  </data>
   <data name="LogPage" xml:space="preserve">
     <value>Журнал оповещений</value>
+  </data>
+  <data name="LogSettingsLabel" xml:space="preserve">
+    <value>Настройки журнала:</value>
   </data>
   <data name="ManualPage" xml:space="preserve">
     <value>Посмотреть руководство пользователя</value>
@@ -249,6 +252,9 @@
   </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>Одно из обязательных полей не заполнено, или ссылка на ресурс указана некорректно</value>
+  </data>
+  <data name="NotificationButton" xml:space="preserve">
+    <value>Перейти</value>
   </data>
   <data name="NotificationsSettingsLabel" xml:space="preserve">
     <value>Параметры оповещений:</value>
@@ -265,6 +271,9 @@
 • Нажмите «Принять», если Вы уже ознакомились и полностью приняли их;
 • Нажмите «Читать», если хотите открыть их в браузере;
 • Чтобы отклонить их, закройте приложение</value>
+  </data>
+  <data name="ReadModeLabel" xml:space="preserve">
+    <value>Режим чтения</value>
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Перезапустите приложение</value>

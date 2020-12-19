@@ -23,7 +23,7 @@ namespace RD_AAOW
 
 		private readonly Color
 			logMasterBackColor = Color.FromHex ("#F0F0F0"),
-			logFieldBackColor = Color.FromHex ("#D0D0D0"),
+			logFieldBackColor = Color.FromHex ("#80808080"),
 
 			solutionMasterBackColor = Color.FromHex ("#F0F8FF"),
 			solutionFieldBackColor = Color.FromHex ("#D0E8FF"),
@@ -39,9 +39,11 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage solutionPage, aboutPage, logPage;
-		private Label aboutLabel, freqFieldLabel, occFieldLabel;
-		private Switch allowStart, allowSound, allowLight, allowVibro, allowOnLockedScreen, enabledSwitch;
-		private Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton;
+		private Label aboutLabel, freqFieldLabel, occFieldLabel, fontSizeFieldLabel;
+		private Switch allowStart, allowSound, allowLight, allowVibro, allowOnLockedScreen,
+			enabledSwitch, readModeSwitch;
+		private Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
+			shareButton, notificationButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
 		private uint currentOcc, currentFreq;
 
@@ -296,17 +298,40 @@ namespace RD_AAOW
 
 			#region Страница лога приложения
 
-			mainLog = ApplyEditorSettings (logPage, "MainLog", logFieldBackColor, Keyboard.Text, 10000,
-				NotificationsSupport.MasterLog, null);
+			mainLog = (Editor)logPage.FindByName ("MainLog");
+
+			mainLog.AutoSize = EditorAutoSizeOption.TextChanges;
+			mainLog.FontAttributes = FontAttributes.None;
+			mainLog.FontFamily = "Serif";
+			mainLog.Keyboard = Keyboard.Default;
+			mainLog.MaxLength = (int)ProgramDescription.MasterLogMaxLength;
+			//childEditor.Placeholder = "...";
+			//childEditor.PlaceholderColor = Color.FromRgb (255, 255, 0);
+			mainLog.Margin = margin;
+			mainLog.Text = NotificationsSupport.MasterLog;
 			mainLog.IsReadOnly = true;
 
-			ApplyButtonSettings (logPage, "LogNotification", Localization.GetText ("LogNotification", al),
-				logFieldBackColor, SelectLogNotification);
-			ApplyButtonSettings (logPage, "ShareButton", Localization.GetText ("ShareButton", al),
+			notificationButton = ApplyButtonSettings (logPage, "NotificationButton",
+				Localization.GetText ("NotificationButton", al), logFieldBackColor, SelectLogNotification);
+			shareButton = ApplyButtonSettings (logPage, "ShareButton", Localization.GetText ("ShareButton", al),
 				logFieldBackColor, ShareText);
-
 			getGMJButton = ApplyButtonSettings (logPage, "GetGMJ", "GMJ", logFieldBackColor, GetGMJ);
 			getGMJButton.IsVisible = (al == SupportedLanguages.ru_ru);
+
+			// Настройки, связанные с журналом
+			ApplyLabelSettings (solutionPage, "LogSettingsLabel", Localization.GetText ("LogSettingsLabel", al), masterHeaderColor);
+
+			ApplyLabelSettings (solutionPage, "ReadModeLabel", Localization.GetText ("ReadModeLabel", al), masterTextColor);
+			readModeSwitch = (Switch)solutionPage.FindByName ("ReadModeSwitch");
+			readModeSwitch.IsToggled = NotificationsSupport.LogReadingMode;
+			readModeSwitch.Toggled += ReadModeSwitch_Toggled;
+			ReadModeSwitch_Toggled (null, null);
+
+			//ApplyLabelSettings (solutionPage, "FontSizeLabel", Localization.GetText ("FontSizeLabel", al), masterTextColor);
+			fontSizeFieldLabel = ApplyLabelSettings (solutionPage, "FontSizeFieldLabel", "", masterTextColor);
+			ApplyButtonSettings (solutionPage, "FontSizeIncButton", "+", solutionFieldBackColor, FontSizeChanged);
+			ApplyButtonSettings (solutionPage, "FontSizeDecButton", "–", solutionFieldBackColor, FontSizeChanged);
+			FontSizeChanged (null, null);
 
 			#endregion
 
@@ -710,11 +735,53 @@ namespace RD_AAOW
 				}
 
 			// Запуск
+			NotificationsSupport.SkipNextServiceStart ();
 			await Share.RequestAsync (new ShareTextRequest
 				{
 				Text = text,
 				Title = ProgramDescription.AssemblyTitle
 				});
+			}
+
+		// Включение / выключение светодиода
+		private void ReadModeSwitch_Toggled (object sender, ToggledEventArgs e)
+			{
+			if (e != null)
+				NotificationsSupport.LogReadingMode = readModeSwitch.IsToggled;
+
+			if (readModeSwitch.IsToggled)
+				{
+				logPage.BackgroundColor = mainLog.BackgroundColor = masterHeaderColor;
+				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
+					mainLog.TextColor = logMasterBackColor;
+				}
+			else
+				{
+				logPage.BackgroundColor = mainLog.BackgroundColor = logMasterBackColor;
+				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
+					mainLog.TextColor = masterHeaderColor;
+				}
+			}
+
+		// Изменение значения частоты опроса
+		private void FontSizeChanged (object sender, EventArgs e)
+			{
+			if (e != null)
+				{
+				Button b = (Button)sender;
+				if ((b.Text == "+") && (mainLog.FontSize < 30))
+					mainLog.FontSize += 1;
+				else if ((b.Text == "–") && (mainLog.FontSize > 10))
+					mainLog.FontSize -= 1;
+
+				NotificationsSupport.LogFontSize = (uint)mainLog.FontSize;
+				}
+			else
+				{
+				mainLog.FontSize = NotificationsSupport.LogFontSize;
+				}
+
+			fontSizeFieldLabel.Text = Localization.GetText ("FontSizeLabel", al) + mainLog.FontSize.ToString ();
 			}
 
 		/// <summary>

@@ -10,9 +10,9 @@
 		<StackLayout Orientation="Horizontal" HorizontalOptions="Fill" >
 			
 			<StackLayout Orientation="Vertical" HorizontalOptions="Start" >
-				<Button x:Name="LogNotification" HorizontalOptions="Center" />
-				<Button x:Name="GetGMJ" HorizontalOptions="Center" />
+				<Button x:Name="NotificationButton" HorizontalOptions="Center" />
 				<Button x:Name="ShareButton" HorizontalOptions="Center" />
+				<Button x:Name="GetGMJ" HorizontalOptions="Center" />
 			</StackLayout>
 
 			<ScrollView>

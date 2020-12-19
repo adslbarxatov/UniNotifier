@@ -189,6 +189,9 @@
   <data name="FindDelimitersButton" xml:space="preserve">
     <value>Find</value>
   </data>
+  <data name="FontSizeLabel" xml:space="preserve">
+    <value>Font size: </value>
+  </data>
   <data name="FreqFieldLabel" xml:space="preserve">
     <value>Update frequency: {0:D} minutes</value>
   </data>
@@ -210,11 +213,11 @@
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Link</value>
   </data>
-  <data name="LogNotification" xml:space="preserve">
-    <value>Go to</value>
-  </data>
   <data name="LogPage" xml:space="preserve">
     <value>Notifications log</value>
+  </data>
+  <data name="LogSettingsLabel" xml:space="preserve">
+    <value>Log settings:</value>
   </data>
   <data name="ManualPage" xml:space="preserve">
     <value>View user manual</value>
@@ -227,6 +230,9 @@
   </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>One of required fields is empty, or link to website is specified incorrectly</value>
+  </data>
+  <data name="NotificationButton" xml:space="preserve">
+    <value>Go to</value>
   </data>
   <data name="NotificationsSettingsLabel" xml:space="preserve">
     <value>Notifications parameters:</value>
@@ -243,6 +249,9 @@
 • Click “Accept” if you are already familiar and fully accepted them;
 • Click “Read” if you want to open them in browser;
 • To decline them, close the application</value>
+  </data>
+  <data name="ReadModeLabel" xml:space="preserve">
+    <value>Read mode</value>
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>

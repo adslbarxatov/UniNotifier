@@ -41,7 +41,32 @@
 
 			</FlexLayout>
 
+			<!-- Управление журналом -->
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="12" />
+
+			<Label x:Name="LogSettingsLabel" />
+
+			<FlexLayout Direction="Row" Wrap="Wrap" >
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="ReadModeSwitch" VerticalOptions="Center" />
+					<Label x:Name="ReadModeLabel" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="FontSizeLabel" Text="   " VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" WidthRequest="40" />
+					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" WidthRequest="40" />
+				</StackLayout>
+
+			</FlexLayout>
+
 			<!-- Управление оповещениями -->
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="12" />
+
 			<Label x:Name="NotificationsSettingsLabel" />
 
 			<StackLayout Orientation="Horizontal">
@@ -57,7 +82,7 @@
 			</FlexLayout>
 
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" />
+				WidthRequest="200" Color="#606060" Margin="6" />
 
 			<FlexLayout Direction="Row" Wrap="Wrap">
 				<StackLayout Orientation="Horizontal" Margin="3">
