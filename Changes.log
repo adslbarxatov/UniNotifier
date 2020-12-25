@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 1.18.1:
+• Updated list of known GMJ records;
+• Improved GMJ records processing algorithm
+
 Version 1.18:
 • Android: app will not start the background service on share button pressing (in previous
   version this led to unpredictable result of calling of last notification's text);

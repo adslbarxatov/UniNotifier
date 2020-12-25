@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using System.Globalization;
 
 namespace RD_AAOW
 	{
@@ -333,7 +333,7 @@ namespace RD_AAOW
 			if (s != "")
 				texts.Add (s);
 			else
-				texts.Add ("GMJ не вернула сообщение. Попробуйте ещё раз");
+				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
 			notNumbers.Add (0);
 			}
 		}

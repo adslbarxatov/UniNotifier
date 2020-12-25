@@ -505,7 +505,8 @@ namespace RD_AAOW
 
 			string s = Notification.GetRandomGMJ ();
 			if (s == "")
-				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle, "GMJ не вернула сообщение. Попробуйте ещё раз", "ОК");
+				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle, 
+					"GMJ не вернула сообщение. Проверьте интернет-соединение", "ОК");
 			else
 				mainLog.Text = NotificationsSupport.MasterLog = s + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
 
