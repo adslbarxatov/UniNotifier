@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+ToDo:
+- Make known GMJ records loadable
+
 Version 1.18.1:
 • Updated list of known GMJ records;
 • Improved GMJ records processing algorithm
