@@ -8,10 +8,16 @@
 		<Label x:Name="HeaderLabel" />
 
 		<StackLayout Orientation="Horizontal" HorizontalOptions="Fill" >
-			
+
 			<StackLayout Orientation="Vertical" HorizontalOptions="Start" >
 				<Button x:Name="NotificationButton" HorizontalOptions="Center" />
+
 				<Button x:Name="ShareButton" HorizontalOptions="Center" />
+				<StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+					<Button x:Name="ShareOffsetButton" WidthRequest="40" HeightRequest="40"/>
+					<Label x:Name="ShareOffsetLabel" VerticalOptions="Center" />
+				</StackLayout>
+
 				<Button x:Name="GetGMJ" HorizontalOptions="Center" />
 			</StackLayout>
 
@@ -20,7 +26,7 @@
 					<Editor x:Name="MainLog" VerticalOptions="Fill" HorizontalOptions="Fill" />
 				</StackLayout>
 			</ScrollView>
-			
+
 		</StackLayout>
 
 	</StackLayout>

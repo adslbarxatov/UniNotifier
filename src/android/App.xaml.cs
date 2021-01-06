@@ -39,11 +39,11 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage solutionPage, aboutPage, logPage;
-		private Label aboutLabel, freqFieldLabel, occFieldLabel, fontSizeFieldLabel;
+		private Label aboutLabel, freqFieldLabel, occFieldLabel, fontSizeFieldLabel, shareOffsetLabel;
 		private Switch allowStart, allowSound, allowLight, allowVibro, allowOnLockedScreen,
 			enabledSwitch, readModeSwitch;
 		private Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
-			shareButton, notificationButton;
+			shareButton, shareOffsetButton, notificationButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
 		private uint currentOcc, currentFreq;
 
@@ -313,8 +313,16 @@ namespace RD_AAOW
 
 			notificationButton = ApplyButtonSettings (logPage, "NotificationButton",
 				Localization.GetText ("NotificationButton", al), logFieldBackColor, SelectLogNotification);
+
 			shareButton = ApplyButtonSettings (logPage, "ShareButton", Localization.GetText ("ShareButton", al),
 				logFieldBackColor, ShareText);
+			shareOffsetButton = ApplyButtonSettings (logPage, "ShareOffsetButton", "↓", logFieldBackColor,
+				ShareOffsetButton_Clicked);
+			shareOffsetLabel = ApplyLabelSettings (logPage, "ShareOffsetLabel", "", masterTextColor);
+
+			shareButton.Margin = shareOffsetButton.Margin = shareOffsetLabel.Margin = new Thickness (1);
+			ShareOffsetButton_Clicked (null, null);
+
 			getGMJButton = ApplyButtonSettings (logPage, "GetGMJ", "GMJ", logFieldBackColor, GetGMJ);
 			getGMJButton.IsVisible = (al == SupportedLanguages.ru_ru);
 
@@ -505,7 +513,7 @@ namespace RD_AAOW
 
 			string s = Notification.GetRandomGMJ ();
 			if (s == "")
-				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle, 
+				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					"GMJ не вернула сообщение. Проверьте интернет-соединение", "ОК");
 			else
 				mainLog.Text = NotificationsSupport.MasterLog = s + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
@@ -719,13 +727,17 @@ namespace RD_AAOW
 
 			// Получение текста
 			string text = NotificationsSupport.MasterLog;
-			int end = text.IndexOf ("\r\n\r\n\r\n");
-			if (end < 0)
-				return;
-			text = text.Substring (0, end);
+			int start = 0, end = -6, i;
+			for (i = 0; i < shareOffset; i++)
+				{
+				start = end + 6;
+				end = text.IndexOf ("\r\n\r\n\r\n", start);
+				if (end < 0)
+					return;
+				}
+			text = text.Substring (start, end - start);
 
 			// Получение ссылки
-			int i;
 			for (i = 0; i < ns.Notifications.Count; i++)
 				{
 				if (text.Contains (ns.Notifications[i].Name))
@@ -742,6 +754,10 @@ namespace RD_AAOW
 				Text = text,
 				Title = ProgramDescription.AssemblyTitle
 				});
+
+			// Сброс смещения
+			shareOffset = 0;
+			ShareOffsetButton_Clicked (null, null);
 			}
 
 		// Включение / выключение светодиода
@@ -754,13 +770,13 @@ namespace RD_AAOW
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = masterHeaderColor;
 				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
-					mainLog.TextColor = logMasterBackColor;
+					mainLog.TextColor = shareOffsetButton.TextColor = shareOffsetLabel.TextColor = logMasterBackColor;
 				}
 			else
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logMasterBackColor;
 				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
-					mainLog.TextColor = masterHeaderColor;
+					mainLog.TextColor = shareOffsetButton.TextColor = shareOffsetLabel.TextColor = masterHeaderColor;
 				}
 			}
 
@@ -783,6 +799,18 @@ namespace RD_AAOW
 				}
 
 			fontSizeFieldLabel.Text = Localization.GetText ("FontSizeLabel", al) + mainLog.FontSize.ToString ();
+			}
+
+		// Изменение смещения функции share
+		private uint shareOffset = 0;
+		private void ShareOffsetButton_Clicked (object sender, EventArgs e)
+			{
+			if (shareOffset < 5)
+				shareOffset++;
+			else
+				shareOffset = 1;
+
+			shareOffsetLabel.Text = " " + shareOffset.ToString ();
 			}
 
 		/// <summary>

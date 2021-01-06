@@ -160,10 +160,13 @@
     <value>Отмена</value>
   </data>
   <data name="CommandButton0" xml:space="preserve">
-    <value>Смотреть все</value>
+    <value>Журнал</value>
   </data>
   <data name="CommandButton1" xml:space="preserve">
-    <value>Настроить</value>
+    <value>Опросить все</value>
+  </data>
+  <data name="CommandButton2" xml:space="preserve">
+    <value>Настройки</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Не забудьте заменить элементы, заключённые в фигурные скобки, на то, что Вам нужно</value>

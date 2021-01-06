@@ -1,7 +1,12 @@
 UniNotifier changes log
 
-ToDo:
-- Make known GMJ records loadable
+Version 1.19:
+• Android: added refresh button that allows user o reset notifications state and make them
+  re-request their texts again (as so as at the start of the app);
+• Android: updated buttons names on the master notification;
+• Some code improvements applied;
+• Android: added message offset for sharing function; it allows to share up to 5 first
+  notifications from the main log
 
 Version 1.18.1:
 • Updated list of known GMJ records;

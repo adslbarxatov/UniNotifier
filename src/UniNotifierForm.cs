@@ -90,7 +90,7 @@ namespace RD_AAOW
 			this.Hide ();
 
 			// Запуск
-			MainTimer.Interval = 10 * 1000;
+			MainTimer.Interval = (int)ProgramDescription.MasterTimerDelay;
 			MainTimer.Enabled = true;
 			}
 

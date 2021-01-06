@@ -160,10 +160,13 @@
     <value>Cancel</value>
   </data>
   <data name="CommandButton0" xml:space="preserve">
-    <value>View all</value>
+    <value>Log</value>
   </data>
   <data name="CommandButton1" xml:space="preserve">
-    <value>Customize</value>
+    <value>Request all</value>
+  </data>
+  <data name="CommandButton2" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces with what you want</value>
