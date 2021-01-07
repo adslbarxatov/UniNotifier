@@ -151,7 +151,7 @@
     <value>Обновить выбранное</value>
   </data>
   <data name="AppPage" xml:space="preserve">
-    <value>Перейти на страницу проекта</value>
+    <value>Страница проекта</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
     <value>Начало</value>
@@ -180,8 +180,14 @@
   <data name="DeleteMessage" xml:space="preserve">
     <value>Удалить выбранное оповещение?</value>
   </data>
+  <data name="DevPage" xml:space="preserve">
+    <value>Спросить разработчика</value>
+  </data>
   <data name="EarlierMessage" xml:space="preserve">
     <value>--- Ранее ---</value>
+  </data>
+  <data name="EmailsAreUnavailable" xml:space="preserve">
+    <value>Электронная почта недоступна на этом устройстве</value>
   </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Включено</value>
@@ -245,7 +251,7 @@
     <value>Настройки журнала:</value>
   </data>
   <data name="ManualPage" xml:space="preserve">
-    <value>Посмотреть руководство пользователя</value>
+    <value>Руководство пользователя</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Название</value>

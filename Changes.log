@@ -1,7 +1,14 @@
 UniNotifier changes log
 
+Version 1.19.1:
+• Added ability to 'ask developer' via E-mail for help, or send wish, advice or bug report;
+• Improved delimiters search and notifications processing algorithms;
+• Updated behavior of 'about' interface;
+• Android: updated runtime libraries;
+• Updated list of known GMJ records
+
 Version 1.19:
-• Android: added refresh button that allows user o reset notifications state and make them
+• Android: added refresh button that allows user to reset notifications state and make them
   re-request their texts again (as so as at the start of the app);
 • Android: updated buttons names on the master notification;
 • Some code improvements applied;

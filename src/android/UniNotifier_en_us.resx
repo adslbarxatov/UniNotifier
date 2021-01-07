@@ -151,7 +151,7 @@
     <value>Update selected</value>
   </data>
   <data name="AppPage" xml:space="preserve">
-    <value>Go to app webpage</value>
+    <value>App webpage</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
     <value>Beginning</value>
@@ -180,8 +180,14 @@
   <data name="DeleteMessage" xml:space="preserve">
     <value>Delete selected notification?</value>
   </data>
+  <data name="DevPage" xml:space="preserve">
+    <value>Ask developer</value>
+  </data>
   <data name="EarlierMessage" xml:space="preserve">
     <value>--- Earlier ---</value>
+  </data>
+  <data name="EmailsAreUnavailable" xml:space="preserve">
+    <value>E-mails are unavailable on this device</value>
   </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Enabled</value>
@@ -223,7 +229,7 @@
     <value>Log settings:</value>
   </data>
   <data name="ManualPage" xml:space="preserve">
-    <value>View user manual</value>
+    <value>User manual</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Name</value>

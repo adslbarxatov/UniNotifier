@@ -285,6 +285,8 @@ namespace RD_AAOW
 				aboutFieldBackColor, ManualButton_Clicked);
 			ApplyButtonSettings (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
 				aboutFieldBackColor, ADPButton_Clicked);
+			ApplyButtonSettings (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
+				aboutFieldBackColor, DevButton_Clicked);
 			ApplyButtonSettings (aboutPage, "CommunityPage",
 				"RD AAOW Free utilities production lab", aboutFieldBackColor, CommunityButton_Clicked);
 
@@ -434,15 +436,47 @@ namespace RD_AAOW
 			}
 
 		// Страница лаборатории
-		private void CommunityButton_Clicked (object sender, EventArgs e)
+		private async void CommunityButton_Clicked (object sender, EventArgs e)
 			{
-			Launcher.OpenAsync ("https://vk.com/rdaaow_fupl");
+			if ((al == SupportedLanguages.ru_ru) && await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					"", "ВКонтакте", "Телеграм") ||
+				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle, "", "Main community", "Telegram feed"))
+				{
+				Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-user-manuals");
+				}
+			else
+				{
+				Launcher.OpenAsync ("https://t.me/rdaaow_fupl");
+				}
 			}
 
 		// Страница политики и EULA
 		private void ADPButton_Clicked (object sender, EventArgs e)
 			{
 			Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-adp");
+			}
+
+		// Страница политики и EULA
+		private async void DevButton_Clicked (object sender, EventArgs e)
+			{
+			try
+				{
+				EmailMessage message = new EmailMessage
+					{
+					Subject = "Wish, advice or bug in " + ProgramDescription.AssemblyTitle,
+					Body = "",
+					To = new List<string> () { "adslbarxatov@gmail.com" }
+					//Cc = ccRecipients,
+					//Bcc = bccRecipients
+					};
+				await Email.ComposeAsync (message);
+				}
+			catch
+				{
+				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("EmailsAreUnavailable", al),
+					Localization.GetText ("NextButton", al));
+				}
 			}
 
 		// Выбор оповещения
