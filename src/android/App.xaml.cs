@@ -14,9 +14,6 @@ namespace RD_AAOW
 		{
 		#region Общие переменные и константы
 
-		private const int masterFontSize = 13;
-		private Thickness margin = new Thickness (6);
-
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private NotificationsSet ns = new NotificationsSet (false);
 		private int currentNotification = 0;
@@ -24,15 +21,13 @@ namespace RD_AAOW
 		private readonly Color
 			logMasterBackColor = Color.FromHex ("#F0F0F0"),
 			logFieldBackColor = Color.FromHex ("#80808080"),
+			logReadModeColor = Color.FromHex ("#202020"),
 
 			solutionMasterBackColor = Color.FromHex ("#F0F8FF"),
 			solutionFieldBackColor = Color.FromHex ("#D0E8FF"),
 
 			aboutMasterBackColor = Color.FromHex ("#F0FFF0"),
-			aboutFieldBackColor = Color.FromHex ("#D0FFD0"),
-
-			masterTextColor = Color.FromHex ("#000080"),
-			masterHeaderColor = Color.FromHex ("#202020");
+			aboutFieldBackColor = Color.FromHex ("#D0FFD0");
 
 		#endregion
 
@@ -49,93 +44,6 @@ namespace RD_AAOW
 
 		#endregion
 
-		#region Вспомогательные методы
-
-		private ContentPage ApplyPageSettings (string PageName, Color PageBackColor)
-			{
-			// Инициализация страницы
-			ContentPage page = (ContentPage)MainPage.FindByName (PageName);
-			page.Title = Localization.GetText (PageName, al);
-			page.BackgroundColor = PageBackColor;
-
-			ApplyHeaderLabelSettings (page, page.Title, PageBackColor);
-
-			return page;
-			}
-
-		private Label ApplyLabelSettings (ContentPage ParentPage, string LabelName,
-			string LabelTitle, Color LabelTextColor)
-			{
-			Label childLabel = (Label)ParentPage.FindByName (LabelName);
-
-			childLabel.Text = LabelTitle;
-			childLabel.FontAttributes = FontAttributes.Bold;
-			childLabel.FontSize = masterFontSize;
-			childLabel.TextColor = LabelTextColor;
-			childLabel.Margin = margin;
-
-			return childLabel;
-			}
-
-		private Button ApplyButtonSettings (ContentPage ParentPage, string ButtonName,
-			string ButtonTitle, Color ButtonColor, EventHandler ButtonMethod)
-			{
-			Button childButton = (Button)ParentPage.FindByName (ButtonName);
-
-			childButton.BackgroundColor = ButtonColor;
-			childButton.FontAttributes = FontAttributes.None;
-			childButton.FontSize = masterFontSize;
-			childButton.TextColor = masterTextColor;
-			childButton.TextTransform = TextTransform.None;
-			if ((ButtonTitle != "+") && (ButtonTitle != "–"))
-				childButton.Margin = margin;
-			childButton.Text = ButtonTitle;
-			if (ButtonMethod != null)
-				childButton.Clicked += ButtonMethod;
-
-			return childButton;
-			}
-
-		private Editor ApplyEditorSettings (ContentPage ParentPage, string EditorName,
-			Color EditorColor, Keyboard EditorKeyboard, uint MaxLength,
-			string InitialText, EventHandler<TextChangedEventArgs> EditMethod)
-			{
-			Editor childEditor = (Editor)ParentPage.FindByName (EditorName);
-
-			childEditor.AutoSize = EditorAutoSizeOption.TextChanges;
-			childEditor.BackgroundColor = EditorColor;
-			childEditor.FontAttributes = FontAttributes.None;
-			childEditor.FontFamily = "Serif";
-			childEditor.FontSize = masterFontSize;
-			childEditor.Keyboard = EditorKeyboard;
-			childEditor.MaxLength = (int)MaxLength;
-			//childEditor.Placeholder = "...";
-			//childEditor.PlaceholderColor = Color.FromRgb (255, 255, 0);
-			childEditor.TextColor = masterTextColor;
-			childEditor.Margin = margin;
-
-			childEditor.Text = InitialText;
-			childEditor.TextChanged += EditMethod;
-
-			return childEditor;
-			}
-
-		private void ApplyHeaderLabelSettings (ContentPage ParentPage, string LabelTitle, Color BackColor)
-			{
-			Label childLabel = (Label)ParentPage.FindByName ("HeaderLabel");
-
-			childLabel.BackgroundColor = masterHeaderColor;
-			childLabel.FontAttributes = FontAttributes.Bold;
-			childLabel.FontSize = masterFontSize;
-			childLabel.HorizontalTextAlignment = TextAlignment.Center;
-			childLabel.HorizontalOptions = LayoutOptions.Fill;
-			childLabel.Padding = margin;
-			childLabel.Text = LabelTitle;
-			childLabel.TextColor = BackColor;
-			}
-
-		#endregion
-
 		/// <summary>
 		/// Конструктор. Точка входа приложения
 		/// </summary>
@@ -149,9 +57,12 @@ namespace RD_AAOW
 			// Общая конструкция страниц приложения
 			MainPage = new MasterPage ();
 
-			solutionPage = ApplyPageSettings ("SolutionPage", solutionMasterBackColor);
-			aboutPage = ApplyPageSettings ("AboutPage", aboutMasterBackColor);
-			logPage = ApplyPageSettings ("LogPage", logMasterBackColor);
+			solutionPage = AndroidSupport.ApplyPageSettings (MainPage, "SolutionPage",
+				Localization.GetText ("SolutionPage", al), solutionMasterBackColor);
+			aboutPage = AndroidSupport.ApplyPageSettings (MainPage, "AboutPage",
+				Localization.GetText ("AboutPage", al), aboutMasterBackColor);
+			logPage = AndroidSupport.ApplyPageSettings (MainPage, "LogPage",
+				Localization.GetText ("LogPage", al), logMasterBackColor);
 
 			if (CurrentTabNumber > 1)
 				CurrentTabNumber = 1;
@@ -159,46 +70,46 @@ namespace RD_AAOW
 
 			#region Настройки службы
 
-			ApplyLabelSettings (solutionPage, "ServiceSettingsLabel", Localization.GetText ("ServiceSettingsLabel", al),
-				masterHeaderColor);
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "ServiceSettingsLabel",
+				Localization.GetText ("ServiceSettingsLabel", al), true);
 
-			ApplyLabelSettings (solutionPage, "AllowStartLabel", Localization.GetText ("AllowStartSwitch", al),
-				masterTextColor);
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowStartLabel",
+				Localization.GetText ("AllowStartSwitch", al), false);
 			allowStart = (Switch)solutionPage.FindByName ("AllowStart");
 			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
 			if (AllowNotificationSettings)
-				ApplyLabelSettings (solutionPage, "AlarmSettingsLabel", Localization.GetText ("AlarmSettingsLabel", al),
-				masterHeaderColor);
+				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AlarmSettingsLabel",
+					Localization.GetText ("AlarmSettingsLabel", al), true);
 
 			if (AllowNotificationSettings)
-				ApplyLabelSettings (solutionPage, "AllowSoundLabel", Localization.GetText ("AllowSoundSwitch", al),
-				masterTextColor);
+				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowSoundLabel",
+					Localization.GetText ("AllowSoundSwitch", al), false);
 			allowSound = (Switch)solutionPage.FindByName ("AllowSound");
 			allowSound.IsToggled = NotificationsSupport.AllowSound;
 			allowSound.Toggled += AllowSound_Toggled;
 			allowSound.IsVisible = AllowNotificationSettings;
 
 			if (AllowNotificationSettings)
-				ApplyLabelSettings (solutionPage, "AllowLightLabel", Localization.GetText ("AllowLightSwitch", al),
-				masterTextColor);
+				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowLightLabel",
+					Localization.GetText ("AllowLightSwitch", al), false);
 			allowLight = (Switch)solutionPage.FindByName ("AllowLight");
 			allowLight.IsToggled = NotificationsSupport.AllowLight;
 			allowLight.Toggled += AllowLight_Toggled;
 			allowLight.IsVisible = AllowNotificationSettings;
 
 			if (AllowNotificationSettings)
-				ApplyLabelSettings (solutionPage, "AllowVibroLabel", Localization.GetText ("AllowVibroSwitch", al),
-				masterTextColor);
+				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowVibroLabel",
+					Localization.GetText ("AllowVibroSwitch", al), false);
 			allowVibro = (Switch)solutionPage.FindByName ("AllowVibro");
 			allowVibro.IsToggled = NotificationsSupport.AllowVibro;
 			allowVibro.Toggled += AllowVibro_Toggled;
 			allowVibro.IsVisible = AllowNotificationSettings;
 
 			if (AllowNotificationSettings)
-				ApplyLabelSettings (solutionPage, "AllowOnLockedScreenLabel", Localization.GetText ("AllowOnLockedScreenSwitch", al),
-				masterTextColor);
+				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowOnLockedScreenLabel",
+					Localization.GetText ("AllowOnLockedScreenSwitch", al), false);
 			allowOnLockedScreen = (Switch)solutionPage.FindByName ("AllowOnLockedScreen");
 			allowOnLockedScreen.IsToggled = NotificationsSupport.AllowOnLockedScreen;
 			allowOnLockedScreen.Toggled += AllowOnLockedScreen_Toggled;
@@ -208,39 +119,39 @@ namespace RD_AAOW
 
 			#region Настройки оповещений
 
-			ApplyLabelSettings (solutionPage, "NotificationsSettingsLabel",
-				Localization.GetText ("NotificationsSettingsLabel", al), masterHeaderColor);
-			selectedNotification = ApplyButtonSettings (solutionPage, "SelectedNotification",
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "NotificationsSettingsLabel",
+				Localization.GetText ("NotificationsSettingsLabel", al), true);
+			selectedNotification = AndroidSupport.ApplyButtonSettings (solutionPage, "SelectedNotification",
 				"", solutionFieldBackColor, SelectNotification);
 
-			ApplyLabelSettings (solutionPage, "NameFieldLabel", Localization.GetText ("NameFieldLabel", al),
-				masterTextColor);
-			nameField = ApplyEditorSettings (solutionPage, "NameField", solutionFieldBackColor,
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "NameFieldLabel",
+				Localization.GetText ("NameFieldLabel", al), false);
+			nameField = AndroidSupport.ApplyEditorSettings (solutionPage, "NameField", solutionFieldBackColor,
 				Keyboard.Default, Notification.MaxBeginningEndingLength, "", null);
 
-			ApplyLabelSettings (solutionPage, "LinkFieldLabel", Localization.GetText ("LinkFieldLabel", al),
-				masterTextColor);
-			linkField = ApplyEditorSettings (solutionPage, "LinkField", solutionFieldBackColor,
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LinkFieldLabel",
+				Localization.GetText ("LinkFieldLabel", al), false);
+			linkField = AndroidSupport.ApplyEditorSettings (solutionPage, "LinkField", solutionFieldBackColor,
 				Keyboard.Url, 150, "", null);
 
-			ApplyLabelSettings (solutionPage, "BeginningFieldLabel", Localization.GetText ("BeginningFieldLabel", al),
-				masterTextColor);
-			beginningField = ApplyEditorSettings (solutionPage, "BeginningField", solutionFieldBackColor,
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "BeginningFieldLabel",
+				Localization.GetText ("BeginningFieldLabel", al), false);
+			beginningField = AndroidSupport.ApplyEditorSettings (solutionPage, "BeginningField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
-			ApplyLabelSettings (solutionPage, "EndingFieldLabel", Localization.GetText ("EndingFieldLabel", al),
-				masterTextColor);
-			endingField = ApplyEditorSettings (solutionPage, "EndingField", solutionFieldBackColor,
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "EndingFieldLabel",
+				Localization.GetText ("EndingFieldLabel", al), false);
+			endingField = AndroidSupport.ApplyEditorSettings (solutionPage, "EndingField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
-			freqFieldLabel = ApplyLabelSettings (solutionPage, "FreqFieldLabel", "", masterTextColor);
-			ApplyButtonSettings (solutionPage, "FreqIncButton", "+", solutionFieldBackColor, FrequencyChanged);
-			ApplyButtonSettings (solutionPage, "FreqDecButton", "–", solutionFieldBackColor, FrequencyChanged);
+			freqFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "FreqFieldLabel", "", false);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FreqIncButton", "+", solutionFieldBackColor, FrequencyChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FreqDecButton", "–", solutionFieldBackColor, FrequencyChanged);
 			currentFreq = 1;
 
-			occFieldLabel = ApplyLabelSettings (solutionPage, "OccFieldLabel", "", masterTextColor);
-			ApplyButtonSettings (solutionPage, "OccIncButton", "+", solutionFieldBackColor, OccurrenceChanged);
-			ApplyButtonSettings (solutionPage, "OccDecButton", "–", solutionFieldBackColor, OccurrenceChanged);
+			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "OccFieldLabel", "", false);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "OccIncButton", "+", solutionFieldBackColor, OccurrenceChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "OccDecButton", "–", solutionFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
 			enabledSwitch = (Switch)solutionPage.FindByName ("EnabledSwitch");
@@ -252,23 +163,23 @@ namespace RD_AAOW
 
 			#region Управление оповещениями
 
-			applyButton = ApplyButtonSettings (solutionPage, "ApplyButton", Localization.GetText ("ApplyButton", al),
-				solutionFieldBackColor, ApplyNotification);
-			addButton = ApplyButtonSettings (solutionPage, "AddButton", Localization.GetText ("AddButton", al),
-				solutionFieldBackColor, AddNotification);
-			deleteButton = ApplyButtonSettings (solutionPage, "DeleteButton", Localization.GetText ("DeleteButton", al),
-				solutionFieldBackColor, DeleteNotification);
+			applyButton = AndroidSupport.ApplyButtonSettings (solutionPage, "ApplyButton",
+				Localization.GetText ("ApplyButton", al), solutionFieldBackColor, ApplyNotification);
+			addButton = AndroidSupport.ApplyButtonSettings (solutionPage, "AddButton",
+				Localization.GetText ("AddButton", al), solutionFieldBackColor, AddNotification);
+			deleteButton = AndroidSupport.ApplyButtonSettings (solutionPage, "DeleteButton",
+				Localization.GetText ("DeleteButton", al), solutionFieldBackColor, DeleteNotification);
 
-			ApplyButtonSettings (solutionPage, "TemplateButton", Localization.GetText ("TemplateButton", al),
-				solutionFieldBackColor, LoadTemplate);
-			ApplyButtonSettings (solutionPage, "FindDelimitersButton", Localization.GetText ("FindDelimitersButton", al),
-				solutionFieldBackColor, FindDelimiters);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "TemplateButton",
+				Localization.GetText ("TemplateButton", al), solutionFieldBackColor, LoadTemplate);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FindDelimitersButton",
+				Localization.GetText ("FindDelimitersButton", al), solutionFieldBackColor, FindDelimiters);
 
 			#endregion
 
 			#region Страница "О программе"
 
-			aboutLabel = ApplyLabelSettings (aboutPage, "AboutLabel",
+			aboutLabel = AndroidSupport.ApplyLabelSettings (aboutPage, "AboutLabel",
 				ProgramDescription.AssemblyTitle + "\n" +
 				ProgramDescription.AssemblyDescription + "\n\n" +
 				ProgramDescription.AssemblyCopyright + "\nv " +
@@ -279,68 +190,61 @@ namespace RD_AAOW
 			aboutLabel.HorizontalOptions = LayoutOptions.Fill;
 			aboutLabel.HorizontalTextAlignment = TextAlignment.Center;
 
-			ApplyButtonSettings (aboutPage, "AppPage", Localization.GetText ("AppPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "AppPage", Localization.GetText ("AppPage", al),
 				aboutFieldBackColor, AppButton_Clicked);
-			ApplyButtonSettings (aboutPage, "ManualPage", Localization.GetText ("ManualPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualPage", Localization.GetText ("ManualPage", al),
 				aboutFieldBackColor, ManualButton_Clicked);
-			ApplyButtonSettings (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
 				aboutFieldBackColor, ADPButton_Clicked);
-			ApplyButtonSettings (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
 				aboutFieldBackColor, DevButton_Clicked);
-			ApplyButtonSettings (aboutPage, "CommunityPage",
+			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage",
 				"RD AAOW Free utilities production lab", aboutFieldBackColor, CommunityButton_Clicked);
 
 			UpdateButtons ();
 
-			ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
+			AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
 				aboutFieldBackColor, SelectLanguage_Clicked);
-			ApplyLabelSettings (aboutPage, "LanguageLabel", Localization.GetText ("LanguageLabel", al), masterTextColor);
+			AndroidSupport.ApplyLabelSettingsForKKT (aboutPage, "LanguageLabel",
+				Localization.GetText ("LanguageLabel", al), false);
 
 			#endregion
 
 			#region Страница лога приложения
 
-			mainLog = (Editor)logPage.FindByName ("MainLog");
-
-			mainLog.AutoSize = EditorAutoSizeOption.TextChanges;
-			mainLog.FontAttributes = FontAttributes.None;
-			mainLog.FontFamily = "Serif";
-			mainLog.Keyboard = Keyboard.Default;
-			mainLog.MaxLength = (int)ProgramDescription.MasterLogMaxLength;
-			//childEditor.Placeholder = "...";
-			//childEditor.PlaceholderColor = Color.FromRgb (255, 255, 0);
-			mainLog.Margin = margin;
-			mainLog.Text = NotificationsSupport.MasterLog;
+			mainLog = AndroidSupport.ApplyEditorSettings (logPage, "MainLog", logFieldBackColor, Keyboard.Default,
+				ProgramDescription.MasterLogMaxLength, NotificationsSupport.MasterLog, null);
 			mainLog.IsReadOnly = true;
 
-			notificationButton = ApplyButtonSettings (logPage, "NotificationButton",
+			notificationButton = AndroidSupport.ApplyButtonSettings (logPage, "NotificationButton",
 				Localization.GetText ("NotificationButton", al), logFieldBackColor, SelectLogNotification);
 
-			shareButton = ApplyButtonSettings (logPage, "ShareButton", Localization.GetText ("ShareButton", al),
+			shareButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareButton", Localization.GetText ("ShareButton", al),
 				logFieldBackColor, ShareText);
-			shareOffsetButton = ApplyButtonSettings (logPage, "ShareOffsetButton", "↓", logFieldBackColor,
+			shareOffsetButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareOffsetButton", "▼", logFieldBackColor,
 				ShareOffsetButton_Clicked);
-			shareOffsetLabel = ApplyLabelSettings (logPage, "ShareOffsetLabel", "", masterTextColor);
+			shareOffsetLabel = AndroidSupport.ApplyLabelSettingsForKKT (logPage, "ShareOffsetLabel", "", false);
 
 			shareButton.Margin = shareOffsetButton.Margin = shareOffsetLabel.Margin = new Thickness (1);
 			ShareOffsetButton_Clicked (null, null);
 
-			getGMJButton = ApplyButtonSettings (logPage, "GetGMJ", "GMJ", logFieldBackColor, GetGMJ);
+			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ", "GMJ", logFieldBackColor, GetGMJ);
 			getGMJButton.IsVisible = (al == SupportedLanguages.ru_ru);
 
 			// Настройки, связанные с журналом
-			ApplyLabelSettings (solutionPage, "LogSettingsLabel", Localization.GetText ("LogSettingsLabel", al), masterHeaderColor);
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LogSettingsLabel",
+				Localization.GetText ("LogSettingsLabel", al), true);
 
-			ApplyLabelSettings (solutionPage, "ReadModeLabel", Localization.GetText ("ReadModeLabel", al), masterTextColor);
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "ReadModeLabel",
+				Localization.GetText ("ReadModeLabel", al), false);
 			readModeSwitch = (Switch)solutionPage.FindByName ("ReadModeSwitch");
 			readModeSwitch.IsToggled = NotificationsSupport.LogReadingMode;
 			readModeSwitch.Toggled += ReadModeSwitch_Toggled;
 			ReadModeSwitch_Toggled (null, null);
 
-			//ApplyLabelSettings (solutionPage, "FontSizeLabel", Localization.GetText ("FontSizeLabel", al), masterTextColor);
-			fontSizeFieldLabel = ApplyLabelSettings (solutionPage, "FontSizeFieldLabel", "", masterTextColor);
-			ApplyButtonSettings (solutionPage, "FontSizeIncButton", "+", solutionFieldBackColor, FontSizeChanged);
-			ApplyButtonSettings (solutionPage, "FontSizeDecButton", "–", solutionFieldBackColor, FontSizeChanged);
+			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "FontSizeFieldLabel", "", false);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeIncButton", "+", solutionFieldBackColor, FontSizeChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeDecButton", "–", solutionFieldBackColor, FontSizeChanged);
 			FontSizeChanged (null, null);
 
 			#endregion
@@ -802,7 +706,7 @@ namespace RD_AAOW
 
 			if (readModeSwitch.IsToggled)
 				{
-				logPage.BackgroundColor = mainLog.BackgroundColor = masterHeaderColor;
+				logPage.BackgroundColor = mainLog.BackgroundColor = logReadModeColor;
 				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
 					mainLog.TextColor = shareOffsetButton.TextColor = shareOffsetLabel.TextColor = logMasterBackColor;
 				}
@@ -810,7 +714,7 @@ namespace RD_AAOW
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logMasterBackColor;
 				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
-					mainLog.TextColor = shareOffsetButton.TextColor = shareOffsetLabel.TextColor = masterHeaderColor;
+					mainLog.TextColor = shareOffsetButton.TextColor = shareOffsetLabel.TextColor = logReadModeColor;
 				}
 			}
 

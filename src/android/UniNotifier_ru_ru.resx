@@ -154,7 +154,7 @@
     <value>Страница проекта</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
-    <value>Начало</value>
+    <value>Начало:</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Отмена</value>
@@ -193,7 +193,7 @@
     <value>Включено</value>
   </data>
   <data name="EndingFieldLabel" xml:space="preserve">
-    <value>Конец</value>
+    <value>Конец:</value>
   </data>
   <data name="FindDelimitersButton" xml:space="preserve">
     <value>Найти</value>
@@ -242,7 +242,7 @@
 • Настройте звук, виброотклик, световую индикацию и видимость в системном меню</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Ссылка</value>
+    <value>Ссылка:</value>
   </data>
   <data name="LogPage" xml:space="preserve">
     <value>Журнал оповещений</value>
@@ -254,7 +254,7 @@
     <value>Руководство пользователя</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
-    <value>Название</value>
+    <value>Название:</value>
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>

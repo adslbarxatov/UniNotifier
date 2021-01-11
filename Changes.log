@@ -1,5 +1,16 @@
 UniNotifier changes log
 
+ToDo:
+- Add 'request all' variants
+
+Version 1.19.3:
+• Fixed appearance of degree sign;
+• Template for YR weather replaced with Mail.ru weather;
+• Android: fixed some buttons sizes and appearance
+
+Version 1.19.2:
+• Android: interface code has been improved; settings interface has been reviewed
+
 Version 1.19.1:
 • Added ability to 'ask developer' via E-mail for help, or send wish, advice or bug report;
 • Improved delimiters search and notifications processing algorithms;

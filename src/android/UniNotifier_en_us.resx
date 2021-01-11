@@ -154,7 +154,7 @@
     <value>App webpage</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
-    <value>Beginning</value>
+    <value>Beginning:</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
@@ -193,7 +193,7 @@
     <value>Enabled</value>
   </data>
   <data name="EndingFieldLabel" xml:space="preserve">
-    <value>Ending</value>
+    <value>Ending:</value>
   </data>
   <data name="FindDelimitersButton" xml:space="preserve">
     <value>Find</value>
@@ -220,7 +220,7 @@
 • Set up notification sound, vibro, lights and visibility in system menu</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Link</value>
+    <value>Link:</value>
   </data>
   <data name="LogPage" xml:space="preserve">
     <value>Notifications log</value>
@@ -232,7 +232,7 @@
     <value>User manual</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
-    <value>Name</value>
+    <value>Name:</value>
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>

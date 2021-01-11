@@ -56,9 +56,9 @@
 
 				<StackLayout Orientation="Horizontal">
 					<Label x:Name="FontSizeLabel" Text="   " VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" WidthRequest="40" />
+					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
 					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" WidthRequest="40" />
+					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
 				</StackLayout>
 
 			</FlexLayout>
@@ -84,7 +84,7 @@
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 				WidthRequest="200" Color="#606060" Margin="6" />
 
-			<FlexLayout Direction="Row" Wrap="Wrap">
+			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="NameFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="NameField" VerticalOptions="Center" />
@@ -94,7 +94,9 @@
 					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="LinkField" VerticalOptions="Center" />
 				</StackLayout>
+			</FlexLayout>
 
+			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="BeginningField" VerticalOptions="Center" />
@@ -105,22 +107,24 @@
 					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="EndingField" VerticalOptions="Center" />
 				</StackLayout>
+			</FlexLayout>
 
+			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
 				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="OccIncButton" HorizontalOptions="Start" WidthRequest="40" />
+					<Button x:Name="OccIncButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
 					<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
-					<Button x:Name="OccDecButton" HorizontalOptions="Start" WidthRequest="40" />
+					<Button x:Name="OccDecButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="FreqIncButton" HorizontalOptions="Start" WidthRequest="40" />
-					<Label x:Name="FreqFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
-						LineBreakMode="WordWrap" WidthRequest="180" HeightRequest="55" />
-					<Button x:Name="FreqDecButton" HorizontalOptions="Start" WidthRequest="40" />
+					<Button x:Name="FreqIncButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
+					<Label x:Name="FreqFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+					<!-- LineBreakMode="WordWrap" WidthRequest="180" HeightRequest="55" /> -->
+					<Button x:Name="FreqDecButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
 				</StackLayout>
 			</FlexLayout>
 
-			<Label />
+			<Label x:Name="Filler1"/>
 
 		</StackLayout>
 	</ScrollView>
