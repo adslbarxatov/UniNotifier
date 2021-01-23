@@ -229,4 +229,7 @@
 Очень надеюсь, что Вам понравится относительно грамотный юмор!
 С уважением, Nicolay B. aka RD AAOW</value>
   </data>
+  <data name="SettingsForm_SpecialNotifications" xml:space="preserve">
+    <value>Добавить оповещения с tablepedia.ru</value>
+  </data>
 </root>

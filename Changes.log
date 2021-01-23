@@ -1,7 +1,9 @@
 UniNotifier changes log
 
-ToDo:
-- Add 'request all' variants
+Version 1.20:
+• Added special notifications for tablepedia.com (and processing algorithm for special notifications as well);
+• Android: added ability to skip unchanged notifications on 'Request all' option call;
+• Android: some interface improvements applied
 
 Version 1.19.3:
 • Fixed appearance of degree sign;

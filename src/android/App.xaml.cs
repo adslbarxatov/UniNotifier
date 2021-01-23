@@ -36,7 +36,7 @@ namespace RD_AAOW
 		private ContentPage solutionPage, aboutPage, logPage;
 		private Label aboutLabel, freqFieldLabel, occFieldLabel, fontSizeFieldLabel, shareOffsetLabel;
 		private Switch allowStart, allowSound, allowLight, allowVibro, allowOnLockedScreen,
-			enabledSwitch, readModeSwitch;
+			enabledSwitch, readModeSwitch, notCompleteReset, specialNotifications;
 		private Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			shareButton, shareOffsetButton, notificationButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
@@ -114,6 +114,21 @@ namespace RD_AAOW
 			allowOnLockedScreen.IsToggled = NotificationsSupport.AllowOnLockedScreen;
 			allowOnLockedScreen.Toggled += AllowOnLockedScreen_Toggled;
 			allowOnLockedScreen.IsVisible = AllowNotificationSettings;
+
+			if (al == SupportedLanguages.ru_ru)
+				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "SpecialNotificationsLabel",
+					Localization.GetText ("SpecialNotificationsSwitch", al), false);
+			specialNotifications = (Switch)solutionPage.FindByName ("SpecialNotifications");
+			specialNotifications.IsToggled = ns.AddSpecialNotifications;
+			specialNotifications.Toggled += AddSpecialNotifications_Toggled;
+			if (al != SupportedLanguages.ru_ru)
+				specialNotifications.IsVisible = specialNotifications.IsToggled = false;
+
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "CompleteResetLabel",
+				Localization.GetText ("CompleteResetSwitch", al), false);
+			notCompleteReset = (Switch)solutionPage.FindByName ("CompleteReset");
+			notCompleteReset.IsToggled = NotificationsSupport.NotCompleteReset;
+			notCompleteReset.Toggled += CompleteReset_Toggled;
 
 			#endregion
 
@@ -281,6 +296,18 @@ namespace RD_AAOW
 		private void AllowOnLockedScreen_Toggled (object sender, ToggledEventArgs e)
 			{
 			NotificationsSupport.AllowOnLockedScreen = allowOnLockedScreen.IsToggled;
+			}
+
+		// Включение / выключение специальных оповещений
+		private void AddSpecialNotifications_Toggled (object sender, ToggledEventArgs e)
+			{
+			ns.AddSpecialNotifications = specialNotifications.IsToggled;
+			}
+
+		// Включение / выключение полного сброса при вызове функции Опросить все
+		private void CompleteReset_Toggled (object sender, ToggledEventArgs e)
+			{
+			NotificationsSupport.NotCompleteReset = notCompleteReset.IsToggled;
 			}
 
 		// Выбор языка приложения
@@ -763,7 +790,7 @@ namespace RD_AAOW
 				// при следующем запуске. Позволяет не отображать повторно все новости при вызове
 				// приложения для просмотра полных текстов
 				foreach (Notification n in ns.Notifications)
-					n.ResetTimer ();
+					n.ResetTimer (true);
 				}
 			ns.SaveNotifications ();
 

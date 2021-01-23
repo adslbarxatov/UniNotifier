@@ -100,6 +100,8 @@ namespace RD_AAOW
 			NamesCombo.Items.Clear ();
 			for (int i = 0; i < ns.Notifications.Count; i++)
 				NamesCombo.Items.Add (ns.Notifications[i].Name);
+			for (int i = 0; i < ns.SpecialNotifications.Count; i++)
+				NamesCombo.Items.Add (ns.SpecialNotifications[i].Name);
 
 			if (NamesCombo.Items.Count > 0)
 				{
@@ -252,7 +254,7 @@ namespace RD_AAOW
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 1).ToString ("D02"), al);
 
 			// Перезапуск
-			ns.ResetTimer ();
+			ns.ResetTimer (true);
 			MainTimer.Enabled = true;
 			}
 
@@ -261,7 +263,10 @@ namespace RD_AAOW
 			{
 			try
 				{
-				Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
+				if (NamesCombo.SelectedIndex < ns.Notifications.Count)
+					Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
+				else
+					Process.Start (ns.SpecialNotifications[NamesCombo.SelectedIndex - ns.Notifications.Count].Link);
 				}
 			catch
 				{

@@ -39,6 +39,16 @@
 					<Label x:Name="AllowOnLockedScreenLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="CompleteReset" VerticalOptions="Center" />
+					<Label x:Name="CompleteResetLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="SpecialNotifications" VerticalOptions="Center" />
+					<Label x:Name="SpecialNotificationsLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+				
 			</FlexLayout>
 
 			<!-- Управление журналом -->
@@ -56,9 +66,9 @@
 
 				<StackLayout Orientation="Horizontal">
 					<Label x:Name="FontSizeLabel" Text="   " VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
+					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
 					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
+					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
 				</StackLayout>
 
 			</FlexLayout>
@@ -81,6 +91,7 @@
 				<Button x:Name="DeleteButton" HorizontalOptions="Center" HeightRequest="55" />
 			</FlexLayout>
 
+			<!-- Управление отдельным оповещением -->
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 				WidthRequest="200" Color="#606060" Margin="6" />
 
@@ -90,10 +101,10 @@
 					<Editor x:Name="NameField" VerticalOptions="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal" Margin="3">
+				<FlexLayout Direction="Row" Wrap="Wrap" Margin="3">
 					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="LinkField" VerticalOptions="Center" />
-				</StackLayout>
+				</FlexLayout>
 			</FlexLayout>
 
 			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
@@ -111,16 +122,15 @@
 
 			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
 				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="OccIncButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
+					<Button x:Name="OccIncButton" HorizontalOptions="Start" />
 					<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
-					<Button x:Name="OccDecButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
+					<Button x:Name="OccDecButton" HorizontalOptions="Start" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="FreqIncButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
+					<Button x:Name="FreqIncButton" HorizontalOptions="Start" />
 					<Label x:Name="FreqFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<!-- LineBreakMode="WordWrap" WidthRequest="180" HeightRequest="55" /> -->
-					<Button x:Name="FreqDecButton" HorizontalOptions="Start" /><!--WidthRequest="40"-->
+					<Button x:Name="FreqDecButton" HorizontalOptions="Start" />
 				</StackLayout>
 			</FlexLayout>
 

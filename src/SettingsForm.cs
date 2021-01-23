@@ -21,8 +21,13 @@ namespace RD_AAOW
 			{
 			// Инициализация
 			InitializeComponent ();
+			notifications = Notifications;
+
 			this.Text = ProgramDescription.AssemblyTitle;
 			this.CancelButton = BClose;
+
+			SpecialNotifications.Checked = notifications.AddSpecialNotifications;
+			SpecialNotifications.CheckedChanged += SpecialNotifications_CheckedChanged;
 
 			LanguageCombo.Items.AddRange (Localization.LanguagesNames);
 			try
@@ -45,8 +50,6 @@ namespace RD_AAOW
 			NameText.MaxLength = BeginningText.MaxLength = EndingText.MaxLength = Notification.MaxBeginningEndingLength;
 
 			// Загрузка оповещений в список
-			notifications = Notifications;
-
 			UpdateButtons ();
 
 			for (int i = 0; i < notifications.Notifications.Count; i++)
@@ -55,7 +58,7 @@ namespace RD_AAOW
 			if (NotificationsList.Items.Count > 0)
 				NotificationsList.SelectedIndex = 0;
 
-			// Загрузка шаблонов
+			// Загрузка шаблонов и настроек
 			notifications.ReloadNotificationsTemplates ();  // При обновлении списка шаблонов "протянет" их в интерфейс
 			for (uint i = 0; i < notifications.NotificationsTemplates.TemplatesCount; i++)
 				TemplatesCombo.Items.Add (notifications.NotificationsTemplates.GetName (i));
@@ -229,6 +232,17 @@ namespace RD_AAOW
 
 			// Локализация
 			Localization.SetControlsText (this, al);
+
+			if (al == SupportedLanguages.ru_ru)
+				SpecialNotifications.Visible = true;
+			else
+				SpecialNotifications.Visible = SpecialNotifications.Checked = false;
+			}
+
+		// Изменение состояния функции специальных оповещений
+		private void SpecialNotifications_CheckedChanged (object sender, EventArgs e)
+			{
+			notifications.AddSpecialNotifications = SpecialNotifications.Checked;
 			}
 		}
 	}

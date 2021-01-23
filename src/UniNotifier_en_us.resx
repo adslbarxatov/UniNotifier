@@ -207,4 +207,7 @@ In addition, the utility automatically requests new records with specified updat
   <data name="AlreadyStarted" xml:space="preserve">
     <value>{0:S} is already running</value>
   </data>
+  <data name="SettingsForm_SpecialNotifications" xml:space="preserve">
+    <value>Enable special notifications</value>
+  </data>
 </root>

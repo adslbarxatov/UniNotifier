@@ -174,7 +174,7 @@ namespace RD_AAOW.Droid
 			// Выполнение сброса при необходимости
 			if (NotificationsSupport.ResetRequested)
 				{
-				ns.ResetTimer ();
+				ns.ResetTimer (!NotificationsSupport.NotCompleteReset);
 				NotificationsSupport.ResetRequested = false;
 				}
 

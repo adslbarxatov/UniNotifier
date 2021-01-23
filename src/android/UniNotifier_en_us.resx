@@ -168,6 +168,9 @@
   <data name="CommandButton2" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="CompleteResetSwitch" xml:space="preserve">
+    <value>Skip unchanged texts in “Request all” option</value>
+  </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces with what you want</value>
   </data>
@@ -288,6 +291,9 @@
   </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Notifications settings</value>
+  </data>
+  <data name="SpecialNotificationsSwitch" xml:space="preserve">
+    <value>Enable special notifications</value>
   </data>
   <data name="TemplateButton" xml:space="preserve">
     <value>Template</value>
