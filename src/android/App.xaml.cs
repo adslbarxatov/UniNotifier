@@ -23,8 +23,8 @@ namespace RD_AAOW
 			logFieldBackColor = Color.FromHex ("#80808080"),
 			logReadModeColor = Color.FromHex ("#202020"),
 
-			solutionMasterBackColor = Color.FromHex ("#F0F8FF"),
-			solutionFieldBackColor = Color.FromHex ("#D0E8FF"),
+			solutionMasterBackColor = Color.FromHex ("#FFF8F0"),
+			solutionFieldBackColor = Color.FromHex ("#FFE8D0"),
 
 			aboutMasterBackColor = Color.FromHex ("#F0FFF0"),
 			aboutFieldBackColor = Color.FromHex ("#D0FFD0");
@@ -143,11 +143,13 @@ namespace RD_AAOW
 				Localization.GetText ("NameFieldLabel", al), false);
 			nameField = AndroidSupport.ApplyEditorSettings (solutionPage, "NameField", solutionFieldBackColor,
 				Keyboard.Default, Notification.MaxBeginningEndingLength, "", null);
+			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LinkFieldLabel",
-				Localization.GetText ("LinkFieldLabel", al), false);
+			/*AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LinkFieldLabel",
+				Localization.GetText ("LinkFieldLabel", al), false);*/
 			linkField = AndroidSupport.ApplyEditorSettings (solutionPage, "LinkField", solutionFieldBackColor,
 				Keyboard.Url, 150, "", null);
+			linkField.Placeholder = Localization.GetText ("LinkFieldPlaceholder", al);
 
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "BeginningFieldLabel",
 				Localization.GetText ("BeginningFieldLabel", al), false);
@@ -230,6 +232,7 @@ namespace RD_AAOW
 			mainLog = AndroidSupport.ApplyEditorSettings (logPage, "MainLog", logFieldBackColor, Keyboard.Default,
 				ProgramDescription.MasterLogMaxLength, NotificationsSupport.MasterLog, null);
 			mainLog.IsReadOnly = true;
+			mainLog.Placeholder = Localization.GetText ("MainLogPlaceholder", al);
 
 			notificationButton = AndroidSupport.ApplyButtonSettings (logPage, "NotificationButton",
 				Localization.GetText ("NotificationButton", al), logFieldBackColor, SelectLogNotification);
@@ -789,7 +792,9 @@ namespace RD_AAOW
 				// Сброс текстов при отключении приложения, чтобы обеспечить повтор новостей
 				// при следующем запуске. Позволяет не отображать повторно все новости при вызове
 				// приложения для просмотра полных текстов
-				foreach (Notification n in ns.Notifications)
+				foreach (INotification n in ns.Notifications)
+					n.ResetTimer (true);
+				foreach (INotification n in ns.SpecialNotifications)
 					n.ResetTimer (true);
 				}
 			ns.SaveNotifications ();

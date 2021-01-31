@@ -101,10 +101,10 @@
 					<Editor x:Name="NameField" VerticalOptions="Center" />
 				</StackLayout>
 
-				<FlexLayout Direction="Row" Wrap="Wrap" Margin="3">
-					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<!--<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />-->
 					<Editor x:Name="LinkField" VerticalOptions="Center" />
-				</FlexLayout>
+				</StackLayout>
 			</FlexLayout>
 
 			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">

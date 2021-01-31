@@ -187,7 +187,11 @@ namespace RD_AAOW.Droid
 			notBuilder.SetContentText (newText);
 			notTextStyle.BigText (newText);
 
-			NotificationsSupport.CurrentLink = ns.Notifications[ns.CurrentNotificationNumber].Link;
+			if (ns.CurrentNotificationNumber < ns.Notifications.Count)
+				NotificationsSupport.CurrentLink = ns.Notifications[ns.CurrentNotificationNumber].Link;
+			else
+				NotificationsSupport.CurrentLink = ns.SpecialNotifications[ns.CurrentSpecialNotificationNumber].Link;
+
 			if (DateTime.Today > lastNotStamp)
 				{
 				if (NotificationsSupport.MasterLog != "")

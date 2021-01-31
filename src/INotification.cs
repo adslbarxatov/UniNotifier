@@ -5,7 +5,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Интерфейс описывает общий функционал для оповещений всех типов
 	/// </summary>
-	public interface INotification: IDisposable
+	public interface INotification: IDisposable, IComparable, IEquatable<object>
 		{
 		/// <summary>
 		/// Возвращает признак начала искомого участка страницы
@@ -79,13 +79,6 @@ namespace RD_AAOW
 			{
 			get;
 			}
-
-		/// <summary>
-		/// Метод выполняет сравнение данного экземпляра с указанным
-		/// </summary>
-		/// <param name="OtherEx">Экземпляр для сравнения</param>
-		/// <returns>Возвращает true, если экземпляры соответствуют друг другу согласно правилам программы</returns>
-		bool Equals (object OtherEx);
 
 		/// <summary>
 		/// Метод сбрасывает счётчик отображения оповещения

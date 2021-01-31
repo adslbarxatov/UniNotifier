@@ -222,7 +222,10 @@ namespace RD_AAOW
 			if (newText != "")
 				{
 				texts.Add (newText);
-				notNumbers.Add (ns.CurrentNotificationNumber);
+				if (ns.CurrentNotificationNumber < ns.Notifications.Count)
+					notNumbers.Add (ns.CurrentNotificationNumber);
+				else
+					notNumbers.Add (ns.Notifications.Count + ns.CurrentSpecialNotificationNumber);
 				}
 
 			e.Result = null;
