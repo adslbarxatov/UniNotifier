@@ -190,7 +190,7 @@
     <value>--- Ранее ---</value>
   </data>
   <data name="EmailsAreUnavailable" xml:space="preserve">
-    <value>Электронная почта недоступна на этом устройстве</value>
+    <value>Почтовый агент отсутствует на этом устройстве</value>
   </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Включено</value>
@@ -237,7 +237,7 @@
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Служба оповещений начала наблюдение...
-• Используйте эти кнопки для просмотра полных текстов оповещений и настройки UniNotifier;
+• Используйте эти кнопки для просмотра журнала оповещений и настройки UniNotifier;
 • Нажимайте на оповещение, чтобы перейти на ресурс, с которого оно получено</value>
   </data>
   <data name="LaunchMessage10" xml:space="preserve">
@@ -329,7 +329,7 @@
   <data name="Tip01" xml:space="preserve">
     <value>Здесь Вы можете задать настройки уведомлений.
 
-Переход к настройкам и полным текстам оповещений будет приостанавливать фоновую службу. Она продолжит работу после закрытия / сворачивания формы настроек</value>
+Переход к настройкам и журналу оповещений будет приостанавливать фоновую службу. Она продолжит работу после закрытия / сворачивания формы</value>
   </data>
   <data name="Tip02" xml:space="preserve">
     <value>ВНИМАНИЕ!
@@ -345,5 +345,8 @@
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Здравствуйте, уважаемый пользователь!</value>
+  </data>
+  <data name="WebIsUnavailable" xml:space="preserve">
+    <value>Веб-браузер отсутствует на этом устройстве</value>
   </data>
 </root>

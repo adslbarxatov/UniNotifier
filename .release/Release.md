@@ -1,5 +1,14 @@
-_Changes for v 1.21_:
-- Created notifications will now be sorted in alphabet direction automatically (disabled ones will be moved to the end of list);
-- Update counter has been rebuilt: now new notifications will be shown without pauses for disabled and unchanged texts;
-- Added special notifications for tablepedia.com (and processing algorithm for special notifications as well);
-- Android: added ability to skip unchanged notifications on 'Request all' option call
+_Changes for v 2.0b_:
+- Android: 'Tablepedia notifier has been implemented;
+- Android: fixed potential fails on clicking links without browser that can process them;
+- Android: fixed share function for the first 5 notifications in the main log;
+- Other code improvements applied;
+- Windows: new icon added;
+- Android: notification service has been partially rebuilt:
+    - now it will finish itself asap on StopRequest event;
+    - settings interface will emit this event instead of trying to stop the service from the outside;
+    - app behavior on connection speeds lower than 500 kb/s is now more stable; it still can be slow in some cases, but it must not fail the app (ANR error in previous version);
+- Android: new app icon applied;
+- Some variables have been removed from saved settings (they aren't required there, and it can increase processing speed);
+- Android: some tips have been updated;
+- Some code improvements applied

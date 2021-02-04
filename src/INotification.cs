@@ -102,6 +102,15 @@ namespace RD_AAOW
 			get;
 			set;
 			}
+
+		/// <summary>
+		/// Возвращает или задаёт ссылку для перехода к оповещению
+		/// </summary>
+		string UnprocessedLink
+			{
+			get;
+			set;
+			}
 #endif
 		}
 	}

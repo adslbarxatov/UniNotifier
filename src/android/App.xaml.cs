@@ -145,8 +145,6 @@ namespace RD_AAOW
 				Keyboard.Default, Notification.MaxBeginningEndingLength, "", null);
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
-			/*AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LinkFieldLabel",
-				Localization.GetText ("LinkFieldLabel", al), false);*/
 			linkField = AndroidSupport.ApplyEditorSettings (solutionPage, "LinkField", solutionFieldBackColor,
 				Keyboard.Url, 150, "", null);
 			linkField.Placeholder = Localization.GetText ("LinkFieldPlaceholder", al);
@@ -358,36 +356,72 @@ namespace RD_AAOW
 			}
 
 		// Страница проекта
-		private void AppButton_Clicked (object sender, EventArgs e)
+		private async void AppButton_Clicked (object sender, EventArgs e)
 			{
-			Launcher.OpenAsync ("https://github.com/adslbarxatov/" + ProgramDescription.AssemblyMainName);
+			try
+				{
+				Launcher.OpenAsync ("https://github.com/adslbarxatov/" + ProgramDescription.AssemblyMainName);
+				}
+			catch
+				{
+				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("WebIsUnavailable", al),
+					Localization.GetText ("NextButton", al));
+				}
 			}
 
 		// Страница видеоруководства
-		private void ManualButton_Clicked (object sender, EventArgs e)
+		private async void ManualButton_Clicked (object sender, EventArgs e)
 			{
-			Launcher.OpenAsync (ProgramDescription.AboutLink);
+			try
+				{
+				Launcher.OpenAsync (ProgramDescription.AboutLink);
+				}
+			catch
+				{
+				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("WebIsUnavailable", al),
+					Localization.GetText ("NextButton", al));
+				}
 			}
 
 		// Страница лаборатории
 		private async void CommunityButton_Clicked (object sender, EventArgs e)
 			{
-			if ((al == SupportedLanguages.ru_ru) && await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					"", "ВКонтакте", "Телеграм") ||
-				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle, "", "Main community", "Telegram feed"))
+			try
 				{
-				Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-user-manuals");
+				if ((al == SupportedLanguages.ru_ru) && await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+						"", "ВКонтакте", "Телеграм") ||
+					await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle, "", "Main community", "Telegram feed"))
+					{
+					Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-user-manuals");
+					}
+				else
+					{
+					Launcher.OpenAsync ("https://t.me/rdaaow_fupl");
+					}
 				}
-			else
+			catch
 				{
-				Launcher.OpenAsync ("https://t.me/rdaaow_fupl");
+				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("WebIsUnavailable", al),
+					Localization.GetText ("NextButton", al));
 				}
 			}
 
 		// Страница политики и EULA
-		private void ADPButton_Clicked (object sender, EventArgs e)
+		private async void ADPButton_Clicked (object sender, EventArgs e)
 			{
-			Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-adp");
+			try
+				{
+				Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-adp");
+				}
+			catch
+				{
+				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					Localization.GetText ("WebIsUnavailable", al),
+					Localization.GetText ("NextButton", al));
+				}
 			}
 
 		// Страница политики и EULA
@@ -479,6 +513,7 @@ namespace RD_AAOW
 			{
 			getGMJButton.IsEnabled = false;
 
+			NotificationsSupport.StopRequested = false; // Разблокировка метода GetHTML
 			string s = Notification.GetRandomGMJ ();
 			if (s == "")
 				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
@@ -701,7 +736,10 @@ namespace RD_AAOW
 				start = end + 6;
 				end = text.IndexOf ("\r\n\r\n\r\n", start);
 				if (end < 0)
-					return;
+					{
+					end = text.Length - 1;
+					break;
+					}
 				}
 			text = text.Substring (start, end - start);
 

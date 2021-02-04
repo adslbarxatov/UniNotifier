@@ -21,9 +21,15 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает загрузчик приложения
 	/// </summary>
+#if TABLEPEDIA
+	[Activity (Label = "Tablepedia notifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+		ScreenOrientation = ScreenOrientation.Landscape)]
+#else
 	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
 		ScreenOrientation = ScreenOrientation.Landscape)]
+#endif
 	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
@@ -39,8 +45,9 @@ namespace RD_AAOW.Droid
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
 
 			// Остановка службы для настройки
-			Intent mainService = new Intent (this, typeof (MainService));
-			StopService (mainService);
+			/*Intent mainService = new Intent (this, typeof (MainService));
+			StopService (mainService);*/
+			NotificationsSupport.StopRequested = true;
 
 			// Выбор требуемого экрана для отображения
 			uint currentTab = 1;    // Страница настроек (по умолчанию)
@@ -67,6 +74,7 @@ namespace RD_AAOW.Droid
 
 			if (NotificationsSupport.AllowServiceToStart)
 				{
+				NotificationsSupport.StopRequested = false;
 				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
 					StartForegroundService (mainService);
 				else
@@ -76,7 +84,8 @@ namespace RD_AAOW.Droid
 			// Добавим уверенности в том, что служба не запустится, если она отключена
 			else
 				{
-				StopService (mainService);
+				//StopService (mainService);
+				NotificationsSupport.StopRequested = true;
 				}
 
 			base.OnStop ();
@@ -122,7 +131,11 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
+#if TABLEPEDIA
+	[Service (Name = "com.RD_AAOW.TablepediaNotifier", Label = "Tablepedia notifier", Icon = "@mipmap/icon", Exported = true)]
+#else
 	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier", Icon = "@mipmap/icon", Exported = true)]
+#endif
 	public class MainService: global::Android.App.Service
 		{
 		// Основной набор оповещений
@@ -163,14 +176,32 @@ namespace RD_AAOW.Droid
 					if (isStarted)
 						{
 						TimerTick ();
-						handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay);
+						handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay / timerDividerLimit);
 						}
 				});
 			}
 
 		// Основной метод службы
+		private byte timerDivider = 0;
+		private const byte timerDividerLimit = 4;
 		private void TimerTick ()
 			{
+			// Контроль требования завершения службы
+			if (NotificationsSupport.StopRequested)
+				{
+				Intent mainService = new Intent (this, typeof (MainService));
+				StopService (mainService);
+
+				NotificationsSupport.StopRequested = false;
+				return;
+				}
+
+			// Делитель таймера (для корректной работы прерывателя)
+			if (timerDivider++ >= timerDividerLimit)
+				timerDivider = 0;
+			else
+				return;
+
 			// Выполнение сброса при необходимости
 			if (NotificationsSupport.ResetRequested)
 				{
@@ -187,10 +218,7 @@ namespace RD_AAOW.Droid
 			notBuilder.SetContentText (newText);
 			notTextStyle.BigText (newText);
 
-			if (ns.CurrentNotificationNumber < ns.Notifications.Count)
-				NotificationsSupport.CurrentLink = ns.Notifications[ns.CurrentNotificationNumber].Link;
-			else
-				NotificationsSupport.CurrentLink = ns.SpecialNotifications[ns.CurrentSpecialNotificationNumber].Link;
+			NotificationsSupport.CurrentLink = ns.CurrentLink;
 
 			if (DateTime.Today > lastNotStamp)
 				{
@@ -358,11 +386,16 @@ namespace RD_AAOW.Droid
 			masterPendingIntent = PendingIntent.GetService (this, 10, masterIntent, 0);
 			notBuilder.SetContentIntent (masterPendingIntent);
 
-			// Инициализация оповещений и запроса шаблонов
+			// Инициализация оповещений
+#if TABLEPEDIA
+			ns = new NotificationsSet ();
+#else
+			// ...и запроса шаблонов
 			ns = new NotificationsSet (true);
+#endif
 
 			// Запуск петли
-			handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay);
+			handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay / timerDividerLimit);
 			isStarted = true;
 
 			return StartCommandResult.Sticky;
@@ -392,6 +425,13 @@ namespace RD_AAOW.Droid
 			foreach (PendingIntent pi in actPendingIntent)
 				pi.Dispose ();
 
+			// Глушение
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+				StopForeground (StopForegroundFlags.Remove);
+			else
+				StopForeground (true);
+			StopSelf ();
+
 			// Стандартная обработка
 			base.OnDestroy ();
 			}
@@ -410,14 +450,18 @@ namespace RD_AAOW.Droid
 		/// </summary>
 		public override void OnTaskRemoved (Intent rootIntent)
 			{
-			//base.OnTaskRemoved(rootIntent);
+			//base.OnTaskRemoved (rootIntent);
 			}
 		}
 
 	/// <summary>
 	/// Класс описывает задание на открытие веб-ссылки
 	/// </summary>
+#if TABLEPEDIA
+	[Service (Name = "com.RD_AAOW.TablepediaNotifierLink", Label = "TablepediaNotifierLink", Icon = "@mipmap/icon")]
+#else
 	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink", Icon = "@mipmap/icon")]
+#endif
 	public class NotificationLink: IntentService
 		{
 		/// <summary>
@@ -432,15 +476,23 @@ namespace RD_AAOW.Droid
 		/// </summary>
 		protected override void OnHandleIntent (Intent intent)
 			{
-			if (NotificationsSupport.CurrentLink != "")
-				Launcher.OpenAsync (NotificationsSupport.CurrentLink);
+			try
+				{
+				if (NotificationsSupport.CurrentLink != "")
+					Launcher.OpenAsync (NotificationsSupport.CurrentLink);
+				}
+			catch { }
 			}
 		}
 
 	/// <summary>
 	/// Класс описывает задание на сброс состояния оповещений
 	/// </summary>
+#if TABLEPEDIA
+	[Service (Name = "com.RD_AAOW.TablepediaNotifierReset", Label = "TablepediaNotifierReset", Icon = "@mipmap/icon")]
+#else
 	[Service (Name = "com.RD_AAOW.UniNotifierReset", Label = "UniNotifierReset", Icon = "@mipmap/icon")]
+#endif
 	public class NotificationReset: IntentService
 		{
 		/// <summary>
@@ -462,7 +514,11 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает приёмник события окончания загрузки ОС
 	/// </summary>
+#if TABLEPEDIA
+	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierBoot", Label = "TablepediaNotifierBoot", Icon = "@mipmap/icon")]
+#else
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot", Icon = "@mipmap/icon")]
+#endif
 	public class BootReceiver: BroadcastReceiver
 		{
 		/// <summary>

@@ -190,7 +190,7 @@
     <value>--- Earlier ---</value>
   </data>
   <data name="EmailsAreUnavailable" xml:space="preserve">
-    <value>E-mails are unavailable on this device</value>
+    <value>This device has no mail agent</value>
   </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Enabled</value>
@@ -215,7 +215,7 @@
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service has started monitoring...
-• Use buttons below to view full texts and customize UniNotifier;
+• Use buttons below to view main log and customize UniNotifier;
 • Click on notification to go to webpage from which it was received</value>
   </data>
   <data name="LaunchMessage10" xml:space="preserve">
@@ -307,7 +307,7 @@
   <data name="Tip01" xml:space="preserve">
     <value>Here you can configure notifications settings.
 
-Going to settings and full texts will pause the background service. It will continue working after closing / hiding the settings window</value>
+Going to settings and main log will pause the background service. It will continue working after closing / hiding this window</value>
   </data>
   <data name="Tip02" xml:space="preserve">
     <value>WARNING!
@@ -323,5 +323,8 @@ Going to settings and full texts will pause the background service. It will cont
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Hello, dear user!</value>
+  </data>
+  <data name="WebIsUnavailable" xml:space="preserve">
+    <value>This device has no web browser</value>
   </data>
 </root>
