@@ -11,9 +11,9 @@ Controllable notifications service
 # Tablepedia notifier v 2.0b
 
 
-[Tablepedia](http://tablepedia.com) notifications service
+[Tablepedia.com](http://tablepedia.com) notifications service
 
-Служба оповещений для [Tablepedia](http://tablepedia.com)
+Служба оповещений для [Tablepedia.com](http://tablepedia.com)
 
 
 
