@@ -7,6 +7,16 @@ Controllable notifications service
 Служба настраиваемых оповещений
 
 
+
+# Tablepedia notifier v 2.0b
+
+
+[Tablepedia](http://tablepedia.com) notifications service
+
+Служба оповещений для [Tablepedia](http://tablepedia.com)
+
+
+
 ## Description
 
 This utility provides ability to receive notifications about changes in state of monitored web pages
