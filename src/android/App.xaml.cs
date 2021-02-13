@@ -202,7 +202,6 @@ namespace RD_AAOW
 				"; " + ProgramDescription.AssemblyLastUpdate,
 				Color.FromHex ("#000080"));
 			aboutLabel.FontAttributes = FontAttributes.Bold;
-			aboutLabel.HorizontalOptions = LayoutOptions.Fill;
 			aboutLabel.HorizontalTextAlignment = TextAlignment.Center;
 
 			AndroidSupport.ApplyButtonSettings (aboutPage, "AppPage", Localization.GetText ("AppPage", al),

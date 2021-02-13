@@ -3,6 +3,12 @@ UniNotifier changes log
 ToDo:
 - Share notification settings
 
+Version 2.1:
+• GMJ records update algorithm has been improved: now it will automatically check for new items every week and add them to the list
+  (instead of waiting for the end of list to rebuild with new elements). Check will only be performed when GMJ button is pressed;
+• New GMJ known records list applied;
+• Android: interface libraries have been updated
+
 Version 2.0b:
 • Android: 'Tablepedia notifier has been implemented;
 • Android: fixed potential fails on clicking links without browser that can process them;

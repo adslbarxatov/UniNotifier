@@ -1,5 +1,5 @@
-# UniNotifier v 2.0b
-> PCC: 0002D20E81419000
+# UniNotifier v 2.1
+> PCC: 0002D40D8EC6323B
 
 
 Controllable notifications service
@@ -49,12 +49,14 @@ if available, displays the appropriate notifications
 
 - Windows version requires Windows XP or newer, Framework 4.0 or newer. Interface languages: ru_ru, en_us;
 - [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 6.0 or newer. Interface languages: ru_ru, en_us;
+- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.TablepediaNotifier) of Tablepedia notifier also requires OS 6.0 or newer. Interface language: ru_ru;
 - Application available in AppGallery
 
 #
 
 - Для Windows-версии требуется ОС Windows XP или новее, Framework 4.0 или новее. Языки интерфейса: ru_ru, en_us;
 - Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 6.0 или новее. Языки интерфейса: ru_ru, en_us;
+- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.TablepediaNotifier) Tablepedia notifier также требуется ОС версии 6.0 или новее. Язык интерфейса: ru_ru;
 - Приложение доступно в AppGallery
 
 &nbsp;
