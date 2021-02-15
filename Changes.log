@@ -3,6 +3,14 @@ UniNotifier changes log
 ToDo:
 - Share notification settings
 
+Version 2.1.2r:
+• Added support for Android 5 (Lollipop);
+• Fixed some interface bugs
+
+Version 2.1.2:
+• Updated share offset controller;
+• Tablepedia: added links page that will collect URLs of biographies' pages
+
 Version 2.1:
 • GMJ records update algorithm has been improved: now it will automatically check for new items every week and add them to the list
   (instead of waiting for the end of list to rebuild with new elements). Check will only be performed when GMJ button is pressed;
