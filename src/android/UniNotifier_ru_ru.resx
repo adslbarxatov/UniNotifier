@@ -168,6 +168,15 @@
   <data name="CommandButton2" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="CommunitySelect" xml:space="preserve">
+    <value>Выберите сообщество:</value>
+  </data>
+  <data name="CommunityTG" xml:space="preserve">
+    <value>Телеграм</value>
+  </data>
+  <data name="CommunityVK" xml:space="preserve">
+    <value>ВКонтакте</value>
+  </data>
   <data name="CompleteResetSwitch" xml:space="preserve">
     <value>Пропускать неизменившиеся тексты в опции «Опросить все»</value>
   </data>
@@ -237,7 +246,7 @@
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Служба оповещений начала наблюдение...
-• Используйте эти кнопки для просмотра журнала оповещений и настройки UniNotifier;
+• Используйте эти кнопки для просмотра журнала оповещений и настройки приложения;
 • Нажимайте на оповещение, чтобы перейти на ресурс, с которого оно получено</value>
   </data>
   <data name="LaunchMessage10" xml:space="preserve">
@@ -246,6 +255,9 @@
   </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
+  </data>
+  <data name="LoadTemplateButton" xml:space="preserve">
+    <value>Get</value>
   </data>
   <data name="LogPage" xml:space="preserve">
     <value>Журнал оповещений</value>
@@ -267,6 +279,9 @@
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="NoTemplateInClipboard" xml:space="preserve">
+    <value>В буфере обмена не найдено совместимых шаблонов уведомлений. Скопируйте строку шаблона в буфер и повторите попытку</value>
   </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>Одно из обязательных полей не заполнено, или ссылка на ресурс указана некорректно</value>
@@ -317,14 +332,23 @@
   <data name="ShareDisclaimer" xml:space="preserve">
     <value>Обратите внимание, что приложение добавляет к оповещениям, которыми Вы делитесь, ссылки на источники информации (в целях соблюдения прав авторов). Рекомендуется не удалять их при распространении текстов с помощью этой функции</value>
   </data>
+  <data name="ShareTemplateButton" xml:space="preserve">
+    <value>Share</value>
+  </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Настройки оповещений</value>
   </data>
   <data name="SpecialNotificationsSwitch" xml:space="preserve">
     <value>Получать оповещения с tablepedia.com</value>
   </data>
-  <data name="TemplateButton" xml:space="preserve">
-    <value>Шаблон</value>
+  <data name="TemplateClipboard" xml:space="preserve">
+    <value>Из буфера обмена</value>
+  </data>
+  <data name="TemplateList" xml:space="preserve">
+    <value>Из шаблона</value>
+  </data>
+  <data name="TemplateSelect" xml:space="preserve">
+    <value>Откуда следует получить настройки:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
     <value>Здесь Вы можете задать настройки уведомлений.

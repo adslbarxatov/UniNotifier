@@ -168,6 +168,15 @@
   <data name="CommandButton2" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="CommunitySelect" xml:space="preserve">
+    <value>Select community:</value>
+  </data>
+  <data name="CommunityTG" xml:space="preserve">
+    <value>Telegram feed</value>
+  </data>
+  <data name="CommunityVK" xml:space="preserve">
+    <value>Main community</value>
+  </data>
   <data name="CompleteResetSwitch" xml:space="preserve">
     <value>Skip unchanged texts in “Request all” option</value>
   </data>
@@ -215,7 +224,7 @@
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service has started monitoring...
-• Use buttons below to view main log and customize UniNotifier;
+• Use buttons below to view main log and customize the application;
 • Click on notification to go to webpage from which it was received</value>
   </data>
   <data name="LaunchMessage10" xml:space="preserve">
@@ -224,6 +233,9 @@
   </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
+  </data>
+  <data name="LoadTemplateButton" xml:space="preserve">
+    <value>Get</value>
   </data>
   <data name="LogPage" xml:space="preserve">
     <value>Notifications log</value>
@@ -245,6 +257,9 @@
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="NoTemplateInClipboard" xml:space="preserve">
+    <value>No compatible notification templates found in the clipboard. Copy template string to clipboard and try again</value>
   </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>One of required fields is empty, or link to website is specified incorrectly</value>
@@ -295,14 +310,23 @@
   <data name="ShareDisclaimer" xml:space="preserve">
     <value>Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
   </data>
+  <data name="ShareTemplateButton" xml:space="preserve">
+    <value>Share</value>
+  </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Notifications settings</value>
   </data>
   <data name="SpecialNotificationsSwitch" xml:space="preserve">
     <value>Enable special notifications</value>
   </data>
-  <data name="TemplateButton" xml:space="preserve">
-    <value>Template</value>
+  <data name="TemplateClipboard" xml:space="preserve">
+    <value>From the clipboard</value>
+  </data>
+  <data name="TemplateList" xml:space="preserve">
+    <value>From the template</value>
+  </data>
+  <data name="TemplateSelect" xml:space="preserve">
+    <value>Where to get the settings:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
     <value>Here you can configure notifications settings.

@@ -1,7 +1,9 @@
 UniNotifier changes log
 
-ToDo:
-- Share notification settings
+Version 2.2:
+• Added ability to share notification settings as parameters strings; this string may be received by used
+  (through any possible channel), copied to clipboard and loaded by UniNotifier;
+• Applying notifications templates and getting settings from the clipboard are now available under Get button
 
 Version 2.1.2r:
 • Added support for Android 5 (Lollipop);

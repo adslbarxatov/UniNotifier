@@ -82,7 +82,8 @@
 			<StackLayout Orientation="Horizontal">
 				<Button x:Name="SelectedNotification" HorizontalOptions="FillAndExpand" />
 				<Switch x:Name="EnabledSwitch" VerticalOptions="Center" HorizontalOptions="End" Rotation="270" />
-				<Button x:Name="TemplateButton" HorizontalOptions="End" />
+				<Button x:Name="LoadTemplateButton" HorizontalOptions="End" />
+				<Button x:Name="ShareTemplateButton" HorizontalOptions="End" />
 			</StackLayout>
 
 			<FlexLayout Direction="Row" Wrap="NoWrap" JustifyContent="Center">

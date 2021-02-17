@@ -45,12 +45,14 @@ namespace RD_AAOW.Droid
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
 
 			// Остановка службы для настройки
-			/*Intent mainService = new Intent (this, typeof (MainService));
-			StopService (mainService);*/
 			NotificationsSupport.StopRequested = true;
 
 			// Выбор требуемого экрана для отображения
+#if TABLEPEDIA
+			uint currentTab = 2;    // Страница настроек (по умолчанию)
+#else
 			uint currentTab = 1;    // Страница настроек (по умолчанию)
+#endif
 			var tab = Intent.GetSerializableExtra ("Tab");
 			if (tab != null)
 				{
@@ -84,7 +86,6 @@ namespace RD_AAOW.Droid
 			// Добавим уверенности в том, что служба не запустится, если она отключена
 			else
 				{
-				//StopService (mainService);
 				NotificationsSupport.StopRequested = true;
 				}
 
@@ -354,7 +355,11 @@ namespace RD_AAOW.Droid
 				if (i != 1)
 					{
 					actIntent[i] = new Intent (this, typeof (MainActivity));
+#if TABLEPEDIA
+					actIntent[i].PutExtra ("Tab", i);
+#else
 					actIntent[i].PutExtra ("Tab", i / 2);
+#endif
 					actPendingIntent[i] = PendingIntent.GetActivity (this, i, actIntent[i], 0);
 					}
 				else
