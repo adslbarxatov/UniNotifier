@@ -1,7 +1,15 @@
 UniNotifier changes log
 
+Version 2.2.2:
+• Android: third try to fix app failure on long list of unchanged notifications:
+  - only 5 unchanged notifications will be processed in a row;
+  - single entrance protection moved to GetHTML method;
+  - GetHTML method now releases resources properly;
+• Android: background service will now be properly terminated on app resume (when it haven't been closed);
+• Android: some interface fixes applied
+
 Version 2.2:
-• Added ability to share notification settings as parameters strings; this string may be received by used
+• Added ability to share notification settings as parameters strings; this string may be received by user
   (through any possible channel), copied to clipboard and loaded by UniNotifier;
 • Applying notifications templates and getting settings from the clipboard are now available under Get button
 
@@ -20,7 +28,7 @@ Version 2.1:
 • Android: interface libraries have been updated
 
 Version 2.0b:
-• Android: 'Tablepedia notifier has been implemented;
+• Android: "Tablepedia notifier" has been implemented;
 • Android: fixed potential fails on clicking links without browser that can process them;
 • Android: fixed share function for the first 5 notifications in the main log;
 • Other code improvements applied;
@@ -66,7 +74,7 @@ Version 1.19:
   re-request their texts again (as so as at the start of the app);
 • Android: updated buttons names on the master notification;
 • Some code improvements applied;
-• Android: added message offset for sharing function; it allows to share up to 5 first
+• Android: added message offset for sharing function; it allows sharing up to 5 first
   notifications from the main log
 
 Version 1.18.1:
@@ -110,7 +118,7 @@ Version 1.16:
 Version 1.15.2:
 • Android: trying to solve problem with notifications attributes (vibro, lights, sounds);
 • Android: added new startup tips;
-• Windows: fixed bug in Policy acception interface that disallowed to accept it in offline mode at first start
+• Windows: fixed bug in Policy acceptation interface that disallowed to accept it in offline mode at first start
 
 Version 1.15:
 • Added templates loader. Now extended notification templates will be received
