@@ -47,11 +47,11 @@ namespace RD_AAOW.Droid
 			// Остановка службы для настройки
 			NotificationsSupport.StopRequested = true;
 
-			// Выбор требуемого экрана для отображения
+			// Выбор требуемого экрана для отображения (по умолчанию - страница настроек)
 #if TABLEPEDIA
-			uint currentTab = 2;    // Страница настроек (по умолчанию)
+			uint currentTab = 2;    
 #else
-			uint currentTab = 1;    // Страница настроек (по умолчанию)
+			uint currentTab = 1;
 #endif
 			var tab = Intent.GetSerializableExtra ("Tab");
 			if (tab != null)
@@ -90,6 +90,17 @@ namespace RD_AAOW.Droid
 				}
 
 			base.OnStop ();
+			}
+
+		/// <summary>
+		/// Перезапуск основного приложения
+		/// </summary>
+		protected override void OnResume ()
+			{
+			// Остановка службы для настройки (в случае сворачивания и возврата)
+			NotificationsSupport.StopRequested = true;
+
+			base.OnResume ();
 			}
 		}
 

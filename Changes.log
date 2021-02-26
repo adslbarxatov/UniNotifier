@@ -1,7 +1,10 @@
 UniNotifier changes log
 
+Version 2.2.3:
+• Notifications processing fixup (eliminates repeating messages with the same texts)
+
 Version 2.2.2:
-• Android: third try to fix app failure on long list of unchanged notifications:
+• Third try to fix app failure on long list of unchanged notifications:
   - only 5 unchanged notifications will be processed in a row;
   - single entrance protection moved to GetHTML method;
   - GetHTML method now releases resources properly;
