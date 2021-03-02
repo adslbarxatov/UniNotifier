@@ -333,7 +333,7 @@ namespace RD_AAOW
 		private void GetGMJ_Click (object sender, EventArgs e)
 			{
 			GetGMJ.Enabled = false;
-			string s = Notification.GetRandomGMJ ();
+			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
 				texts.Add (s);

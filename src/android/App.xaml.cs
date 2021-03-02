@@ -513,7 +513,7 @@ namespace RD_AAOW
 			getGMJButton.IsEnabled = false;
 
 			NotificationsSupport.StopRequested = false; // Разблокировка метода GetHTML
-			string s = Notification.GetRandomGMJ ();
+			string s = GMJ.GetRandomGMJ ();
 			if (s == "")
 				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					"GMJ не вернула сообщение. Проверьте интернет-соединение", "ОК");

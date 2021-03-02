@@ -1,5 +1,12 @@
 UniNotifier changes log
 
+Version 2.3:
+• Android: fixed master timer malfunction that changed default 5m interval to 6m15s;
+• Improved GMJ processing algorithm: now it will clear missing numbers in new records according to known records template;
+• Confirmed absence of 'fall asleep' problem on Android 10: app continues getting notifications when the screen turns off;
+• Some code improvements applied;
+• Updated list of known GMJ records
+
 Version 2.2.3:
 • Notifications processing fixup (eliminates repeating messages with the same texts)
 

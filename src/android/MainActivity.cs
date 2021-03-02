@@ -208,11 +208,10 @@ namespace RD_AAOW.Droid
 				return;
 				}
 
-			// Делитель таймера (для корректной работы прерывателя)
-			if (timerDivider++ >= timerDividerLimit)
-				timerDivider = 0;
-			else
+			// Делитель таймера (для корректной работы завершения службы)
+			if (++timerDivider < timerDividerLimit)
 				return;
+			timerDivider = 0;
 
 			// Выполнение сброса при необходимости
 			if (NotificationsSupport.ResetRequested)

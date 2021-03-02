@@ -335,7 +335,7 @@ Going to settings and main log will pause the background service. It will contin
   </data>
   <data name="Tip02" xml:space="preserve">
     <value>WARNING!
-1. App can only receive notifications if your device is on charge and / or the screen is not in sleep mode.
+1. App can only receive notifications if your device is on charge and / or the screen is not in sleep mode (not actual for Android 10).
 2. Some devices require manual setting of notification attributes (vibro, lights, sounds). App settings may not work.
 3. Some devices require manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app</value>
   </data>
