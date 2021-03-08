@@ -19,15 +19,58 @@ using Xamarin.Essentials;
 namespace RD_AAOW.Droid
 	{
 	/// <summary>
+	/// Класс описывает набор состояний сборки
+	/// </summary>
+	public static class UniNotifierGenerics
+		{
+		/// <summary>
+		/// Возвращает true, если в данной версии ОС оповещения можно настроить из приложения
+		/// </summary>
+		public static bool AreNotificationsConfigurable
+			{
+			get
+				{
+				return (Build.VERSION.SdkInt < BuildVersionCodes.Q);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает true, если в данной версии ОС доступен полноценный режим Foreground.
+		/// Также возвращает true, если в системе доступен объект NotificationChannel
+		/// </summary>
+		public static bool IsForegroundAvailable
+			{
+			get
+				{
+				return (Build.VERSION.SdkInt >= BuildVersionCodes.O);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает true, если в данной версии ОС большая иконка оповещений необходима
+		/// для их корректного отображения
+		/// </summary>
+		public static bool IsLargeIconRequired
+			{
+			get
+				{
+				return (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop) &&
+				((DeviceInfo.Idiom == DeviceIdiom.Desktop) || (DeviceInfo.Idiom == DeviceIdiom.Tablet) ||
+				(DeviceInfo.Idiom == DeviceIdiom.TV) || (Build.VERSION.SdkInt < BuildVersionCodes.N));
+				}
+			}
+		}
+
+	/// <summary>
 	/// Класс описывает загрузчик приложения
 	/// </summary>
 #if TABLEPEDIA
 	[Activity (Label = "Tablepedia notifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true,
 		ScreenOrientation = ScreenOrientation.Landscape)]
 #else
 	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true,
 		ScreenOrientation = ScreenOrientation.Landscape)]
 #endif
 	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
@@ -64,7 +107,8 @@ namespace RD_AAOW.Droid
 				}
 
 			// Запуск
-			LoadApplication (new App (currentTab, Build.VERSION.SdkInt < BuildVersionCodes.Q));
+			LoadApplication (new App (currentTab, UniNotifierGenerics.AreNotificationsConfigurable,
+				UniNotifierGenerics.IsForegroundAvailable));
 			}
 
 		/// <summary>
@@ -77,7 +121,7 @@ namespace RD_AAOW.Droid
 			if (NotificationsSupport.AllowServiceToStart)
 				{
 				NotificationsSupport.StopRequested = false;
-				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+				if (UniNotifierGenerics.IsForegroundAvailable)
 					StartForegroundService (mainService);
 				else
 					StartService (mainService);
@@ -107,7 +151,7 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает экран-заставку приложения
 	/// </summary>
-	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
+	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true, Exported = true,
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class SplashActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
@@ -132,6 +176,7 @@ namespace RD_AAOW.Droid
 		protected override void OnResume ()
 			{
 			base.OnResume ();
+
 			Task startup = new Task (() =>
 				{
 					StartActivity (new Intent (Application.Context, typeof (MainActivity)));
@@ -144,9 +189,11 @@ namespace RD_AAOW.Droid
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 #if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifier", Label = "Tablepedia notifier", Icon = "@mipmap/icon", Exported = true)]
+	[Service (Name = "com.RD_AAOW.TablepediaNotifier", Label = "Tablepedia notifier", 
+		Icon = "@mipmap/icon", Exported = true)]
 #else
-	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier", Icon = "@mipmap/icon", Exported = true)]
+	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier",
+		Icon = "@mipmap/icon", Exported = true)]
 #endif
 	public class MainService: global::Android.App.Service
 		{
@@ -284,7 +331,7 @@ namespace RD_AAOW.Droid
 			notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName.ToLower ());
 
 			// Создание канала (для Android O и выше)
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+			if (UniNotifierGenerics.IsForegroundAvailable)
 				{
 				NotificationChannel channel = new NotificationChannel (ProgramDescription.AssemblyMainName.ToLower (),
 					ProgramDescription.AssemblyMainName, NotificationImportance.High);
@@ -318,15 +365,17 @@ namespace RD_AAOW.Droid
 				}
 
 			// Инициализация сообщений
-			notBuilder.SetCategory ("CategoryMessage");
+			notBuilder.SetCategory ("msg");     // Категория "сообщение"
 			notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
 
 			string launchMessage = Localization.GetText ("LaunchMessage", al) +
-				((Build.VERSION.SdkInt >= BuildVersionCodes.Q) ? Localization.GetText ("LaunchMessage10", al) : "");
+				(UniNotifierGenerics.AreNotificationsConfigurable ? "" : Localization.GetText ("LaunchMessage10", al));
 			notBuilder.SetContentText (launchMessage);
 			notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
+			notBuilder.SetTicker (ProgramDescription.AssemblyTitle);
 
-			if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+			// Настройка видимости для стартового сообщения
+			if (!UniNotifierGenerics.IsForegroundAvailable)
 				{
 				notBuilder.SetDefaults (0);         // Для служебного сообщения
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
@@ -346,9 +395,7 @@ namespace RD_AAOW.Droid
 				}
 
 			notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
-			if ((Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop) &&
-				((DeviceInfo.Idiom == DeviceIdiom.Desktop) || (DeviceInfo.Idiom == DeviceIdiom.Tablet) ||
-				(DeviceInfo.Idiom == DeviceIdiom.TV) || (Build.VERSION.SdkInt < BuildVersionCodes.N)))
+			if (UniNotifierGenerics.IsLargeIconRequired)
 				{
 				notBuilder.SetLargeIcon (BitmapFactory.DecodeResource (this.Resources, Resource.Drawable.ic_not_large));
 				}
@@ -386,19 +433,17 @@ namespace RD_AAOW.Droid
 			StartForeground (notServiceID, notification);
 
 			// Перенастройка для основного режима
-			if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+			if (!UniNotifierGenerics.IsForegroundAvailable)
 				{
 				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
 					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
 					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
 				}
-			else
-				{
-				}
 
+			// Прикрепление ссылки для перехода
 			masterIntent = new Intent (this, typeof (NotificationLink));
-			masterPendingIntent = PendingIntent.GetService (this, 10, masterIntent, 0);
+			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
 			notBuilder.SetContentIntent (masterPendingIntent);
 
 			// Инициализация оповещений
@@ -424,7 +469,7 @@ namespace RD_AAOW.Droid
 			// Остановка службы
 			handler.RemoveCallbacks (runnable);
 			notManager.Cancel (notServiceID);
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+			if (UniNotifierGenerics.IsForegroundAvailable)
 				notManager.DeleteNotificationChannel (ProgramDescription.AssemblyMainName.ToLower ());
 			isStarted = false;
 
@@ -441,7 +486,7 @@ namespace RD_AAOW.Droid
 				pi.Dispose ();
 
 			// Глушение
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+			if (UniNotifierGenerics.IsForegroundAvailable)
 				StopForeground (StopForegroundFlags.Remove);
 			else
 				StopForeground (true);
@@ -473,9 +518,11 @@ namespace RD_AAOW.Droid
 	/// Класс описывает задание на открытие веб-ссылки
 	/// </summary>
 #if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifierLink", Label = "TablepediaNotifierLink", Icon = "@mipmap/icon")]
+	[Service (Name = "com.RD_AAOW.TablepediaNotifierLink", Label = "TablepediaNotifierLink", 
+		Icon = "@mipmap/icon", Exported = true)]
 #else
-	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink", Icon = "@mipmap/icon")]
+	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink",
+		Icon = "@mipmap/icon", Exported = true)]
 #endif
 	public class NotificationLink: IntentService
 		{
@@ -504,9 +551,11 @@ namespace RD_AAOW.Droid
 	/// Класс описывает задание на сброс состояния оповещений
 	/// </summary>
 #if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifierReset", Label = "TablepediaNotifierReset", Icon = "@mipmap/icon")]
+	[Service (Name = "com.RD_AAOW.TablepediaNotifierReset", Label = "TablepediaNotifierReset", 
+		Icon = "@mipmap/icon", Exported = true)]
 #else
-	[Service (Name = "com.RD_AAOW.UniNotifierReset", Label = "UniNotifierReset", Icon = "@mipmap/icon")]
+	[Service (Name = "com.RD_AAOW.UniNotifierReset", Label = "UniNotifierReset",
+		Icon = "@mipmap/icon", Exported = true)]
 #endif
 	public class NotificationReset: IntentService
 		{
@@ -530,9 +579,11 @@ namespace RD_AAOW.Droid
 	/// Класс описывает приёмник события окончания загрузки ОС
 	/// </summary>
 #if TABLEPEDIA
-	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierBoot", Label = "TablepediaNotifierBoot", Icon = "@mipmap/icon")]
+	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierBoot", Label = "TablepediaNotifierBoot", 
+		Icon = "@mipmap/icon", Exported = true)]
 #else
-	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot", Icon = "@mipmap/icon")]
+	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot",
+		Icon = "@mipmap/icon", Exported = true)]
 #endif
 	public class BootReceiver: BroadcastReceiver
 		{
@@ -548,11 +599,38 @@ namespace RD_AAOW.Droid
 				intent.Action.Equals (Intent.ActionReboot, StringComparison.CurrentCultureIgnoreCase))
 				{
 				Intent mainService = new Intent (context, typeof (MainService));
-				if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+				if (UniNotifierGenerics.IsForegroundAvailable)
 					context.StartForegroundService (mainService);
 				else
 					context.StartService (mainService);
 				}
+			}
+		}
+
+	/// <summary>
+	/// Класс описывает приёмник события входа в систему
+	/// </summary>
+#if TABLEPEDIA
+	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierWake", Label = "TablepediaNotifierWake", 
+		Icon = "@mipmap/icon", Exported = true)]
+#else
+	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierWake", Label = "UniNotifierWake",
+		Icon = "@mipmap/icon", Exported = true)]
+#endif
+	public class WakeReceiver: BroadcastReceiver
+		{
+		/// <summary>
+		/// Обработчик события наступления события входа в систему
+		/// </summary>
+		public override void OnReceive (Context context, Intent intent)
+			{
+			if ((Battery.PowerSource != BatteryPowerSource.Battery) ||
+				!NotificationsSupport.RequestOnUnlock ||
+				!NotificationsSupport.AllowServiceToStart || (intent == null))
+				return;
+
+			if (intent.Action.Equals (Intent.ActionUserPresent, StringComparison.CurrentCultureIgnoreCase))
+				NotificationsSupport.ResetRequested = true;
 			}
 		}
 	}

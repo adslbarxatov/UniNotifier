@@ -1,5 +1,5 @@
-# UniNotifier v 2.3
-> PCC: 0002D80DA47ADC3C
+# UniNotifier v 2.4.1
+> PCC: 0002D80FC99D9D16
 
 
 Controllable notifications service
@@ -8,7 +8,7 @@ Controllable notifications service
 
 
 
-# Tablepedia notifier v 2.2.3
+# Tablepedia notifier v 2.4.1
 
 
 [Tablepedia.com](http://tablepedia.com) notifications service

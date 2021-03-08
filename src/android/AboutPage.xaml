@@ -4,7 +4,7 @@
              x:Class="RD_AAOW.AboutPage">
 
 	<StackLayout>
-		
+
 		<Label x:Name="HeaderLabel" />
 
 		<ScrollView>
@@ -19,7 +19,11 @@
 					<Button x:Name="LanguageSelector" />
 				</StackLayout>
 
-				<Button x:Name="ManualPage" HorizontalOptions="Center" />
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+					<Button x:Name="ManualPage" HorizontalOptions="Center" />
+					<Button x:Name="ResetTips" HorizontalOptions="Center" />
+				</StackLayout>
+
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#606060" Margin="9" />
 

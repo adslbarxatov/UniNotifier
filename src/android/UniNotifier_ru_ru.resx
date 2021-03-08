@@ -123,9 +123,6 @@
   <data name="AcceptButton" xml:space="preserve">
     <value>Принять</value>
   </data>
-  <data name="AddButton" xml:space="preserve">
-    <value>Добавить как новое</value>
-  </data>
   <data name="ADPPage" xml:space="preserve">
     <value>Политика и EULA</value>
   </data>
@@ -147,9 +144,6 @@
   <data name="AllowVibroSwitch" xml:space="preserve">
     <value>Вибрацию</value>
   </data>
-  <data name="ApplyButton" xml:space="preserve">
-    <value>Обновить выбранное</value>
-  </data>
   <data name="AppPage" xml:space="preserve">
     <value>Страница проекта</value>
   </data>
@@ -163,7 +157,7 @@
     <value>Журнал</value>
   </data>
   <data name="CommandButton1" xml:space="preserve">
-    <value>Опросить все</value>
+    <value>Обновить</value>
   </data>
   <data name="CommandButton2" xml:space="preserve">
     <value>Настройки</value>
@@ -186,9 +180,6 @@
   <data name="DeclineButton" xml:space="preserve">
     <value>Читать</value>
   </data>
-  <data name="DeleteButton" xml:space="preserve">
-    <value>Удалить выбранное</value>
-  </data>
   <data name="DeleteMessage" xml:space="preserve">
     <value>Удалить выбранное оповещение?</value>
   </data>
@@ -207,8 +198,8 @@
   <data name="EndingFieldLabel" xml:space="preserve">
     <value>Конец:</value>
   </data>
-  <data name="FindDelimitersButton" xml:space="preserve">
-    <value>Найти</value>
+  <data name="FindDisclaimer" xml:space="preserve">
+    <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Размер шрифта: </value>
@@ -238,9 +229,6 @@
 Очень надеюсь, что Вам понравится относительно грамотный юмор!
 С уважением, Nicolay B. aka RD AAOW</value>
   </data>
-  <data name="KeywordNotSpecified" xml:space="preserve">
-    <value>В поле «Начало» не указано ключевое слово для поиска</value>
-  </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Язык интерфейса:</value>
   </data>
@@ -255,9 +243,6 @@
   </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
-  </data>
-  <data name="LoadTemplateButton" xml:space="preserve">
-    <value>Get</value>
   </data>
   <data name="LogPage" xml:space="preserve">
     <value>Журнал оповещений</value>
@@ -308,6 +293,12 @@
   <data name="ReadModeLabel" xml:space="preserve">
     <value>Режим чтения</value>
   </data>
+  <data name="RequestOnWakeSwitch" xml:space="preserve">
+    <value>Автоматический опрос при работе от батареи</value>
+  </data>
+  <data name="ResetTips" xml:space="preserve">
+    <value>Показать подсказки заново</value>
+  </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Перезапустите приложение</value>
   </data>
@@ -326,15 +317,6 @@
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Фоновая служба:</value>
   </data>
-  <data name="ShareButton" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="ShareDisclaimer" xml:space="preserve">
-    <value>Обратите внимание, что приложение добавляет к оповещениям, которыми Вы делитесь, ссылки на источники информации (в целях соблюдения прав авторов). Рекомендуется не удалять их при распространении текстов с помощью этой функции</value>
-  </data>
-  <data name="ShareTemplateButton" xml:space="preserve">
-    <value>Share</value>
-  </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Настройки оповещений</value>
   </data>
@@ -351,24 +333,66 @@
     <value>Откуда следует получить настройки:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Здесь Вы можете задать настройки уведомлений.
+    <value>Добро пожаловать в UniNotifier! Здесь Вы можете настроить службу уведомлений.
 
-Переход к настройкам и журналу оповещений будет приостанавливать фоновую службу. Она продолжит работу после закрытия / сворачивания формы</value>
+Переход к этим настройкам и журналу оповещений будет приостанавливать фоновую службу, наблюдающую за обновлениями. Она продолжит работу после закрытия / сворачивания приложения</value>
   </data>
-  <data name="Tip02" xml:space="preserve">
-    <value>ВНИМАНИЕ!
-1. Приложение может получать уведомления, только если устройство подключено к электросети и/или экран не находится в спящем режиме (неактуально для Android 10).
-2. Некоторые устройства требуют ручной настройки атрибутов уведомлений (вибро, свет, звуки). Настройки приложения могут не действовать.
-3. Некоторые устройства требуют ручного разрешения на доступ в интернет (например, если активен режим экономии интернет-трафика)</value>
+  <data name="Tip02_1" xml:space="preserve">
+    <value>Внимание!
+</value>
+  </data>
+  <data name="Tip02_2" xml:space="preserve">
+    <value>• Приложение может получать уведомления, только если устройство подключено к электросети и/или экран не находится в спящем режиме.
+</value>
+  </data>
+  <data name="Tip02_3" xml:space="preserve">
+    <value>• Ваше устройство требует ручной настройки атрибутов уведомлений (вибро, свет, звуки). Не забудьте настроить их.
+</value>
+  </data>
+  <data name="Tip02_4" xml:space="preserve">
+    <value>• Некоторые устройства требуют ручного разрешения на доступ в интернет (например, если активен режим экономии интернет-трафика). Проверьте его, если уведомления не будут работать</value>
   </data>
   <data name="Tip03" xml:space="preserve">
-    <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
+    <value>Подробная инструкция по настройке службы доступна на YouTube. Смахните этот экран вправо до страницы сведений о приложении и выберите видеоруководство пользователя.
+
+Журнал уведомлений доступен слева от этого экрана настроек</value>
   </data>
-  <data name="Tip04" xml:space="preserve">
-    <value>Подробная инструкция по настройке службы доступна на YouTube. Смахните экран вправо до страницы сведений о приложении и выберите видеоруководство пользователя</value>
+  <data name="Tip04_1" xml:space="preserve">
+    <value>Эта кнопка позволяет применить изменения, выполненные ниже, к текущему выбранному уведомлению</value>
+  </data>
+  <data name="Tip04_10" xml:space="preserve">
+    <value>Эта кнопка позволяет выбрать уведомление, источник которого будет открыт в браузере</value>
+  </data>
+  <data name="Tip04_11" xml:space="preserve">
+    <value>Эта кнопка позволяет выбрать уведомление для настройки</value>
+  </data>
+  <data name="Tip04_12" xml:space="preserve">
+    <value>Данная опция при работе от аккумулятора позволяет автоматически обновлять состояние оповещений при разблокировке устройства.
+Заданный при этом период обновления будет действовать только при активном экране; в режиме ожидания он будет игнорироваться.
+При подключённом зарядном устройстве данная опция не будет иметь эффекта</value>
+  </data>
+  <data name="Tip04_2" xml:space="preserve">
+    <value>Эта кнопка позволяет вам поделиться настройками текущего уведомления</value>
+  </data>
+  <data name="Tip04_3" xml:space="preserve">
+    <value>Эта кнопка позволяет добавить новое уведомление с настройками, представленными ниже</value>
+  </data>
+  <data name="Tip04_4" xml:space="preserve">
+    <value>Эта кнопка позволяет удалить выбранное уведомление</value>
+  </data>
+  <data name="Tip04_5" xml:space="preserve">
+    <value>Эта кнопка позволяет загружать настройки из шаблона уведомления или полученных настроек</value>
+  </data>
+  <data name="Tip04_6" xml:space="preserve">
+    <value>Эта кнопка позволяет автоматически находить разделители для нового уведомления (подробности см. в руководстве пользователя)</value>
+  </data>
+  <data name="Tip04_7" xml:space="preserve">
+    <value>Эти кнопки позволяют выбрать, каким уведомлением (начиная с верхней части журнала) Вы хотите поделиться.
+
+Обратите внимание, что приложение добавляет к оповещениям, которыми Вы делитесь, ссылки на источники информации (в целях соблюдения прав авторов). Рекомендуется не удалять их при распространении текстов с помощью этой функции</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
-    <value>Здравствуйте, уважаемый пользователь!</value>
+    <value>Подсказка №</value>
   </data>
   <data name="WebIsUnavailable" xml:space="preserve">
     <value>Веб-браузер отсутствует на этом устройстве</value>

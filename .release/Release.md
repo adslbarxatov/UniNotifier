@@ -1,12 +1,8 @@
-_Changes for v 2.3_:
-- Android: fixed master timer malfunction that changed default 5m interval to 6m15s;
-- Improved GMJ processing algorithm: now it will clear missing numbers in new records according to known records template;
-- Confirmed absence of 'fall asleep' problem on Android 10: app continues getting notifications when the screen turns off;
-- Some code improvements applied;
-- Updated list of known GMJ records;
-- Notifications processing fixup applied (eliminates repeating messages with the same texts);
-- Third try to fix app failure on long list of unchanged notifications:
-    - only 5 unchanged notifications will be processed in a row;
-    - single entrance protection moved to GetHTML method;
-    - GetHTML method now releases resources properly;
-- Android: background service will now be properly terminated on app resume (when it haven't been closed)
+_Changes for v 2.4.1_:
+- Android: due to inability to make the foreground service work properly we've added the option that allows user to force notifications refresh on device unlock. It will take effect only when device is on battery power and is sleeping. Otherwise, update rate parameter will have priority;
+- Android: changed some buttons placements and icons; settings interface has been reviewed;
+- Android: startup tips have been updated;
+- Android: some code improvements applied;
+- Android: added tips for all buttons in settings interface (except of GMJ and 'about' controls);
+- Android: some interface bugs fixed;
+- Android: fixed master timer malfunction that changed default 5m interval to 6m15s

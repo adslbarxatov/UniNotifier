@@ -34,9 +34,9 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage solutionPage, aboutPage, logPage;
-		private Label aboutLabel, freqFieldLabel, occFieldLabel, fontSizeFieldLabel, shareOffsetLabel;
+		private Label aboutLabel, freqFieldLabel, occFieldLabel, fontSizeFieldLabel;
 		private Switch allowStart, allowSound, allowLight, allowVibro, allowOnLockedScreen,
-			enabledSwitch, readModeSwitch, notCompleteReset, specialNotifications;
+			enabledSwitch, readModeSwitch, notCompleteReset, specialNotifications, requestOnWake;
 		private Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			shareButton, shareOffsetButton, notificationButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
@@ -49,7 +49,8 @@ namespace RD_AAOW
 		/// </summary>
 		/// <param name="CurrentTabNumber">Номер текущей вкладки при старте</param>
 		/// <param name="AllowNotificationSettings">Флаг, указывающий на возможность настройки оповещений из приложения</param>
-		public App (uint CurrentTabNumber, bool AllowNotificationSettings)
+		/// <param name="AllowForeground">Флаг, указывающий на возможность работы в ждущем режиме</param>
+		public App (uint CurrentTabNumber, bool AllowNotificationSettings, bool AllowForeground)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -73,6 +74,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "ServiceSettingsLabel",
 				Localization.GetText ("ServiceSettingsLabel", al), true);
 
+			//////
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowStartLabel",
 				Localization.GetText ("AllowStartSwitch", al), false);
 			allowStart = (Switch)solutionPage.FindByName ("AllowStart");
@@ -83,52 +85,94 @@ namespace RD_AAOW
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AlarmSettingsLabel",
 					Localization.GetText ("AlarmSettingsLabel", al), true);
 
+			//////
+			allowSound = (Switch)solutionPage.FindByName ("AllowSound");
 			if (AllowNotificationSettings)
+				{
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowSoundLabel",
 					Localization.GetText ("AllowSoundSwitch", al), false);
-			allowSound = (Switch)solutionPage.FindByName ("AllowSound");
-			allowSound.IsToggled = NotificationsSupport.AllowSound;
-			allowSound.Toggled += AllowSound_Toggled;
+				allowSound.IsToggled = NotificationsSupport.AllowSound;
+				allowSound.Toggled += AllowSound_Toggled;
+				}
+			else
+				{
+				allowSound.IsToggled = NotificationsSupport.AllowSound = true;
+				}
 			allowSound.IsVisible = AllowNotificationSettings;
 
+			//////
+			allowLight = (Switch)solutionPage.FindByName ("AllowLight");
 			if (AllowNotificationSettings)
+				{
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowLightLabel",
 					Localization.GetText ("AllowLightSwitch", al), false);
-			allowLight = (Switch)solutionPage.FindByName ("AllowLight");
-			allowLight.IsToggled = NotificationsSupport.AllowLight;
-			allowLight.Toggled += AllowLight_Toggled;
+				allowLight.IsToggled = NotificationsSupport.AllowLight;
+				allowLight.Toggled += AllowLight_Toggled;
+				}
+			else
+				{
+				allowLight.IsToggled = NotificationsSupport.AllowLight = true;
+				}
 			allowLight.IsVisible = AllowNotificationSettings;
 
+			//////
+			allowVibro = (Switch)solutionPage.FindByName ("AllowVibro");
 			if (AllowNotificationSettings)
+				{
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowVibroLabel",
 					Localization.GetText ("AllowVibroSwitch", al), false);
-			allowVibro = (Switch)solutionPage.FindByName ("AllowVibro");
-			allowVibro.IsToggled = NotificationsSupport.AllowVibro;
-			allowVibro.Toggled += AllowVibro_Toggled;
+				allowVibro.IsToggled = NotificationsSupport.AllowVibro;
+				allowVibro.Toggled += AllowVibro_Toggled;
+				}
+			else
+				{
+				allowVibro.IsToggled = NotificationsSupport.AllowVibro = true;
+				}
 			allowVibro.IsVisible = AllowNotificationSettings;
 
+			//////
+			allowOnLockedScreen = (Switch)solutionPage.FindByName ("AllowOnLockedScreen");
 			if (AllowNotificationSettings)
+				{
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowOnLockedScreenLabel",
 					Localization.GetText ("AllowOnLockedScreenSwitch", al), false);
-			allowOnLockedScreen = (Switch)solutionPage.FindByName ("AllowOnLockedScreen");
-			allowOnLockedScreen.IsToggled = NotificationsSupport.AllowOnLockedScreen;
-			allowOnLockedScreen.Toggled += AllowOnLockedScreen_Toggled;
+				allowOnLockedScreen.IsToggled = NotificationsSupport.AllowOnLockedScreen;
+				allowOnLockedScreen.Toggled += AllowOnLockedScreen_Toggled;
+				}
+			else
+				{
+				allowOnLockedScreen.IsToggled = NotificationsSupport.AllowOnLockedScreen = true;
+				}
 			allowOnLockedScreen.IsVisible = AllowNotificationSettings;
 
+			//////
 			if (al == SupportedLanguages.ru_ru)
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "SpecialNotificationsLabel",
 					Localization.GetText ("SpecialNotificationsSwitch", al), false);
 			specialNotifications = (Switch)solutionPage.FindByName ("SpecialNotifications");
-			specialNotifications.IsToggled = ns.AddSpecialNotifications;
-			specialNotifications.Toggled += AddSpecialNotifications_Toggled;
-			if (al != SupportedLanguages.ru_ru)
+			if (al == SupportedLanguages.ru_ru)
+				{
+				specialNotifications.IsToggled = ns.AddSpecialNotifications;
+				specialNotifications.Toggled += AddSpecialNotifications_Toggled;
+				}
+			else
+				{
 				specialNotifications.IsVisible = specialNotifications.IsToggled = false;
+				}
 
+			//////
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "CompleteResetLabel",
 				Localization.GetText ("CompleteResetSwitch", al), false);
 			notCompleteReset = (Switch)solutionPage.FindByName ("CompleteReset");
 			notCompleteReset.IsToggled = NotificationsSupport.NotCompleteReset;
 			notCompleteReset.Toggled += CompleteReset_Toggled;
+
+			//////
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "RequestOnWakeLabel",
+				Localization.GetText ("RequestOnWakeSwitch", al), false);
+			requestOnWake = (Switch)solutionPage.FindByName ("RequestOnWake");
+			requestOnWake.IsToggled = NotificationsSupport.RequestOnUnlock;
+			requestOnWake.Toggled += RequestOnWake_Toggled;
 
 			#endregion
 
@@ -160,13 +204,21 @@ namespace RD_AAOW
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
 			freqFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "FreqFieldLabel", "", false);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "FreqIncButton", "+", solutionFieldBackColor, FrequencyChanged);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "FreqDecButton", "–", solutionFieldBackColor, FrequencyChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FreqIncButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
+				solutionFieldBackColor, FrequencyChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FreqDecButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
+				solutionFieldBackColor, FrequencyChanged);
 			currentFreq = 1;
 
 			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "OccFieldLabel", "", false);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "OccIncButton", "+", solutionFieldBackColor, OccurrenceChanged);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "OccDecButton", "–", solutionFieldBackColor, OccurrenceChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "OccIncButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
+				solutionFieldBackColor, OccurrenceChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "OccDecButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
+				solutionFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
 			enabledSwitch = (Switch)solutionPage.FindByName ("EnabledSwitch");
@@ -179,18 +231,24 @@ namespace RD_AAOW
 			#region Управление оповещениями
 
 			applyButton = AndroidSupport.ApplyButtonSettings (solutionPage, "ApplyButton",
-				Localization.GetText ("ApplyButton", al), solutionFieldBackColor, ApplyNotification);
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Apply),
+				solutionFieldBackColor, ApplyNotification);
 			addButton = AndroidSupport.ApplyButtonSettings (solutionPage, "AddButton",
-				Localization.GetText ("AddButton", al), solutionFieldBackColor, AddNotification);
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Create),
+				solutionFieldBackColor, AddNotification);
 			deleteButton = AndroidSupport.ApplyButtonSettings (solutionPage, "DeleteButton",
-				Localization.GetText ("DeleteButton", al), solutionFieldBackColor, DeleteNotification);
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Delete),
+				solutionFieldBackColor, DeleteNotification);
 
 			AndroidSupport.ApplyButtonSettings (solutionPage, "ShareTemplateButton",
-				Localization.GetText ("ShareTemplateButton", al), solutionFieldBackColor, ShareTemplate);
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
+				solutionFieldBackColor, ShareTemplate);
 			AndroidSupport.ApplyButtonSettings (solutionPage, "LoadTemplateButton",
-				Localization.GetText ("LoadTemplateButton", al), solutionFieldBackColor, LoadTemplate);
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Copy),
+				solutionFieldBackColor, LoadTemplate);
 			AndroidSupport.ApplyButtonSettings (solutionPage, "FindDelimitersButton",
-				Localization.GetText ("FindDelimitersButton", al), solutionFieldBackColor, FindDelimiters);
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Find),
+				solutionFieldBackColor, FindDelimiters);
 
 			#endregion
 
@@ -216,6 +274,8 @@ namespace RD_AAOW
 				aboutFieldBackColor, DevButton_Clicked);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage",
 				"RD AAOW Free utilities production lab", aboutFieldBackColor, CommunityButton_Clicked);
+			AndroidSupport.ApplyButtonSettings (aboutPage, "ResetTips", Localization.GetText ("ResetTips", al),
+				aboutFieldBackColor, ResetTips_Clicked);
 
 			UpdateButtons ();
 
@@ -236,14 +296,14 @@ namespace RD_AAOW
 			notificationButton = AndroidSupport.ApplyButtonSettings (logPage, "NotificationButton",
 				Localization.GetText ("NotificationButton", al), logFieldBackColor, SelectLogNotification);
 
-			shareButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareButton", Localization.GetText ("ShareButton", al),
+			shareButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
 				logFieldBackColor, ShareText);
-			shareOffsetButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareOffsetButton", "▼", logFieldBackColor,
+			shareOffsetButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareOffsetButton", "", logFieldBackColor,
 				ShareOffsetButton_Clicked);
-			shareOffsetLabel = AndroidSupport.ApplyLabelSettingsForKKT (logPage, "ShareOffsetLabel", "", false);
-			shareOffsetLabel.FontSize *= 1.5;
+			shareOffsetButton.WidthRequest = shareButton.WidthRequest;
+			shareOffsetButton.Margin = shareButton.Margin;
 
-			shareButton.Margin = shareOffsetButton.Margin = shareOffsetLabel.Margin = new Thickness (1);
 			ShareOffsetButton_Clicked (null, null);
 
 			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ", "GMJ", logFieldBackColor, GetGMJ);
@@ -261,14 +321,18 @@ namespace RD_AAOW
 			ReadModeSwitch_Toggled (null, null);
 
 			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "FontSizeFieldLabel", "", false);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeIncButton", "+", solutionFieldBackColor, FontSizeChanged);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeDecButton", "–", solutionFieldBackColor, FontSizeChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeIncButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
+				solutionFieldBackColor, FontSizeChanged);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeDecButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
+				solutionFieldBackColor, FontSizeChanged);
 			FontSizeChanged (null, null);
 
 			#endregion
 
 			// Принятие соглашений
-			ShowTips ();
+			ShowStartupTips (AllowNotificationSettings, AllowForeground);
 			}
 
 		// Включение / выключение службы
@@ -313,6 +377,16 @@ namespace RD_AAOW
 			NotificationsSupport.NotCompleteReset = notCompleteReset.IsToggled;
 			}
 
+		// Включение / выключение полного опроса по разблокировке
+		private void RequestOnWake_Toggled (object sender, ToggledEventArgs e)
+			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.RequestOnWake))
+				ShowTips (NotificationsSupport.TipTypes.RequestOnWake, solutionPage);
+
+			NotificationsSupport.RequestOnUnlock = requestOnWake.IsToggled;
+			}
+
 		// Выбор языка приложения
 		private async void SelectLanguage_Clicked (object sender, EventArgs e)
 			{
@@ -331,30 +405,52 @@ namespace RD_AAOW
 			}
 
 		// Метод отображает подсказки при первом запуске
-		private async void ShowTips ()
+		private async void ShowStartupTips (bool AllowNotSettings, bool AllowForeground)
 			{
-			if (NotificationsSupport.HelpShownAt != "")
-				return;
-
 			// Требование принятия Политики
-			while (await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.PolicyTip))
+				{
+				while (await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("PolicyMessage", al),
 					Localization.GetText ("DeclineButton", al),
 					Localization.GetText ("AcceptButton", al)))
-				{
-				ADPButton_Clicked (null, null);
+					{
+					ADPButton_Clicked (null, null);
+					}
+				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.PolicyTip);
 				}
-			NotificationsSupport.HelpShownAt = ProgramDescription.AssemblyVersion; // Только после принятия
 
-			// Первая подсказка
-			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
+			// Подсказки
+			if (NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.StartupTips))
+				return;
+
+			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + "1",
 				Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
 
-			await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-				Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
+			string tip02 = Localization.GetText ("Tip02_1", al);
+			if (!AllowForeground)
+				tip02 += Localization.GetText ("Tip02_2", al);
+			if (!AllowNotSettings)
+				tip02 += Localization.GetText ("Tip02_3", al);
+			tip02 += Localization.GetText ("Tip02_4", al);
 
-			await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-				Localization.GetText ("Tip04", al), Localization.GetText ("NextButton", al));
+			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + "2",
+				tip02, Localization.GetText ("NextButton", al));
+
+			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + "3",
+				Localization.GetText ("Tip03", al), Localization.GetText ("NextButton", al));
+
+			NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.StartupTips);
+			}
+
+		// Метод отображает остальные подсказки
+		private async void ShowTips (NotificationsSupport.TipTypes Type, Page DisplayPage)
+			{
+			// Подсказки
+			await DisplayPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + ((int)Type + 3).ToString (),
+				Localization.GetText ("Tip04_" + ((int)Type).ToString (), al), Localization.GetText ("NextButton", al));
+
+			NotificationsSupport.SetTipState (Type);
 			}
 
 		// Страница проекта
@@ -385,6 +481,14 @@ namespace RD_AAOW
 					Localization.GetText ("WebIsUnavailable", al),
 					Localization.GetText ("NextButton", al));
 				}
+			}
+
+		// Сброс подсказок
+		private async void ResetTips_Clicked (object sender, EventArgs e)
+			{
+			NotificationsSupport.SetTipState ();
+			await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				Localization.GetText ("RestartApp", al), "OK");
 			}
 
 		// Страница лаборатории
@@ -447,6 +551,13 @@ namespace RD_AAOW
 		// Выбор оповещения
 		private async void SelectNotification (object sender, EventArgs e)
 			{
+			// Подсказки
+			if ((e != null) && !NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.CurrentNotButton))
+				{
+				ShowTips (NotificationsSupport.TipTypes.CurrentNotButton, solutionPage);
+				return;
+				}
+
 			// Запрос списка оповещений
 			List<string> list = new List<string> ();
 			foreach (Notification element in ns.Notifications)
@@ -482,6 +593,14 @@ namespace RD_AAOW
 		// Выбор оповещения для перехода по ссылке
 		private async void SelectLogNotification (object sender, EventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.GoToButton))
+				{
+				ShowTips (NotificationsSupport.TipTypes.GoToButton, logPage);
+				return;
+				}
+
+			// Список ресурсов
 			List<string> list = new List<string> ();
 			foreach (Notification element in ns.Notifications)
 				list.Add (element.Name);
@@ -489,6 +608,7 @@ namespace RD_AAOW
 			string res = await logPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
 				Localization.GetText ("CancelButton", al), null, list.ToArray ());
 
+			// Запуск
 			int i;
 			if ((i = list.IndexOf (res)) >= 0)
 				{
@@ -498,7 +618,7 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+					await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 						Localization.GetText ("WebIsUnavailable", al), Localization.GetText ("NextButton", al));
 					}
 				}
@@ -529,9 +649,11 @@ namespace RD_AAOW
 			if (sender != null)
 				{
 				Button b = (Button)sender;
-				if ((b.Text == "+") && (currentFreq < 24))
+				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
+					(currentFreq < 24))
 					currentFreq++;
-				else if ((b.Text == "–") && (currentFreq > 1))
+				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
+					(currentFreq > 1))
 					currentFreq--;
 				}
 
@@ -545,9 +667,11 @@ namespace RD_AAOW
 			if (sender != null)
 				{
 				Button b = (Button)sender;
-				if ((b.Text == "+") && (currentOcc < Notification.MaxOccurrenceNumber))
+				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
+					(currentOcc < Notification.MaxOccurrenceNumber))
 					currentOcc++;
-				else if ((b.Text == "–") && (currentOcc > 1))
+				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
+					(currentOcc > 1))
 					currentOcc--;
 				}
 
@@ -557,6 +681,13 @@ namespace RD_AAOW
 		// Удаление оповещения
 		private async void DeleteNotification (object sender, EventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.DeleteButton))
+				{
+				ShowTips (NotificationsSupport.TipTypes.DeleteButton, solutionPage);
+				return;
+				}
+
 			// Контроль
 			if (!await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 				Localization.GetText ("DeleteMessage", al), Localization.GetText ("NextButton", al),
@@ -576,6 +707,13 @@ namespace RD_AAOW
 		// Добавление нового оповещения
 		private void AddNotification (object sender, EventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AddButton))
+				{
+				ShowTips (NotificationsSupport.TipTypes.AddButton, solutionPage);
+				return;
+				}
+
 			// Добавление
 			UpdateItem (-1);
 
@@ -590,6 +728,13 @@ namespace RD_AAOW
 		// Обновление оповещения
 		private void ApplyNotification (object sender, EventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ApplyButton))
+				{
+				ShowTips (NotificationsSupport.TipTypes.ApplyButton, solutionPage);
+				return;
+				}
+
 			// Обновление
 			UpdateItem (currentNotification);
 
@@ -654,6 +799,13 @@ namespace RD_AAOW
 
 		private async void LoadTemplate (object sender, EventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.TemplateButton))
+				{
+				ShowTips (NotificationsSupport.TipTypes.TemplateButton, solutionPage);
+				return;
+				}
+
 			// Запрос варианта загрузки
 			if (await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 				Localization.GetText ("TemplateSelect", al), Localization.GetText ("TemplateList", al),
@@ -737,6 +889,14 @@ namespace RD_AAOW
 		// Метод формирует и отправляет шаблон оповещения
 		private async void ShareTemplate (object sender, EventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareNotButton))
+				{
+				ShowTips (NotificationsSupport.TipTypes.ShareNotButton, solutionPage);
+				return;
+				}
+
+			// Формирование и отправка
 			NotificationsSupport.SkipNextServiceStart ();
 			await Share.RequestAsync (new ShareTextRequest
 				{
@@ -750,20 +910,20 @@ namespace RD_AAOW
 		// Автоматизированный поиск ограничителей
 		private async void FindDelimiters (object sender, EventArgs e)
 			{
-			// Контроль
-			beginningField.Focus ();
-
-			if (beginningField.Text == "")
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FindButton))
 				{
-				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("KeywordNotSpecified", al), Localization.GetText ("NextButton", al));
+				ShowTips (NotificationsSupport.TipTypes.FindButton, solutionPage);
 				return;
 				}
 
-			if (beginningField.Text.Contains ("<") || beginningField.Text.Contains (">"))
+			// Контроль
+			beginningField.Focus ();
+
+			if ((beginningField.Text == "") || beginningField.Text.Contains ("<") || beginningField.Text.Contains (">"))
 				{
 				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("Tip03", al), Localization.GetText ("NextButton", al));
+					Localization.GetText ("FindDisclaimer", al), Localization.GetText ("NextButton", al));
 				beginningField.Text = "";
 				return;
 				}
@@ -785,13 +945,11 @@ namespace RD_AAOW
 		// Метод запускает интерфейс "Поделиться" для последней записи в журнале
 		private async void ShareText (object sender, EventArgs e)
 			{
-			// Контроль
-			if (!NotificationsSupport.ShareDisclaimerShown)
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareButton))
 				{
-				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("ShareDisclaimer", al), Localization.GetText ("NextButton", al));
-
-				NotificationsSupport.ShareDisclaimerShown = true;
+				ShowTips (NotificationsSupport.TipTypes.ShareButton, logPage);
+				return;
 				}
 
 			// Получение текста
@@ -807,7 +965,11 @@ namespace RD_AAOW
 					break;
 					}
 				}
-			text = text.Substring (start, end - start);
+
+			if (end - start > 0)
+				text = text.Substring (start, end - start);
+			else
+				return;
 
 			// Получение ссылки
 			for (i = 0; i < ns.Notifications.Count; i++)
@@ -842,13 +1004,13 @@ namespace RD_AAOW
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logReadModeColor;
 				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
-					mainLog.TextColor = shareOffsetButton.TextColor = shareOffsetLabel.TextColor = logMasterBackColor;
+					mainLog.TextColor = shareOffsetButton.TextColor = logMasterBackColor;
 				}
 			else
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logMasterBackColor;
 				notificationButton.TextColor = shareButton.TextColor = getGMJButton.TextColor =
-					mainLog.TextColor = shareOffsetButton.TextColor = shareOffsetLabel.TextColor = logReadModeColor;
+					mainLog.TextColor = shareOffsetButton.TextColor = logReadModeColor;
 				}
 			}
 
@@ -858,9 +1020,11 @@ namespace RD_AAOW
 			if (e != null)
 				{
 				Button b = (Button)sender;
-				if ((b.Text == "+") && (mainLog.FontSize < NotificationsSupport.MaxFontSize))
+				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
+					(mainLog.FontSize < NotificationsSupport.MaxFontSize))
 					mainLog.FontSize += 1;
-				else if ((b.Text == "–") && (mainLog.FontSize > NotificationsSupport.MinFontSize))
+				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
+					(mainLog.FontSize > NotificationsSupport.MinFontSize))
 					mainLog.FontSize -= 1;
 
 				NotificationsSupport.LogFontSize = (uint)mainLog.FontSize;
@@ -882,7 +1046,7 @@ namespace RD_AAOW
 			else
 				shareOffset = 1;
 
-			shareOffsetLabel.Text = shareOffset.ToString () + " ";
+			shareOffsetButton.Text = shareOffset.ToString ();
 			}
 
 		/// <summary>
