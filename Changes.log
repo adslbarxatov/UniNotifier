@@ -1,5 +1,11 @@
 UniNotifier changes log
 
+ToDo:
+• Android: fix battery check failure on Android 10
+
+Version 2.4.2:
+• Android: some tips have been updated
+
 Version 2.4.1:
 • Android: due to inability to make the foreground service work properly we've added the option
   that allows user to force notifications refresh on device unlock. It will take effect only when
