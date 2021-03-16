@@ -2,9 +2,11 @@ UniNotifier changes log
 
 ToDo:
 • Android: fix battery check failure on Android 10
+• Add tips to Windows version
 
 Version 2.4.2:
-• Android: some tips have been updated
+• Android: some tips have been updated;
+• Updated list of known GMJ records
 
 Version 2.4.1:
 • Android: due to inability to make the foreground service work properly we've added the option
