@@ -172,7 +172,7 @@
     <value>Main community</value>
   </data>
   <data name="CompleteResetSwitch" xml:space="preserve">
-    <value>Skip unchanged texts in “Request all” option</value>
+    <value>Skip unchanged texts in “Refresh” option</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces with what you want</value>
@@ -311,9 +311,7 @@
     <value>Where to get the settings:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Welcome to UniNotifier! Here you can configure the notification service.
-
-Going to these settings and the main log will pause the background service watching for updates. It will continue to work after closing / minimizing the application</value>
+    <value>Welcome to UniNotifier! Here you can configure the news service and notifications themselves</value>
   </data>
   <data name="Tip02_1" xml:space="preserve">
     <value>Warning!
@@ -348,6 +346,15 @@ The notifications log is available on the left of this settings screen</value>
     <value>This option, when running on battery power, allows you to automatically refresh the status of alerts when the device is unlocked.
 The specified update period will work only when the screen is active; in standby mode it will be ignored.
 When the charger is connected, this option will have no effect</value>
+  </data>
+  <data name="Tip04_13" xml:space="preserve">
+    <value>If this switch is enabled, the background service will start and begin monitoring as soon as this application is closed or minimized. When you restart this app, the service will be paused for its correct configuration</value>
+  </data>
+  <data name="Tip04_14" xml:space="preserve">
+    <value>If this switch is enabled, only notifications whose state has changed since the last poll will be displayed when manual update will be requested (using the “Refresh” button on a pinned notification)</value>
+  </data>
+  <data name="Tip04_15" xml:space="preserve">
+    <value>In some cases, the needed part of web page is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of page) should be displayed</value>
   </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of the current notification</value>

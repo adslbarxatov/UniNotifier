@@ -273,7 +273,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyButtonSettings (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
 				aboutFieldBackColor, DevButton_Clicked);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage",
-				"RD AAOW Free utilities production lab", aboutFieldBackColor, CommunityButton_Clicked);
+				AndroidSupport.MasterLabName, aboutFieldBackColor, CommunityButton_Clicked);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "ResetTips", Localization.GetText ("ResetTips", al),
 				aboutFieldBackColor, ResetTips_Clicked);
 
@@ -338,6 +338,10 @@ namespace RD_AAOW
 		// Включение / выключение службы
 		private void AllowStart_Toggled (object sender, ToggledEventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ServiceLaunchTip))
+				ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip, solutionPage);
+
 			NotificationsSupport.AllowServiceToStart = allowStart.IsToggled;
 			}
 
@@ -374,6 +378,10 @@ namespace RD_AAOW
 		// Включение / выключение полного сброса при вызове функции Опросить все
 		private void CompleteReset_Toggled (object sender, ToggledEventArgs e)
 			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.CompleteResetTip))
+				ShowTips (NotificationsSupport.TipTypes.CompleteResetTip, solutionPage);
+
 			NotificationsSupport.NotCompleteReset = notCompleteReset.IsToggled;
 			}
 
@@ -428,8 +436,8 @@ namespace RD_AAOW
 				Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
 
 			string tip02 = Localization.GetText ("Tip02_1", al);
-			if (!AllowForeground)
-				tip02 += Localization.GetText ("Tip02_2", al);
+			//if (!AllowForeground)
+			tip02 += Localization.GetText ("Tip02_2", al);
 			if (!AllowNotSettings)
 				tip02 += Localization.GetText ("Tip02_3", al);
 			tip02 += Localization.GetText ("Tip02_4", al);
@@ -458,7 +466,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				Launcher.OpenAsync ("https://github.com/adslbarxatov/" + ProgramDescription.AssemblyMainName);
+				Launcher.OpenAsync (AndroidSupport.MasterGitLink + ProgramDescription.AssemblyMainName);
 				}
 			catch
 				{
@@ -499,9 +507,9 @@ namespace RD_AAOW
 				if (await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 						Localization.GetText ("CommunitySelect", al), Localization.GetText ("CommunityVK", al),
 						Localization.GetText ("CommunityTG", al)))
-					Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-user-manuals");
+					Launcher.OpenAsync (AndroidSupport.CommunityFrontPage);
 				else
-					Launcher.OpenAsync ("https://t.me/rdaaow_fupl");
+					Launcher.OpenAsync (AndroidSupport.CommunityInTelegram);
 				}
 			catch
 				{
@@ -515,7 +523,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				Launcher.OpenAsync ("https://vk.com/@rdaaow_fupl-adp");
+				Launcher.OpenAsync (AndroidSupport.ADPLink);
 				}
 			catch
 				{
@@ -664,8 +672,13 @@ namespace RD_AAOW
 		// Изменение порядкового номера вхождения
 		private void OccurrenceChanged (object sender, EventArgs e)
 			{
+			// Изменение значения
 			if (sender != null)
 				{
+				// Подсказки
+				if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.OccurenceTip))
+					ShowTips (NotificationsSupport.TipTypes.OccurenceTip, solutionPage);
+
 				Button b = (Button)sender;
 				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
 					(currentOcc < Notification.MaxOccurrenceNumber))
@@ -1076,7 +1089,7 @@ namespace RD_AAOW
 				}
 			}
 
-		#region Стандартные обработчики
+		/*#region Стандартные обработчики
 
 		/// <summary>
 		/// Обработчик события запуска приложения
@@ -1092,6 +1105,6 @@ namespace RD_AAOW
 			{
 			}
 
-		#endregion
+		#endregion*/
 		}
 	}

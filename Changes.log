@@ -4,6 +4,13 @@ ToDo:
 • Android: fix battery check failure on Android 10
 • Add tips to Windows version
 
+Version 2.4.3:
+• Windows: new identity applied;
+• New links to RD AAOW FDL added;
+• Added direct lab link to VK and Telegram;
+• Android: target API changed to 30 (Android R), according to Google's attribution;
+• Android: removed support for x86 and x64
+
 Version 2.4.2:
 • Android: some tips have been updated;
 • Updated list of known GMJ records
