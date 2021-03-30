@@ -1,8 +1,10 @@
 UniNotifier changes log
 
-ToDo:
-• Android: fix battery check failure on Android 10
-• Add tips to Windows version
+Version 2.4.4:
+• Windows: fixed some icons appearance;
+• Windows: added tips for first start into settings window;
+• Android: trying to fix battery check failure on Android 10;
+• Android: trying to fix sleep mode
 
 Version 2.4.3:
 • Windows: new identity applied;

@@ -261,6 +261,7 @@ namespace RD_AAOW
 		// Переход на страницу сообщества
 		private void GoToLink (object sender, EventArgs e)
 			{
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.GoToButton);
 			try
 				{
 				if (NamesCombo.SelectedIndex < ns.Notifications.Count)

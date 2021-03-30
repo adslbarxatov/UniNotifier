@@ -218,6 +218,8 @@ namespace RD_AAOW.Droid
 		private PendingIntent masterPendingIntent;
 		private PendingIntent[] actPendingIntent = new PendingIntent[3];
 
+		private BroadcastReceiver wakeReceiver;
+
 		/// <summary>
 		/// Обработчик события создания службы
 		/// </summary>
@@ -227,7 +229,7 @@ namespace RD_AAOW.Droid
 			base.OnCreate ();
 
 			// Запуск в бэкграунде
-			handler = new Handler ();
+			handler = new Handler (Looper.MainLooper);
 
 			// Аналог таймера (создаёт задание, которое само себя ставит в очередь исполнения ОС)
 			runnable = new Action (() =>
@@ -455,6 +457,8 @@ namespace RD_AAOW.Droid
 #endif
 
 			// Запуск петли
+			RegisterReceiver (wakeReceiver = new WakeReceiver (), new IntentFilter (Intent.ActionUserPresent));
+
 			handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay / timerDividerLimit);
 			isStarted = true;
 
@@ -492,6 +496,7 @@ namespace RD_AAOW.Droid
 				StopForeground (true);
 			StopSelf ();
 
+			UnregisterReceiver (wakeReceiver);
 			// Стандартная обработка
 			base.OnDestroy ();
 			}

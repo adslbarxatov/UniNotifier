@@ -65,6 +65,7 @@ namespace RD_AAOW
 			TemplatesCombo.SelectedIndex = 0;
 
 			// Запуск
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.StartupTip);
 			this.ShowDialog ();
 			}
 
@@ -82,6 +83,7 @@ namespace RD_AAOW
 			notifications.SaveNotifications ();
 
 			// Закрытие окна
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ServiceLaunchTip);
 			this.Close ();
 			}
 
@@ -91,6 +93,8 @@ namespace RD_AAOW
 			// Контроль
 			if (NotificationsList.SelectedIndex < 0)
 				return;
+			else if (NotificationsList.SelectedIndex != 0)
+				ProgramDescription.ShowTips (ProgramDescription.TipTypes.CurrentNotButton);
 
 			// Загрузка
 			int i = NotificationsList.SelectedIndex;
@@ -107,6 +111,7 @@ namespace RD_AAOW
 		private void BAdd_Click (object sender, EventArgs e)
 			{
 			// Добавление
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.AddButton);
 			UpdateItem (-1);
 
 			// Обновление кнопок
@@ -115,6 +120,7 @@ namespace RD_AAOW
 
 		private void BUpdate_Click (object sender, EventArgs e)
 			{
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ApplyButton);
 			UpdateItem (NotificationsList.SelectedIndex);
 			}
 
@@ -163,6 +169,7 @@ namespace RD_AAOW
 		private void BDelete_Click (object sender, EventArgs e)
 			{
 			// Контроль
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.DeleteButton);
 			if (NotificationsList.SelectedIndex < 0)
 				{
 				MessageBox.Show (Localization.GetText ("DeleteLineNotSpecified", al),
@@ -186,6 +193,7 @@ namespace RD_AAOW
 		private void BLoadTemplate_Click (object sender, EventArgs e)
 			{
 			// Проверка
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.TemplateButton);
 			if (notifications.NotificationsTemplates.IsTemplateIncomplete ((uint)TemplatesCombo.SelectedIndex))
 				MessageBox.Show (Localization.GetText ("CurlyTemplate", al), ProgramDescription.AssemblyTitle,
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -203,6 +211,7 @@ namespace RD_AAOW
 		private void FindDelimiters_Click (object sender, EventArgs e)
 			{
 			// Контроль
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.FindButton);
 			if (BeginningText.Text == "")
 				{
 				MessageBox.Show (Localization.GetText ("KeywordNotSpecified", al),
@@ -243,6 +252,12 @@ namespace RD_AAOW
 		private void SpecialNotifications_CheckedChanged (object sender, EventArgs e)
 			{
 			notifications.AddSpecialNotifications = SpecialNotifications.Checked;
+			}
+
+		// Подсказка по полю Occurence
+		private void OccurrenceField_Click (object sender, EventArgs e)
+			{
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.OccurenceTip);
 			}
 		}
 	}
