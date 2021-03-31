@@ -242,4 +242,13 @@ Detailed instructions for setting up the service are available on YouTube button
   <data name="Tip_09" xml:space="preserve">
     <value>In some cases, the needed part of web page is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of page) should be displayed</value>
   </data>
+  <data name="NoTemplateInClipboard" xml:space="preserve">
+    <value>No compatible notification templates found in the clipboard. Copy template string to clipboard and try again</value>
+  </data>
+  <data name="Tip_10" xml:space="preserve">
+    <value>This button allows you to share settings of the current notification (copy them to clipboard)</value>
+  </data>
+  <data name="Tip_11" xml:space="preserve">
+    <value>This button allows you to load shared settings from clipboard</value>
+  </data>
 </root>

@@ -259,5 +259,69 @@ namespace RD_AAOW
 			{
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.OccurenceTip);
 			}
+
+		// Выгрузка настроек в буфер обмена
+		private char[] templateSplitter = new char[] { '|' };
+		private void ShareSettings_Click (object sender, EventArgs e)
+			{
+			// Подсказка
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ShareSettings);
+
+			// Копирование
+			try
+				{
+				Clipboard.SetText (NameText.Text + templateSplitter[0].ToString () +
+					LinkText.Text + templateSplitter[0].ToString () +
+					BeginningText.Text + templateSplitter[0].ToString () +
+					EndingText.Text + templateSplitter[0].ToString () +
+					((uint)(OccurrenceField.Value)).ToString ());
+				}
+			catch { }
+			}
+
+		// Получение настроек из буфера обмена
+		private void GetSettings_Click (object sender, EventArgs e)
+			{
+			// Подсказка
+			ProgramDescription.ShowTips (ProgramDescription.TipTypes.GetSettings);
+
+			// Запрос настроек
+			string s = "";
+			try
+				{
+				s = Clipboard.GetText ();
+				}
+			catch { }
+
+			/*if (s == "")
+				{
+				MessageBox.Show (Localization.GetText ("NoTemplateInClipboard", al), ProgramDescription.AssemblyTitle,
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+				}*/
+
+			// Разбор
+			string[] values = s.Split (templateSplitter, StringSplitOptions.RemoveEmptyEntries);
+			if (values.Length != 5)
+				{
+				MessageBox.Show (Localization.GetText ("NoTemplateInClipboard", al), ProgramDescription.AssemblyTitle,
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+				}
+
+			// Заполнение
+			NameText.Text = values[0];
+			LinkText.Text = values[1];
+			BeginningText.Text = values[2];
+			EndingText.Text = values[3];
+			try
+				{
+				OccurrenceField.Value = uint.Parse (values[4]);
+				}
+			catch
+				{
+				OccurrenceField.Value = OccurrenceField.Minimum;
+				}
+			}
 		}
 	}

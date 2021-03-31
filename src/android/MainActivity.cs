@@ -218,7 +218,7 @@ namespace RD_AAOW.Droid
 		private PendingIntent masterPendingIntent;
 		private PendingIntent[] actPendingIntent = new PendingIntent[3];
 
-		private BroadcastReceiver wakeReceiver;
+		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[3];
 
 		/// <summary>
 		/// Обработчик события создания службы
@@ -457,7 +457,9 @@ namespace RD_AAOW.Droid
 #endif
 
 			// Запуск петли
-			RegisterReceiver (wakeReceiver = new WakeReceiver (), new IntentFilter (Intent.ActionUserPresent));
+			RegisterReceiver (bcReceivers[0] = new BootReceiver (), new IntentFilter (Intent.ActionBootCompleted));
+			RegisterReceiver (bcReceivers[1] = new BootReceiver (), new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
+			RegisterReceiver (bcReceivers[2] = new WakeReceiver (), new IntentFilter (Intent.ActionUserPresent));
 
 			handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay / timerDividerLimit);
 			isStarted = true;
@@ -496,7 +498,9 @@ namespace RD_AAOW.Droid
 				StopForeground (true);
 			StopSelf ();
 
-			UnregisterReceiver (wakeReceiver);
+			foreach (BroadcastReceiver br in bcReceivers)
+				UnregisterReceiver (br);
+
 			// Стандартная обработка
 			base.OnDestroy ();
 			}

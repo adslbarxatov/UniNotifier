@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 2.5:
+• Windows: added ability to share/load notification settings through the clipboard;
+• Android: fixed inability to restart after reboot and refresh after wake up on Android 10;
+• Android: some other fixes applied in app code
+
 Version 2.4.4:
 • Windows: fixed some icons appearance;
 • Windows: added tips for first start into settings window;

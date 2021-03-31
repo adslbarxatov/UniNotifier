@@ -466,7 +466,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				Launcher.OpenAsync (AndroidSupport.MasterGitLink + ProgramDescription.AssemblyMainName);
+				await Launcher.OpenAsync (AndroidSupport.MasterGitLink + ProgramDescription.AssemblyMainName);
 				}
 			catch
 				{
@@ -481,7 +481,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				Launcher.OpenAsync (ProgramDescription.AboutLink);
+				await Launcher.OpenAsync (ProgramDescription.AboutLink);
 				}
 			catch
 				{
@@ -507,9 +507,9 @@ namespace RD_AAOW
 				if (await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 						Localization.GetText ("CommunitySelect", al), Localization.GetText ("CommunityVK", al),
 						Localization.GetText ("CommunityTG", al)))
-					Launcher.OpenAsync (AndroidSupport.CommunityFrontPage);
+					await Launcher.OpenAsync (AndroidSupport.CommunityFrontPage);
 				else
-					Launcher.OpenAsync (AndroidSupport.CommunityInTelegram);
+					await Launcher.OpenAsync (AndroidSupport.CommunityInTelegram);
 				}
 			catch
 				{
@@ -523,7 +523,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				Launcher.OpenAsync (AndroidSupport.ADPLink);
+				await Launcher.OpenAsync (AndroidSupport.ADPLink);
 				}
 			catch
 				{
@@ -1088,23 +1088,5 @@ namespace RD_AAOW
 				{
 				}
 			}
-
-		/*#region Стандартные обработчики
-
-		/// <summary>
-		/// Обработчик события запуска приложения
-		/// </summary>
-		protected override void OnStart ()
-			{
-			}
-
-		/// <summary>
-		/// Обработчик события выхода из ждущего режима
-		/// </summary>
-		protected override void OnResume ()
-			{
-			}
-
-		#endregion*/
 		}
 	}
