@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿// Библиотеки
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,6 +33,14 @@ namespace RD_AAOW
 		private List<string> texts = new List<string> ();
 		private List<int> notNumbers = new List<int> ();
 
+#if TG
+		private uint currentTGCount = 0;
+		private DateTime currentTGTimeStamp = new DateTime (2021, 1, 1, 0, 0, 0);
+		private uint currentTGOffset = 0;
+		private const uint TGTimerOffset = 117; // 19,5 минут
+		private const uint TGMessagesPerDay = 20;
+#endif
+
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
 		/// </summary>
@@ -46,8 +55,11 @@ namespace RD_AAOW
 
 			ReloadNotificationsList ();
 			ResetCulture ();
+#if TG
+			GetGMJ.Visible = false;
+#else
 			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
-
+#endif
 			// Получение настроек
 			try
 				{
@@ -61,6 +73,13 @@ namespace RD_AAOW
 					"").ToString ());
 				this.ReadMode.Checked = bool.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[4],
 					"").ToString ());
+
+#if TG
+				currentTGCount = uint.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, "TGCount",
+					"").ToString ());
+				currentTGTimeStamp = DateTime.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, "TGTimeStamp",
+					"").ToString ());
+#endif
 				}
 			catch
 				{
@@ -174,6 +193,39 @@ namespace RD_AAOW
 			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled = !File.Exists (startupLink);
 			}
 
+#if TG
+		private string[][] webReplacements = new string[][] {
+			new string[] { "%", "%25" },
+
+			new string[] { "\t", "%20" },
+			new string[] { " ", "%20" },
+			new string[] { "\n", "%0A" },
+			new string[] { "\r", "" },
+
+			new string[] { "!", "%21" },
+			new string[] { "\"", "%22" },
+			new string[] { "&", "%26" },
+			new string[] { "'", "%27" },
+			new string[] { "(", "%28" },
+			new string[] { ")", "%29" },
+			new string[] { "*", "%2A" },
+			new string[] { ",", "%2C" },
+			new string[] { "-", "%2D" },
+			new string[] { ".", "%2E" },
+			new string[] { "/", "%2F" },
+			new string[] { ":", "%3A" },
+			new string[] { ";", "%3B" },
+			new string[] { "<", "%3C" },
+			new string[] { "=", "%3D" },
+			new string[] { ">", "%3E" },
+			new string[] { "?", "%3F" },
+			new string[] { "\\", "%5C" },
+			new string[] { "_", "%5F" },
+
+			new string[] { "%20%0A", "%0A" },
+			};
+#endif
+
 		// Итерация таймера обновления
 		private void MainTimer_Tick (object sender, EventArgs e)
 			{
@@ -214,6 +266,62 @@ namespace RD_AAOW
 
 				GetGMJ.Enabled = true;
 				}
+#if TG
+			else if (currentTGOffset++ >= TGTimerOffset)   // 9,5 минут
+				{
+				// Контроль состояния переменных
+				currentTGOffset = 0;
+				if (currentTGTimeStamp != DateTime.Today)
+					{
+					currentTGTimeStamp = DateTime.Today;
+					try
+						{
+						Registry.SetValue (ProgramDescription.AssemblySettingsKey, "TGTimeStamp",
+							currentTGTimeStamp.ToString ());
+						}
+					catch { }
+					currentTGCount = 0;
+					}
+
+				if (currentTGCount >= TGMessagesPerDay)
+					return;
+
+				// Запрос сообщения
+				string s = GMJ.GetRandomGMJ ();
+				if (s == "")
+					{
+					texts.Add ("Сбой ретрансляции. Проверьте соединение с интернетом");
+					notNumbers.Add (0);
+					return;
+					}
+
+				if (s.Contains ("GMJ не вернула сообщение"))
+					{
+					StreamWriter SW = File.AppendText (AboutForm.AppStartupPath + "TG.log");
+					SW.Write (s + "\r\n\r\n");
+					SW.Close ();
+
+					texts.Add ("При ретрансляции найдено проблемное сообщение. Проверьте лог приложения");
+					notNumbers.Add (0);
+					return;
+					}
+
+				// Ретрансляция
+				s = "-" + s.Substring (s.IndexOf ("joy") + 4);
+				for (int i = 0; i < webReplacements.Length; i++)
+					s = s.Replace (webReplacements[i][0], webReplacements[i][1]);
+
+				AboutForm.GetHTML (ProgramDescription.TGTokenLine + s);
+
+				// Сохранение состояния
+				currentTGCount++;
+				try
+					{
+					Registry.SetValue (ProgramDescription.AssemblySettingsKey, "TGCount", currentTGCount.ToString ());
+					}
+				catch { }
+				}
+#endif
 			}
 
 		private void DoUpdate (object sender, DoWorkEventArgs e)
@@ -248,7 +356,11 @@ namespace RD_AAOW
 			ReloadNotificationsList ();
 			al = Localization.CurrentLanguage;
 			ResetCulture ();
+#if TG
+			GetGMJ.Visible = false;
+#else
 			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
+#endif
 
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 1).ToString ("D02"), al);

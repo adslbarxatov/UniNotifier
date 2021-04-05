@@ -90,12 +90,8 @@ namespace RD_AAOW.Droid
 			// Остановка службы для настройки
 			NotificationsSupport.StopRequested = true;
 
-			// Выбор требуемого экрана для отображения (по умолчанию - страница настроек)
-#if TABLEPEDIA
-			uint currentTab = 2;    
-#else
+			// Выбор требуемого экрана для отображения (по умолчанию - страница настроек для UN и страница ссылок для TP)
 			uint currentTab = 1;
-#endif
 			var tab = Intent.GetSerializableExtra ("Tab");
 			if (tab != null)
 				{
@@ -111,6 +107,8 @@ namespace RD_AAOW.Droid
 				UniNotifierGenerics.IsForegroundAvailable));
 			}
 
+		//private const byte timerDividerLimit = 4;
+
 		/// <summary>
 		/// Перезапуск службы
 		/// </summary>
@@ -125,6 +123,9 @@ namespace RD_AAOW.Droid
 					StartForegroundService (mainService);
 				else
 					StartService (mainService);
+				/*PeriodicWorkRequest taxWorkRequest = PeriodicWorkRequest.Builder.From<MainWorker>
+					(TimeSpan.FromMilliseconds ((double)ProgramDescription.MasterTimerDelay / (double)timerDividerLimit)).Build ();
+				WorkManager.Instance.Enqueue (taxWorkRequest);*/
 				}
 
 			// Добавим уверенности в том, что служба не запустится, если она отключена
@@ -189,13 +190,14 @@ namespace RD_AAOW.Droid
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 #if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifier", Label = "Tablepedia notifier", 
+	[Service (Name = "com.RD_AAOW.TablepediaNotifier", Label = "Tablepedia notifier",
 		Icon = "@mipmap/icon", Exported = true)]
 #else
 	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier",
 		Icon = "@mipmap/icon", Exported = true)]
 #endif
 	public class MainService: global::Android.App.Service
+	//public class MainWorker: Worker
 		{
 		// Основной набор оповещений
 		private NotificationsSet ns;
@@ -219,6 +221,7 @@ namespace RD_AAOW.Droid
 		private PendingIntent[] actPendingIntent = new PendingIntent[3];
 
 		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[3];
+		//private static Context cntx;
 
 		/// <summary>
 		/// Обработчик события создания службы
@@ -245,7 +248,9 @@ namespace RD_AAOW.Droid
 		// Основной метод службы
 		private byte timerDivider = 0;
 		private const byte timerDividerLimit = 4;
+
 		private void TimerTick ()
+		//public override Result DoWork ()
 			{
 			// Контроль требования завершения службы
 			if (NotificationsSupport.StopRequested)
@@ -254,12 +259,13 @@ namespace RD_AAOW.Droid
 				StopService (mainService);
 
 				NotificationsSupport.StopRequested = false;
-				return;
+				//Stop ();
+				return; // Result.InvokeSuccess ();
 				}
 
 			// Делитель таймера (для корректной работы завершения службы)
 			if (++timerDivider < timerDividerLimit)
-				return;
+				return; // Result.InvokeSuccess ();
 			timerDivider = 0;
 
 			// Выполнение сброса при необходимости
@@ -272,7 +278,7 @@ namespace RD_AAOW.Droid
 			// Запрос следующего сообщения
 			string newText;
 			if ((newText = ns.GetNextNotification ()) == "")
-				return;
+				return; // Result.InvokeSuccess ();
 
 			// Сборка сообщения
 			notBuilder.SetContentText (newText);
@@ -317,19 +323,22 @@ namespace RD_AAOW.Droid
 
 			// Сброс
 			notification.Dispose ();
+			//return Result.InvokeSuccess ();
 			}
 
 		/// <summary>
 		/// Обработчик события запуска службы
 		/// </summary>
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
+		//public MainWorker (Context context, WorkerParameters workerParameters) : base (context, workerParameters)
 			{
 			// Защита
 			if (isStarted)
-				return StartCommandResult.Sticky;
+				return StartCommandResult.RedeliverIntent;
+			//cntx = context;
 
 			// Инициализация объектов настройки
-			notManager = (NotificationManager)GetSystemService (NotificationService);
+			notManager = (NotificationManager)this.GetSystemService (Service.NotificationService);
 			notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName.ToLower ());
 
 			// Создание канала (для Android O и выше)
@@ -414,11 +423,7 @@ namespace RD_AAOW.Droid
 				if (i != 1)
 					{
 					actIntent[i] = new Intent (this, typeof (MainActivity));
-#if TABLEPEDIA
-					actIntent[i].PutExtra ("Tab", i);
-#else
 					actIntent[i].PutExtra ("Tab", i / 2);
-#endif
 					actPendingIntent[i] = PendingIntent.GetActivity (this, i, actIntent[i], 0);
 					}
 				else
@@ -433,6 +438,8 @@ namespace RD_AAOW.Droid
 			// Стартовое сообщение
 			Android.App.Notification notification = notBuilder.Build ();
 			StartForeground (notServiceID, notification);
+			//SetForegroundAsync (new ForegroundInfo (notServiceID, notification));
+			//notManager.Notify (notServiceID, notification);
 
 			// Перенастройка для основного режима
 			if (!UniNotifierGenerics.IsForegroundAvailable)
@@ -457,19 +464,23 @@ namespace RD_AAOW.Droid
 #endif
 
 			// Запуск петли
-			RegisterReceiver (bcReceivers[0] = new BootReceiver (), new IntentFilter (Intent.ActionBootCompleted));
-			RegisterReceiver (bcReceivers[1] = new BootReceiver (), new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
-			RegisterReceiver (bcReceivers[2] = new WakeReceiver (), new IntentFilter (Intent.ActionUserPresent));
+			this.RegisterReceiver (bcReceivers[0] = new BootReceiver (),
+				new IntentFilter (Intent.ActionBootCompleted));
+			this.RegisterReceiver (bcReceivers[1] = new BootReceiver (),
+				new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
+			this.RegisterReceiver (bcReceivers[2] = new WakeReceiver (),
+				new IntentFilter (Intent.ActionUserPresent));
 
 			handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay / timerDividerLimit);
 			isStarted = true;
 
-			return StartCommandResult.Sticky;
+			return StartCommandResult.RedeliverIntent;
 			}
 
 		/// <summary>
 		/// Обработчик остановки службы
 		/// </summary>
+		//public override  void OnStopped ()
 		public override void OnDestroy ()
 			{
 			// Остановка службы
@@ -499,10 +510,11 @@ namespace RD_AAOW.Droid
 			StopSelf ();
 
 			foreach (BroadcastReceiver br in bcReceivers)
-				UnregisterReceiver (br);
+				this.UnregisterReceiver (br);
 
 			// Стандартная обработка
 			base.OnDestroy ();
+			//base.OnStopped ();
 			}
 
 		/// <summary>
@@ -527,25 +539,26 @@ namespace RD_AAOW.Droid
 	/// Класс описывает задание на открытие веб-ссылки
 	/// </summary>
 #if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifierLink", Label = "TablepediaNotifierLink", 
+	[Service (Name = "com.RD_AAOW.TablepediaNotifierLink", Label = "TablepediaNotifierLink",
 		Icon = "@mipmap/icon", Exported = true)]
 #else
 	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink",
 		Icon = "@mipmap/icon", Exported = true)]
 #endif
-	public class NotificationLink: IntentService
+	public class NotificationLink: JobIntentService
 		{
 		/// <summary>
 		/// Конструктор (заглушка)
 		/// </summary>
-		public NotificationLink () : base ("NotificationLink")
+		public NotificationLink () //: base ("NotificationLink")
 			{
 			}
 
 		/// <summary>
 		/// Обработка события выполнения задания
 		/// </summary>
-		protected override void OnHandleIntent (Intent intent)
+		protected override void OnHandleWork (Intent intent)
+		//protected override void OnHandleIntent (Intent intent)
 			{
 			try
 				{
@@ -560,25 +573,26 @@ namespace RD_AAOW.Droid
 	/// Класс описывает задание на сброс состояния оповещений
 	/// </summary>
 #if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifierReset", Label = "TablepediaNotifierReset", 
+	[Service (Name = "com.RD_AAOW.TablepediaNotifierReset", Label = "TablepediaNotifierReset",
 		Icon = "@mipmap/icon", Exported = true)]
 #else
 	[Service (Name = "com.RD_AAOW.UniNotifierReset", Label = "UniNotifierReset",
 		Icon = "@mipmap/icon", Exported = true)]
 #endif
-	public class NotificationReset: IntentService
+	public class NotificationReset: JobIntentService
 		{
 		/// <summary>
 		/// Конструктор (заглушка)
 		/// </summary>
-		public NotificationReset () : base ("NotificationReset")
+		public NotificationReset () //: base ("NotificationReset")
 			{
 			}
 
 		/// <summary>
 		/// Обработка события выполнения задания
 		/// </summary>
-		protected override void OnHandleIntent (Intent intent)
+		protected override void OnHandleWork (Intent intent)
+		//protected override void OnHandleIntent (Intent intent)
 			{
 			NotificationsSupport.ResetRequested = true;
 			}
@@ -588,7 +602,7 @@ namespace RD_AAOW.Droid
 	/// Класс описывает приёмник события окончания загрузки ОС
 	/// </summary>
 #if TABLEPEDIA
-	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierBoot", Label = "TablepediaNotifierBoot", 
+	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierBoot", Label = "TablepediaNotifierBoot",
 		Icon = "@mipmap/icon", Exported = true)]
 #else
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot",
@@ -612,6 +626,10 @@ namespace RD_AAOW.Droid
 					context.StartForegroundService (mainService);
 				else
 					context.StartService (mainService);
+
+				/*PeriodicWorkRequest taxWorkRequest = PeriodicWorkRequest.Builder.From<MainWorker>
+					(TimeSpan.FromMilliseconds ((double)ProgramDescription.MasterTimerDelay / (double)timerDividerLimit)).Build ();
+				WorkManager.Instance.Enqueue (taxWorkRequest);*/
 				}
 			}
 		}
@@ -620,7 +638,7 @@ namespace RD_AAOW.Droid
 	/// Класс описывает приёмник события входа в систему
 	/// </summary>
 #if TABLEPEDIA
-	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierWake", Label = "TablepediaNotifierWake", 
+	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierWake", Label = "TablepediaNotifierWake",
 		Icon = "@mipmap/icon", Exported = true)]
 #else
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierWake", Label = "UniNotifierWake",
