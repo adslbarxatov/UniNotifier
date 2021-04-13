@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 2.5.1b:
+• Android: updated links and messages processing in Tapbepedia notifier;
+• Android: updated required permissions set;
+• Android: updated interface behavior in Tablepedia notifier
+
 Version 2.5.1:
 • Windows: implemented retranslation processor (for further aims);
 • Updated known GMJ records;
@@ -47,7 +52,6 @@ Version 2.4:
 Version 2.3:
 • Android: fixed master timer malfunction that changed default 5m interval to 6m15s;
 • Improved GMJ processing algorithm: now it will clear missing numbers in new records according to known records template;
-• Confirmed absence of 'fall asleep' problem on Android 10: app continues getting notifications when the screen turns off;
 • Some code improvements applied;
 • Updated list of known GMJ records
 
