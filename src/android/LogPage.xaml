@@ -9,13 +9,18 @@
 
 		<StackLayout Orientation="Horizontal" HorizontalOptions="Fill" >
 
-			<StackLayout Orientation="Vertical" HorizontalOptions="Start" >
-				<Button x:Name="NotificationButton" HorizontalOptions="Center" />
-
+			<StackLayout Orientation="Vertical" HorizontalOptions="Start" VerticalOptions="Center">
 				<StackLayout HorizontalOptions="Center" Orientation="Horizontal">
 					<Button x:Name="ShareOffsetButton" VerticalOptions="Center" />
 					<Button x:Name="ShareButton" VerticalOptions="Center" />
 				</StackLayout>
+
+				<Label />
+
+				<Button x:Name="NextNewsButton" HorizontalOptions="Center" />
+				<Button x:Name="NotificationButton" HorizontalOptions="Center" />
+
+				<Label />
 
 				<Button x:Name="GetGMJ" HorizontalOptions="Center" />
 			</StackLayout>

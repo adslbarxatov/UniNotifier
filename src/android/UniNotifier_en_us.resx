@@ -139,7 +139,7 @@
     <value>Sound</value>
   </data>
   <data name="AllowStartSwitch" xml:space="preserve">
-    <value>Start service after exit</value>
+    <value>Keep service active after exit</value>
   </data>
   <data name="AllowVibroSwitch" xml:space="preserve">
     <value>Vibration</value>
@@ -207,13 +207,14 @@
   <data name="FreqFieldLabel" xml:space="preserve">
     <value>Update frequency: {0:D} minutes</value>
   </data>
+  <data name="GMJButton" xml:space="preserve">
+    <value>GMJ</value>
+  </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Interface language:</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
-    <value>Notification service has started monitoring...
-• Use buttons below to view main log and customize the application;
-• Click on notification to go to webpage from which it was received</value>
+    <value>Notification service is in standby mode. Click on this message to go to the app log</value>
   </data>
   <data name="LaunchMessage10" xml:space="preserve">
     <value>;
@@ -243,6 +244,9 @@
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="NextNewsButton" xml:space="preserve">
+    <value>News item</value>
+  </data>
   <data name="NoTemplateInClipboard" xml:space="preserve">
     <value>No compatible notification templates found in the clipboard. Copy template string to clipboard and try again</value>
   </data>
@@ -271,8 +275,17 @@
   <data name="ReadModeLabel" xml:space="preserve">
     <value>Read mode</value>
   </data>
+  <data name="RequestCompleted" xml:space="preserve">
+    <value>News message received. Go to the notifications log to view</value>
+  </data>
+  <data name="RequestFailed" xml:space="preserve">
+    <value>News not found. Try again for checking next 5 notifications</value>
+  </data>
   <data name="RequestOnWakeSwitch" xml:space="preserve">
     <value>Automatic request when running on battery</value>
+  </data>
+  <data name="RequestStarted" xml:space="preserve">
+    <value>Wait...</value>
   </data>
   <data name="ResetTips" xml:space="preserve">
     <value>Show tips again</value>
@@ -313,20 +326,8 @@
   <data name="Tip01" xml:space="preserve">
     <value>Welcome to UniNotifier! Here you can configure the news service and notifications themselves</value>
   </data>
-  <data name="Tip02_1" xml:space="preserve">
-    <value>Warning!
-</value>
-  </data>
-  <data name="Tip02_2" xml:space="preserve">
-    <value>• App can only receive notifications if your device is on charge and / or the screen is not in sleep mode.
-</value>
-  </data>
-  <data name="Tip02_3" xml:space="preserve">
-    <value>• Your device requires manual setting of notification attributes (vibro, lights, sounds). Don't forget to set them.
-</value>
-  </data>
-  <data name="Tip02_4" xml:space="preserve">
-    <value>• Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get notifications</value>
+  <data name="Tip02" xml:space="preserve">
+    <value>Warning! Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get</value>
   </data>
   <data name="Tip03" xml:space="preserve">
     <value>Detailed instructions for setting up the service are available on YouTube. Swipe to the right of this screen to app details page and select the user guide.
@@ -342,16 +343,8 @@ The notifications log is available on the left of this settings screen</value>
   <data name="Tip04_11" xml:space="preserve">
     <value>This button allows you to select notification for configuring</value>
   </data>
-  <data name="Tip04_12" xml:space="preserve">
-    <value>This option, when running on battery power, allows you to automatically refresh the status of alerts when the device is unlocked.
-The specified update period will work only when the screen is active; in standby mode it will be ignored.
-When the charger is connected, this option will have no effect</value>
-  </data>
   <data name="Tip04_13" xml:space="preserve">
-    <value>If this switch is enabled, the background service will start and begin monitoring as soon as this application is closed or minimized. When you restart this app, the service will be paused for its correct configuration</value>
-  </data>
-  <data name="Tip04_14" xml:space="preserve">
-    <value>If this switch is enabled, only notifications whose state has changed since the last poll will be displayed when manual update will be requested (using the “Refresh” button on a pinned notification)</value>
+    <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. In some cases, this allows you to quickly call the application when necessary (via a pinned notification)</value>
   </data>
   <data name="Tip04_15" xml:space="preserve">
     <value>In some cases, the needed part of web page is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of page) should be displayed</value>

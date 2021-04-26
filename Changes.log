@@ -1,5 +1,20 @@
 UniNotifier changes log
 
+Version 3.0b:
+• Android: updated some tips and names;
+• Android: log buttons will be locked to avoid of multiple requests;
+• Android: requests are now asynchronous (will not freeze the main app);
+• Android: some interface improvements applied;
+• Updated known GMJ records
+
+Version 3.0:
+• Android: app algorithm has been rebuilt:
+  - pinned notification now allows only calling of the main app when it’s closed;
+  - news requests are now fully manual (“Next” button on the log page);
+  - automated timer now only checks state of the background service;
+  - system notifications and corresponding settings replaced with main log;
+• Android: some corresponding code and interface improvements applied
+
 Version 2.5.1b:
 • Android: updated links and messages processing in Tapbepedia notifier;
 • Android: updated required permissions set;

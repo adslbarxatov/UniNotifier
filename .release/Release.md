@@ -1,9 +1,11 @@
-_Changes for v 2.5.1_:
-- Windows: implemented retranslation processor (for further aims);
-- Updated known GMJ records;
-- Android: updated some tips;
-- Android: updated Tablepedia notifications processor:
-    - external links are now available;
-    - links cloud got new behavior
-- Android: Tablepedia notifier got new order of pages and controls;
-- Android: Tablepedia notifier is now able to adjust font size for links cloud (requires restart)
+_Changes for v 3.0b_:
+- Android: app algorithm has been rebuilt:
+    - pinned notification now allows only calling of the main app when it’s closed;
+    - news requests are now fully manual (“Next” button on the log page);
+    - automated timer now only checks state of the background service;
+    - system notifications and corresponding settings replaced with main log;
+- Android: updated some tips and names;
+- Android: log buttons will be locked to avoid of multiple requests;
+- Android: requests are now asynchronous (will not freeze the main app);
+- Android: some interface improvements applied;
+- Updated known GMJ records

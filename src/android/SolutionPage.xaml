@@ -18,45 +18,8 @@
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="CompleteReset" VerticalOptions="Center" />
-					<Label x:Name="CompleteResetLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="RequestOnWake" VerticalOptions="Center" />
-					<Label x:Name="RequestOnWakeLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="SpecialNotifications" VerticalOptions="Center" />
 					<Label x:Name="SpecialNotificationsLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-			</FlexLayout>
-
-			<!-- Настройки оповещений -->
-			<Label x:Name="AlarmSettingsLabel" />
-
-			<FlexLayout Direction="Row" Wrap="Wrap" >
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="AllowSound" VerticalOptions="Center" />
-					<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="AllowLight" VerticalOptions="Center" />
-					<Label x:Name="AllowLightLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="AllowVibro" VerticalOptions="Center" />
-					<Label x:Name="AllowVibroLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="AllowOnLockedScreen" VerticalOptions="Center" />
-					<Label x:Name="AllowOnLockedScreenLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
 			</FlexLayout>
@@ -89,19 +52,15 @@
 
 			<Label x:Name="NotificationsSettingsLabel" />
 
-			<StackLayout Orientation="Horizontal">
+			<StackLayout Orientation="Horizontal" Margin="3">
 				<Button x:Name="SelectedNotification" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+
 				<Switch x:Name="EnabledSwitch" VerticalOptions="Center" HorizontalOptions="End" Rotation="270" />
 
-				<Button x:Name="ApplyButton" VerticalOptions="Center" HorizontalOptions="End" />
 				<Button x:Name="ShareTemplateButton" VerticalOptions="Center" HorizontalOptions="End" />
-				<Label x:Name="Filler2" Text=" " />
-				
-				<Button x:Name="AddButton" VerticalOptions="Center" HorizontalOptions="End" />
-				<Button x:Name="DeleteButton" VerticalOptions="Center" HorizontalOptions="End" />
-				<Label x:Name="Filler3" Text=" " />
+				<Label Text=" " />
 
-				<Button x:Name="LoadTemplateButton" VerticalOptions="Center" HorizontalOptions="End" />
+				<Button x:Name="DeleteButton" VerticalOptions="Center" HorizontalOptions="End" />
 			</StackLayout>
 
 			<!-- Управление отдельным оповещением -->
@@ -132,21 +91,21 @@
 				</StackLayout>
 			</FlexLayout>
 
-			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="OccIncButton" HorizontalOptions="Start" />
-					<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
-					<Button x:Name="OccDecButton" HorizontalOptions="Start" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="FreqIncButton" HorizontalOptions="Start" />
-					<Label x:Name="FreqFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="FreqDecButton" HorizontalOptions="Start" />
-				</StackLayout>
-			</FlexLayout>
+			<StackLayout Orientation="Horizontal" Margin="3" HorizontalOptions="Center">
+				<Button x:Name="OccIncButton" HorizontalOptions="Start" />
+				<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
+				<Button x:Name="OccDecButton" HorizontalOptions="Start" />
+			</StackLayout>
 
 			<Label x:Name="Filler1" />
+
+			<StackLayout Orientation="Horizontal" Margin="6" HorizontalOptions="Center">
+				<Button x:Name="ApplyButton" VerticalOptions="Center" />
+				<Label Text="     " />
+				<Button x:Name="AddButton" VerticalOptions="Center" />
+				<Label Text="     " />
+				<Button x:Name="LoadTemplateButton" VerticalOptions="Center" />
+			</StackLayout>
 
 		</StackLayout>
 	</ScrollView>
