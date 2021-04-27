@@ -1,5 +1,11 @@
 UniNotifier changes log
 
+Version 3.0c:
+• Android: updated known GMJ records;
+• Android: fixed bug in cycling algorithm for notifications order;
+• Android: some interface clarifications applied;
+• Android: some alert messages replaced with 'toasts'
+
 Version 3.0b:
 • Android: updated some tips and names;
 • Android: log buttons will be locked to avoid of multiple requests;
