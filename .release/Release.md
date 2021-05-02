@@ -1,11 +1,15 @@
-_Changes for v 3.0b_:
-- Android: app algorithm has been rebuilt:
-    - pinned notification now allows only calling of the main app when it’s closed;
-    - news requests are now fully manual (“Next” button on the log page);
-    - automated timer now only checks state of the background service;
-    - system notifications and corresponding settings replaced with main log;
-- Android: updated some tips and names;
-- Android: log buttons will be locked to avoid of multiple requests;
-- Android: requests are now asynchronous (will not freeze the main app);
-- Android: some interface improvements applied;
-- Updated known GMJ records
+_Changes for v 3.0g_:
+- Updated link to the user’s videomanual;
+- Android: added support for additional data files (t1, t2, t3) in Tablepedia notifier;
+- Android: fixed main log's buttons alignment in Tablepedia notifier;
+- Android: fixed settings buttons alignment in Tablepedia notifier;
+- Android: allowed vertical screen orientation in Tablepedia notifier;
+- Android: fixed attachment for first-start-notifications;
+- Android: allowed immediate update of links field in Tablepedia notifier;
+- Android: Tablepedia notifier updated to core version 3;
+- Android: removed some code artifacts;
+- Android: added ability to sequently request all available news items;
+- Android: added tips for news requesting buttons;
+- Android: updated known GMJ records;
+- Android: some interface clarifications applied;
+- Android: some alert messages replaced with “toasts”

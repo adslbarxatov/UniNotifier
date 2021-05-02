@@ -54,8 +54,7 @@
 
 			<StackLayout Orientation="Horizontal" Margin="3">
 				<Button x:Name="SelectedNotification" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-
-				<Switch x:Name="EnabledSwitch" VerticalOptions="Center" HorizontalOptions="End" Rotation="270" />
+				<Label Text=" " />
 
 				<Button x:Name="ShareTemplateButton" VerticalOptions="Center" HorizontalOptions="End" />
 				<Label Text=" " />
@@ -86,16 +85,25 @@
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label Text="   " />
 					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="EndingField" VerticalOptions="Center" />
 				</StackLayout>
 			</FlexLayout>
 
-			<StackLayout Orientation="Horizontal" Margin="3" HorizontalOptions="Center">
-				<Button x:Name="OccIncButton" HorizontalOptions="Start" />
-				<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
-				<Button x:Name="OccDecButton" HorizontalOptions="Start" />
-			</StackLayout>
+			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Button x:Name="OccIncButton" />
+					<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
+					<Button x:Name="OccDecButton" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label Text="   " />
+					<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
+					<Label x:Name="EnabledLabel" VerticalOptions="Center" />
+				</StackLayout>
+			</FlexLayout>
 
 			<Label x:Name="Filler1" />
 

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Android.Widget;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -39,9 +41,9 @@ namespace RD_AAOW
 
 		private ContentPage solutionPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel;
-		private Switch allowStart, enabledSwitch, readModeSwitch, specialNotifications;
-		private Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
-			shareButton, shareOffsetButton, notificationButton, nextNewsButton;
+		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, specialNotifications;
+		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
+			shareButton, shareOffsetButton, notificationButton, nextNewsButton, allNewsButton;
 		private Editor nameField, linkField, beginningField, endingField, mainLog;
 		private uint currentOcc;
 
@@ -71,6 +73,7 @@ namespace RD_AAOW
 						ProgramDescription.NSet.Notifications[i].Ending, 1,
 						ProgramDescription.NSet.Notifications[i].OccurrenceNumber);
 
+				ProgramDescription.NSet.SaveNotifications ();
 				NotificationsSupport.FrequencyLock = true;
 				}
 
@@ -111,14 +114,14 @@ namespace RD_AAOW
 
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowStartLabel",
 				Localization.GetText ("AllowStartSwitch", al), false);
-			allowStart = (Switch)solutionPage.FindByName ("AllowStart");
+			allowStart = (Xamarin.Forms.Switch)solutionPage.FindByName ("AllowStart");
 			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
 			if (al == SupportedLanguages.ru_ru)
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "SpecialNotificationsLabel",
 					Localization.GetText ("SpecialNotificationsSwitch", al), false);
-			specialNotifications = (Switch)solutionPage.FindByName ("SpecialNotifications");
+			specialNotifications = (Xamarin.Forms.Switch)solutionPage.FindByName ("SpecialNotifications");
 			if (al == SupportedLanguages.ru_ru)
 				{
 				specialNotifications.IsToggled = ProgramDescription.NSet.AddSpecialNotifications;
@@ -167,7 +170,9 @@ namespace RD_AAOW
 				solutionFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
-			enabledSwitch = (Switch)solutionPage.FindByName ("EnabledSwitch");
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "EnabledLabel",
+				Localization.GetText ("EnabledLabel", al), false);
+			enabledSwitch = (Xamarin.Forms.Switch)solutionPage.FindByName ("EnabledSwitch");
 
 			// Инициализация полей
 			SelectNotification (null, null);
@@ -241,6 +246,7 @@ namespace RD_AAOW
 
 			notificationButton = AndroidSupport.ApplyButtonSettings (logPage, "NotificationButton",
 				Localization.GetText ("NotificationButton", al), logFieldBackColor, SelectLogNotification);
+			notificationButton.Margin = new Thickness (0);
 
 			shareButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
@@ -250,13 +256,19 @@ namespace RD_AAOW
 			shareOffsetButton.WidthRequest = shareButton.WidthRequest;
 			shareOffsetButton.Margin = shareButton.Margin;
 
+			ShareOffsetButton_Clicked (null, null);
+
 			nextNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "NextNewsButton",
 				Localization.GetText ("NextNewsButton", al), logFieldBackColor, NextNewsItem);
+			nextNewsButton.Margin = new Thickness (0);
 
-			ShareOffsetButton_Clicked (null, null);
+			allNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "AllNewsButton",
+				Localization.GetText ("AllNewsButton", al), logFieldBackColor, AllNewsItems);
+			allNewsButton.Margin = new Thickness (0);
 
 			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
 				Localization.GetText ("GMJButton", al), logFieldBackColor, GetGMJ);
+			getGMJButton.Margin = new Thickness (0);
 			getGMJButton.IsVisible = (al == SupportedLanguages.ru_ru);
 
 			// Настройки, связанные с журналом
@@ -265,7 +277,7 @@ namespace RD_AAOW
 
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "ReadModeLabel",
 				Localization.GetText ("ReadModeLabel", al), false);
-			readModeSwitch = (Switch)solutionPage.FindByName ("ReadModeSwitch");
+			readModeSwitch = (Xamarin.Forms.Switch)solutionPage.FindByName ("ReadModeSwitch");
 			readModeSwitch.IsToggled = NotificationsSupport.LogReadingMode;
 			readModeSwitch.Toggled += ReadModeSwitch_Toggled;
 			ReadModeSwitch_Toggled (null, null);
@@ -313,8 +325,8 @@ namespace RD_AAOW
 			if (lngs.Contains (res))
 				{
 				al = (SupportedLanguages)lngs.IndexOf (res);
-				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("RestartApp", al), "OK");
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp", al),
+					ToastLength.Long).Show ();
 				}
 			}
 
@@ -324,7 +336,7 @@ namespace RD_AAOW
 			// Требование принятия Политики
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.PolicyTip))
 				{
-				while (await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				while (await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("PolicyMessage", al),
 					Localization.GetText ("DeclineButton", al),
 					Localization.GetText ("AcceptButton", al)))
@@ -338,13 +350,13 @@ namespace RD_AAOW
 			if (NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.StartupTips))
 				return;
 
-			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + "1",
+			await logPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
 				Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
 
-			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + "2",
+			await logPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
 				Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
 
-			await solutionPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + "3",
+			await logPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
 				Localization.GetText ("Tip03", al), Localization.GetText ("NextButton", al));
 
 			NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.StartupTips);
@@ -354,7 +366,7 @@ namespace RD_AAOW
 		private async void ShowTips (NotificationsSupport.TipTypes Type, Page DisplayPage)
 			{
 			// Подсказки
-			await DisplayPage.DisplayAlert (Localization.GetText ("TipHeader01", al) + ((int)Type + 3).ToString (),
+			await DisplayPage.DisplayAlert (Localization.GetText ("TipHeader01", al) /*+ ((int)Type + 3).ToString ()*/,
 				Localization.GetText ("Tip04_" + ((int)Type).ToString (), al), Localization.GetText ("NextButton", al));
 
 			NotificationsSupport.SetTipState (Type);
@@ -369,9 +381,8 @@ namespace RD_AAOW
 				}
 			catch
 				{
-				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("WebIsUnavailable", al),
-					Localization.GetText ("NextButton", al));
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
+					ToastLength.Long).Show ();
 				}
 			}
 
@@ -384,18 +395,17 @@ namespace RD_AAOW
 				}
 			catch
 				{
-				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("WebIsUnavailable", al),
-					Localization.GetText ("NextButton", al));
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
+					ToastLength.Long).Show ();
 				}
 			}
 
 		// Сброс подсказок
-		private async void ResetTips_Clicked (object sender, EventArgs e)
+		private void ResetTips_Clicked (object sender, EventArgs e)
 			{
 			NotificationsSupport.SetTipState ();
-			await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-				Localization.GetText ("RestartApp", al), "OK");
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp", al),
+				ToastLength.Long).Show ();
 			}
 
 		// Страница лаборатории
@@ -412,8 +422,8 @@ namespace RD_AAOW
 				}
 			catch
 				{
-				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("WebIsUnavailable", al), Localization.GetText ("NextButton", al));
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
+					ToastLength.Long).Show ();
 				}
 			}
 
@@ -426,9 +436,8 @@ namespace RD_AAOW
 				}
 			catch
 				{
-				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("WebIsUnavailable", al),
-					Localization.GetText ("NextButton", al));
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
+					ToastLength.Long).Show ();
 				}
 			}
 
@@ -449,9 +458,8 @@ namespace RD_AAOW
 				}
 			catch
 				{
-				await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("EmailsAreUnavailable", al),
-					Localization.GetText ("NextButton", al));
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("EmailsAreUnavailable", al),
+					ToastLength.Long).Show ();
 				}
 			}
 
@@ -523,8 +531,8 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-						Localization.GetText ("WebIsUnavailable", al), Localization.GetText ("NextButton", al));
+					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
+						ToastLength.Long).Show ();
 					}
 				}
 
@@ -535,22 +543,22 @@ namespace RD_AAOW
 		// Запрос записи из GMJ
 		private async void GetGMJ (object sender, EventArgs e)
 			{
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = notificationButton.IsEnabled =
+			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
 				shareButton.IsEnabled = false;
-			getGMJButton.Text = Localization.GetText ("RequestStarted", al);
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
+				ToastLength.Short).Show ();
 
 			NotificationsSupport.StopRequested = false; // Разблокировка метода GetHTML
 			string newText = await Task.Run<string> (GMJ.GetRandomGMJ);
 
 			if (newText == "")
-				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("GMJRequestFailed", al), Localization.GetText ("NextButton", al));
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed", al),
+					ToastLength.Long).Show ();
 			else
 				mainLog.Text = NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
 
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = notificationButton.IsEnabled =
+			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
 				shareButton.IsEnabled = true;
-			getGMJButton.Text = Localization.GetText ("GMJButton", al);
 			}
 
 		// Изменение порядкового номера вхождения
@@ -563,7 +571,7 @@ namespace RD_AAOW
 				if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.OccurenceTip))
 					ShowTips (NotificationsSupport.TipTypes.OccurenceTip, solutionPage);
 
-				Button b = (Button)sender;
+				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
 					(currentOcc < Notification.MaxOccurrenceNumber))
 					currentOcc++;
@@ -889,50 +897,113 @@ namespace RD_AAOW
 			ShareOffsetButton_Clicked (null, null);
 			}
 
+		// Обновление временной метки в журнале
+		private void UpdateLogTimestamp ()
+			{
+			if (DateTime.Today > lastNotStamp)
+				{
+				if (NotificationsSupport.MasterLog != "")
+					{
+					// Добавление отступа
+					if (lastNotStamp.Year == 2000)
+						NotificationsSupport.MasterLog = Localization.GetText ("EarlierMessage", al) +
+							"\r\n\r\n" + NotificationsSupport.MasterLog;
+					else
+						NotificationsSupport.MasterLog = "--- " +
+							lastNotStamp.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
+							" ---\r\n\r\n" + NotificationsSupport.MasterLog;
+					}
+
+				lastNotStamp = DateTime.Today;
+				}
+			}
+
 		// Запрос следующей новости
+		private string GetNot ()
+			{
+			return ProgramDescription.NSet.GetNextNotification (false);
+			}
+
 		private async void NextNewsItem (object sender, EventArgs e)
 			{
+			// Подсказка
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.NewsItemTip))
+				{
+				ShowTips (NotificationsSupport.TipTypes.NewsItemTip, logPage);
+				return;
+				}
+
 			// Блокировка
-			nextNewsButton.Text = Localization.GetText ("RequestStarted", al);
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = notificationButton.IsEnabled =
+			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
 				shareButton.IsEnabled = false;
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
+				ToastLength.Short).Show ();
 
 			// Запрос
 			NotificationsSupport.StopRequested = false; // Разблокировка метода GetHTML
-			string newText = await Task.Run<string> (ProgramDescription.NSet.GetNextNotification);
+			string newText = await Task.Run<string> (GetNot);
 
-			if (newText == "")
+			if ((newText == "") || (newText == "\x1"))
 				{
-				await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("RequestFailed", al), Localization.GetText ("NextButton", al));
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestFailed", al),
+					ToastLength.Long).Show ();
 				}
 			else
 				{
-				if (DateTime.Today > lastNotStamp)
-					{
-					if (NotificationsSupport.MasterLog != "")
-						{
-						// Добавление отступа
-						if (lastNotStamp.Year == 2000)
-							NotificationsSupport.MasterLog = Localization.GetText ("EarlierMessage", al) +
-								"\r\n\r\n" + NotificationsSupport.MasterLog;
-						else
-							NotificationsSupport.MasterLog = "--- " +
-								lastNotStamp.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
-								" ---\r\n\r\n" + NotificationsSupport.MasterLog;
-						}
-
-					lastNotStamp = DateTime.Today;
-					}
-
 				// Запись в журнал
+				UpdateLogTimestamp ();
 				mainLog.Text = NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
 				}
 
 			// Разблокировка
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = notificationButton.IsEnabled =
+			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
 				shareButton.IsEnabled = true;
-			nextNewsButton.Text = Localization.GetText ("NextNewsButton", al);
+			}
+
+		// Запрос всех новостей
+		private string GetAllNot ()
+			{
+			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
+			Thread.Sleep ((int)ProgramDescription.MasterTimerDelay / 2);
+			return ProgramDescription.NSet.GetNextNotification (true);
+			}
+
+		private async void AllNewsItems (object sender, EventArgs e)
+			{
+			// Подсказка
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AllNewsItemsTip))
+				{
+				ShowTips (NotificationsSupport.TipTypes.AllNewsItemsTip, logPage);
+				return;
+				}
+
+			// Блокировка
+			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
+				shareButton.IsEnabled = false;
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestAllStarted", al),
+				ToastLength.Long).Show ();
+
+			// Запрос
+			NotificationsSupport.StopRequested = false; // Разблокировка метода GetHTML
+			ProgramDescription.NSet.ResetTimer (false); // Без сброса текстов
+			string newText = "";
+
+			// Опрос с защитой от закрытия приложения до завершения опроса
+			while (NotificationsSupport.AppIsRunning && ((newText = await Task.Run<string> (GetAllNot)) != "\x1"))
+				{
+				if (newText != "")
+					{
+					// Запись в журнал
+					UpdateLogTimestamp ();
+					mainLog.Text = NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
+					}
+				}
+
+			// Разблокировка
+			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
+				shareButton.IsEnabled = true;
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted", al),
+				ToastLength.Long).Show ();
 			}
 
 		// Включение / выключение светодиода
@@ -944,13 +1015,13 @@ namespace RD_AAOW
 			if (readModeSwitch.IsToggled)
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logReadModeColor;
-				notificationButton.TextColor = shareButton.TextColor = nextNewsButton.TextColor =
+				notificationButton.TextColor = shareButton.TextColor = nextNewsButton.TextColor = allNewsButton.TextColor =
 					getGMJButton.TextColor = mainLog.TextColor = shareOffsetButton.TextColor = logMasterBackColor;
 				}
 			else
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logMasterBackColor;
-				notificationButton.TextColor = shareButton.TextColor = nextNewsButton.TextColor =
+				notificationButton.TextColor = shareButton.TextColor = nextNewsButton.TextColor = allNewsButton.TextColor =
 					getGMJButton.TextColor = mainLog.TextColor = shareOffsetButton.TextColor = logReadModeColor;
 				}
 			}
@@ -960,7 +1031,7 @@ namespace RD_AAOW
 			{
 			if (e != null)
 				{
-				Button b = (Button)sender;
+				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
 					(mainLog.FontSize < NotificationsSupport.MaxFontSize))
 					mainLog.FontSize += 1;
@@ -1001,10 +1072,7 @@ namespace RD_AAOW
 				// Сброс текстов при отключении приложения, чтобы обеспечить повтор новостей
 				// при следующем запуске. Позволяет не отображать повторно все новости при вызове
 				// приложения для просмотра полных текстов
-				foreach (INotification n in ProgramDescription.NSet.Notifications)
-					n.ResetTimer (true);
-				foreach (INotification n in ProgramDescription.NSet.SpecialNotifications)
-					n.ResetTimer (true);
+				ProgramDescription.NSet.ResetTimer (true);
 				NotificationsSupport.StopRequested = true;
 				}
 

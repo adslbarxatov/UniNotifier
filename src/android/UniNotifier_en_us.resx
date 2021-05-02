@@ -129,6 +129,9 @@
   <data name="AlarmSettingsLabel" xml:space="preserve">
     <value>Allow:</value>
   </data>
+  <data name="AllNewsButton" xml:space="preserve">
+    <value>All news</value>
+  </data>
   <data name="AllowLightSwitch" xml:space="preserve">
     <value>LED</value>
   </data>
@@ -152,15 +155,6 @@
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
-  </data>
-  <data name="CommandButton0" xml:space="preserve">
-    <value>Log</value>
-  </data>
-  <data name="CommandButton1" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="CommandButton2" xml:space="preserve">
-    <value>Settings</value>
   </data>
   <data name="CommunitySelect" xml:space="preserve">
     <value>Select community:</value>
@@ -193,7 +187,7 @@
     <value>This device has no mail agent</value>
   </data>
   <data name="EnabledLabel" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Active</value>
   </data>
   <data name="EndingFieldLabel" xml:space="preserve">
     <value>Ending:</value>
@@ -204,9 +198,6 @@
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Font size: </value>
   </data>
-  <data name="FreqFieldLabel" xml:space="preserve">
-    <value>Update frequency: {0:D} minutes</value>
-  </data>
   <data name="GMJButton" xml:space="preserve">
     <value>GMJ</value>
   </data>
@@ -215,10 +206,6 @@
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service is in standby mode. Click on this message to go to the app log</value>
-  </data>
-  <data name="LaunchMessage10" xml:space="preserve">
-    <value>;
-• Set up notification sound, vibro, lights and visibility in system menu</value>
   </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
@@ -275,17 +262,17 @@
   <data name="ReadModeLabel" xml:space="preserve">
     <value>Read mode</value>
   </data>
+  <data name="RequestAllStarted" xml:space="preserve">
+    <value>Requesting all news with 5 seconds step...</value>
+  </data>
   <data name="RequestCompleted" xml:space="preserve">
-    <value>News message received. Go to the notifications log to view</value>
+    <value>All available news received</value>
   </data>
   <data name="RequestFailed" xml:space="preserve">
     <value>News not found. Try again for checking next 5 notifications</value>
   </data>
-  <data name="RequestOnWakeSwitch" xml:space="preserve">
-    <value>Automatic request when running on battery</value>
-  </data>
   <data name="RequestStarted" xml:space="preserve">
-    <value>Wait...</value>
+    <value>Requesting next news item...</value>
   </data>
   <data name="ResetTips" xml:space="preserve">
     <value>Show tips again</value>
@@ -349,6 +336,12 @@ The notifications log is available on the left of this settings screen</value>
   <data name="Tip04_15" xml:space="preserve">
     <value>In some cases, the needed part of web page is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of page) should be displayed</value>
   </data>
+  <data name="Tip04_16" xml:space="preserve">
+    <value>This button allows you to request the next available news item in the order of notifications requesting</value>
+  </data>
+  <data name="Tip04_17" xml:space="preserve">
+    <value>This button allows you to request all notifications with 5 seconds steps and get all available news</value>
+  </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of the current notification</value>
   </data>
@@ -370,7 +363,7 @@ The notifications log is available on the left of this settings screen</value>
 Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
-    <value>Tip #</value>
+    <value>Tip</value>
   </data>
   <data name="WebIsUnavailable" xml:space="preserve">
     <value>This device has no web browser</value>

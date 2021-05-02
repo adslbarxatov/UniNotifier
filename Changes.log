@@ -1,5 +1,26 @@
 UniNotifier changes log
 
+Version 3.0g:
+• Updated link to the user’s videomanual;
+• Android: added support for additional data files (t1, t2, t3) in Tablepedia notifier;
+• Android: fixed main log's buttons alignment in Tablepedia notifier;
+• Android: fixed settings buttons alignment in Tablepedia notifier;
+• Android: allowed vertical screen orientation in Tablepedia notifier;
+• Android: fixed attachment for first-start-notifications;
+• Android: allowed immediate update of links field in Tablepedia notifier
+
+Version 3.0f:
+• Android: stabilized request for all news items;
+• Android: Tablepedia notifier updated to core version 3;
+• Android: removed some code artifacts
+
+Version 3.0e:
+• Android: added ability to sequently request all available news items
+• Android: added tips for news requesting buttons
+
+Version 3.0d:
+• Android: light fixup for the first set of requests
+
 Version 3.0c:
 • Android: updated known GMJ records;
 • Android: fixed bug in cycling algorithm for notifications order;

@@ -64,8 +64,7 @@ namespace RD_AAOW.Droid
 	/// </summary>
 #if TABLEPEDIA
 	[Activity (Label = "Tablepedia notifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true,
-		ScreenOrientation = ScreenOrientation.Landscape)]
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
 #else
 	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true,
@@ -300,8 +299,7 @@ namespace RD_AAOW.Droid
 			notBuilder.SetCategory ("msg");     // Категория "сообщение"
 			notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
 
-			string launchMessage = Localization.GetText ("LaunchMessage", al) +
-				(UniNotifierGenerics.AreNotificationsConfigurable ? "" : Localization.GetText ("LaunchMessage10", al));
+			string launchMessage = Localization.GetText ("LaunchMessage", al);
 			notBuilder.SetContentText (launchMessage);
 			notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
 			notBuilder.SetTicker (ProgramDescription.AssemblyTitle);
@@ -470,34 +468,6 @@ namespace RD_AAOW.Droid
 			}
 		}
 
-	/*	/// <summary>
-		/// Класс описывает задание на сброс состояния оповещений
-		/// </summary>
-	#if TABLEPEDIA
-		[Service (Name = "com.RD_AAOW.TablepediaNotifierReset", Label = "TablepediaNotifierReset",
-			Icon = "@mipmap/icon", Exported = true)]
-	#else
-		[Service (Name = "com.RD_AAOW.UniNotifierReset", Label = "UniNotifierReset",
-			Icon = "@mipmap/icon", Exported = true)]
-	#endif
-		public class NotificationReset: JobIntentService
-			{
-			/// <summary>
-			/// Конструктор (заглушка)
-			/// </summary>
-			public NotificationReset ()
-				{
-				}
-
-			/// <summary>
-			/// Обработка события выполнения задания
-			/// </summary>
-			protected override void OnHandleWork (Intent intent)
-				{
-				NotificationsSupport.ResetRequested = true;
-				}
-			}*/
-
 	/// <summary>
 	/// Класс описывает приёмник события окончания загрузки ОС
 	/// </summary>
@@ -531,31 +501,4 @@ namespace RD_AAOW.Droid
 				}
 			}
 		}
-
-	/*/// <summary>
-	/// Класс описывает приёмник события входа в систему
-	/// </summary>
-#if TABLEPEDIA
-	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierWake", Label = "TablepediaNotifierWake",
-		Icon = "@mipmap/icon", Exported = true)]
-#else
-	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierWake", Label = "UniNotifierWake",
-		Icon = "@mipmap/icon", Exported = true)]
-#endif
-	public class WakeReceiver: BroadcastReceiver
-		{
-		/// <summary>
-		/// Обработчик события наступления события входа в систему
-		/// </summary>
-		public override void OnReceive (Context context, Intent intent)
-			{
-			if ((Battery.PowerSource != BatteryPowerSource.Battery) ||
-				!NotificationsSupport.RequestOnUnlock ||
-				!NotificationsSupport.AllowServiceToStart || (intent == null))
-				return;
-
-			if (intent.Action.Equals (Intent.ActionUserPresent, StringComparison.CurrentCultureIgnoreCase))
-				NotificationsSupport.ResetRequested = true;
-			}
-		}*/
 	}

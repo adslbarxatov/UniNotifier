@@ -18,6 +18,7 @@
 				<Label />
 
 				<Button x:Name="NextNewsButton" HorizontalOptions="Center" />
+				<Button x:Name="AllNewsButton" HorizontalOptions="Center" />
 				<Button x:Name="NotificationButton" HorizontalOptions="Center" />
 
 				<Label />
