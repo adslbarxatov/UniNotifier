@@ -1,5 +1,17 @@
 UniNotifier changes log
 
+Version 3.5:
+• Android: complete rewrite of the main log interface:
+  - notification texts are now clickable and shareable directly from the log;
+  - redundant buttons and code have been removed;
+• Android: tips are now work properly (don't require double clicking on some buttons on first start);
+• Android: probably, fixed bug with date stamps in the main log;
+• Android: fixed some other interface inconveniences;
+• Android: probably, fixed bug with the bottom line of the settings interface;
+• UniNotifier: removed special notifications section;
+• Tablepedia notifier: removed log section;
+• UniNotifier: restored broken request for notification templates
+
 Version 3.0g:
 • Updated link to the user’s videomanual;
 • Android: added support for additional data files (t1, t2, t3) in Tablepedia notifier;

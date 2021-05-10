@@ -181,7 +181,7 @@
     <value>Спросить разработчика</value>
   </data>
   <data name="EarlierMessage" xml:space="preserve">
-    <value>--- Ранее ---</value>
+    <value>Ранее</value>
   </data>
   <data name="EmailsAreUnavailable" xml:space="preserve">
     <value>Почтовый агент отсутствует на этом устройстве</value>
@@ -225,6 +225,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   </data>
   <data name="GMJRequestFailed" xml:space="preserve">
     <value>GMJ не вернула сообщение. Проверьте интернет-соединение</value>
+  </data>
+  <data name="GoToOption" xml:space="preserve">
+    <value>Перейти на веб-страницу</value>
   </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Язык интерфейса:</value>
@@ -314,11 +317,17 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="SelectNotification" xml:space="preserve">
     <value>Выберите оповещение:</value>
   </data>
+  <data name="SelectOption" xml:space="preserve">
+    <value>Выберите действие:</value>
+  </data>
   <data name="SelectTemplate" xml:space="preserve">
     <value>Выберите шаблон:</value>
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Фоновая служба:</value>
+  </data>
+  <data name="ShareOption" xml:space="preserve">
+    <value>Поделиться текстом</value>
   </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Настройки оповещений</value>

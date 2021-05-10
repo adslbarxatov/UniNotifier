@@ -26,9 +26,6 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyTitle;
 			this.CancelButton = BClose;
 
-			SpecialNotifications.Checked = notifications.AddSpecialNotifications;
-			SpecialNotifications.CheckedChanged += SpecialNotifications_CheckedChanged;
-
 			LanguageCombo.Items.AddRange (Localization.LanguagesNames);
 			try
 				{
@@ -241,17 +238,6 @@ namespace RD_AAOW
 
 			// Локализация
 			Localization.SetControlsText (this, al);
-
-			if (al == SupportedLanguages.ru_ru)
-				SpecialNotifications.Visible = true;
-			else
-				SpecialNotifications.Visible = SpecialNotifications.Checked = false;
-			}
-
-		// Изменение состояния функции специальных оповещений
-		private void SpecialNotifications_CheckedChanged (object sender, EventArgs e)
-			{
-			notifications.AddSpecialNotifications = SpecialNotifications.Checked;
 			}
 
 		// Подсказка по полю Occurence

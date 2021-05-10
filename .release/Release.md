@@ -1,15 +1,12 @@
-_Changes for v 3.0g_:
-- Updated link to the user’s videomanual;
-- Android: added support for additional data files (t1, t2, t3) in Tablepedia notifier;
-- Android: fixed main log's buttons alignment in Tablepedia notifier;
-- Android: fixed settings buttons alignment in Tablepedia notifier;
-- Android: allowed vertical screen orientation in Tablepedia notifier;
-- Android: fixed attachment for first-start-notifications;
-- Android: allowed immediate update of links field in Tablepedia notifier;
-- Android: Tablepedia notifier updated to core version 3;
-- Android: removed some code artifacts;
-- Android: added ability to sequently request all available news items;
-- Android: added tips for news requesting buttons;
-- Android: updated known GMJ records;
-- Android: some interface clarifications applied;
-- Android: some alert messages replaced with “toasts”
+_Changes for v 3.5_:
+- Android: complete rewrite of the main log interface:
+    - notification texts are now clickable and shareable directly from the log;
+    - redundant buttons and code have been removed;
+- Android: tips are now work properly (don't require double clicking on some buttons on first start);
+- Android: probably, fixed bug with date stamps in the main log;
+- Android: fixed some other interface inconveniences;
+- Android: probably, fixed bug with the bottom line of the settings interface;
+- UniNotifier: removed special notifications section;
+- Tablepedia notifier: removed log section;
+- UniNotifier: restored broken request for notification templates;
+- Updated link to the user’s videomanual

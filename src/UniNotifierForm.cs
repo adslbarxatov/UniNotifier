@@ -1,5 +1,4 @@
-﻿// Библиотеки
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +19,6 @@ namespace RD_AAOW
 		private NotifyIcon ni = new NotifyIcon ();
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private CultureInfo ci;
-		private DateTime lastNotStamp = new DateTime (2000, 1, 1, 0, 0, 0);
 
 		private bool allowExit = false;
 		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read" };
@@ -119,8 +117,6 @@ namespace RD_AAOW
 			NamesCombo.Items.Clear ();
 			for (int i = 0; i < ns.Notifications.Count; i++)
 				NamesCombo.Items.Add (ns.Notifications[i].Name);
-			for (int i = 0; i < ns.SpecialNotifications.Count; i++)
-				NamesCombo.Items.Add (ns.SpecialNotifications[i].Name);
 
 			if (NamesCombo.Items.Count > 0)
 				{
@@ -241,9 +237,9 @@ namespace RD_AAOW
 					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
 					MainText.AppendText ("\r\n\r\n");
-				if (DateTime.Today > lastNotStamp)
+				if (DateTime.Today > ProgramDescription.LastNotStamp)
 					{
-					lastNotStamp = DateTime.Today;
+					ProgramDescription.LastNotStamp = DateTime.Today;
 					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
 						" ---\r\n\r\n");
 					}
@@ -376,10 +372,7 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.GoToButton);
 			try
 				{
-				if (NamesCombo.SelectedIndex < ns.Notifications.Count)
-					Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
-				else
-					Process.Start (ns.SpecialNotifications[NamesCombo.SelectedIndex - ns.Notifications.Count].Link);
+				Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
 				}
 			catch
 				{

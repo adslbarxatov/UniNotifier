@@ -181,7 +181,7 @@
     <value>Ask developer</value>
   </data>
   <data name="EarlierMessage" xml:space="preserve">
-    <value>--- Earlier ---</value>
+    <value>Earlier</value>
   </data>
   <data name="EmailsAreUnavailable" xml:space="preserve">
     <value>This device has no mail agent</value>
@@ -200,6 +200,9 @@
   </data>
   <data name="GMJButton" xml:space="preserve">
     <value>GMJ</value>
+  </data>
+  <data name="GoToOption" xml:space="preserve">
+    <value>Go to the webpage</value>
   </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Interface language:</value>
@@ -289,11 +292,17 @@
   <data name="SelectNotification" xml:space="preserve">
     <value>Select notification:</value>
   </data>
+  <data name="SelectOption" xml:space="preserve">
+    <value>Select option:</value>
+  </data>
   <data name="SelectTemplate" xml:space="preserve">
     <value>Select template:</value>
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Background service:</value>
+  </data>
+  <data name="ShareOption" xml:space="preserve">
+    <value>Share text</value>
   </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Notifications settings</value>

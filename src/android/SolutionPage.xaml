@@ -17,11 +17,6 @@
 					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="SpecialNotifications" VerticalOptions="Center" />
-					<Label x:Name="SpecialNotificationsLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
 			</FlexLayout>
 
 			<!-- Настройки журнала -->
@@ -114,6 +109,9 @@
 				<Label Text="     " />
 				<Button x:Name="LoadTemplateButton" VerticalOptions="Center" />
 			</StackLayout>
+
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="12" />
 
 		</StackLayout>
 	</ScrollView>

@@ -46,7 +46,8 @@ namespace RD_AAOW
 		/// -1, если переданы пустые строки в качестве путей;
 		/// -2, если файл, для которого создаётся ярлык, недоступен;
 		/// -3, если ярлык с заданными параметрами не может быть создан (целевой путь некорректен или недоступен)</returns>
-		public static int CreateShortcut (string TargetFile, string ShortcutFileName, string ShortcutFilePath, string ShortcutArguments)
+		public static int CreateShortcut (string TargetFile, string ShortcutFileName, string ShortcutFilePath,
+			string ShortcutArguments)
 			{
 			// Контроль
 			if (string.IsNullOrEmpty (TargetFile) || string.IsNullOrEmpty (ShortcutFileName) || string.IsNullOrEmpty (ShortcutFilePath))

@@ -20,9 +20,8 @@ namespace RD_AAOW
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private CultureInfo ci;
-		private DateTime lastNotStamp = new DateTime (2000, 1, 1, 0, 0, 0);
-
 		private int currentNotification = 0;
+		private List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
 
 		private readonly Color
 			logMasterBackColor = Color.FromHex ("#F0F0F0"),
@@ -41,10 +40,11 @@ namespace RD_AAOW
 
 		private ContentPage solutionPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel;
-		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, specialNotifications;
+		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch;//, specialNotifications;
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
-			shareButton, shareOffsetButton, notificationButton, nextNewsButton, allNewsButton;
-		private Editor nameField, linkField, beginningField, endingField, mainLog;
+			allNewsButton, nextNewsButton;
+		private Editor nameField, linkField, beginningField, endingField;
+		private Xamarin.Forms.ListView mainLog;
 		private uint currentOcc;
 
 		#endregion
@@ -53,17 +53,15 @@ namespace RD_AAOW
 		/// Конструктор. Точка входа приложения
 		/// </summary>
 		/// <param name="CurrentTabNumber">Номер текущей вкладки при старте</param>
-		/// <param name="AllowNotificationSettings">Флаг, указывающий на возможность настройки оповещений из приложения</param>
-		/// <param name="AllowForeground">Флаг, указывающий на возможность работы в ждущем режиме</param>
-		public App (uint CurrentTabNumber, bool AllowNotificationSettings, bool AllowForeground)
+		public App (uint CurrentTabNumber)
 			{
 			// Инициализация
 			InitializeComponent ();
 			if (ProgramDescription.NSet == null)
-				ProgramDescription.NSet = new NotificationsSet (false);
+				ProgramDescription.NSet = new NotificationsSet (!NotificationsSupport.AllowServiceToStart);
 
 			// Сброс частоты обновления
-			if (!NotificationsSupport.FrequencyLock)
+			if (!NotificationsSupport.UpdatedTo31)
 				{
 				for (int i = 0; i < ProgramDescription.NSet.Notifications.Count; i++)
 					ProgramDescription.NSet.Notifications[i] =
@@ -74,7 +72,11 @@ namespace RD_AAOW
 						ProgramDescription.NSet.Notifications[i].OccurrenceNumber);
 
 				ProgramDescription.NSet.SaveNotifications ();
-				NotificationsSupport.FrequencyLock = true;
+
+				NotificationsSupport.MasterLog = new string[] { };
+				masterLog.Clear ();
+
+				NotificationsSupport.UpdatedTo31 = true;
 				}
 
 			// Инициализация представления даты и времени 
@@ -118,7 +120,7 @@ namespace RD_AAOW
 			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
-			if (al == SupportedLanguages.ru_ru)
+			/*if (al == SupportedLanguages.ru_ru)
 				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "SpecialNotificationsLabel",
 					Localization.GetText ("SpecialNotificationsSwitch", al), false);
 			specialNotifications = (Xamarin.Forms.Switch)solutionPage.FindByName ("SpecialNotifications");
@@ -130,7 +132,7 @@ namespace RD_AAOW
 			else
 				{
 				specialNotifications.IsVisible = specialNotifications.IsToggled = false;
-				}
+				}*/
 
 			#endregion
 
@@ -228,7 +230,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyButtonSettings (aboutPage, "ResetTips", Localization.GetText ("ResetTips", al),
 				aboutFieldBackColor, ResetTips_Clicked);
 
-			UpdateButtons ();
+			UpdateNotButtons ();
 
 			AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
 				aboutFieldBackColor, SelectLanguage_Clicked);
@@ -239,24 +241,13 @@ namespace RD_AAOW
 
 			#region Страница лога приложения
 
-			mainLog = AndroidSupport.ApplyEditorSettings (logPage, "MainLog", logFieldBackColor, Keyboard.Default,
-				ProgramDescription.MasterLogMaxLength, NotificationsSupport.MasterLog, null);
-			mainLog.IsReadOnly = true;
-			mainLog.Placeholder = Localization.GetText ("MainLogPlaceholder", al);
-
-			notificationButton = AndroidSupport.ApplyButtonSettings (logPage, "NotificationButton",
-				Localization.GetText ("NotificationButton", al), logFieldBackColor, SelectLogNotification);
-			notificationButton.Margin = new Thickness (0);
-
-			shareButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
-				logFieldBackColor, ShareText);
-			shareOffsetButton = AndroidSupport.ApplyButtonSettings (logPage, "ShareOffsetButton", "", logFieldBackColor,
-				ShareOffsetButton_Clicked);
-			shareOffsetButton.WidthRequest = shareButton.WidthRequest;
-			shareOffsetButton.Margin = shareButton.Margin;
-
-			ShareOffsetButton_Clicked (null, null);
+			mainLog = (Xamarin.Forms.ListView)logPage.FindByName ("MainLog");
+			mainLog.BackgroundColor = logFieldBackColor;
+			mainLog.HasUnevenRows = true;
+			mainLog.ItemTapped += MainLog_ItemTapped;
+			mainLog.ItemTemplate = new DataTemplate (typeof (NotificationView));
+			mainLog.SelectionMode = ListViewSelectionMode.None;
+			mainLog.SeparatorVisibility = SeparatorVisibility.None;
 
 			nextNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "NextNewsButton",
 				Localization.GetText ("NextNewsButton", al), logFieldBackColor, NextNewsItem);
@@ -294,23 +285,84 @@ namespace RD_AAOW
 			#endregion
 
 			// Принятие соглашений
-			ShowStartupTips (AllowNotificationSettings, AllowForeground);
+			ShowStartupTips ();
+			}
+
+		// Выбор оповещения для перехода или share
+		private async void MainLog_ItemTapped (object sender, ItemTappedEventArgs e)
+			{
+			// Контроль
+			string notText = e.Item.ToString ();
+			if (notText.Contains (timestampSeparator))
+				return;
+
+			// Запрос варианта использования
+			List<string> items = new List<string> {
+				Localization.GetText ("GoToOption", al),
+				Localization.GetText ("ShareOption", al)
+				};
+			string res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+			if (!items.Contains (res))
+				{
+				items.Clear ();
+				return;
+				}
+
+			// Извлечение текста и ссылки
+			string notLink = "";
+			for (int i = 0; i < ProgramDescription.NSet.Notifications.Count; i++)
+				{
+				if (notText.Contains (ProgramDescription.NSet.Notifications[i].Name))
+					{
+					notLink = ProgramDescription.NSet.Notifications[i].Link;
+					break;
+					}
+				}
+
+			// Обработка (неподходящие варианты будут отброшены)
+			switch (items.IndexOf (res))
+				{
+				// Переход по ссылке
+				case 0:
+					if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.GoToButton))
+						await ShowTips (NotificationsSupport.TipTypes.GoToButton, logPage);
+
+					try
+						{
+						await Launcher.OpenAsync (notLink);
+						}
+					catch
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
+							ToastLength.Long).Show ();
+						}
+					break;
+
+				// Поделиться
+				case 1:
+					if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareButton))
+						await ShowTips (NotificationsSupport.TipTypes.ShareButton, logPage);
+
+					await Share.RequestAsync (new ShareTextRequest
+						{
+						Text = notText + "\r\n\r\n" + notLink,
+						Title = ProgramDescription.AssemblyTitle
+						});
+					break;
+				}
+
+			items.Clear ();
 			}
 
 		// Включение / выключение службы
-		private void AllowStart_Toggled (object sender, ToggledEventArgs e)
+		private async void AllowStart_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ServiceLaunchTip))
-				ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip, solutionPage);
 
 			NotificationsSupport.AllowServiceToStart = allowStart.IsToggled;
-			}
-
-		// Включение / выключение специальных оповещений
-		private void AddSpecialNotifications_Toggled (object sender, ToggledEventArgs e)
-			{
-			ProgramDescription.NSet.AddSpecialNotifications = specialNotifications.IsToggled;
 			}
 
 		// Выбор языка приложения
@@ -331,7 +383,7 @@ namespace RD_AAOW
 			}
 
 		// Метод отображает подсказки при первом запуске
-		private async void ShowStartupTips (bool AllowNotSettings, bool AllowForeground)
+		private async void ShowStartupTips ()
 			{
 			// Требование принятия Политики
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.PolicyTip))
@@ -363,13 +415,14 @@ namespace RD_AAOW
 			}
 
 		// Метод отображает остальные подсказки
-		private async void ShowTips (NotificationsSupport.TipTypes Type, Page DisplayPage)
+		private async Task<bool> ShowTips (NotificationsSupport.TipTypes Type, Page DisplayPage)
 			{
 			// Подсказки
-			await DisplayPage.DisplayAlert (Localization.GetText ("TipHeader01", al) /*+ ((int)Type + 3).ToString ()*/,
+			await DisplayPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
 				Localization.GetText ("Tip04_" + ((int)Type).ToString (), al), Localization.GetText ("NextButton", al));
 
 			NotificationsSupport.SetTipState (Type);
+			return true;
 			}
 
 		// Страница проекта
@@ -468,10 +521,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if ((e != null) && !NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.CurrentNotButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.CurrentNotButton, solutionPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.CurrentNotButton, solutionPage);
 
 			// Запрос списка оповещений
 			List<string> list = new List<string> ();
@@ -503,48 +553,16 @@ namespace RD_AAOW
 			list.Clear ();
 			}
 
-		// Выбор оповещения для перехода по ссылке
-		private async void SelectLogNotification (object sender, EventArgs e)
+		// Блокировка / разблокировка кнопок
+		private void SetLogState (bool State)
 			{
-			// Подсказки
-			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.GoToButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.GoToButton, logPage);
-				return;
-				}
-
-			// Список ресурсов
-			List<string> list = new List<string> ();
-			foreach (Notification element in ProgramDescription.NSet.Notifications)
-				list.Add (element.Name);
-
-			string res = await logPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
-				Localization.GetText ("CancelButton", al), null, list.ToArray ());
-
-			// Запуск
-			int i;
-			if ((i = list.IndexOf (res)) >= 0)
-				{
-				try
-					{
-					await Launcher.OpenAsync (ProgramDescription.NSet.Notifications[i].Link);
-					}
-				catch
-					{
-					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
-						ToastLength.Long).Show ();
-					}
-				}
-
-			// Сброс
-			list.Clear ();
+			getGMJButton.IsEnabled = allNewsButton.IsEnabled = nextNewsButton.IsEnabled = State;
 			}
 
 		// Запрос записи из GMJ
 		private async void GetGMJ (object sender, EventArgs e)
 			{
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
-				shareButton.IsEnabled = false;
+			SetLogState (false);
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
 				ToastLength.Short).Show ();
 
@@ -552,24 +570,36 @@ namespace RD_AAOW
 			string newText = await Task.Run<string> (GMJ.GetRandomGMJ);
 
 			if (newText == "")
+				{
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed", al),
 					ToastLength.Long).Show ();
+				}
 			else
-				mainLog.Text = NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
+				{
+				AddTextToLog (newText);
+				UpdateLog ();
+				}
 
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
-				shareButton.IsEnabled = true;
+			SetLogState (true);
+			}
+
+		// Добавление текста в журнал
+		private void AddTextToLog (string Text)
+			{
+			masterLog.Insert (0, Text);
+			while (masterLog.Count >= ProgramDescription.MasterLogMaxLength / 1000)
+				masterLog.RemoveAt (masterLog.Count - 1);
 			}
 
 		// Изменение порядкового номера вхождения
-		private void OccurrenceChanged (object sender, EventArgs e)
+		private async void OccurrenceChanged (object sender, EventArgs e)
 			{
 			// Изменение значения
 			if (sender != null)
 				{
 				// Подсказки
 				if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.OccurenceTip))
-					ShowTips (NotificationsSupport.TipTypes.OccurenceTip, solutionPage);
+					await ShowTips (NotificationsSupport.TipTypes.OccurenceTip, solutionPage);
 
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
@@ -588,10 +618,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.DeleteButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.DeleteButton, solutionPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.DeleteButton, solutionPage);
 
 			// Контроль
 			if (!await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
@@ -606,18 +633,15 @@ namespace RD_AAOW
 			SelectNotification (null, null);
 
 			// Обновление контролов
-			UpdateButtons ();
+			UpdateNotButtons ();
 			}
 
 		// Добавление нового оповещения
-		private void AddNotification (object sender, EventArgs e)
+		private async void AddNotification (object sender, EventArgs e)
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AddButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.AddButton, solutionPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.AddButton, solutionPage);
 
 			// Добавление
 			UpdateItem (-1);
@@ -631,14 +655,11 @@ namespace RD_AAOW
 			}
 
 		// Обновление оповещения
-		private void ApplyNotification (object sender, EventArgs e)
+		private async void ApplyNotification (object sender, EventArgs e)
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ApplyButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.ApplyButton, solutionPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.ApplyButton, solutionPage);
 
 			// Обновление
 			UpdateItem (currentNotification);
@@ -687,12 +708,12 @@ namespace RD_AAOW
 				}
 
 			// Обновление контролов
-			UpdateButtons ();
+			UpdateNotButtons ();
 			itemUpdated = true;
 			}
 
 		// Обновление кнопок
-		private void UpdateButtons ()
+		private void UpdateNotButtons ()
 			{
 			addButton.IsVisible = (ProgramDescription.NSet.Notifications.Count < NotificationsSet.MaxNotifications);
 			deleteButton.IsVisible = (ProgramDescription.NSet.Notifications.Count > 1);
@@ -706,89 +727,97 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.TemplateButton))
+				await ShowTips (NotificationsSupport.TipTypes.TemplateButton, solutionPage);
+
+			// Запрос варианта использования
+			List<string> items = new List<string> {
+				Localization.GetText ("TemplateList", al),
+				Localization.GetText ("TemplateClipboard", al)
+				};
+			string res = await logPage.DisplayActionSheet (Localization.GetText ("TemplateSelect", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+
+			// Обработка (недопустимые значения будут отброшены)
+			switch (items.IndexOf (res))
 				{
-				ShowTips (NotificationsSupport.TipTypes.TemplateButton, solutionPage);
-				return;
+				// Шаблон
+				case 0:
+					// Запрос списка шаблонов
+					if (templatesNames.Count == 0)
+						for (uint i = 0; i < ProgramDescription.NSet.NotificationsTemplates.TemplatesCount; i++)
+							templatesNames.Add (ProgramDescription.NSet.NotificationsTemplates.GetName (i));
+
+					res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
+						Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());
+
+					// Установка результата
+					uint templateNumber = 0;
+					int r;
+					if ((r = templatesNames.IndexOf (res)) >= 0)
+						templateNumber = (uint)r;
+
+					// Проверка
+					if (ProgramDescription.NSet.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
+						await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+							Localization.GetText ("CurlyTemplate", al), Localization.GetText ("NextButton", al));
+
+					// Заполнение
+					nameField.Text = ProgramDescription.NSet.NotificationsTemplates.GetName (templateNumber);
+					linkField.Text = ProgramDescription.NSet.NotificationsTemplates.GetLink (templateNumber);
+					beginningField.Text = ProgramDescription.NSet.NotificationsTemplates.GetBeginning (templateNumber);
+					endingField.Text = ProgramDescription.NSet.NotificationsTemplates.GetEnding (templateNumber);
+					currentOcc = ProgramDescription.NSet.NotificationsTemplates.GetOccurrenceNumber (templateNumber);
+
+					break;
+
+				// Разбор переданного шаблона
+				case 1:
+					// Запрос из буфера обмена
+					string text = "";
+					try
+						{
+						text = await Clipboard.GetTextAsync ();
+						}
+					catch
+						{
+						}
+
+					if ((text == null) || (text == ""))
+						{
+						await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+							Localization.GetText ("NoTemplateInClipboard", al), "OK");
+						return;
+						}
+
+					// Разбор
+					string[] values = text.Split (templateSplitter, StringSplitOptions.RemoveEmptyEntries);
+					if (values.Length != 5)
+						{
+						await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+							Localization.GetText ("NoTemplateInClipboard", al), "OK");
+						return;
+						}
+
+					// Заполнение
+					nameField.Text = values[0];
+					linkField.Text = values[1];
+					beginningField.Text = values[2];
+					endingField.Text = values[3];
+					try
+						{
+						currentOcc = uint.Parse (values[4]);
+						}
+					catch
+						{
+						currentOcc = 1;
+						}
+
+					break;
 				}
 
-			// Запрос варианта загрузки
-			if (await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-				Localization.GetText ("TemplateSelect", al), Localization.GetText ("TemplateList", al),
-				Localization.GetText ("TemplateClipboard", al)))
-				{
-
-				// Запрос списка шаблонов
-				if (templatesNames.Count == 0)
-					for (uint i = 0; i < ProgramDescription.NSet.NotificationsTemplates.TemplatesCount; i++)
-						templatesNames.Add (ProgramDescription.NSet.NotificationsTemplates.GetName (i));
-
-				string res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
-					Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());
-
-				// Установка результата
-				uint templateNumber = 0;
-				int r;
-				if ((r = templatesNames.IndexOf (res)) >= 0)
-					templateNumber = (uint)r;
-
-				// Проверка
-				if (ProgramDescription.NSet.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
-					await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-						Localization.GetText ("CurlyTemplate", al), Localization.GetText ("NextButton", al));
-
-				// Заполнение
-				nameField.Text = ProgramDescription.NSet.NotificationsTemplates.GetName (templateNumber);
-				linkField.Text = ProgramDescription.NSet.NotificationsTemplates.GetLink (templateNumber);
-				beginningField.Text = ProgramDescription.NSet.NotificationsTemplates.GetBeginning (templateNumber);
-				endingField.Text = ProgramDescription.NSet.NotificationsTemplates.GetEnding (templateNumber);
-				currentOcc = ProgramDescription.NSet.NotificationsTemplates.GetOccurrenceNumber (templateNumber);
-				}
-
-			// Разбор переданного шаблона
-			else
-				{
-				// Запрос из буфера обмена
-				string text = "";
-				try
-					{
-					text = await Clipboard.GetTextAsync ();
-					}
-				catch
-					{
-					}
-
-				if ((text == null) || (text == ""))
-					{
-					await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-						Localization.GetText ("NoTemplateInClipboard", al), "OK");
-					return;
-					}
-
-				// Разбор
-				string[] values = text.Split (templateSplitter, StringSplitOptions.RemoveEmptyEntries);
-				if (values.Length != 5)
-					{
-					await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-						Localization.GetText ("NoTemplateInClipboard", al), "OK");
-					return;
-					}
-
-				// Заполнение
-				nameField.Text = values[0];
-				linkField.Text = values[1];
-				beginningField.Text = values[2];
-				endingField.Text = values[3];
-				try
-					{
-					currentOcc = uint.Parse (values[4]);
-					}
-				catch
-					{
-					currentOcc = 1;
-					}
-				}
-
+			// Обновление
 			OccurrenceChanged (null, null);
+			items.Clear ();
 			}
 
 		// Метод формирует и отправляет шаблон оповещения
@@ -796,10 +825,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareNotButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.ShareNotButton, solutionPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.ShareNotButton, solutionPage);
 
 			// Формирование и отправка
 			await Share.RequestAsync (new ShareTextRequest
@@ -816,10 +842,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FindButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.FindButton, solutionPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.FindButton, solutionPage);
 
 			// Контроль
 			beginningField.Focus ();
@@ -846,75 +869,27 @@ namespace RD_AAOW
 			endingField.Text = ending;
 			}
 
-		// Метод запускает интерфейс "Поделиться" для последней записи в журнале
-		private async void ShareText (object sender, EventArgs e)
-			{
-			// Подсказки
-			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareButton))
-				{
-				ShowTips (NotificationsSupport.TipTypes.ShareButton, logPage);
-				return;
-				}
-
-			// Получение текста
-			string text = NotificationsSupport.MasterLog;
-			int start = 0, end = -6, i;
-			for (i = 0; i < shareOffset; i++)
-				{
-				start = end + 6;
-				end = text.IndexOf ("\r\n\r\n\r\n", start);
-				if (end < 0)
-					{
-					end = text.Length - 1;
-					break;
-					}
-				}
-
-			if (end - start > 0)
-				text = text.Substring (start, end - start);
-			else
-				return;
-
-			// Получение ссылки
-			for (i = 0; i < ProgramDescription.NSet.Notifications.Count; i++)
-				{
-				if (text.Contains (ProgramDescription.NSet.Notifications[i].Name))
-					{
-					text += ("\r\n\r\n" + ProgramDescription.NSet.Notifications[i].Link);
-					break;
-					}
-				}
-
-			// Запуск
-			await Share.RequestAsync (new ShareTextRequest
-				{
-				Text = text,
-				Title = ProgramDescription.AssemblyTitle
-				});
-
-			// Сброс смещения
-			shareOffset = 0;
-			ShareOffsetButton_Clicked (null, null);
-			}
-
 		// Обновление временной метки в журнале
+		private const string timestampSeparator = "---";
 		private void UpdateLogTimestamp ()
 			{
-			if (DateTime.Today > lastNotStamp)
+			if (DateTime.Today > ProgramDescription.LastNotStamp)
 				{
-				if (NotificationsSupport.MasterLog != "")
+				if (masterLog.Count != 0)
 					{
 					// Добавление отступа
-					if (lastNotStamp.Year == 2000)
-						NotificationsSupport.MasterLog = Localization.GetText ("EarlierMessage", al) +
-							"\r\n\r\n" + NotificationsSupport.MasterLog;
+					if (ProgramDescription.LastNotStamp.Year == 2000)
+						AddTextToLog (timestampSeparator + " " + Localization.GetText ("EarlierMessage", al) +
+							" " + timestampSeparator);
 					else
-						NotificationsSupport.MasterLog = "--- " +
-							lastNotStamp.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
-							" ---\r\n\r\n" + NotificationsSupport.MasterLog;
+						AddTextToLog (timestampSeparator + " " +
+							ProgramDescription.LastNotStamp.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
+							" " + timestampSeparator);
+
+					UpdateLog ();
 					}
 
-				lastNotStamp = DateTime.Today;
+				ProgramDescription.LastNotStamp = DateTime.Today;
 				}
 			}
 
@@ -928,14 +903,10 @@ namespace RD_AAOW
 			{
 			// Подсказка
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.NewsItemTip))
-				{
-				ShowTips (NotificationsSupport.TipTypes.NewsItemTip, logPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.NewsItemTip, logPage);
 
 			// Блокировка
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
-				shareButton.IsEnabled = false;
+			SetLogState (false);
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
 				ToastLength.Short).Show ();
 
@@ -952,12 +923,12 @@ namespace RD_AAOW
 				{
 				// Запись в журнал
 				UpdateLogTimestamp ();
-				mainLog.Text = NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
+				AddTextToLog (newText);
+				UpdateLog ();
 				}
 
 			// Разблокировка
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
-				shareButton.IsEnabled = true;
+			SetLogState (true);
 			}
 
 		// Запрос всех новостей
@@ -972,14 +943,10 @@ namespace RD_AAOW
 			{
 			// Подсказка
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AllNewsItemsTip))
-				{
-				ShowTips (NotificationsSupport.TipTypes.AllNewsItemsTip, logPage);
-				return;
-				}
+				await ShowTips (NotificationsSupport.TipTypes.AllNewsItemsTip, logPage);
 
 			// Блокировка
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
-				shareButton.IsEnabled = false;
+			SetLogState (false);
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestAllStarted", al),
 				ToastLength.Long).Show ();
 
@@ -995,13 +962,13 @@ namespace RD_AAOW
 					{
 					// Запись в журнал
 					UpdateLogTimestamp ();
-					mainLog.Text = NotificationsSupport.MasterLog = newText + "\r\n\r\n\r\n" + NotificationsSupport.MasterLog;
+					AddTextToLog (newText);
+					UpdateLog ();
 					}
 				}
 
 			// Разблокировка
-			getGMJButton.IsEnabled = nextNewsButton.IsEnabled = allNewsButton.IsEnabled = notificationButton.IsEnabled =
-				shareButton.IsEnabled = true;
+			SetLogState (true);
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted", al),
 				ToastLength.Long).Show ();
 			}
@@ -1015,50 +982,48 @@ namespace RD_AAOW
 			if (readModeSwitch.IsToggled)
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logReadModeColor;
-				notificationButton.TextColor = shareButton.TextColor = nextNewsButton.TextColor = allNewsButton.TextColor =
-					getGMJButton.TextColor = mainLog.TextColor = shareOffsetButton.TextColor = logMasterBackColor;
+				nextNewsButton.TextColor = allNewsButton.TextColor =
+				getGMJButton.TextColor = NotificationsSupport.LogFontColor = logMasterBackColor;
 				}
 			else
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = logMasterBackColor;
-				notificationButton.TextColor = shareButton.TextColor = nextNewsButton.TextColor = allNewsButton.TextColor =
-					getGMJButton.TextColor = mainLog.TextColor = shareOffsetButton.TextColor = logReadModeColor;
+				nextNewsButton.TextColor = allNewsButton.TextColor =
+				getGMJButton.TextColor = NotificationsSupport.LogFontColor = logReadModeColor;
 				}
+
+			// Принудительное обновление
+			UpdateLog ();
 			}
 
 		// Изменение значения частоты опроса
 		private void FontSizeChanged (object sender, EventArgs e)
 			{
+			uint fontSize = NotificationsSupport.LogFontSize;
+
 			if (e != null)
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
-					(mainLog.FontSize < NotificationsSupport.MaxFontSize))
-					mainLog.FontSize += 1;
+					(fontSize < NotificationsSupport.MaxFontSize))
+					fontSize++;
 				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
-					(mainLog.FontSize > NotificationsSupport.MinFontSize))
-					mainLog.FontSize -= 1;
+					(fontSize > NotificationsSupport.MinFontSize))
+					fontSize--;
 
-				NotificationsSupport.LogFontSize = (uint)mainLog.FontSize;
-				}
-			else
-				{
-				mainLog.FontSize = NotificationsSupport.LogFontSize;
+				NotificationsSupport.LogFontSize = fontSize;
 				}
 
-			fontSizeFieldLabel.Text = Localization.GetText ("FontSizeLabel", al) + mainLog.FontSize.ToString ();
+			// Принудительное обновление
+			fontSizeFieldLabel.Text = Localization.GetText ("FontSizeLabel", al) + fontSize.ToString ();
+			UpdateLog ();
 			}
 
-		// Изменение смещения функции share
-		private uint shareOffset = 0;
-		private void ShareOffsetButton_Clicked (object sender, EventArgs e)
+		// Принудительное обновление лога
+		private void UpdateLog ()
 			{
-			if (shareOffset < NotificationsSupport.MaxShareOffset)
-				shareOffset++;
-			else
-				shareOffset = 1;
-
-			shareOffsetButton.Text = shareOffset.ToString ();
+			mainLog.ItemsSource = null;
+			mainLog.ItemsSource = masterLog;
 			}
 
 		/// <summary>
@@ -1077,6 +1042,7 @@ namespace RD_AAOW
 				}
 
 			ProgramDescription.NSet.SaveNotifications ();
+			NotificationsSupport.MasterLog = masterLog.ToArray ();
 			NotificationsSupport.AppIsRunning = false;
 
 			try

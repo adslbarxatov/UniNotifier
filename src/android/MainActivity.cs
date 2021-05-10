@@ -106,8 +106,7 @@ namespace RD_AAOW.Droid
 				}
 
 			// Запуск
-			LoadApplication (new App (currentTab, UniNotifierGenerics.AreNotificationsConfigurable,
-				UniNotifierGenerics.IsForegroundAvailable));
+			LoadApplication (new App (currentTab));
 			}
 
 		/// <summary>
