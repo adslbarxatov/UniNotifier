@@ -130,22 +130,16 @@
     <value>Разрешить:</value>
   </data>
   <data name="AllNewsButton" xml:space="preserve">
-    <value>Все новости</value>
+    <value>Все</value>
   </data>
-  <data name="AllowLightSwitch" xml:space="preserve">
-    <value>Светодиод</value>
+  <data name="AllNewsRequest" xml:space="preserve">
+    <value>Эта опция опросит все оповещения с шагом в 5 секунд. Это может занять какое-то время. Продолжить?</value>
   </data>
   <data name="AllowOnLockedScreenSwitch" xml:space="preserve">
     <value>Текст на экране блокировки</value>
   </data>
-  <data name="AllowSoundSwitch" xml:space="preserve">
-    <value>Звук</value>
-  </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Оставить службу активной после выхода</value>
-  </data>
-  <data name="AllowVibroSwitch" xml:space="preserve">
-    <value>Вибрацию</value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>Страница проекта</value>
@@ -235,6 +229,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="LaunchMessage" xml:space="preserve">
     <value>Служба оповещений находится в режиме ожидания. Нажмите на это сообщение, чтобы перейти к журналу</value>
   </data>
+  <data name="LinkFieldLabel" xml:space="preserve">
+    <value>Ссылка:</value>
+  </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
   </data>
@@ -251,7 +248,7 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
     <value>Руководство пользователя</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
-    <value>Название и ссылка:</value>
+    <value>Название:</value>
   </data>
   <data name="NameFieldPlaceholder" xml:space="preserve">
     <value>(название)</value>
@@ -291,7 +288,7 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
     <value>Режим чтения</value>
   </data>
   <data name="RequestAllStarted" xml:space="preserve">
-    <value>Запрос всех новостей с шагом в 5 секунд...</value>
+    <value>Запрос всех новостей...</value>
   </data>
   <data name="RequestCompleted" xml:space="preserve">
     <value>Получены все доступные новости</value>
@@ -302,11 +299,11 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="RequestStarted" xml:space="preserve">
     <value>Запрос следующей новости...</value>
   </data>
-  <data name="ResetTips" xml:space="preserve">
-    <value>Показать подсказки заново</value>
-  </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Перезапустите приложение</value>
+  </data>
+  <data name="RightAlignmentLabel" xml:space="preserve">
+    <value>Кнопки справа</value>
   </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается</value>
@@ -331,9 +328,6 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   </data>
   <data name="SolutionPage" xml:space="preserve">
     <value>Настройки оповещений</value>
-  </data>
-  <data name="SpecialNotificationsSwitch" xml:space="preserve">
-    <value>Получать оповещения с tablepedia.com</value>
   </data>
   <data name="TemplateClipboard" xml:space="preserve">
     <value>Из буфера обмена</value>
@@ -373,9 +367,6 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="Tip04_16" xml:space="preserve">
     <value>Эта кнопка позволяет запросить следующую доступную новость в порядке опроса оповещений</value>
   </data>
-  <data name="Tip04_17" xml:space="preserve">
-    <value>Эта кнопка позволяет опросить все оповещения с шагом в 5 секунд и получить все доступные новости</value>
-  </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>Эта кнопка позволяет вам поделиться настройками текущего уведомления</value>
   </data>
@@ -398,6 +389,15 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Подсказка</value>
+  </data>
+  <data name="UpdateTemplates" xml:space="preserve">
+    <value>Обновить шаблоны оповещений</value>
+  </data>
+  <data name="UpdatingTemplates" xml:space="preserve">
+    <value>Обновление шаблонов оповещений...</value>
+  </data>
+  <data name="UpdatingTemplatesCompleted" xml:space="preserve">
+    <value>Обновление шаблонов завершено</value>
   </data>
   <data name="WebIsUnavailable" xml:space="preserve">
     <value>Веб-браузер отсутствует на этом устройстве</value>

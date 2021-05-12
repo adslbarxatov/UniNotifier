@@ -67,8 +67,8 @@ namespace RD_AAOW.Droid
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
 #else
 	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true,
-		ScreenOrientation = ScreenOrientation.Landscape)]
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]/*,
+		ScreenOrientation = ScreenOrientation.Landscape)]*/
 #endif
 	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{

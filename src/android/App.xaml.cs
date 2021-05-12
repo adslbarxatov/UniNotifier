@@ -40,12 +40,14 @@ namespace RD_AAOW
 
 		private ContentPage solutionPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel;
-		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch;//, specialNotifications;
+		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			allNewsButton, nextNewsButton;
-		private Editor nameField, linkField, beginningField, endingField;
+		private Editor nameField, /*linkField,*/ beginningField, endingField;
+		private string linkField2;
 		private Xamarin.Forms.ListView mainLog;
 		private uint currentOcc;
+		private Grid mainGrid;
 
 		#endregion
 
@@ -58,7 +60,7 @@ namespace RD_AAOW
 			// Инициализация
 			InitializeComponent ();
 			if (ProgramDescription.NSet == null)
-				ProgramDescription.NSet = new NotificationsSet (!NotificationsSupport.AllowServiceToStart);
+				ProgramDescription.NSet = new NotificationsSet (false);
 
 			// Сброс частоты обновления
 			if (!NotificationsSupport.UpdatedTo31)
@@ -117,22 +119,9 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowStartLabel",
 				Localization.GetText ("AllowStartSwitch", al), false);
 			allowStart = (Xamarin.Forms.Switch)solutionPage.FindByName ("AllowStart");
-			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
+			// Теперь принудительно выполняется при запуске, чтобы реже забывать
+			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart = true;
 			allowStart.Toggled += AllowStart_Toggled;
-
-			/*if (al == SupportedLanguages.ru_ru)
-				AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "SpecialNotificationsLabel",
-					Localization.GetText ("SpecialNotificationsSwitch", al), false);
-			specialNotifications = (Xamarin.Forms.Switch)solutionPage.FindByName ("SpecialNotifications");
-			if (al == SupportedLanguages.ru_ru)
-				{
-				specialNotifications.IsToggled = ProgramDescription.NSet.AddSpecialNotifications;
-				specialNotifications.Toggled += AddSpecialNotifications_Toggled;
-				}
-			else
-				{
-				specialNotifications.IsVisible = specialNotifications.IsToggled = false;
-				}*/
 
 			#endregion
 
@@ -149,9 +138,11 @@ namespace RD_AAOW
 				Keyboard.Default, Notification.MaxBeginningEndingLength, "", null);
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
-			linkField = AndroidSupport.ApplyEditorSettings (solutionPage, "LinkField", solutionFieldBackColor,
-				Keyboard.Url, 150, "", null);
-			linkField.Placeholder = Localization.GetText ("LinkFieldPlaceholder", al);
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LinkFieldLabel",
+				Localization.GetText ("LinkFieldLabel", al), false);
+			AndroidSupport.ApplyButtonSettings (solutionPage, "LinkFieldButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Select),
+				solutionFieldBackColor, SpecifyNotificationLink);
 
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "BeginningFieldLabel",
 				Localization.GetText ("BeginningFieldLabel", al), false);
@@ -227,8 +218,8 @@ namespace RD_AAOW
 				aboutFieldBackColor, DevButton_Clicked);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage",
 				AndroidSupport.MasterLabName, aboutFieldBackColor, CommunityButton_Clicked);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "ResetTips", Localization.GetText ("ResetTips", al),
-				aboutFieldBackColor, ResetTips_Clicked);
+			AndroidSupport.ApplyButtonSettings (aboutPage, "UpdateTemplates", Localization.GetText ("UpdateTemplates", al),
+				aboutFieldBackColor, UpdateTemplates_Clicked);
 
 			UpdateNotButtons ();
 
@@ -272,6 +263,15 @@ namespace RD_AAOW
 			readModeSwitch.IsToggled = NotificationsSupport.LogReadingMode;
 			readModeSwitch.Toggled += ReadModeSwitch_Toggled;
 			ReadModeSwitch_Toggled (null, null);
+
+			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "RightAlignmentLabel",
+				Localization.GetText ("RightAlignmentLabel", al), false);
+			rightAlignmentSwitch = (Xamarin.Forms.Switch)solutionPage.FindByName ("RightAlignmentSwitch");
+			rightAlignmentSwitch.IsToggled = NotificationsSupport.LogButtonsOnTheRightSide;
+			rightAlignmentSwitch.Toggled += RightAlignmentSwitch_Toggled;
+
+			mainGrid = (Grid)logPage.FindByName ("MainGrid");
+			RightAlignmentSwitch_Toggled (null, null);
 
 			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "FontSizeFieldLabel", "", false);
 			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeIncButton",
@@ -453,11 +453,18 @@ namespace RD_AAOW
 				}
 			}
 
-		// Сброс подсказок
-		private void ResetTips_Clicked (object sender, EventArgs e)
+		// Обновление шаблонов
+		private async void UpdateTemplates_Clicked (object sender, EventArgs e)
 			{
-			NotificationsSupport.SetTipState ();
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp", al),
+			((Xamarin.Forms.Button)sender).IsEnabled = false;
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("UpdatingTemplates", al),
+				ToastLength.Long).Show ();
+
+			// Запрос
+			NotificationsSupport.StopRequested = false; // Разблокировка метода GetHTML
+			await Task.Run<bool> (ProgramDescription.NSet.UpdateNotificationsTemplates);
+
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("UpdatingTemplatesCompleted", al),
 				ToastLength.Long).Show ();
 			}
 
@@ -541,7 +548,7 @@ namespace RD_AAOW
 				selectedNotification.Text = res;
 
 				nameField.Text = ProgramDescription.NSet.Notifications[i].Name;
-				linkField.Text = ProgramDescription.NSet.Notifications[i].Link;
+				linkField2 = ProgramDescription.NSet.Notifications[i].Link;
 				beginningField.Text = ProgramDescription.NSet.Notifications[i].Beginning;
 				endingField.Text = ProgramDescription.NSet.Notifications[i].Ending;
 				currentOcc = ProgramDescription.NSet.Notifications[i].OccurrenceNumber;
@@ -587,7 +594,7 @@ namespace RD_AAOW
 		private void AddTextToLog (string Text)
 			{
 			masterLog.Insert (0, Text);
-			while (masterLog.Count >= ProgramDescription.MasterLogMaxLength / 1000)
+			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
 				masterLog.RemoveAt (masterLog.Count - 1);
 			}
 
@@ -673,7 +680,7 @@ namespace RD_AAOW
 		private async void UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
-			Notification ni = new Notification (nameField.Text, linkField.Text, beginningField.Text, endingField.Text,
+			Notification ni = new Notification (nameField.Text, linkField2, beginningField.Text, endingField.Text,
 				1, currentOcc);
 
 			if (!ni.IsInited)
@@ -763,7 +770,7 @@ namespace RD_AAOW
 
 					// Заполнение
 					nameField.Text = ProgramDescription.NSet.NotificationsTemplates.GetName (templateNumber);
-					linkField.Text = ProgramDescription.NSet.NotificationsTemplates.GetLink (templateNumber);
+					linkField2 = ProgramDescription.NSet.NotificationsTemplates.GetLink (templateNumber);
 					beginningField.Text = ProgramDescription.NSet.NotificationsTemplates.GetBeginning (templateNumber);
 					endingField.Text = ProgramDescription.NSet.NotificationsTemplates.GetEnding (templateNumber);
 					currentOcc = ProgramDescription.NSet.NotificationsTemplates.GetOccurrenceNumber (templateNumber);
@@ -800,7 +807,7 @@ namespace RD_AAOW
 
 					// Заполнение
 					nameField.Text = values[0];
-					linkField.Text = values[1];
+					linkField2 = values[1];
 					beginningField.Text = values[2];
 					endingField.Text = values[3];
 					try
@@ -830,7 +837,7 @@ namespace RD_AAOW
 			// Формирование и отправка
 			await Share.RequestAsync (new ShareTextRequest
 				{
-				Text = nameField.Text + templateSplitter[0].ToString () + linkField.Text + templateSplitter[0].ToString () +
+				Text = nameField.Text + templateSplitter[0].ToString () + linkField2 + templateSplitter[0].ToString () +
 					beginningField.Text + templateSplitter[0].ToString () + endingField.Text + templateSplitter[0].ToString () +
 					currentOcc.ToString (),
 				Title = ProgramDescription.AssemblyTitle
@@ -857,7 +864,7 @@ namespace RD_AAOW
 
 			// Поиск
 			string beginning = "", ending = "";
-			if (!Notification.FindDelimiters (linkField.Text, beginningField.Text, out beginning, out ending))
+			if (!Notification.FindDelimiters (linkField2, beginningField.Text, out beginning, out ending))
 				{
 				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("SearchFailure", al), Localization.GetText ("NextButton", al));
@@ -941,9 +948,11 @@ namespace RD_AAOW
 
 		private async void AllNewsItems (object sender, EventArgs e)
 			{
-			// Подсказка
-			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AllNewsItemsTip))
-				await ShowTips (NotificationsSupport.TipTypes.AllNewsItemsTip, logPage);
+			// Проверка
+			if (!await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				Localization.GetText ("AllNewsRequest", al), Localization.GetText ("NextButton", al),
+				Localization.GetText ("CancelButton", al)))
+				return;
 
 			// Блокировка
 			SetLogState (false);
@@ -973,7 +982,7 @@ namespace RD_AAOW
 				ToastLength.Long).Show ();
 			}
 
-		// Включение / выключение светодиода
+		// Включение / выключение режима чтения для лога
 		private void ReadModeSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
 			if (e != null)
@@ -994,6 +1003,15 @@ namespace RD_AAOW
 
 			// Принудительное обновление
 			UpdateLog ();
+			}
+
+		// Включение / выключение режима чтения для лога
+		private void RightAlignmentSwitch_Toggled (object sender, ToggledEventArgs e)
+			{
+			if (e != null)
+				NotificationsSupport.LogButtonsOnTheRightSide = rightAlignmentSwitch.IsToggled;
+
+			mainGrid.FlowDirection = rightAlignmentSwitch.IsToggled ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
 			}
 
 		// Изменение значения частоты опроса
@@ -1024,6 +1042,18 @@ namespace RD_AAOW
 			{
 			mainLog.ItemsSource = null;
 			mainLog.ItemsSource = masterLog;
+			}
+
+		// Выбор ссылки для оповещения
+		private async void SpecifyNotificationLink (object sender, EventArgs e)
+			{
+			// Запрос
+			string res = await solutionPage.DisplayPromptAsync (Localization.GetText ("LinkFieldLabel", al),
+				null, Localization.GetText ("NextButton", al), Localization.GetText ("CancelButton", al),
+				Localization.GetText ("LinkFieldPlaceholder", al), 150, Keyboard.Url, linkField2);
+
+			if (res != null)
+				linkField2 = res;
 			}
 
 		/// <summary>

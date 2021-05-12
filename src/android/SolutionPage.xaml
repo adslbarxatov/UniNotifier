@@ -33,6 +33,11 @@
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
+					<Label x:Name="RightAlignmentLabel" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
 					<Label x:Name="FontSizeLabel" Text="   " VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
 					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
 					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
@@ -68,12 +73,25 @@
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">
-					<Editor x:Name="LinkField" VerticalOptions="Center" />
+					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
+					<Button x:Name="LinkFieldButton" VerticalOptions="Center" />
 				</StackLayout>
-			</FlexLayout>
 
-			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
 				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label Text="   " />
+					<Button x:Name="OccIncButton" VerticalOptions="Center" />
+					<Label x:Name="OccFieldLabel" VerticalOptions="Center" />
+					<Button x:Name="OccDecButton" VerticalOptions="Center" />
+					<Label Text="   " />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label x:Name="EnabledLabel" VerticalOptions="Center" />
+					<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
+				</StackLayout>
+				
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label Text="   " />
 					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="BeginningField" VerticalOptions="Center" />
 					<Button x:Name="FindDelimitersButton" VerticalOptions="Center" />
@@ -84,23 +102,10 @@
 					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="EndingField" VerticalOptions="Center" />
 				</StackLayout>
+
 			</FlexLayout>
 
-			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="OccIncButton" />
-					<Label x:Name="OccFieldLabel" VerticalTextAlignment="Center" VerticalOptions="Center" />
-					<Button x:Name="OccDecButton" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label Text="   " />
-					<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
-					<Label x:Name="EnabledLabel" VerticalOptions="Center" />
-				</StackLayout>
-			</FlexLayout>
-
-			<Label x:Name="Filler1" />
+			<Label />
 
 			<StackLayout Orientation="Horizontal" Margin="6" HorizontalOptions="Center">
 				<Button x:Name="ApplyButton" VerticalOptions="Center" />

@@ -1,5 +1,17 @@
 UniNotifier changes log
 
+Version 3.6:
+• Android: settings window has been upgraded;
+• Android: vertical screen orientation is now available for UniNotifier;
+• Updated known GMJ records
+
+Version 3.5v:
+• Android: buttons placement has been adjusted;
+• Android: additional confirmation added for all news request;
+• Android: added ability to align buttons in the main log to the right side;
+• Android: main log may now contain up to 40 recent notifications;
+• Android: notification templates may now be updated manually
+
 Version 3.5:
 • Android: complete rewrite of the main log interface:
   - notification texts are now clickable and shareable directly from the log;

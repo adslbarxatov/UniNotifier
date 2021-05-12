@@ -6,28 +6,27 @@
 	<StackLayout>
 		<Label x:Name="HeaderLabel" />
 
-		<Grid >
+		<Grid x:Name="MainGrid">
+
 			<Grid.RowDefinitions />
 
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="100" />
+				<ColumnDefinition Width="85" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
-			
+
 			<StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" HorizontalOptions="Start" VerticalOptions="Center">
 				<Button x:Name="NextNewsButton" HorizontalOptions="Center" />
-				<Button x:Name="AllNewsButton" HorizontalOptions="Center" />
-
 				<Label />
-
+				<Button x:Name="AllNewsButton" HorizontalOptions="Center" />
+				<Label />
 				<Button x:Name="GetGMJ" HorizontalOptions="Center" />
 			</StackLayout>
 
 			<ListView Grid.Row="0" Grid.Column="1" x:Name="MainLog" HorizontalOptions="Fill" />
 
 		</Grid>
-
 	</StackLayout>
 </ContentPage>
     

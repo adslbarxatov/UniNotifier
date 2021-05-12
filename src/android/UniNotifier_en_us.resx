@@ -132,20 +132,14 @@
   <data name="AllNewsButton" xml:space="preserve">
     <value>All news</value>
   </data>
-  <data name="AllowLightSwitch" xml:space="preserve">
-    <value>LED</value>
+  <data name="AllNewsRequest" xml:space="preserve">
+    <value>This option will poll all notifications with 5 seconds steps. It may take some time. Continue?</value>
   </data>
   <data name="AllowOnLockedScreenSwitch" xml:space="preserve">
     <value>Text on locked screen</value>
   </data>
-  <data name="AllowSoundSwitch" xml:space="preserve">
-    <value>Sound</value>
-  </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Keep service active after exit</value>
-  </data>
-  <data name="AllowVibroSwitch" xml:space="preserve">
-    <value>Vibration</value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>App webpage</value>
@@ -210,6 +204,9 @@
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service is in standby mode. Click on this message to go to the app log</value>
   </data>
+  <data name="LinkFieldLabel" xml:space="preserve">
+    <value>Link:</value>
+  </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
   </data>
@@ -226,7 +223,7 @@
     <value>User manual</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
-    <value>Name and link:</value>
+    <value>Name:</value>
   </data>
   <data name="NameFieldPlaceholder" xml:space="preserve">
     <value>(name)</value>
@@ -235,7 +232,7 @@
     <value>OK</value>
   </data>
   <data name="NextNewsButton" xml:space="preserve">
-    <value>News item</value>
+    <value>Next item</value>
   </data>
   <data name="NoTemplateInClipboard" xml:space="preserve">
     <value>No compatible notification templates found in the clipboard. Copy template string to clipboard and try again</value>
@@ -266,7 +263,7 @@
     <value>Read mode</value>
   </data>
   <data name="RequestAllStarted" xml:space="preserve">
-    <value>Requesting all news with 5 seconds step...</value>
+    <value>Requesting all news...</value>
   </data>
   <data name="RequestCompleted" xml:space="preserve">
     <value>All available news received</value>
@@ -277,11 +274,11 @@
   <data name="RequestStarted" xml:space="preserve">
     <value>Requesting next news item...</value>
   </data>
-  <data name="ResetTips" xml:space="preserve">
-    <value>Show tips again</value>
-  </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>
+  </data>
+  <data name="RightAlignmentLabel" xml:space="preserve">
+    <value>Right buttons</value>
   </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Link to webpage is incorrect or keyword is not found on this page</value>
@@ -348,9 +345,6 @@ The notifications log is available on the left of this settings screen</value>
   <data name="Tip04_16" xml:space="preserve">
     <value>This button allows you to request the next available news item in the order of notifications requesting</value>
   </data>
-  <data name="Tip04_17" xml:space="preserve">
-    <value>This button allows you to request all notifications with 5 seconds steps and get all available news</value>
-  </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of the current notification</value>
   </data>
@@ -373,6 +367,15 @@ Please note that app adds links to information sources to notifications you shar
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Tip</value>
+  </data>
+  <data name="UpdateTemplates" xml:space="preserve">
+    <value>Update notification templates</value>
+  </data>
+  <data name="UpdatingTemplates" xml:space="preserve">
+    <value>Updating of notification templates...</value>
+  </data>
+  <data name="UpdatingTemplatesCompleted" xml:space="preserve">
+    <value>Updating of templates completed...</value>
   </data>
   <data name="WebIsUnavailable" xml:space="preserve">
     <value>This device has no web browser</value>
