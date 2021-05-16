@@ -123,6 +123,10 @@
   <data name="AcceptButton" xml:space="preserve">
     <value>Accept</value>
   </data>
+  <data name="AddAsNewMessage" xml:space="preserve">
+    <value>Added new notification:
+</value>
+  </data>
   <data name="ADPPage" xml:space="preserve">
     <value>Policy and EULA</value>
   </data>
@@ -135,11 +139,12 @@
   <data name="AllNewsRequest" xml:space="preserve">
     <value>This option will poll all notifications with 5 seconds steps. It may take some time. Continue?</value>
   </data>
-  <data name="AllowOnLockedScreenSwitch" xml:space="preserve">
-    <value>Text on locked screen</value>
-  </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Keep service active after exit</value>
+  </data>
+  <data name="ApplyMessage" xml:space="preserve">
+    <value>Notification updated:
+</value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>App webpage</value>
@@ -158,9 +163,6 @@
   </data>
   <data name="CommunityVK" xml:space="preserve">
     <value>Main community</value>
-  </data>
-  <data name="CompleteResetSwitch" xml:space="preserve">
-    <value>Skip unchanged texts in “Refresh” option</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces with what you want</value>
@@ -344,6 +346,9 @@ The notifications log is available on the left of this settings screen</value>
   </data>
   <data name="Tip04_16" xml:space="preserve">
     <value>This button allows you to request the next available news item in the order of notifications requesting</value>
+  </data>
+  <data name="Tip04_18" xml:space="preserve">
+    <value>All operations with texts of notifications are now available through the clicking on them right in the main log</value>
   </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of the current notification</value>

@@ -123,6 +123,10 @@
   <data name="AcceptButton" xml:space="preserve">
     <value>Принять</value>
   </data>
+  <data name="AddAsNewMessage" xml:space="preserve">
+    <value>Добавлено новое оповещение:
+</value>
+  </data>
   <data name="ADPPage" xml:space="preserve">
     <value>Политика и EULA</value>
   </data>
@@ -135,11 +139,12 @@
   <data name="AllNewsRequest" xml:space="preserve">
     <value>Эта опция опросит все оповещения с шагом в 5 секунд. Это может занять какое-то время. Продолжить?</value>
   </data>
-  <data name="AllowOnLockedScreenSwitch" xml:space="preserve">
-    <value>Текст на экране блокировки</value>
-  </data>
   <data name="AllowStartSwitch" xml:space="preserve">
     <value>Оставить службу активной после выхода</value>
+  </data>
+  <data name="ApplyMessage" xml:space="preserve">
+    <value>Обновлено оповещение:
+</value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>Страница проекта</value>
@@ -158,9 +163,6 @@
   </data>
   <data name="CommunityVK" xml:space="preserve">
     <value>ВКонтакте</value>
-  </data>
-  <data name="CompleteResetSwitch" xml:space="preserve">
-    <value>Пропускать неизменившиеся тексты в опции «Обновить»</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Не забудьте заменить элементы, заключённые в фигурные скобки, на то, что Вам нужно</value>
@@ -366,6 +368,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   </data>
   <data name="Tip04_16" xml:space="preserve">
     <value>Эта кнопка позволяет запросить следующую доступную новость в порядке опроса оповещений</value>
+  </data>
+  <data name="Tip04_18" xml:space="preserve">
+    <value>Все операции с текстами уведомлений теперь доступны по клику на них прямо в главном журнале</value>
   </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>Эта кнопка позволяет вам поделиться настройками текущего уведомления</value>

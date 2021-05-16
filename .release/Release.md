@@ -1,17 +1,6 @@
-_Changes for v 3.6_:
-- Android: settings window has been upgraded;
+_Changes for v 3.6w_:
+- Fixed HTML processing bug that allowed empty strings to pass through the “novelty” check as a new notification text when requests don't have enough time to be processed;
+- Android: added additional notifications for buttons “Apply” and “Add as new”;
+- Android: adjusted some interface elements;
 - Android: vertical screen orientation is now available for UniNotifier;
-- Updated known GMJ records;
-- Android: buttons placement has been adjusted;
-- Android: additional confirmation added for all news request;
-- Android: added ability to align buttons in the main log to the right side;
-- Android: main log may now contain up to 40 recent notifications;
-- Android: notification templates may now be updated manually;
-- Android: complete rewrite of the main log interface:
-    - notification texts are now clickable and shareable directly from the log;
-    - redundant buttons and code have been removed;
-- Android: tips are now work properly (don't require double clicking on some buttons on first start);
-- Android: fixed bug with date stamps in the main log;
-- Android: fixed bug with the bottom line of the settings interface;
-- UniNotifier: removed special notifications section;
-- Tablepedia notifier: removed log section
+- Android: added ability to align buttons in the main log to the right side

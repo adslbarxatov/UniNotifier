@@ -1,7 +1,7 @@
 ﻿#if ANDROID
-using Xamarin.Essentials;
+	using Xamarin.Essentials;
 #else
-using Microsoft.Win32;
+	using Microsoft.Win32;
 #endif
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,12 @@ namespace RD_AAOW
 		private const string externalTemplatesSubkey = "ExternalTemplates";
 		private const string externalTemplatesVersionSubkey = "ExternalTemplatesVersion";
 		private const string listLink = "https://github.com/adslbarxatov/UniNotifier/blob/master/TemplatesList.md";
-		private char[] splitters = new char[] { '\t' };
+		private char[] fileTemplateSplitter = new char[] { '\t' };
+
+		/// <summary>
+		/// Разделитель элементов в шаблоне уведомления, передаваемом через буфер обмена
+		/// </summary>
+		public static char[] ClipboardTemplateSplitter = new char[] { '|' };
 
 		/// <summary>
 		/// Конструктор. Инициализирует список шаблонов
@@ -68,7 +73,7 @@ namespace RD_AAOW
 			string str = "";
 			while ((str = SR.ReadLine ()) != null)
 				{
-				string[] values = str.Split (splitters, StringSplitOptions.RemoveEmptyEntries);
+				string[] values = str.Split (fileTemplateSplitter, StringSplitOptions.RemoveEmptyEntries);
 				if (values.Length != 5)
 					continue;
 
@@ -233,12 +238,12 @@ namespace RD_AAOW
 			string tmp = "", str;
 			while ((str = SR.ReadLine ()) != null)
 				{
-				string[] values = str.Split (splitters, StringSplitOptions.RemoveEmptyEntries);
+				string[] values = str.Split (fileTemplateSplitter, StringSplitOptions.RemoveEmptyEntries);
 				if (values.Length != 5)
 					continue;
 
 				for (int i = 0; i < 4; i++)
-					tmp += (values[i] + splitters[0].ToString ());
+					tmp += (values[i] + fileTemplateSplitter[0].ToString ());
 				tmp += (values[4] + "\n");
 				}
 

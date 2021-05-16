@@ -119,8 +119,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowStartLabel",
 				Localization.GetText ("AllowStartSwitch", al), false);
 			allowStart = (Xamarin.Forms.Switch)solutionPage.FindByName ("AllowStart");
-			// Теперь принудительно выполняется при запуске, чтобы реже забывать
-			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart = true;
+			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
 			#endregion
@@ -569,10 +568,12 @@ namespace RD_AAOW
 		// Запрос записи из GMJ
 		private async void GetGMJ (object sender, EventArgs e)
 			{
+			// Блокировка на время опроса
 			SetLogState (false);
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
 				ToastLength.Short).Show ();
 
+			// Запуск и разбор
 			NotificationsSupport.StopRequested = false; // Разблокировка метода GetHTML
 			string newText = await Task.Run<string> (GMJ.GetRandomGMJ);
 
@@ -587,7 +588,10 @@ namespace RD_AAOW
 				UpdateLog ();
 				}
 
+			// Разблокировка
 			SetLogState (true);
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.MainLogClickMenuTip))
+				await ShowTips (NotificationsSupport.TipTypes.MainLogClickMenuTip, logPage);
 			}
 
 		// Добавление текста в журнал
@@ -659,6 +663,9 @@ namespace RD_AAOW
 				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
 				SelectNotification (null, null);
 				}
+
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage", al) + nameField.Text,
+				ToastLength.Short).Show ();
 			}
 
 		// Обновление оповещения
@@ -673,6 +680,9 @@ namespace RD_AAOW
 
 			if (itemUpdated)
 				selectedNotification.Text = nameField.Text;
+
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ApplyMessage", al) + nameField.Text,
+				ToastLength.Short).Show ();
 			}
 
 		// Общий метод обновления оповещений
@@ -728,7 +738,6 @@ namespace RD_AAOW
 
 		// Метод загружает шаблон оповещения
 		private List<string> templatesNames = new List<string> ();
-		private char[] templateSplitter = new char[] { '|' };
 
 		private async void LoadTemplate (object sender, EventArgs e)
 			{
@@ -797,7 +806,8 @@ namespace RD_AAOW
 						}
 
 					// Разбор
-					string[] values = text.Split (templateSplitter, StringSplitOptions.RemoveEmptyEntries);
+					string[] values = text.Split (NotificationsTemplatesProvider.ClipboardTemplateSplitter,
+						StringSplitOptions.RemoveEmptyEntries);
 					if (values.Length != 5)
 						{
 						await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
@@ -837,8 +847,10 @@ namespace RD_AAOW
 			// Формирование и отправка
 			await Share.RequestAsync (new ShareTextRequest
 				{
-				Text = nameField.Text + templateSplitter[0].ToString () + linkField2 + templateSplitter[0].ToString () +
-					beginningField.Text + templateSplitter[0].ToString () + endingField.Text + templateSplitter[0].ToString () +
+				Text = nameField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+					linkField2 + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+					beginningField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+					endingField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					currentOcc.ToString (),
 				Title = ProgramDescription.AssemblyTitle
 				});
@@ -936,6 +948,9 @@ namespace RD_AAOW
 
 			// Разблокировка
 			SetLogState (true);
+
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.MainLogClickMenuTip))
+				await ShowTips (NotificationsSupport.TipTypes.MainLogClickMenuTip, logPage);
 			}
 
 		// Запрос всех новостей
@@ -980,6 +995,9 @@ namespace RD_AAOW
 			SetLogState (true);
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted", al),
 				ToastLength.Long).Show ();
+
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.MainLogClickMenuTip))
+				await ShowTips (NotificationsSupport.TipTypes.MainLogClickMenuTip, logPage);
 			}
 
 		// Включение / выключение режима чтения для лога

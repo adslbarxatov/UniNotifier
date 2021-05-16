@@ -247,7 +247,6 @@ namespace RD_AAOW
 			}
 
 		// Выгрузка настроек в буфер обмена
-		private char[] templateSplitter = new char[] { '|' };
 		private void ShareSettings_Click (object sender, EventArgs e)
 			{
 			// Подсказка
@@ -256,10 +255,10 @@ namespace RD_AAOW
 			// Копирование
 			try
 				{
-				Clipboard.SetText (NameText.Text + templateSplitter[0].ToString () +
-					LinkText.Text + templateSplitter[0].ToString () +
-					BeginningText.Text + templateSplitter[0].ToString () +
-					EndingText.Text + templateSplitter[0].ToString () +
+				Clipboard.SetText (NameText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+					LinkText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+					BeginningText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+					EndingText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					((uint)(OccurrenceField.Value)).ToString ());
 				}
 			catch { }
@@ -279,15 +278,9 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			/*if (s == "")
-				{
-				MessageBox.Show (Localization.GetText ("NoTemplateInClipboard", al), ProgramDescription.AssemblyTitle,
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-				}*/
-
 			// Разбор
-			string[] values = s.Split (templateSplitter, StringSplitOptions.RemoveEmptyEntries);
+			string[] values = s.Split (NotificationsTemplatesProvider.ClipboardTemplateSplitter,
+				StringSplitOptions.RemoveEmptyEntries);
 			if (values.Length != 5)
 				{
 				MessageBox.Show (Localization.GetText ("NoTemplateInClipboard", al), ProgramDescription.AssemblyTitle,

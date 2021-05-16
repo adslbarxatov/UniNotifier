@@ -1,5 +1,13 @@
 UniNotifier changes log
 
+Version 3.6w:
+• Fixed HTML processing bug that allowed empty strings to pass through the “novelty” check
+  as a new notification text when requests don't have enough time to be processed;
+• Android: added additional notifications for buttons “Apply” and “Add as new”
+
+Version 3.6v:
+• Android: adjusted some interface elements
+
 Version 3.6:
 • Android: settings window has been upgraded;
 • Android: vertical screen orientation is now available for UniNotifier;
