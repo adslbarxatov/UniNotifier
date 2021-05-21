@@ -654,18 +654,18 @@ namespace RD_AAOW
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AddButton))
 				await ShowTips (NotificationsSupport.TipTypes.AddButton, solutionPage);
 
-			// Добавление
-			UpdateItem (-1);
+			// Добавление (требует ожидания для корректного отображения сообщений)
+			await UpdateItem (-1);
 
-			// Выбор нового оповещения
+			// При успехе – выбор нового оповещения
 			if (itemUpdated)
 				{
 				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
 				SelectNotification (null, null);
-				}
 
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage", al) + nameField.Text,
-				ToastLength.Short).Show ();
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage", al) + nameField.Text,
+					ToastLength.Short).Show ();
+				}
 			}
 
 		// Обновление оповещения
@@ -676,18 +676,21 @@ namespace RD_AAOW
 				await ShowTips (NotificationsSupport.TipTypes.ApplyButton, solutionPage);
 
 			// Обновление
-			UpdateItem (currentNotification);
+			await UpdateItem (currentNotification);
 
+			// При успехе – обновление названия
 			if (itemUpdated)
+				{
 				selectedNotification.Text = nameField.Text;
 
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ApplyMessage", al) + nameField.Text,
-				ToastLength.Short).Show ();
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ApplyMessage", al) + nameField.Text,
+					ToastLength.Short).Show ();
+				}
 			}
 
 		// Общий метод обновления оповещений
 		private bool itemUpdated = false;
-		private async void UpdateItem (int ItemNumber)
+		private async Task<bool> UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
 			Notification ni = new Notification (nameField.Text, linkField2, beginningField.Text, endingField.Text,
@@ -700,7 +703,7 @@ namespace RD_AAOW
 
 				itemUpdated = false;
 				nameField.Focus ();
-				return;
+				return itemUpdated;
 				}
 			if ((ItemNumber < 0) && ProgramDescription.NSet.Notifications.Contains (ni)) // Не относится к обновлению позиции
 				{
@@ -709,7 +712,7 @@ namespace RD_AAOW
 
 				itemUpdated = false;
 				nameField.Focus ();
-				return;
+				return itemUpdated;
 				}
 
 			ni.IsEnabled = enabledSwitch.IsToggled;
@@ -727,6 +730,7 @@ namespace RD_AAOW
 			// Обновление контролов
 			UpdateNotButtons ();
 			itemUpdated = true;
+			return itemUpdated;
 			}
 
 		// Обновление кнопок

@@ -124,8 +124,7 @@
     <value>Принять</value>
   </data>
   <data name="AddAsNewMessage" xml:space="preserve">
-    <value>Добавлено новое оповещение:
-</value>
+    <value>Добавлено новое оповещение: </value>
   </data>
   <data name="ADPPage" xml:space="preserve">
     <value>Политика и EULA</value>
@@ -143,8 +142,7 @@
     <value>Оставить службу активной после выхода</value>
   </data>
   <data name="ApplyMessage" xml:space="preserve">
-    <value>Обновлено оповещение:
-</value>
+    <value>Обновлено оповещение: </value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>Страница проекта</value>

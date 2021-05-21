@@ -124,8 +124,7 @@
     <value>Accept</value>
   </data>
   <data name="AddAsNewMessage" xml:space="preserve">
-    <value>Added new notification:
-</value>
+    <value>Added new notification: </value>
   </data>
   <data name="ADPPage" xml:space="preserve">
     <value>Policy and EULA</value>
@@ -143,8 +142,7 @@
     <value>Keep service active after exit</value>
   </data>
   <data name="ApplyMessage" xml:space="preserve">
-    <value>Notification updated:
-</value>
+    <value>Notification updated: </value>
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>App webpage</value>
