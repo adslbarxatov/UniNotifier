@@ -1,6 +1,6 @@
 UniNotifier changes log
 
-Version 3.6wyz:
+Version 3.6ewyz:
 • Fixed HTML processing bug that allowed empty strings to pass through the “novelty” check
   as a new notification text when requests don't have enough time to be processed;
 • Android: added additional notifications for buttons “Apply” and “Add as new”
