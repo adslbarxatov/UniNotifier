@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 3.6g:
+• Updated known GMJ records;
+• Current minor fixes applied
+
 Version 3.6fwz:
 • Fixed HTML processing bug that allowed empty strings to pass through the “novelty” check
   as a new notification text when requests don't have enough time to be processed;
