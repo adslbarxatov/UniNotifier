@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 3.7:
+• Removed old processing algorithms; code structure has been simplified;
+• Tablepedia notifier: implemented multilevel links groups;
+• Tablepedia notifier: added ability to download links page as HTML
+
 Version 3.6g:
 • Updated known GMJ records;
 • Current minor fixes applied

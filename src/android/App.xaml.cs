@@ -387,10 +387,10 @@ namespace RD_AAOW
 			// Требование принятия Политики
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.PolicyTip))
 				{
-				while (await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				while (!await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("PolicyMessage", al),
-					Localization.GetText ("DeclineButton", al),
-					Localization.GetText ("AcceptButton", al)))
+					Localization.GetText ("AcceptButton", al),
+					Localization.GetText ("DeclineButton", al)))
 					{
 					ADPButton_Clicked (null, null);
 					}
@@ -470,12 +470,18 @@ namespace RD_AAOW
 		// Страница лаборатории
 		private async void CommunityButton_Clicked (object sender, EventArgs e)
 			{
+			List<string> comm = new List<string> {
+				Localization.GetText ("CommunityVK", al), Localization.GetText ("CommunityTG", al) };
+			string res = await aboutPage.DisplayActionSheet (Localization.GetText ("CommunitySelect", al),
+				Localization.GetText ("CancelButton", al), null, comm.ToArray ());
+
+			if (!comm.Contains (res))
+				return;
+
 			try
 				{
-				if (await aboutPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-						Localization.GetText ("CommunitySelect", al), Localization.GetText ("CommunityVK", al),
-						Localization.GetText ("CommunityTG", al)))
-					await Launcher.OpenAsync (AndroidSupport.CommunityFrontPage);
+				if (comm.IndexOf (res) == 0)
+					await Launcher.OpenAsync (AndroidSupport.MasterCommunityLink);
 				else
 					await Launcher.OpenAsync (AndroidSupport.CommunityInTelegram);
 				}
@@ -509,9 +515,7 @@ namespace RD_AAOW
 					{
 					Subject = "Wish, advice or bug in " + ProgramDescription.AssemblyTitle,
 					Body = "",
-					To = new List<string> () { "adslbarxatov@gmail.com" }
-					//Cc = ccRecipients,
-					//Bcc = bccRecipients
+					To = new List<string> () { AndroidSupport.MasterDeveloperLink }
 					};
 				await Email.ComposeAsync (message);
 				}
