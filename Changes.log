@@ -1,7 +1,8 @@
 UniNotifier changes log
 
-ToDo:
-- Fix “floating” link for GoTo/Sahre option
+Version 3.8:
+• Updated known GMJ records;
+• Android: application settings and notifications management now have separate pages
 
 Version 3.7:
 • Removed old processing algorithms; code structure has been simplified;

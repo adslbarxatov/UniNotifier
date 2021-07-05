@@ -274,6 +274,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="NotMatchingNames" xml:space="preserve">
     <value>Оповещение с таким именем уже добавлено</value>
   </data>
+  <data name="NotSettingsPage" xml:space="preserve">
+    <value>Настройки оповещений</value>
+  </data>
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Вхождение №{0:D}</value>
   </data>
@@ -323,11 +326,11 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Фоновая служба:</value>
   </data>
+  <data name="SettingsPage" xml:space="preserve">
+    <value>Настройки приложения</value>
+  </data>
   <data name="ShareOption" xml:space="preserve">
     <value>Поделиться текстом</value>
-  </data>
-  <data name="SolutionPage" xml:space="preserve">
-    <value>Настройки оповещений</value>
   </data>
   <data name="TemplateClipboard" xml:space="preserve">
     <value>Из буфера обмена</value>

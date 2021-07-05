@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RD_AAOW.SettingsPage">
+
+	<ScrollView>
+		<StackLayout>
+			<Label x:Name="HeaderLabel" />
+
+			<!-- Настройки службы -->
+			<Label x:Name="ServiceSettingsLabel" />
+
+			<FlexLayout Direction="Row" Wrap="Wrap">
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowStart" VerticalOptions="Center" />
+					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+			</FlexLayout>
+
+			<!-- Настройки журнала -->
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="12" />
+
+			<Label x:Name="LogSettingsLabel" />
+
+			<FlexLayout Direction="Row" Wrap="Wrap" >
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="ReadModeSwitch" VerticalOptions="Center" />
+					<Label x:Name="ReadModeLabel" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
+					<Label x:Name="RightAlignmentLabel" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Label Text="   " VerticalTextAlignment="Center" />
+					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
+					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
+				</StackLayout>
+
+			</FlexLayout>
+
+		</StackLayout>
+	</ScrollView>
+</ContentPage>

@@ -1,57 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RD_AAOW.SolutionPage">
+             x:Class="RD_AAOW.NotSettingsPage">
 
 	<ScrollView>
 		<StackLayout>
 			<Label x:Name="HeaderLabel" />
 
-			<!-- Настройки службы -->
-			<Label x:Name="ServiceSettingsLabel" />
-
-			<FlexLayout Direction="Row" Wrap="Wrap">
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="AllowStart" VerticalOptions="Center" />
-					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-			</FlexLayout>
-
-			<!-- Настройки журнала -->
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" Margin="12" />
-
-			<Label x:Name="LogSettingsLabel" />
-
-			<FlexLayout Direction="Row" Wrap="Wrap" >
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="ReadModeSwitch" VerticalOptions="Center" />
-					<Label x:Name="ReadModeLabel" VerticalOptions="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
-					<Label x:Name="RightAlignmentLabel" VerticalOptions="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Label x:Name="FontSizeLabel" Text="   " VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
-					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
-				</StackLayout>
-
-			</FlexLayout>
-
 			<!-- Управление оповещениями -->
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" Margin="12" />
-
-			<Label x:Name="NotificationsSettingsLabel" />
-
 			<StackLayout Orientation="Horizontal" Margin="3">
 				<Button x:Name="SelectedNotification" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
 				<Label Text=" " />
@@ -89,7 +45,7 @@
 					<Label x:Name="EnabledLabel" VerticalOptions="Center" />
 					<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
 				</StackLayout>
-				
+
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label Text="   " />
 					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
@@ -105,7 +61,8 @@
 
 			</FlexLayout>
 
-			<Label />
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="12" />
 
 			<StackLayout Orientation="Horizontal" Margin="6" HorizontalOptions="Center">
 				<Button x:Name="ApplyButton" VerticalOptions="Center" />
@@ -114,9 +71,6 @@
 				<Label Text="     " />
 				<Button x:Name="LoadTemplateButton" VerticalOptions="Center" />
 			</StackLayout>
-
-			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" Margin="12" />
 
 		</StackLayout>
 	</ScrollView>

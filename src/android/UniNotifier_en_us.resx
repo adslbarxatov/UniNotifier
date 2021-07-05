@@ -249,6 +249,9 @@
   <data name="NotMatchingNames" xml:space="preserve">
     <value>Notification with the same name already added</value>
   </data>
+  <data name="NotSettingsPage" xml:space="preserve">
+    <value>Notifications settings</value>
+  </data>
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Occurrence #{0:D}</value>
   </data>
@@ -298,11 +301,11 @@
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Background service:</value>
   </data>
+  <data name="SettingsPage" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
   <data name="ShareOption" xml:space="preserve">
     <value>Share text</value>
-  </data>
-  <data name="SolutionPage" xml:space="preserve">
-    <value>Notifications settings</value>
   </data>
   <data name="SpecialNotificationsSwitch" xml:space="preserve">
     <value>Enable special notifications</value>

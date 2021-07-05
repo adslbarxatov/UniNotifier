@@ -5,6 +5,7 @@
              x:Class="RD_AAOW.MasterPage">
 
 	<mypages:LogPage x:Name="LogPage" />
-	<mypages:SolutionPage x:Name="SolutionPage" />
+	<mypages:SettingsPage x:Name="SettingsPage" />
+	<mypages:NotSettingsPage x:Name="NotSettingsPage" />
 	<mypages:AboutPage x:Name="AboutPage" />
 </CarouselPage>

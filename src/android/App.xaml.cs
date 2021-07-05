@@ -38,12 +38,12 @@ namespace RD_AAOW
 
 		#region Переменные страниц
 
-		private ContentPage solutionPage, aboutPage, logPage;
+		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel;
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			allNewsButton, nextNewsButton;
-		private Editor nameField, /*linkField,*/ beginningField, endingField;
+		private Editor nameField, beginningField, endingField;
 		private string linkField2;
 		private Xamarin.Forms.ListView mainLog;
 		private uint currentOcc;
@@ -100,8 +100,10 @@ namespace RD_AAOW
 			// Общая конструкция страниц приложения
 			MainPage = new MasterPage ();
 
-			solutionPage = AndroidSupport.ApplyPageSettings (MainPage, "SolutionPage",
-				Localization.GetText ("SolutionPage", al), solutionMasterBackColor);
+			settingsPage = AndroidSupport.ApplyPageSettings (MainPage, "SettingsPage",
+				Localization.GetText ("SettingsPage", al), solutionMasterBackColor);
+			notSettingsPage = AndroidSupport.ApplyPageSettings (MainPage, "NotSettingsPage",
+				Localization.GetText ("NotSettingsPage", al), solutionMasterBackColor);
 			aboutPage = AndroidSupport.ApplyPageSettings (MainPage, "AboutPage",
 				Localization.GetText ("AboutPage", al), aboutMasterBackColor);
 			logPage = AndroidSupport.ApplyPageSettings (MainPage, "LogPage",
@@ -113,12 +115,12 @@ namespace RD_AAOW
 
 			#region Настройки службы
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "ServiceSettingsLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "ServiceSettingsLabel",
 				Localization.GetText ("ServiceSettingsLabel", al), true);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "AllowStartLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowStartLabel",
 				Localization.GetText ("AllowStartSwitch", al), false);
-			allowStart = (Xamarin.Forms.Switch)solutionPage.FindByName ("AllowStart");
+			allowStart = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowStart");
 			allowStart.IsToggled = NotificationsSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
@@ -126,45 +128,45 @@ namespace RD_AAOW
 
 			#region Настройки оповещений
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "NotificationsSettingsLabel",
-				Localization.GetText ("NotificationsSettingsLabel", al), true);
-			selectedNotification = AndroidSupport.ApplyButtonSettings (solutionPage, "SelectedNotification",
+			/*AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "NotificationsSettingsLabel",
+				Localization.GetText ("NotificationsSettingsLabel", al), true);*/
+			selectedNotification = AndroidSupport.ApplyButtonSettings (notSettingsPage, "SelectedNotification",
 				"", solutionFieldBackColor, SelectNotification);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "NameFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "NameFieldLabel",
 				Localization.GetText ("NameFieldLabel", al), false);
-			nameField = AndroidSupport.ApplyEditorSettings (solutionPage, "NameField", solutionFieldBackColor,
+			nameField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "NameField", solutionFieldBackColor,
 				Keyboard.Default, Notification.MaxBeginningEndingLength, "", null);
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LinkFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "LinkFieldLabel",
 				Localization.GetText ("LinkFieldLabel", al), false);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "LinkFieldButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "LinkFieldButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Select),
 				solutionFieldBackColor, SpecifyNotificationLink);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "BeginningFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "BeginningFieldLabel",
 				Localization.GetText ("BeginningFieldLabel", al), false);
-			beginningField = AndroidSupport.ApplyEditorSettings (solutionPage, "BeginningField", solutionFieldBackColor,
+			beginningField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "BeginningField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "EndingFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EndingFieldLabel",
 				Localization.GetText ("EndingFieldLabel", al), false);
-			endingField = AndroidSupport.ApplyEditorSettings (solutionPage, "EndingField", solutionFieldBackColor,
+			endingField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "EndingField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
 
-			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "OccFieldLabel", "", false);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "OccIncButton",
+			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "OccFieldLabel", "", false);
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccIncButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
 				solutionFieldBackColor, OccurrenceChanged);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "OccDecButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccDecButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
 				solutionFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "EnabledLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EnabledLabel",
 				Localization.GetText ("EnabledLabel", al), false);
-			enabledSwitch = (Xamarin.Forms.Switch)solutionPage.FindByName ("EnabledSwitch");
+			enabledSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("EnabledSwitch");
 
 			// Инициализация полей
 			SelectNotification (null, null);
@@ -173,23 +175,23 @@ namespace RD_AAOW
 
 			#region Управление оповещениями
 
-			applyButton = AndroidSupport.ApplyButtonSettings (solutionPage, "ApplyButton",
+			applyButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ApplyButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Apply),
 				solutionFieldBackColor, ApplyNotification);
-			addButton = AndroidSupport.ApplyButtonSettings (solutionPage, "AddButton",
+			addButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "AddButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Create),
 				solutionFieldBackColor, AddNotification);
-			deleteButton = AndroidSupport.ApplyButtonSettings (solutionPage, "DeleteButton",
+			deleteButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "DeleteButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Delete),
 				solutionFieldBackColor, DeleteNotification);
 
-			AndroidSupport.ApplyButtonSettings (solutionPage, "ShareTemplateButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "ShareTemplateButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
 				solutionFieldBackColor, ShareTemplate);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "LoadTemplateButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "LoadTemplateButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Copy),
 				solutionFieldBackColor, LoadTemplate);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "FindDelimitersButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "FindDelimitersButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Find),
 				solutionFieldBackColor, FindDelimiters);
 
@@ -253,30 +255,30 @@ namespace RD_AAOW
 			getGMJButton.IsVisible = (al == SupportedLanguages.ru_ru);
 
 			// Настройки, связанные с журналом
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "LogSettingsLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "LogSettingsLabel",
 				Localization.GetText ("LogSettingsLabel", al), true);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "ReadModeLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "ReadModeLabel",
 				Localization.GetText ("ReadModeLabel", al), false);
-			readModeSwitch = (Xamarin.Forms.Switch)solutionPage.FindByName ("ReadModeSwitch");
+			readModeSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("ReadModeSwitch");
 			readModeSwitch.IsToggled = NotificationsSupport.LogReadingMode;
 			readModeSwitch.Toggled += ReadModeSwitch_Toggled;
 			ReadModeSwitch_Toggled (null, null);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "RightAlignmentLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RightAlignmentLabel",
 				Localization.GetText ("RightAlignmentLabel", al), false);
-			rightAlignmentSwitch = (Xamarin.Forms.Switch)solutionPage.FindByName ("RightAlignmentSwitch");
+			rightAlignmentSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("RightAlignmentSwitch");
 			rightAlignmentSwitch.IsToggled = NotificationsSupport.LogButtonsOnTheRightSide;
 			rightAlignmentSwitch.Toggled += RightAlignmentSwitch_Toggled;
 
 			mainGrid = (Grid)logPage.FindByName ("MainGrid");
 			RightAlignmentSwitch_Toggled (null, null);
 
-			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (solutionPage, "FontSizeFieldLabel", "", false);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeIncButton",
+			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "FontSizeFieldLabel", "", false);
+			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeIncButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
 				solutionFieldBackColor, FontSizeChanged);
-			AndroidSupport.ApplyButtonSettings (solutionPage, "FontSizeDecButton",
+			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeDecButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
 				solutionFieldBackColor, FontSizeChanged);
 			FontSizeChanged (null, null);
@@ -359,7 +361,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ServiceLaunchTip))
-				await ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip, settingsPage);
 
 			NotificationsSupport.AllowServiceToStart = allowStart.IsToggled;
 			}
@@ -531,7 +533,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if ((e != null) && !NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.CurrentNotButton))
-				await ShowTips (NotificationsSupport.TipTypes.CurrentNotButton, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.CurrentNotButton, notSettingsPage);
 
 			// Запрос списка оповещений
 			List<string> list = new List<string> ();
@@ -540,7 +542,7 @@ namespace RD_AAOW
 
 			string res = list[currentNotification];
 			if (e != null)
-				res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
+				res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
 					Localization.GetText ("CancelButton", al), null, list.ToArray ());
 
 			// Установка результата
@@ -614,7 +616,7 @@ namespace RD_AAOW
 				{
 				// Подсказки
 				if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.OccurenceTip))
-					await ShowTips (NotificationsSupport.TipTypes.OccurenceTip, solutionPage);
+					await ShowTips (NotificationsSupport.TipTypes.OccurenceTip, notSettingsPage);
 
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
@@ -633,10 +635,10 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.DeleteButton))
-				await ShowTips (NotificationsSupport.TipTypes.DeleteButton, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.DeleteButton, notSettingsPage);
 
 			// Контроль
-			if (!await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+			if (!await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 				Localization.GetText ("DeleteMessage", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al)))
 				return;
@@ -656,7 +658,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AddButton))
-				await ShowTips (NotificationsSupport.TipTypes.AddButton, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.AddButton, notSettingsPage);
 
 			// Добавление (требует ожидания для корректного отображения сообщений)
 			await UpdateItem (-1);
@@ -677,7 +679,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ApplyButton))
-				await ShowTips (NotificationsSupport.TipTypes.ApplyButton, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.ApplyButton, notSettingsPage);
 
 			// Обновление
 			await UpdateItem (currentNotification);
@@ -702,7 +704,7 @@ namespace RD_AAOW
 
 			if (!ni.IsInited)
 				{
-				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("NotEnoughDataMessage", al), Localization.GetText ("NextButton", al));
 
 				itemUpdated = false;
@@ -711,7 +713,7 @@ namespace RD_AAOW
 				}
 			if ((ItemNumber < 0) && ProgramDescription.NSet.Notifications.Contains (ni)) // Не относится к обновлению позиции
 				{
-				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("NotMatchingNames", al), Localization.GetText ("NextButton", al));
 
 				itemUpdated = false;
@@ -751,14 +753,14 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.TemplateButton))
-				await ShowTips (NotificationsSupport.TipTypes.TemplateButton, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.TemplateButton, notSettingsPage);
 
 			// Запрос варианта использования
 			List<string> items = new List<string> {
 				Localization.GetText ("TemplateList", al),
 				Localization.GetText ("TemplateClipboard", al)
 				};
-			string res = await logPage.DisplayActionSheet (Localization.GetText ("TemplateSelect", al),
+			string res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("TemplateSelect", al),
 					Localization.GetText ("CancelButton", al), null, items.ToArray ());
 
 			// Обработка (недопустимые значения будут отброшены)
@@ -771,7 +773,7 @@ namespace RD_AAOW
 						for (uint i = 0; i < ProgramDescription.NSet.NotificationsTemplates.TemplatesCount; i++)
 							templatesNames.Add (ProgramDescription.NSet.NotificationsTemplates.GetName (i));
 
-					res = await solutionPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
+					res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
 						Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());
 
 					// Установка результата
@@ -782,7 +784,7 @@ namespace RD_AAOW
 
 					// Проверка
 					if (ProgramDescription.NSet.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
-						await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 							Localization.GetText ("CurlyTemplate", al), Localization.GetText ("NextButton", al));
 
 					// Заполнение
@@ -808,8 +810,8 @@ namespace RD_AAOW
 
 					if ((text == null) || (text == ""))
 						{
-						await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-							Localization.GetText ("NoTemplateInClipboard", al), "OK");
+						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
 						return;
 						}
 
@@ -818,8 +820,8 @@ namespace RD_AAOW
 						StringSplitOptions.RemoveEmptyEntries);
 					if (values.Length != 5)
 						{
-						await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-							Localization.GetText ("NoTemplateInClipboard", al), "OK");
+						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
 						return;
 						}
 
@@ -850,7 +852,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareNotButton))
-				await ShowTips (NotificationsSupport.TipTypes.ShareNotButton, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.ShareNotButton, notSettingsPage);
 
 			// Формирование и отправка
 			await Share.RequestAsync (new ShareTextRequest
@@ -869,14 +871,14 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FindButton))
-				await ShowTips (NotificationsSupport.TipTypes.FindButton, solutionPage);
+				await ShowTips (NotificationsSupport.TipTypes.FindButton, notSettingsPage);
 
 			// Контроль
 			beginningField.Focus ();
 
 			if ((beginningField.Text == "") || beginningField.Text.Contains ("<") || beginningField.Text.Contains (">"))
 				{
-				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("FindDisclaimer", al), Localization.GetText ("NextButton", al));
 				beginningField.Text = "";
 				return;
@@ -886,7 +888,7 @@ namespace RD_AAOW
 			string beginning = "", ending = "";
 			if (!Notification.FindDelimiters (linkField2, beginningField.Text, out beginning, out ending))
 				{
-				await solutionPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("SearchFailure", al), Localization.GetText ("NextButton", al));
 				return;
 				}
@@ -1074,7 +1076,7 @@ namespace RD_AAOW
 		private async void SpecifyNotificationLink (object sender, EventArgs e)
 			{
 			// Запрос
-			string res = await solutionPage.DisplayPromptAsync (Localization.GetText ("LinkFieldLabel", al),
+			string res = await notSettingsPage.DisplayPromptAsync (Localization.GetText ("LinkFieldLabel", al),
 				null, Localization.GetText ("NextButton", al), Localization.GetText ("CancelButton", al),
 				Localization.GetText ("LinkFieldPlaceholder", al), 150, Keyboard.Url, linkField2);
 

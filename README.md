@@ -1,5 +1,5 @@
-# UniNotifier v 3.7
-> PCC: 0003C20D73402CE8
+# UniNotifier v 3.8
+> PCC: 0003C20D725D7A0F
 
 
 Controllable news service

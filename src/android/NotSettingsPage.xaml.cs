@@ -7,12 +7,12 @@ namespace RD_AAOW
 	/// Класс описывает страницу решения
 	/// </summary>
 	[XamlCompilation (XamlCompilationOptions.Compile)]
-	public partial class SolutionPage:ContentPage
+	public partial class NotSettingsPage:ContentPage
 		{
 		/// <summary>
 		/// Конструктор. Запускает страницу
 		/// </summary>
-		public SolutionPage ()
+		public NotSettingsPage ()
 			{
 			InitializeComponent ();
 			}
