@@ -2,7 +2,8 @@ UniNotifier changes log
 
 Version 3.8:
 • Updated known GMJ records;
-• Android: application settings and notifications management now have separate pages
+• Android: application settings and notifications management now have separate pages;
+• Tablepedia: добавлен автоматический запрос на разрешение записи (для сохранения страниц ссылок)
 
 Version 3.7:
 • Removed old processing algorithms; code structure has been simplified;
