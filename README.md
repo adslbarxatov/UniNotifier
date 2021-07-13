@@ -8,7 +8,7 @@ Controllable news service
 
 
 
-# Tablepedia notifier v 3.7
+# Tablepedia notifier v 3.8
 
 
 [Tablepedia.com](http://tablepedia.com) notifications service
