@@ -1,5 +1,11 @@
 UniNotifier changes log
 
+Version 3.8.2:
+• Updated known GMJ records;
+• Android: updated core Xamarin libraries;
+• Tablepedia: отключена функция сохранения файлов на Android 10 и новее из-за отсутствия документации
+  к новой функциональности при работе с файловой системой
+
 Version 3.8:
 • Updated known GMJ records;
 • Android: application settings and notifications management now have separate pages;
