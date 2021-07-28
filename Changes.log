@@ -1,16 +1,9 @@
 UniNotifier changes log
 
-Version 3.8.3 (preparing):
-- Update tray icon;
-- Update retranslation rate
-- Possible copy:
-
-- №3921-201 -
-
-Петербуржцы – настолько вежливые люди, что они никогда не обзовут человека. Они скажут:
-— По нынешним временам, фильм с вашим участием мог бы претендовать на «Оскар»
-
-
+Version 3.8.3:
+- Windows: updated tray icon;
+- Windows: updated retranslation rate;
+- Android: fixed interface failure (bad Xamarin package has been rolled back)
 
 Version 3.8.2:
 • Updated known GMJ records;

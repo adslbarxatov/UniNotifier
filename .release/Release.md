@@ -1,6 +1,7 @@
-_Changes for v 3.8_:
+_Changes for v 3.8.3_:
+- Windows: updated tray icon;
+- Windows: updated retranslation rate;
+- Android: fixed interface failure (bad Xamarin package has been rolled back);
 - Updated known GMJ records;
-- Android: application settings and notifications management now have separate pages;
-- Removed old processing algorithms; code structure has been simplified;
-- Tablepedia notifier: implemented multilevel links groups;
-- Tablepedia notifier: added ability to download links page as HTML
+- Android: updated core Xamarin libraries;
+- Tablepedia: отключена функция сохранения файлов на Android 10 и новее из-за отсутствия документации к новой функциональности при работе с файловой системой

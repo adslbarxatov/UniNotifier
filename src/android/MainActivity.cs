@@ -83,6 +83,9 @@ namespace RD_AAOW.Droid
 
 			base.OnCreate (savedInstanceState);
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
+#if TABLEPEDIA
+			global::Xamarin.Essentials.Platform.Init (this, savedInstanceState);
+#endif
 
 			// Запуск независимо от разрешения
 			Intent mainService = new Intent (this, typeof (MainService));
@@ -140,6 +143,19 @@ namespace RD_AAOW.Droid
 
 			base.OnResume ();
 			}
+
+#if TABLEPEDIA
+		/// <summary>
+		/// Запрос разрешений для приложения
+		/// </summary>
+		public override void OnRequestPermissionsResult (int requestCode, string[] permissions,
+			Android.Content.PM.Permission[] grantResults)
+			{
+			Xamarin.Essentials.Platform.OnRequestPermissionsResult (requestCode, permissions, grantResults);
+
+			base.OnRequestPermissionsResult (requestCode, permissions, grantResults);
+			}
+#endif
 		}
 
 	/// <summary>
