@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+ToDo:
+- Add tip for tray icon
+
 Version 3.8.3:
 - Windows: updated tray icon;
 - Windows: updated retranslation rate;
