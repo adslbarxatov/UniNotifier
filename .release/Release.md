@@ -1,7 +1,5 @@
-_Changes for v 3.8.3_:
-- Windows: updated tray icon;
-- Windows: updated retranslation rate;
-- Android: fixed interface failure (bad Xamarin package has been rolled back);
+_Changes for v 3.8.4_:
 - Updated known GMJ records;
-- Android: updated core Xamarin libraries;
-- Tablepedia: отключена функция сохранения файлов на Android 10 и новее из-за отсутствия документации к новой функциональности при работе с файловой системой
+- Windows: added tip for tray icon;
+- Windows: removed unused buttons from context menu of tray icon;
+- Windows: double-click event for tray icon replaced with single left click

@@ -36,7 +36,7 @@ namespace RD_AAOW
 		private DateTime currentTGTimeStamp = new DateTime (2021, 1, 1, 0, 0, 0);
 		private uint currentTGOffset = 0;
 		private const uint TGTimerOffset = 117; // 19,5 минут
-		private const uint TGMessagesPerDay = 15;
+		private const uint TGMessagesPerDay = 10;
 #endif
 
 		/// <summary>
@@ -85,17 +85,17 @@ namespace RD_AAOW
 
 			// Настройка иконки в трее
 			ni.Icon = Properties.GMJNotifier.GMJNotifier16;
+			ni.Text = ProgramDescription.AssemblyTitle;
 			ni.Visible = true;
 
 			ni.ContextMenu = new ContextMenu ();
 
-			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption01", al), ShowFullText));
-			ni.DoubleClick += ShowFullText;
-			ni.ContextMenu.MenuItems[0].DefaultItem = true;
-
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption02", al), ShowSettings));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption03", al), AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption04", al), CloseService));
+
+			ni.MouseDown += ShowHideFullText;
+			ni.ContextMenu.MenuItems[2].DefaultItem = true;
 
 			if (!File.Exists (startupLink))
 				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05", al), AddToStartup));
@@ -332,10 +332,22 @@ namespace RD_AAOW
 			e.Result = null;
 			}
 
-		// Отображение полного списка оповещений
-		private void ShowFullText (object sender, EventArgs e)
+		// Отображение / скрытие полного списка оповещений
+		private void ShowHideFullText (object sender, MouseEventArgs e)
 			{
-			this.Show ();
+			if (e.Button != MouseButtons.Left)
+				return;
+
+			if (this.Visible)
+				{
+				this.Close ();
+				}
+			else
+				{
+				this.Show ();
+				this.TopMost = true;
+				this.TopMost = false;
+				}
 			}
 
 		// Отображение окна настроек
@@ -359,7 +371,7 @@ namespace RD_AAOW
 #endif
 
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
-				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 1).ToString ("D02"), al);
+				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 2).ToString ("D02"), al);
 
 			// Перезапуск
 			ns.ResetTimer (true);

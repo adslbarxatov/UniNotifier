@@ -1,12 +1,15 @@
 UniNotifier changes log
 
-ToDo:
-- Add tip for tray icon
+Version 3.8.4:
+• Updated known GMJ records;
+• Windows: added tip for tray icon;
+• Windows: removed unused buttons from context menu of tray icon;
+• Windows: double-click event for tray icon replaced with single left click
 
 Version 3.8.3:
-- Windows: updated tray icon;
-- Windows: updated retranslation rate;
-- Android: fixed interface failure (bad Xamarin package has been rolled back)
+• Windows: updated tray icon;
+• Windows: updated retranslation rate;
+• Android: fixed interface failure (bad Xamarin package has been rolled back)
 
 Version 3.8.2:
 • Updated known GMJ records;
