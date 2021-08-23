@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 3.8.5:
+• Updated link and text presenter for ADP;
+• Updated known GMJ records;
+• Tablepedia: trying to solve trouble with saving files on Android 11 and higher
+
 Version 3.8.4:
 • Updated known GMJ records;
 • Windows: added tip for tray icon;
