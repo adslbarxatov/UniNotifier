@@ -53,11 +53,11 @@ namespace RD_AAOW
 
 			ReloadNotificationsList ();
 			ResetCulture ();
-#if TG
+			/*#if TG*/
 			GetGMJ.Visible = false;
-#else
+			/*#else
 			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
-#endif
+			#endif*/
 			// Получение настроек
 			try
 				{
@@ -450,14 +450,14 @@ namespace RD_AAOW
 		// Запрос сообщения от GMJ
 		private void GetGMJ_Click (object sender, EventArgs e)
 			{
-			GetGMJ.Enabled = false;
+			/*GetGMJ.Enabled = false;
 			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
 				texts.Add (s);
 			else
 				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
-			notNumbers.Add (0);
+			notNumbers.Add (0);*/
 			}
 		}
 	}

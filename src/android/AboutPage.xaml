@@ -19,20 +19,19 @@
 					<Button x:Name="LanguageSelector" />
 				</StackLayout>
 
-				<FlexLayout JustifyContent="Center" Direction="Row" Wrap="Wrap">
-					<Button x:Name="ManualPage" HorizontalOptions="Center" />
-					<Button x:Name="UpdateTemplates" HorizontalOptions="Center" />
-				</FlexLayout>
+				<Button x:Name="ManualPage" HorizontalOptions="Center" />
+				<Button x:Name="UpdateTemplates" HorizontalOptions="Center" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#606060" Margin="9" />
 
-				<FlexLayout JustifyContent="Center" Direction="Row" Wrap="Wrap">
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 					<Button x:Name="AppPage" HorizontalOptions="Center" />
 					<Button x:Name="ADPPage" HorizontalOptions="Center" />
-					<Button x:Name="DevPage" HorizontalOptions="Center" />
-					<Button x:Name="CommunityPage" HorizontalOptions="Center" />
-				</FlexLayout>
+				</StackLayout>
+
+				<Button x:Name="DevPage" HorizontalOptions="Center" />
+				<Button x:Name="CommunityPage" HorizontalOptions="Center" />
 
 				<Label />
 

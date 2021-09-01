@@ -5,8 +5,9 @@ using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 #if DEBUG
 [assembly: Application (Debuggable = true)]
@@ -17,59 +18,10 @@ using Xamarin.Essentials;
 namespace RD_AAOW.Droid
 	{
 	/// <summary>
-	/// Класс описывает набор состояний сборки
-	/// </summary>
-	public static class UniNotifierGenerics
-		{
-		/// <summary>
-		/// Возвращает true, если в данной версии ОС оповещения можно настроить из приложения
-		/// </summary>
-		public static bool AreNotificationsConfigurable
-			{
-			get
-				{
-				return (Build.VERSION.SdkInt < BuildVersionCodes.Q);
-				}
-			}
-
-		/// <summary>
-		/// Возвращает true, если в данной версии ОС доступен полноценный режим Foreground.
-		/// Также возвращает true, если в системе доступен объект NotificationChannel
-		/// </summary>
-		public static bool IsForegroundAvailable
-			{
-			get
-				{
-				return (Build.VERSION.SdkInt >= BuildVersionCodes.O);
-				}
-			}
-
-		/// <summary>
-		/// Возвращает true, если в данной версии ОС большая иконка оповещений необходима
-		/// для их корректного отображения
-		/// </summary>
-		public static bool IsLargeIconRequired
-			{
-			get
-				{
-				return (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop) &&
-				((DeviceInfo.Idiom == DeviceIdiom.Desktop) || (DeviceInfo.Idiom == DeviceIdiom.Tablet) ||
-				(DeviceInfo.Idiom == DeviceIdiom.TV) || (Build.VERSION.SdkInt < BuildVersionCodes.N));
-				}
-			}
-		}
-
-	/// <summary>
 	/// Класс описывает загрузчик приложения
 	/// </summary>
-#if TABLEPEDIA
-	[Activity (Label = "Tablepedia notifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
-#else
 	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]/*,
-		ScreenOrientation = ScreenOrientation.Landscape)]*/
-#endif
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
 	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
@@ -83,33 +35,18 @@ namespace RD_AAOW.Droid
 
 			base.OnCreate (savedInstanceState);
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
-#if TABLEPEDIA
-			global::Xamarin.Essentials.Platform.Init (this, savedInstanceState);
-#endif
 
 			// Запуск независимо от разрешения
 			Intent mainService = new Intent (this, typeof (MainService));
-			NotificationsSupport.StopRequested = false;
+			AndroidSupport.StopRequested = false;
 
-			if (UniNotifierGenerics.IsForegroundAvailable)
+			if (AndroidSupport.IsForegroundAvailable)
 				StartForegroundService (mainService);
 			else
 				StartService (mainService);
 
-			// Выбор требуемого экрана для отображения (по умолчанию - страница настроек для UN и страница ссылок для TP)
-			uint currentTab = 0;
-			var tab = Intent.GetSerializableExtra ("Tab");
-			if (tab != null)
-				{
-				try
-					{
-					currentTab = uint.Parse (tab.ToString ());
-					}
-				catch { }
-				}
-
 			// Запуск
-			LoadApplication (new App (currentTab));
+			LoadApplication (new App ());
 			}
 
 		/// <summary>
@@ -120,8 +57,8 @@ namespace RD_AAOW.Droid
 			Intent mainService = new Intent (this, typeof (MainService));
 
 			// Запрос на остановку при необходимости
-			if (!NotificationsSupport.AllowServiceToStart)
-				NotificationsSupport.StopRequested = true;
+			if (!AndroidSupport.AllowServiceToStart)
+				AndroidSupport.StopRequested = true;
 			// Иначе служба продолжит работу в фоне
 
 			base.OnStop ();
@@ -134,28 +71,15 @@ namespace RD_AAOW.Droid
 			{
 			// Перезапуск, если была остановлена (независимо от разрешения)
 			Intent mainService = new Intent (this, typeof (MainService));
-			NotificationsSupport.StopRequested = false;
+			AndroidSupport.StopRequested = false;
 
-			if (UniNotifierGenerics.IsForegroundAvailable)
+			if (AndroidSupport.IsForegroundAvailable)
 				StartForegroundService (mainService);
 			else
 				StartService (mainService);
 
 			base.OnResume ();
 			}
-
-#if TABLEPEDIA
-		/// <summary>
-		/// Запрос разрешений для приложения
-		/// </summary>
-		public override void OnRequestPermissionsResult (int requestCode, string[] permissions,
-			Android.Content.PM.Permission[] grantResults)
-			{
-			Xamarin.Essentials.Platform.OnRequestPermissionsResult (requestCode, permissions, grantResults);
-
-			base.OnRequestPermissionsResult (requestCode, permissions, grantResults);
-			}
-#endif
 		}
 
 	/// <summary>
@@ -198,35 +122,30 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
-#if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifier", Label = "Tablepedia notifier",
-		Icon = "@mipmap/icon", Exported = true)]
-#else
 	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier",
 		Icon = "@mipmap/icon", Exported = true)]
-#endif
 	public class MainService: global::Android.App.Service
 		{
-		// Основной набор оповещений
-		private SupportedLanguages al = Localization.CurrentLanguage;
-
-		// Идентификаторы процесса
-		private Handler handler;
+		// Переменные и константы
+		private SupportedLanguages al = Localization.CurrentLanguage;   // Язык интерфейса
+		private Handler handler;                                        // Идентификаторы процесса
 		private Action runnable;
-		private bool isStarted = false;
 
-		// Дескрипторы уведомлений
-		private NotificationCompat.Builder notBuilder;
+		private bool isStarted = false;                                 // Состояние службы
+
+		private NotificationCompat.Builder notBuilder;                  // Дескрипторы уведомлений
 		private NotificationManager notManager;
 		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
 
-		private Intent masterIntent;
+		private Intent masterIntent;                                    // Дескрипторы действий
 		private PendingIntent masterPendingIntent;
 
-		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[2];
+		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[2]; // Дескрипторы обработчиков событий
 
-		private const uint timerDividerLimit = 4;
+		private const uint frameLength = ProgramDescription.MasterTimerDelay / 4;   // Длина одного фрейма таймера
+		private DateTime nextRequest;                                   // Время следующего опроса
+		private uint newItems = 0;                                      // Полученные новые элементы с последнего вызова приложения
 
 		/// <summary>
 		/// Обработчик события создания службы
@@ -245,22 +164,93 @@ namespace RD_AAOW.Droid
 					if (isStarted)
 						{
 						TimerTick ();
-						handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay / timerDividerLimit);
+						handler.PostDelayed (runnable, frameLength);
 						}
 				});
 			}
 
+		// Запрос всех новостей
+		private string GetAllNot ()
+			{
+			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
+			Thread.Sleep ((int)ProgramDescription.MasterTimerDelay / 2);
+			return ProgramDescription.NSet.GetNextNotification (true);
+			}
+
 		// Основной метод службы
-		private void TimerTick ()
+		private async void TimerTick ()
 			{
 			// Контроль требования завершения службы (игнорирует все прочие флаги)
-			if (NotificationsSupport.StopRequested)
+			if (AndroidSupport.StopRequested)
 				{
 				Intent mainService = new Intent (this, typeof (MainService));
 				StopService (mainService);
 
 				return;
 				}
+
+			// Отмена действия, если таймер отключён
+			if (NotificationsSupport.BackgroundRequestStep < 1)
+				return;
+
+			// Отмена действия, если запущено основное приложение
+			string msg = "";
+			if (AndroidSupport.AppIsRunning)
+				{
+				if (newItems > 0)
+					{
+					newItems = 0;
+
+					msg = Localization.GetText ("LaunchMessage", al);
+					goto notMessage;
+					}
+
+				return;
+				}
+
+			// Опрос по достижении даты (позволяет выполнить моментальный опрос при простое службы)
+			if (DateTime.Now < nextRequest)
+				return;
+
+			// Перезапрос журнала выполняется здесь, т.к. состояние могло измениться в основном интерфейсе
+			nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStep *
+				NotificationsSupport.BackgroundRequestStepMinutes);
+			List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
+
+			// Извлечение новых записей
+			AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
+			ProgramDescription.NSet.ResetTimer (false);     // Без сброса текстов
+			string newText = "";
+
+			while (!AndroidSupport.AppIsRunning && ((newText = await Task<string>.Run (GetAllNot)) != NotificationsSet.NoNewsSign))
+				if (newText != "")
+					{
+					masterLog.Insert (0, newText);
+					newItems++;
+					}
+
+			// Отсечка на случай пересечения с запуском основного приложения
+			if (AndroidSupport.AppIsRunning)
+				return;
+
+			// Обрезка
+			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
+				masterLog.RemoveAt (masterLog.Count - 1);
+
+			// Завершено. Оповещение пользователя
+			NotificationsSupport.MasterLog = masterLog.ToArray ();
+			if (newItems < 1)
+				return;
+
+			msg = string.Format (Localization.GetText ("NewItemsMessage", al), newItems);
+
+notMessage:
+			notBuilder.SetContentText (msg);
+			notTextStyle.BigText (msg);
+
+			Android.App.Notification notification = notBuilder.Build ();
+			notManager.Notify (notServiceID, notification);
+			notification.Dispose ();
 			}
 
 		/// <summary>
@@ -277,33 +267,14 @@ namespace RD_AAOW.Droid
 			notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName.ToLower ());
 
 			// Создание канала (для Android O и выше)
-			if (UniNotifierGenerics.IsForegroundAvailable)
+			if (AndroidSupport.IsForegroundAvailable)
 				{
 				NotificationChannel channel = new NotificationChannel (ProgramDescription.AssemblyMainName.ToLower (),
 					ProgramDescription.AssemblyMainName, NotificationImportance.High);
 
 				// Настройка
 				channel.Description = ProgramDescription.AssemblyTitle;
-				/*if (NotificationsSupport.AllowLight)
-					{
-					channel.LightColor = Color.Green;
-					channel.EnableLights (true);
-					}
-				if (NotificationsSupport.AllowVibro)
-					{
-					channel.SetVibrationPattern (new long[] { 200, 600, 200 });
-					channel.EnableVibration (true);
-					}
-				if (NotificationsSupport.AllowSound)
-					{
-					AudioAttributes att = new AudioAttributes.Builder ()
-						.SetUsage (AudioUsageKind.Notification)
-						.SetContentType (AudioContentType.Music)
-						.Build ();
-					channel.SetSound (RingtoneManager.GetDefaultUri (RingtoneType.Notification), att);
-					}*/
-				channel.LockscreenVisibility = /*NotificationsSupport.AllowOnLockedScreen ?*/ NotificationVisibility.Public /*:
-					NotificationVisibility.Private*/;
+				channel.LockscreenVisibility = NotificationVisibility.Public;
 
 				// Запуск
 				notManager.CreateNotificationChannel (channel);
@@ -320,54 +291,17 @@ namespace RD_AAOW.Droid
 			notBuilder.SetTicker (ProgramDescription.AssemblyTitle);
 
 			// Настройка видимости для стартового сообщения
-			if (!UniNotifierGenerics.IsForegroundAvailable)
-				{
-				notBuilder.SetDefaults (0);         // Для служебного сообщения
-				notBuilder.SetPriority ((int)NotificationPriority.Default);
-				}
-			else
-				{
-				notBuilder.SetDefaults (0 /*(int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
-					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
-					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0)*/);
-				notBuilder.SetPriority ((int)NotificationPriority.High);
-
-				notBuilder.SetLights (0x00FF80, 1000, 1000);
-				notBuilder.SetVibrate (new long[] { 200, 600, 200 });
-
-				/*if (NotificationsSupport.AllowSound)
-					notBuilder.SetSound (RingtoneManager.GetDefaultUri (RingtoneType.Notification));*/
-				}
+			notBuilder.SetDefaults (0);         // Для служебного сообщения
+			notBuilder.SetPriority (!AndroidSupport.IsForegroundAvailable ? (int)NotificationPriority.Default :
+				(int)NotificationPriority.High);
 
 			notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
-			if (UniNotifierGenerics.IsLargeIconRequired)
-				{
+			if (AndroidSupport.IsLargeIconRequired)
 				notBuilder.SetLargeIcon (BitmapFactory.DecodeResource (this.Resources, Resource.Drawable.ic_not_large));
-				}
-
-			notBuilder.SetVisibility (/*NotificationsSupport.AllowOnLockedScreen ?*/ (int)NotificationVisibility.Public /*:
-				(int)NotificationVisibility.Private*/);
+			notBuilder.SetVisibility ((int)NotificationVisibility.Public);
 
 			notTextStyle = new NotificationCompat.BigTextStyle (notBuilder);
 			notTextStyle.BigText (launchMessage);
-
-			// Основные действия управления
-			/*for (int i = 0; i < actIntent.Length; i++)
-				{
-				if (i != 1)
-					{
-					actIntent[i] = new Intent (this, typeof (MainActivity));
-					actIntent[i].PutExtra ("Tab", i / 2);
-					actPendingIntent[i] = PendingIntent.GetActivity (this, i, actIntent[i], 0);
-					}
-				else
-					{
-					actIntent[i] = new Intent (this, typeof (NotificationReset));
-					actPendingIntent[i] = PendingIntent.GetService (this, i, actIntent[i], 0);
-					}
-				notBuilder.AddAction (new NotificationCompat.Action.Builder (0,
-					Localization.GetText ("CommandButton" + i.ToString (), al), actPendingIntent[i]).Build ());
-				}*/
 
 			// Прикрепление ссылки для перехода в основное приложение
 			masterIntent = new Intent (this, typeof (NotificationLink));
@@ -379,11 +313,9 @@ namespace RD_AAOW.Droid
 			StartForeground (notServiceID, notification);
 
 			// Перенастройка для основного режима
-			if (!UniNotifierGenerics.IsForegroundAvailable)
+			if (!AndroidSupport.IsForegroundAvailable)
 				{
-				notBuilder.SetDefaults (0 /*(int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
-					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
-					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0)*/);
+				notBuilder.SetDefaults ((int)NotificationDefaults.Sound);
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
 				}
 
@@ -393,7 +325,7 @@ namespace RD_AAOW.Droid
 			this.RegisterReceiver (bcReceivers[1] = new BootReceiver (),
 				new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
 
-			handler.PostDelayed (runnable, ProgramDescription.MasterTimerDelay / timerDividerLimit);
+			handler.PostDelayed (runnable, frameLength);
 			isStarted = true;
 
 			return StartCommandResult.NotSticky;
@@ -407,7 +339,7 @@ namespace RD_AAOW.Droid
 			// Остановка службы
 			handler.RemoveCallbacks (runnable);
 			notManager.Cancel (notServiceID);
-			if (UniNotifierGenerics.IsForegroundAvailable)
+			if (AndroidSupport.IsForegroundAvailable)
 				notManager.DeleteNotificationChannel (ProgramDescription.AssemblyMainName.ToLower ());
 			isStarted = false;
 
@@ -419,7 +351,7 @@ namespace RD_AAOW.Droid
 			masterPendingIntent.Dispose ();
 
 			// Глушение
-			if (UniNotifierGenerics.IsForegroundAvailable)
+			if (AndroidSupport.IsForegroundAvailable)
 				StopForeground (StopForegroundFlags.Remove);
 			else
 				StopForeground (true);
@@ -452,13 +384,8 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает задание на открытие веб-ссылки
 	/// </summary>
-#if TABLEPEDIA
-	[Service (Name = "com.RD_AAOW.TablepediaNotifierLink", Label = "TablepediaNotifierLink",
-		Icon = "@mipmap/icon", Exported = true)]
-#else
 	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink",
 		Icon = "@mipmap/icon", Exported = true)]
-#endif
 	public class NotificationLink: JobIntentService
 		{
 		/// <summary>
@@ -469,30 +396,43 @@ namespace RD_AAOW.Droid
 			}
 
 		/// <summary>
-		/// Обработка события выполнения задания
+		/// Обработка события выполнения задания для Android O и новее
+		/// </summary>
+		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
+			{
+			if (AndroidSupport.IsForegroundAvailable)
+				StartActivity ();
+
+			return base.OnStartCommand (intent, flags, startId);
+			}
+
+		/// <summary>
+		/// Обработка события выполнения задания для Android N и старше
 		/// </summary>
 		protected override void OnHandleWork (Intent intent)
 			{
-			if (NotificationsSupport.AppIsRunning || (intent == null))
+			if (!AndroidSupport.IsForegroundAvailable)
+				StartActivity ();
+			}
+
+		// Общий метод запуска
+		private void StartActivity ()
+			{
+			if (AndroidSupport.AppIsRunning)
 				return;
 
-			NotificationsSupport.StopRequested = false;
+			AndroidSupport.StopRequested = false;
 			Intent mainActivity = new Intent (this, typeof (MainActivity));
 			mainActivity.PutExtra ("Tab", 0);
-			PendingIntent.GetActivity (this, 0, mainActivity, 0).Send ();
+			PendingIntent.GetActivity (this, 0, mainActivity, PendingIntentFlags.UpdateCurrent).Send ();
 			}
 		}
 
 	/// <summary>
 	/// Класс описывает приёмник события окончания загрузки ОС
 	/// </summary>
-#if TABLEPEDIA
-	[BroadcastReceiver (Name = "com.RD_AAOW.TablepediaNotifierBoot", Label = "TablepediaNotifierBoot",
-		Icon = "@mipmap/icon", Exported = true)]
-#else
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot",
 		Icon = "@mipmap/icon", Exported = true)]
-#endif
 	public class BootReceiver: BroadcastReceiver
 		{
 		/// <summary>
@@ -500,16 +440,16 @@ namespace RD_AAOW.Droid
 		/// </summary>
 		public override void OnReceive (Context context, Intent intent)
 			{
-			if (!NotificationsSupport.AllowServiceToStart || (intent == null))
+			if (!AndroidSupport.AllowServiceToStart || (intent == null))
 				return;
 
 			if (intent.Action.Equals (Intent.ActionBootCompleted, StringComparison.CurrentCultureIgnoreCase) ||
 				intent.Action.Equals (Intent.ActionReboot, StringComparison.CurrentCultureIgnoreCase))
 				{
 				Intent mainService = new Intent (context, typeof (MainService));
-				NotificationsSupport.StopRequested = false;
+				AndroidSupport.StopRequested = false;
 
-				if (UniNotifierGenerics.IsForegroundAvailable)
+				if (AndroidSupport.IsForegroundAvailable)
 					context.StartForegroundService (mainService);
 				else
 					context.StartService (mainService);

@@ -133,7 +133,7 @@
     <value>Allow:</value>
   </data>
   <data name="AllNewsButton" xml:space="preserve">
-    <value>All news</value>
+    <value>ALL</value>
   </data>
   <data name="AllNewsRequest" xml:space="preserve">
     <value>This option will poll all notifications with 5 seconds steps. It may take some time. Continue?</value>
@@ -146,6 +146,12 @@
   </data>
   <data name="AppPage" xml:space="preserve">
     <value>App webpage</value>
+  </data>
+  <data name="BackgroundRequestOff" xml:space="preserve">
+    <value>Background request: off</value>
+  </data>
+  <data name="BackgroundRequestOn" xml:space="preserve">
+    <value>Background request step: {0:D} minutes</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
     <value>Beginning:</value>
@@ -227,6 +233,9 @@
   </data>
   <data name="NameFieldPlaceholder" xml:space="preserve">
     <value>(name)</value>
+  </data>
+  <data name="NewItemsMessage" xml:space="preserve">
+    <value>New notifications: {0:D}. Click this message to read them</value>
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
@@ -320,15 +329,17 @@
     <value>Where to get the settings:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Welcome to UniNotifier! Here you can configure the news service and notifications themselves</value>
+    <value>Welcome to UniNotifier!
+
+• On this page you can configure the notifications.
+• Swipe it to the right to set up parameters of the news service</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>Warning! Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get</value>
+    <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left and select the user guide.
+• The main notifications log is available on the first page of application. It will be opened on every further start of UniNotifier</value>
   </data>
   <data name="Tip03" xml:space="preserve">
-    <value>Detailed instructions for setting up the service are available on YouTube. Swipe to the right of this screen to app details page and select the user guide.
-
-The notifications log is available on the left of this settings screen</value>
+    <value>Warning! Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get</value>
   </data>
   <data name="Tip04_1" xml:space="preserve">
     <value>This button allows you to apply changes performed below to the currently selected notification</value>

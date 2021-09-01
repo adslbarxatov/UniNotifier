@@ -10,14 +10,17 @@
 			<!-- Настройки службы -->
 			<Label x:Name="ServiceSettingsLabel" />
 
-			<FlexLayout Direction="Row" Wrap="Wrap">
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+				<Switch x:Name="AllowStart" VerticalOptions="Center" />
+				<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
+			</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="AllowStart" VerticalOptions="Center" />
-					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-			</FlexLayout>
+			<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+				<Label Text="   " VerticalTextAlignment="Center" />
+				<Button x:Name="RequestStepIncButton" HorizontalOptions="Start" />
+				<Label x:Name="RequestStepFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+				<Button x:Name="RequestStepDecButton" HorizontalOptions="Start" />
+			</StackLayout>
 
 			<!-- Настройки журнала -->
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
@@ -25,7 +28,7 @@
 
 			<Label x:Name="LogSettingsLabel" />
 
-			<FlexLayout Direction="Row" Wrap="Wrap" >
+			<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
 
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="ReadModeSwitch" VerticalOptions="Center" />
