@@ -1,5 +1,11 @@
 UniNotifier changes log
 
+Version 4.1:
+• Android: added notifications wizard. It allows to create notifications in five clear steps, without
+  manual markers specification (for beginners);
+• Android: internal threads management has been completely rebuilt. Now the app must work more stable;
+• Android: other interface fixes and improvements applied
+
 Version 4.0g:
 • Removed GMJ functionality due to unexpected VK protocol change;
 • Adjusted notifications about unread news items
