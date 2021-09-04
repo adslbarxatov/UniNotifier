@@ -11,6 +11,7 @@ namespace RD_AAOW
 		// Переменные и константы
 		private NotificationsSet notifications;
 		private SupportedLanguages al = Localization.CurrentLanguage;
+		private uint updatingFrequencyStep;
 
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
@@ -22,6 +23,7 @@ namespace RD_AAOW
 			// Инициализация
 			InitializeComponent ();
 			notifications = Notifications;
+			updatingFrequencyStep = UpdatingFrequencyStep;
 
 			this.Text = ProgramDescription.AssemblyTitle;
 			this.CancelButton = BClose;
@@ -69,7 +71,7 @@ namespace RD_AAOW
 		// Обновление состояния кнопок
 		private void UpdateButtons ()
 			{
-			BAdd.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
+			BAdd.Enabled = NotWizard.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
 			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 1);    // Одно должно остаться
 			}
 
@@ -217,8 +219,8 @@ namespace RD_AAOW
 				}
 
 			// Поиск
-			string beginning = "", ending = "";
-			if (!Notification.FindDelimiters (LinkText.Text, BeginningText.Text, out beginning, out ending))
+			string[] delim = Notification.FindDelimiters (LinkText.Text, BeginningText.Text);
+			if (delim == null)
 				{
 				MessageBox.Show (Localization.GetText ("SearchFailure", al),
 					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -226,8 +228,8 @@ namespace RD_AAOW
 				}
 
 			// Успешно
-			BeginningText.Text = beginning;
-			EndingText.Text = ending;
+			BeginningText.Text = delim[0];
+			EndingText.Text = delim[1];
 			}
 
 		// Локализация формы
@@ -301,6 +303,28 @@ namespace RD_AAOW
 				{
 				OccurrenceField.Value = OccurrenceField.Minimum;
 				}
+			}
+
+		// Вызов мастера оповещений
+		private void NotWizard_Click (object sender, EventArgs e)
+			{
+			// Запрос
+			WizardForm wf = new WizardForm (al, updatingFrequencyStep, (uint)FrequencyCombo.Items.Count);
+
+			// Обновление
+			if (wf.Cancelled)
+				return;
+
+			NameText.Text = wf.NotificationName;
+			LinkText.Text = wf.NotificationLink;
+			BeginningText.Text = wf.NotificationBeginning;
+			EndingText.Text = wf.NotificationEnding;
+			FrequencyCombo.SelectedIndex = wf.UpdateFrequenciesListIndex;
+			OccurrenceField.Value = wf.NotificationOccurence;
+			EnabledCheck.Checked = true;
+
+			UpdateItem (-1);
+			UpdateButtons ();
 			}
 		}
 	}

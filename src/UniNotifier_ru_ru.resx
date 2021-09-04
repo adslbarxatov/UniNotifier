@@ -229,9 +229,6 @@
 Очень надеюсь, что Вам понравится относительно грамотный юмор!
 С уважением, Nicolay B. aka RD AAOW</value>
   </data>
-  <data name="SettingsForm_SpecialNotifications" xml:space="preserve">
-    <value>Добавить оповещения с tablepedia.ru</value>
-  </data>
   <data name="Tip_00" xml:space="preserve">
     <value>Добро пожаловать в UniNotifier! Здесь вы можете настроить новостной сервис и сами уведомления. Некоторые кнопки и поля содержат полезные подсказки, которые будут показаны однократно.
 
@@ -272,5 +269,47 @@
   </data>
   <data name="Tip_11" xml:space="preserve">
     <value>Эта кнопка позволяет загружать настройки из буфера обмена</value>
+  </data>
+  <data name="SettingsForm_NotWizard" xml:space="preserve">
+    <value>Мастер оповещений</value>
+  </data>
+  <data name="WizardFailure" xml:space="preserve">
+    <value>Похоже, этот сайт не поддерживается в UniNotifier. Попробуйте использовать другое ключевое слово</value>
+  </data>
+  <data name="WizardSearch1" xml:space="preserve">
+    <value>Определяем маркеры...</value>
+  </data>
+  <data name="WizardSearch2" xml:space="preserve">
+    <value>Запрашиваем текст...</value>
+  </data>
+  <data name="WizardStep1" xml:space="preserve">
+    <value>Вас приветствует мастер создания оповещений!
+
+Эта функция поможет сформировать оповещение, которое сможет автоматически опрашивать UniNotifier.
+
+Для начала введите ссылку (URL) на сайт, с которого Вы хотите получать оповещения</value>
+  </data>
+  <data name="WizardStep2" xml:space="preserve">
+    <value>Теперь укажите ключевое слово.
+
+Это слово (или фраза) должно присутствовать прямо сейчас в той части сайта, которая будет меняться со временем, что и будет источником текстов для оповещений. Идеальной будет фраза, присутствующая сейчас только в этой области либо впервые встречается на сайте именно в ней. Регистр букв значения не имеет</value>
+  </data>
+  <data name="WizardStep3" xml:space="preserve">
+    <value>По указанным настройкам получен текст, приведённый ниже. Если он соответствует Вашим ожиданиям, нажмите ОК для добавления оповещения. В противном случае нажмите Повторить, и мы попробуем ещё раз</value>
+  </data>
+  <data name="WizardStep4" xml:space="preserve">
+    <value>По указанным настройкам получен текст, приведённый ниже. Если он соответствует Вашим ожиданиям, нажмите ОК для добавления оповещения. В противном случае повторите действие и попробуйте другое ключевое слово</value>
+  </data>
+  <data name="WizardStep5" xml:space="preserve">
+    <value>Готово! Осталось указать название оповещения для отображения в журнале</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>От&amp;мена</value>
+  </data>
+  <data name="NextButton" xml:space="preserve">
+    <value>&amp;Далее</value>
+  </data>
+  <data name="RetryButton" xml:space="preserve">
+    <value>&amp;Повторить</value>
   </data>
 </root>

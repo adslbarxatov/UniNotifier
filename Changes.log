@@ -1,10 +1,15 @@
 UniNotifier changes log
 
+ToDo:
+- Android (Windows?): awaiting for integration templates and clipboard into the wizard (removing manual
+  delimiters search)
+
 Version 4.1:
-• Android: added notifications wizard. It allows to create notifications in five clear steps, without
+• Added notifications wizard. It allows to create notifications in five clear steps, without
   manual markers specification (for beginners);
 • Android: internal threads management has been completely rebuilt. Now the app must work more stable;
-• Android: other interface fixes and improvements applied
+• Android: other interface fixes and improvements applied;
+• Updated known GMJ records
 
 Version 4.0g:
 • Removed GMJ functionality due to unexpected VK protocol change;

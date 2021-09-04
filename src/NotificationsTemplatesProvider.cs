@@ -192,11 +192,15 @@ namespace RD_AAOW
 			}
 
 		// Получение списка шаблонов
+#if ANDROID
+		private async void TemplatesListLoader (object sender, DoWorkEventArgs e)
+#else
 		private void TemplatesListLoader (object sender, DoWorkEventArgs e)
+#endif
 			{
 			// Запрос списка пакетов
 #if ANDROID
-			string html = NotificationsSupport.GetHTML (listLink);
+			string html = await NotificationsSupport.GetHTML (listLink);
 #else
 			string html = AboutForm.GetHTML (listLink);
 #endif

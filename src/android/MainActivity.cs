@@ -143,9 +143,7 @@ namespace RD_AAOW.Droid
 
 		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[2]; // Дескрипторы обработчиков событий
 
-		private const uint frameLength = ProgramDescription.MasterTimerDelay / 4;   // Длина одного фрейма таймера
-		private DateTime nextRequest;                                   // Время следующего опроса
-		private uint newItems = 0;                                      // Полученные новые элементы с последнего вызова приложения
+		private DateTime nextRequest = new DateTime (2000, 1, 1, 0, 0, 0);  // Время следующего опроса
 
 		/// <summary>
 		/// Обработчик события создания службы
@@ -164,17 +162,17 @@ namespace RD_AAOW.Droid
 					if (isStarted)
 						{
 						TimerTick ();
-						handler.PostDelayed (runnable, frameLength);
+						handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
 						}
 				});
 			}
 
 		// Запрос всех новостей
-		private string GetAllNot ()
+		private async Task<string> GetAllNot ()
 			{
 			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
-			Thread.Sleep ((int)ProgramDescription.MasterTimerDelay / 2);
-			return ProgramDescription.NSet.GetNextNotification (true);
+			Thread.Sleep ((int)ProgramDescription.MasterFrameLength * 2);
+			return await ProgramDescription.NSet.GetNextNotification (true);
 			}
 
 		// Основной метод службы
@@ -197,10 +195,9 @@ namespace RD_AAOW.Droid
 			string msg = "";
 			if (AndroidSupport.AppIsRunning)
 				{
-				if (newItems > 0)
+				if (NotificationsSupport.NewItems > 0)
 					{
-					newItems = 0;
-
+					NotificationsSupport.NewItems = 0;
 					msg = Localization.GetText ("LaunchMessage", al);
 					goto notMessage;
 					}
@@ -220,13 +217,15 @@ namespace RD_AAOW.Droid
 			// Извлечение новых записей
 			AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
 			ProgramDescription.NSet.ResetTimer (false);     // Без сброса текстов
-			string newText = "";
 
+			string newText = "";
+			bool haveNews = false;
 			while (!AndroidSupport.AppIsRunning && ((newText = await Task<string>.Run (GetAllNot)) != NotificationsSet.NoNewsSign))
 				if (newText != "")
 					{
 					masterLog.Insert (0, newText);
-					newItems++;
+					NotificationsSupport.NewItems++;
+					haveNews = true;
 					}
 
 			// Отсечка на случай пересечения с запуском основного приложения
@@ -239,10 +238,10 @@ namespace RD_AAOW.Droid
 
 			// Завершено. Оповещение пользователя
 			NotificationsSupport.MasterLog = masterLog.ToArray ();
-			if (newItems < 1)
+			if (!haveNews)  // Исключаем дублирование сообщений об одинаковом числе непрочитанных оповещений
 				return;
 
-			msg = string.Format (Localization.GetText ("NewItemsMessage", al), newItems);
+			msg = string.Format (Localization.GetText ("NewItemsMessage", al), NotificationsSupport.NewItems);
 
 notMessage:
 			notBuilder.SetContentText (msg);
@@ -325,7 +324,7 @@ notMessage:
 			this.RegisterReceiver (bcReceivers[1] = new BootReceiver (),
 				new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
 
-			handler.PostDelayed (runnable, frameLength);
+			handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
 			isStarted = true;
 
 			return StartCommandResult.NotSticky;

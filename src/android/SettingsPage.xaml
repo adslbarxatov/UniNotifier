@@ -49,6 +49,13 @@
 
 			</FlexLayout>
 
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+				WidthRequest="200" Color="#606060" Margin="12" />
+
+			<Button x:Name="NotWizardButton" HorizontalOptions="Center" />
+
+			<Label />
+
 		</StackLayout>
 	</ScrollView>
 </ContentPage>

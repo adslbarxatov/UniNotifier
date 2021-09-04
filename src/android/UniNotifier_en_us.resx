@@ -181,7 +181,13 @@
     <value>Ask developer</value>
   </data>
   <data name="EarlierMessage" xml:space="preserve">
-    <value>Earlier</value>
+    <value> Earlier </value>
+  </data>
+  <data name="EFTAccepted" xml:space="preserve">
+    <value>***</value>
+  </data>
+  <data name="EFTLabel" xml:space="preserve">
+    <value>Extended functionality token:</value>
   </data>
   <data name="EmailsAreUnavailable" xml:space="preserve">
     <value>This device has no mail agent</value>
@@ -261,6 +267,9 @@
   <data name="NotSettingsPage" xml:space="preserve">
     <value>Notifications settings</value>
   </data>
+  <data name="NotWizardButton" xml:space="preserve">
+    <value>Notifications wizard</value>
+  </data>
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Occurrence #{0:D}</value>
   </data>
@@ -288,6 +297,9 @@
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>
+  </data>
+  <data name="RetryButton" xml:space="preserve">
+    <value>Retry</value>
   </data>
   <data name="RightAlignmentLabel" xml:space="preserve">
     <value>Right buttons</value>
@@ -396,5 +408,35 @@ Please note that app adds links to information sources to notifications you shar
   </data>
   <data name="WebIsUnavailable" xml:space="preserve">
     <value>This device has no web browser</value>
+  </data>
+  <data name="WizardFailure" xml:space="preserve">
+    <value>It looks like this site is not supported in UniNotifier. Try using a different keyword</value>
+  </data>
+  <data name="WizardSearch1" xml:space="preserve">
+    <value>Detecting markers...</value>
+  </data>
+  <data name="WizardSearch2" xml:space="preserve">
+    <value>Requesting text...</value>
+  </data>
+  <data name="WizardStep1" xml:space="preserve">
+    <value>Welcome to the notifications wizard!
+
+This function will help you to create a notification that UniNotifier can automatically poll.
+
+First, enter a link (URL) to the site from which you want to receive notifications</value>
+  </data>
+  <data name="WizardStep2" xml:space="preserve">
+    <value>Now enter a keyword.
+
+This word (or phrase) should be present right now in that part of the site that will change over time, which will be the source of text for notifications. The ideal would be a phrase that is present now only in this area or is first encountered on the site in it. The case of letters doesn't matter</value>
+  </data>
+  <data name="WizardStep3" xml:space="preserve">
+    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we'll try again</value>
+  </data>
+  <data name="WizardStep4" xml:space="preserve">
+    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, cancel the action and try a different keyword</value>
+  </data>
+  <data name="WizardStep5" xml:space="preserve">
+    <value>It's ready! Now specify the name of notification to be displayed in the main log</value>
   </data>
 </root>

@@ -53,11 +53,12 @@ namespace RD_AAOW
 
 			ReloadNotificationsList ();
 			ResetCulture ();
-			/*#if TG*/
-			GetGMJ.Visible = false;
-			/*#else
+#if TGB
 			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
-			#endif*/
+#else
+			GetGMJ.Visible = false;
+#endif
+
 			// Получение настроек
 			try
 				{
@@ -107,7 +108,7 @@ namespace RD_AAOW
 			this.Hide ();
 
 			// Запуск
-			MainTimer.Interval = (int)ProgramDescription.MasterTimerDelay;
+			MainTimer.Interval = (int)ProgramDescription.MasterFrameLength * 4;
 			MainTimer.Enabled = true;
 			}
 
@@ -291,7 +292,7 @@ namespace RD_AAOW
 					return;
 					}
 
-				if (s.Contains ("GMJ не вернула сообщение"))
+				if (s.Contains ("joy не вернула сообщение"))
 					{
 					StreamWriter SW = File.AppendText (AboutForm.AppStartupPath + "TG.log");
 					SW.Write (s + "\r\n\r\n");
@@ -450,14 +451,16 @@ namespace RD_AAOW
 		// Запрос сообщения от GMJ
 		private void GetGMJ_Click (object sender, EventArgs e)
 			{
-			/*GetGMJ.Enabled = false;
+#if TGB
+			GetGMJ.Enabled = false;
 			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
 				texts.Add (s);
 			else
-				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
-			notNumbers.Add (0);*/
+				texts.Add ("Новый список сформирован"); //("GMJ не вернула сообщение. Проверьте интернет-соединение");
+			notNumbers.Add (0);
+#endif
 			}
 		}
 	}
