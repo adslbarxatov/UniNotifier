@@ -290,4 +290,16 @@ This word (or phrase) should be present right now in that part of the site that 
   <data name="RetryButton" xml:space="preserve">
     <value>&amp;Retry</value>
   </data>
+  <data name="NotificationsWizard" xml:space="preserve">
+    <value>Using &amp;wizard</value>
+  </data>
+  <data name="TemplateClipboard" xml:space="preserve">
+    <value>From clip&amp;board</value>
+  </data>
+  <data name="TemplateList" xml:space="preserve">
+    <value>From &amp;template</value>
+  </data>
+  <data name="TemplateSelect" xml:space="preserve">
+    <value>Create new notification:</value>
+  </data>
 </root>

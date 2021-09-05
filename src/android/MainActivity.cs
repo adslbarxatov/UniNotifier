@@ -168,7 +168,7 @@ namespace RD_AAOW.Droid
 			}
 
 		// Запрос всех новостей
-		private async Task<string> GetAllNot ()
+		private async Task<string> GetNotification ()
 			{
 			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
 			Thread.Sleep ((int)ProgramDescription.MasterFrameLength * 2);
@@ -191,6 +191,10 @@ namespace RD_AAOW.Droid
 			if (NotificationsSupport.BackgroundRequestStep < 1)
 				return;
 
+			// Защита от двойного входа
+			if (inProgress)
+				return;
+
 			// Отмена действия, если запущено основное приложение
 			string msg = "";
 			if (AndroidSupport.AppIsRunning)
@@ -199,7 +203,7 @@ namespace RD_AAOW.Droid
 					{
 					NotificationsSupport.NewItems = 0;
 					msg = Localization.GetText ("LaunchMessage", al);
-					goto notMessage;
+					goto notMessage;    // inProgress == false
 					}
 
 				return;
@@ -210,6 +214,7 @@ namespace RD_AAOW.Droid
 				return;
 
 			// Перезапрос журнала выполняется здесь, т.к. состояние могло измениться в основном интерфейсе
+			inProgress = true;
 			nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStep *
 				NotificationsSupport.BackgroundRequestStepMinutes);
 			List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
@@ -220,7 +225,8 @@ namespace RD_AAOW.Droid
 
 			string newText = "";
 			bool haveNews = false;
-			while (!AndroidSupport.AppIsRunning && ((newText = await Task<string>.Run (GetAllNot)) != NotificationsSet.NoNewsSign))
+			while (!AndroidSupport.AppIsRunning && ((newText = await Task<string>.Run (GetNotification)) !=
+				NotificationsSet.NoNewsSign))
 				if (newText != "")
 					{
 					masterLog.Insert (0, newText);
@@ -230,7 +236,10 @@ namespace RD_AAOW.Droid
 
 			// Отсечка на случай пересечения с запуском основного приложения
 			if (AndroidSupport.AppIsRunning)
+				{
+				inProgress = false;
 				return;
+				}
 
 			// Обрезка
 			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
@@ -239,7 +248,10 @@ namespace RD_AAOW.Droid
 			// Завершено. Оповещение пользователя
 			NotificationsSupport.MasterLog = masterLog.ToArray ();
 			if (!haveNews)  // Исключаем дублирование сообщений об одинаковом числе непрочитанных оповещений
+				{
+				inProgress = false;
 				return;
+				}
 
 			msg = string.Format (Localization.GetText ("NewItemsMessage", al), NotificationsSupport.NewItems);
 
@@ -250,7 +262,9 @@ notMessage:
 			Android.App.Notification notification = notBuilder.Build ();
 			notManager.Notify (notServiceID, notification);
 			notification.Dispose ();
+			inProgress = false;
 			}
+		private bool inProgress = false;
 
 		/// <summary>
 		/// Обработчик события запуска службы

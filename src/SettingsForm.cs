@@ -57,12 +57,6 @@ namespace RD_AAOW
 			if (NotificationsList.Items.Count > 0)
 				NotificationsList.SelectedIndex = 0;
 
-			// Загрузка шаблонов и настроек
-			notifications.ReloadNotificationsTemplates ();  // При обновлении списка шаблонов "протянет" их в интерфейс
-			for (uint i = 0; i < notifications.NotificationsTemplates.TemplatesCount; i++)
-				TemplatesCombo.Items.Add (notifications.NotificationsTemplates.GetName (i));
-			TemplatesCombo.SelectedIndex = 0;
-
 			// Запуск
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.StartupTip);
 			this.ShowDialog ();
@@ -188,7 +182,7 @@ namespace RD_AAOW
 			UpdateButtons ();
 			}
 
-		// Загрузка шаблона в поля
+		/*// Загрузка шаблона в поля
 		private void BLoadTemplate_Click (object sender, EventArgs e)
 			{
 			// Проверка
@@ -230,7 +224,7 @@ namespace RD_AAOW
 			// Успешно
 			BeginningText.Text = delim[0];
 			EndingText.Text = delim[1];
-			}
+			}*/
 
 		// Локализация формы
 		private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)
@@ -266,7 +260,7 @@ namespace RD_AAOW
 			catch { }
 			}
 
-		// Получение настроек из буфера обмена
+		/*// Получение настроек из буфера обмена
 		private void GetSettings_Click (object sender, EventArgs e)
 			{
 			// Подсказка
@@ -303,13 +297,13 @@ namespace RD_AAOW
 				{
 				OccurrenceField.Value = OccurrenceField.Minimum;
 				}
-			}
+			}*/
 
 		// Вызов мастера оповещений
 		private void NotWizard_Click (object sender, EventArgs e)
 			{
 			// Запрос
-			WizardForm wf = new WizardForm (al, updatingFrequencyStep, (uint)FrequencyCombo.Items.Count);
+			WizardForm wf = new WizardForm (notifications, al, updatingFrequencyStep, (uint)FrequencyCombo.Items.Count);
 
 			// Обновление
 			if (wf.Cancelled)
@@ -320,7 +314,7 @@ namespace RD_AAOW
 			BeginningText.Text = wf.NotificationBeginning;
 			EndingText.Text = wf.NotificationEnding;
 			FrequencyCombo.SelectedIndex = wf.UpdateFrequenciesListIndex;
-			OccurrenceField.Value = wf.NotificationOccurence;
+			OccurrenceField.Value = wf.NotificationOccurrence;
 			EnabledCheck.Checked = true;
 
 			UpdateItem (-1);

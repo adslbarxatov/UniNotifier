@@ -50,7 +50,6 @@
 					<Label Text="   " />
 					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="BeginningField" VerticalOptions="Center" />
-					<Button x:Name="FindDelimitersButton" VerticalOptions="Center" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">
@@ -68,8 +67,6 @@
 				<Button x:Name="ApplyButton" VerticalOptions="Center" />
 				<Label Text="     " />
 				<Button x:Name="AddButton" VerticalOptions="Center" />
-				<Label Text="     " />
-				<Button x:Name="LoadTemplateButton" VerticalOptions="Center" />
 			</StackLayout>
 
 		</StackLayout>

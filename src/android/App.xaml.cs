@@ -19,8 +19,7 @@ namespace RD_AAOW
 		#region Общие переменные и константы
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
-		private CultureInfo ci;
-		private int currentNotification = 0;
+		/*private CultureInfo ci;*/
 		private List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
 
 		private readonly Color
@@ -61,7 +60,7 @@ namespace RD_AAOW
 			if (ProgramDescription.NSet == null)
 				ProgramDescription.NSet = new NotificationsSet (false);
 
-			// Инициализация представления даты и времени 
+			/*// Инициализация представления даты и времени 
 			try
 				{
 				if (al == SupportedLanguages.ru_ru)
@@ -72,7 +71,7 @@ namespace RD_AAOW
 			catch
 				{
 				ci = CultureInfo.InstalledUICulture;
-				}
+				}*/
 
 			// Переход в статус запуска для отмены вызова из оповещения
 			AndroidSupport.AppIsRunning = true;
@@ -106,7 +105,7 @@ namespace RD_AAOW
 			allowStart.Toggled += AllowStart_Toggled;
 
 			notWizardButton = AndroidSupport.ApplyButtonSettings (settingsPage, "NotWizardButton",
-				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, NotificationsWizard);
+				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, StartNotificationsWizard);
 
 			#endregion
 
@@ -170,12 +169,12 @@ namespace RD_AAOW
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "ShareTemplateButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
 				solutionFieldBackColor, ShareTemplate);
-			AndroidSupport.ApplyButtonSettings (notSettingsPage, "LoadTemplateButton",
+			/*AndroidSupport.ApplyButtonSettings (notSettingsPage, "LoadTemplateButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Copy),
 				solutionFieldBackColor, LoadTemplate);
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "FindDelimitersButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Find),
-				solutionFieldBackColor, FindDelimiters);
+				solutionFieldBackColor, FindDelimiters);*/
 
 			#endregion
 
@@ -580,6 +579,7 @@ namespace RD_AAOW
 			// Сброс
 			list.Clear ();
 			}
+		private int currentNotification = 0;
 
 		// Блокировка / разблокировка кнопок
 		private void SetLogState (bool State)
@@ -757,14 +757,16 @@ namespace RD_AAOW
 		// Метод загружает шаблон оповещения
 		private List<string> templatesNames = new List<string> ();
 
-		private async void LoadTemplate (object sender, EventArgs e)
+		private async void StartNotificationsWizard (object sender, EventArgs e)
 			{
 			// Подсказки
+			notWizardButton.IsEnabled = false;
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.TemplateButton))
 				await ShowTips (NotificationsSupport.TipTypes.TemplateButton, notSettingsPage);
 
 			// Запрос варианта использования
 			List<string> items = new List<string> {
+				Localization.GetText ("NotificationsWizard", al),
 				Localization.GetText ("TemplateList", al),
 				Localization.GetText ("TemplateClipboard", al)
 				};
@@ -774,8 +776,13 @@ namespace RD_AAOW
 			// Обработка (недопустимые значения будут отброшены)
 			switch (items.IndexOf (res))
 				{
-				// Шаблон
+				// Мастер
 				case 0:
+					await NotificationsWizard ();
+					break;
+
+				// Шаблон
+				case 1:
 					// Запрос списка шаблонов
 					if (templatesNames.Count == 0)
 						for (uint i = 0; i < ProgramDescription.NSet.NotificationsTemplates.TemplatesCount; i++)
@@ -788,7 +795,14 @@ namespace RD_AAOW
 					uint templateNumber = 0;
 					int r;
 					if ((r = templatesNames.IndexOf (res)) >= 0)
+						{
 						templateNumber = (uint)r;
+						}
+					else
+						{
+						notWizardButton.IsEnabled = true;
+						return;
+						}
 
 					// Проверка
 					if (ProgramDescription.NSet.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
@@ -805,21 +819,20 @@ namespace RD_AAOW
 					break;
 
 				// Разбор переданного шаблона
-				case 1:
+				case 2:
 					// Запрос из буфера обмена
 					string text = "";
 					try
 						{
 						text = await Clipboard.GetTextAsync ();
 						}
-					catch
-						{
-						}
+					catch { }
 
 					if ((text == null) || (text == ""))
 						{
 						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
+						notWizardButton.IsEnabled = true;
 						return;
 						}
 
@@ -830,6 +843,7 @@ namespace RD_AAOW
 						{
 						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
 							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
+						notWizardButton.IsEnabled = true;
 						return;
 						}
 
@@ -853,6 +867,19 @@ namespace RD_AAOW
 			// Обновление
 			OccurrenceChanged (null, null);
 			items.Clear ();
+
+			// Создание уведомления
+			enabledSwitch.IsToggled = true;
+			if (await UpdateItem (-1))
+				{
+				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
+				SelectNotification (null, null);
+
+				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage", al) + nameField.Text,
+					ToastLength.Short).Show ();
+				}
+
+			notWizardButton.IsEnabled = true;
 			}
 
 		// Метод формирует и отправляет шаблон оповещения
@@ -874,7 +901,7 @@ namespace RD_AAOW
 				});
 			}
 
-		// Автоматизированный поиск ограничителей
+		/*// Автоматизированный поиск ограничителей
 		private async void FindDelimiters (object sender, EventArgs e)
 			{
 			// Подсказки
@@ -904,7 +931,7 @@ namespace RD_AAOW
 			// Успешно
 			beginningField.Text = delim[0];
 			endingField.Text = delim[1];
-			}
+			}*/
 
 		// Запрос всех новостей
 		private async Task<string> GetAllNot ()
@@ -1047,22 +1074,16 @@ namespace RD_AAOW
 			}
 
 		// Вызов помощника по созданию оповещений
-		private async void NotificationsWizard (object sender, EventArgs e)
+		private async Task<bool> NotificationsWizard ()
 			{
-			// Блокировка повторного вызова
-			notWizardButton.IsEnabled = false;
-
 			// Шаг запроса ссылки
 			string link = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyTitle,
 				Localization.GetText ("WizardStep1", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), Localization.GetText ("LinkFieldPlaceholder", al),
-				150, Keyboard.Url, "");
+				Notification.MaxLinkLength, Keyboard.Url, "");
 
 			if (string.IsNullOrWhiteSpace (link))
-				{
-				notWizardButton.IsEnabled = true;
-				return;
-				}
+				return false;
 
 			// Шаг запроса ключевого слова
 			string keyword = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyTitle,
@@ -1071,10 +1092,7 @@ namespace RD_AAOW
 				Notification.MaxBeginningEndingLength, Keyboard.Default, "");
 
 			if (string.IsNullOrWhiteSpace (keyword))
-				{
-				notWizardButton.IsEnabled = true;
-				return;
-				}
+				return false;
 
 			// Запуск
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch1", al),
@@ -1085,8 +1103,7 @@ namespace RD_AAOW
 				{
 				await settingsPage.DisplayAlert (ProgramDescription.AssemblyTitle, Localization.GetText ("WizardFailure", al),
 					Localization.GetText ("NextButton", al));
-				notWizardButton.IsEnabled = true;
-				return;
+				return false;
 				}
 
 			// Попытка запроса
@@ -1101,8 +1118,7 @@ namespace RD_AAOW
 					{
 					await settingsPage.DisplayAlert (ProgramDescription.AssemblyTitle, Localization.GetText ("WizardFailure", al),
 						Localization.GetText ("NextButton", al));
-					notWizardButton.IsEnabled = true;
-					return;
+					return false;
 					}
 
 				// Получен текст, проверка
@@ -1120,14 +1136,9 @@ namespace RD_AAOW
 				else
 					{
 					if (occ < 3)
-						{
 						continue;
-						}
 					else
-						{
-						notWizardButton.IsEnabled = true;
-						return;
-						}
+						return false;
 					}
 				}
 
@@ -1138,29 +1149,16 @@ namespace RD_AAOW
 				Notification.MaxBeginningEndingLength, Keyboard.Default, "");
 
 			if (string.IsNullOrWhiteSpace (name))
-				{
-				notWizardButton.IsEnabled = true;
-				return;
-				}
+				return false;
 
 			// Добавление оповещения
-			enabledSwitch.IsToggled = true;
 			nameField.Text = name;
 			linkField = link;
 			beginningField.Text = delim[0];
 			endingField.Text = delim[1];
 			currentOcc = occ;
 
-			if (await UpdateItem (-1))
-				{
-				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
-				SelectNotification (null, null);
-
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage", al) + nameField.Text,
-					ToastLength.Short).Show ();
-				}
-
-			notWizardButton.IsEnabled = true;
+			return true;
 			}
 
 		/// <summary>

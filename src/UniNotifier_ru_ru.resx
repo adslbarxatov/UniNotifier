@@ -312,4 +312,16 @@
   <data name="RetryButton" xml:space="preserve">
     <value>&amp;Повторить</value>
   </data>
+  <data name="NotificationsWizard" xml:space="preserve">
+    <value>С помощью м&amp;астера</value>
+  </data>
+  <data name="TemplateClipboard" xml:space="preserve">
+    <value>Из &amp;буфера обмена</value>
+  </data>
+  <data name="TemplateList" xml:space="preserve">
+    <value>Из &amp;шаблона</value>
+  </data>
+  <data name="TemplateSelect" xml:space="preserve">
+    <value>Создание нового оповещения:</value>
+  </data>
 </root>

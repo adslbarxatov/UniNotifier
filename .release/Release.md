@@ -1,11 +1,9 @@
-_Changes for v 4.1_:
+_Changes for v 4.2_:
+- Notifications wizard now includes all non-manual methods of adding new notifications;
+- Manual delimiters search has been removed;
+- Android: some obsolete code elements have been removed;
+- Android: trying to solve mismatch of real unread texts with their quantity in system tray;
 - Added notifications wizard. It allows to create notifications in five clear steps, without manual markers specification (for beginners);
 - Android: internal threads management has been completely rebuilt. Now the app must work more stable;
 - Android: other interface fixes and improvements applied;
-- Updated known GMJ records;
-- Removed open GMJ functionality due to unexpected VK protocol change;
-- Android: adjusted notifications about unread news items;
-- Android: removed the log separator object used to indicate the current date. Now the date is in every notification;
-- Android: we are reintroducing the functionality of automated polling notifications in standby mode. The total pause between polls is now specified in the service settings. Zero value disables the function (disabled by default). It may still not work when the device is not in battery charging mode and the display is off. As it was before, there is no solution to this problem. But the option itself gives a meaning to the existence of the Android version of UniNotifier;
-- Android: removed redundant button for requesting single news items;
-- Android: buttons for manual polling of notifications are now minimized when the screen is displayed vertically
+- Updated known GMJ records

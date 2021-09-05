@@ -169,7 +169,7 @@
     <value>Main community</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
-    <value>Remember to replace items enclosed in curly braces with what you want</value>
+    <value>Remember to replace items enclosed in curly braces (including parts of webpage's link) with what you want</value>
   </data>
   <data name="DeclineButton" xml:space="preserve">
     <value>Read</value>
@@ -261,6 +261,9 @@
   <data name="NotificationsSettingsLabel" xml:space="preserve">
     <value>Notifications parameters:</value>
   </data>
+  <data name="NotificationsWizard" xml:space="preserve">
+    <value>Using wizard</value>
+  </data>
   <data name="NotMatchingNames" xml:space="preserve">
     <value>Notification with the same name already added</value>
   </data>
@@ -332,13 +335,13 @@
     <value>Enable special notifications</value>
   </data>
   <data name="TemplateClipboard" xml:space="preserve">
-    <value>From the clipboard</value>
+    <value>From clipboard</value>
   </data>
   <data name="TemplateList" xml:space="preserve">
-    <value>From the template</value>
+    <value>From template</value>
   </data>
   <data name="TemplateSelect" xml:space="preserve">
-    <value>Where to get the settings:</value>
+    <value>Create new notification:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
     <value>Welcome to UniNotifier!

@@ -1,8 +1,10 @@
 UniNotifier changes log
 
-ToDo:
-- Android (Windows?): awaiting for integration templates and clipboard into the wizard (removing manual
-  delimiters search)
+Version 4.2:
+• Notifications wizard now includes all non-manual methods of adding new notifications;
+• Manual delimiters search has been removed;
+• Android: some obsolete code elements have been removed;
+• Android: trying to solve mismatch of real unread texts with their quantity in system tray
 
 Version 4.1:
 • Added notifications wizard. It allows to create notifications in five clear steps, without
@@ -13,7 +15,7 @@ Version 4.1:
 
 Version 4.0g:
 • Removed GMJ functionality due to unexpected VK protocol change;
-• Adjusted notifications about unread news items
+• Android: adjusted notifications about unread news items
 
 Version 4.0:
 • Android: removed the log separator object used to indicate the current date. Now the date is
