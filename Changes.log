@@ -1,10 +1,11 @@
 UniNotifier changes log
 
-Version 4.2:
+Version 4.2.2:
 • Notifications wizard now includes all non-manual methods of adding new notifications;
 • Manual delimiters search has been removed;
 • Android: some obsolete code elements have been removed;
-• Android: trying to solve mismatch of real unread texts with their quantity in system tray
+• Android: solved mismatch of real unread texts with their quantity in system tray;
+• Updated video guide for users
 
 Version 4.1:
 • Added notifications wizard. It allows to create notifications in five clear steps, without

@@ -192,16 +192,17 @@ namespace RD_AAOW.Droid
 				return;
 
 			// Защита от двойного входа
-			if (inProgress)
+			if (NotificationsSupport.BackgroundRequestInProgress)
 				return;
 
 			// Отмена действия, если запущено основное приложение
 			string msg = "";
 			if (AndroidSupport.AppIsRunning)
 				{
-				if (NotificationsSupport.NewItems > 0)
+				// Признак того, что отображено число новых сообщений
+				if (newItemsShown)
 					{
-					NotificationsSupport.NewItems = 0;
+					newItemsShown = false;
 					msg = Localization.GetText ("LaunchMessage", al);
 					goto notMessage;    // inProgress == false
 					}
@@ -213,10 +214,12 @@ namespace RD_AAOW.Droid
 			if (DateTime.Now < nextRequest)
 				return;
 
-			// Перезапрос журнала выполняется здесь, т.к. состояние могло измениться в основном интерфейсе
-			inProgress = true;
+			// Перезапрос журнала и счётчика выполняется здесь, т.к. состояние могло измениться в основном интерфейсе
+			NotificationsSupport.BackgroundRequestInProgress = true;
 			nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStep *
 				NotificationsSupport.BackgroundRequestStepMinutes);
+
+			uint newItems = NotificationsSupport.NewItems;
 			List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
 
 			// Извлечение новых записей
@@ -230,30 +233,24 @@ namespace RD_AAOW.Droid
 				if (newText != "")
 					{
 					masterLog.Insert (0, newText);
-					NotificationsSupport.NewItems++;
+					newItems++;
 					haveNews = true;
 					}
 
-			// Отсечка на случай пересечения с запуском основного приложения
-			if (AndroidSupport.AppIsRunning)
-				{
-				inProgress = false;
-				return;
-				}
-
-			// Обрезка
-			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
-				masterLog.RemoveAt (masterLog.Count - 1);
-
-			// Завершено. Оповещение пользователя
+			// Сохранение
 			NotificationsSupport.MasterLog = masterLog.ToArray ();
-			if (!haveNews)  // Исключаем дублирование сообщений об одинаковом числе непрочитанных оповещений
+			NotificationsSupport.NewItems = newItems;
+
+			// Отсечка на случай пересечения с запуском основного приложения или при отсутствии изменений
+			if (AndroidSupport.AppIsRunning || !haveNews)
 				{
-				inProgress = false;
+				NotificationsSupport.BackgroundRequestInProgress = false;
 				return;
 				}
 
+			// Оповещение пользователя
 			msg = string.Format (Localization.GetText ("NewItemsMessage", al), NotificationsSupport.NewItems);
+			newItemsShown = true;
 
 notMessage:
 			notBuilder.SetContentText (msg);
@@ -262,9 +259,9 @@ notMessage:
 			Android.App.Notification notification = notBuilder.Build ();
 			notManager.Notify (notServiceID, notification);
 			notification.Dispose ();
-			inProgress = false;
+			NotificationsSupport.BackgroundRequestInProgress = false;
 			}
-		private bool inProgress = false;
+		private bool newItemsShown = false;
 
 		/// <summary>
 		/// Обработчик события запуска службы

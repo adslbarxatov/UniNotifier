@@ -147,6 +147,9 @@
   <data name="AppPage" xml:space="preserve">
     <value>Страница проекта</value>
   </data>
+  <data name="BackgroundRequestInProgress" xml:space="preserve">
+    <value>Пожалуйста, дождитесь ответа всех оповещений...</value>
+  </data>
   <data name="BackgroundRequestOff" xml:space="preserve">
     <value>Фоновый опрос: отключён</value>
   </data>

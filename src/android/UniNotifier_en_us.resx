@@ -147,6 +147,9 @@
   <data name="AppPage" xml:space="preserve">
     <value>App webpage</value>
   </data>
+  <data name="BackgroundRequestInProgress" xml:space="preserve">
+    <value>Please wait for the remaining notifications to respond...</value>
+  </data>
   <data name="BackgroundRequestOff" xml:space="preserve">
     <value>Background request: off</value>
   </data>

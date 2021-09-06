@@ -19,7 +19,6 @@ namespace RD_AAOW
 		#region Общие переменные и константы
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
-		/*private CultureInfo ci;*/
 		private List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
 
 		private readonly Color
@@ -59,19 +58,6 @@ namespace RD_AAOW
 			InitializeComponent ();
 			if (ProgramDescription.NSet == null)
 				ProgramDescription.NSet = new NotificationsSet (false);
-
-			/*// Инициализация представления даты и времени 
-			try
-				{
-				if (al == SupportedLanguages.ru_ru)
-					ci = new CultureInfo ("ru-ru");
-				else
-					ci = new CultureInfo ("en-us");
-				}
-			catch
-				{
-				ci = CultureInfo.InstalledUICulture;
-				}*/
 
 			// Переход в статус запуска для отмены вызова из оповещения
 			AndroidSupport.AppIsRunning = true;
@@ -169,12 +155,6 @@ namespace RD_AAOW
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "ShareTemplateButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
 				solutionFieldBackColor, ShareTemplate);
-			/*AndroidSupport.ApplyButtonSettings (notSettingsPage, "LoadTemplateButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Copy),
-				solutionFieldBackColor, LoadTemplate);
-			AndroidSupport.ApplyButtonSettings (notSettingsPage, "FindDelimitersButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Find),
-				solutionFieldBackColor, FindDelimiters);*/
 
 			#endregion
 
@@ -281,8 +261,40 @@ namespace RD_AAOW
 
 			#endregion
 
+			// Запуск цикла обратной связи
+			FinishBackgroundRequest ();
+
 			// Принятие соглашений
 			ShowStartupTips ();
+			}
+
+		// Цикл обратной связи для загрузки текущего журнала, если фоновая служба не успела завершить работу
+		private async Task<bool> FinishBackgroundRequest ()
+			{
+			if (!NotificationsSupport.BackgroundRequestInProgress)
+				return false;
+
+			// Ожидание завершения операции
+			SetLogState (false);
+			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("BackgroundRequestInProgress", al),
+				ToastLength.Long).Show ();
+			await Task<bool>.Run (WaitForFinishingRequest);
+
+			// Перезапрос журнала
+			masterLog.Clear ();
+			masterLog = new List<string> (NotificationsSupport.MasterLog);
+			UpdateLog ();
+
+			SetLogState (true);
+			return true;
+			}
+
+		// Отвязанный от текущего контекста нагрузочный процесс с запросом
+		private bool WaitForFinishingRequest ()
+			{
+			while (NotificationsSupport.BackgroundRequestInProgress && AndroidSupport.AppIsRunning)
+				Thread.Sleep ((int)ProgramDescription.MasterFrameLength);
+			return true;
 			}
 
 		// Проверка токена расширенного функционала
@@ -620,6 +632,8 @@ namespace RD_AAOW
 		private void AddTextToLog (string Text)
 			{
 			masterLog.Insert (0, Text);
+
+			// Удаление нижних строк (здесь требуется, т.к. не выполняется обрезка свойством .MainLog)
 			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
 				masterLog.RemoveAt (masterLog.Count - 1);
 			}
@@ -776,6 +790,11 @@ namespace RD_AAOW
 			// Обработка (недопустимые значения будут отброшены)
 			switch (items.IndexOf (res))
 				{
+				// Отмена
+				default:
+					notWizardButton.IsEnabled = true;
+					return;
+
 				// Мастер
 				case 0:
 					await NotificationsWizard ();
@@ -901,40 +920,8 @@ namespace RD_AAOW
 				});
 			}
 
-		/*// Автоматизированный поиск ограничителей
-		private async void FindDelimiters (object sender, EventArgs e)
-			{
-			// Подсказки
-			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FindButton))
-				await ShowTips (NotificationsSupport.TipTypes.FindButton, notSettingsPage);
-
-			// Контроль
-			beginningField.Focus ();
-
-			if ((beginningField.Text == "") || beginningField.Text.Contains ("<") || beginningField.Text.Contains (">"))
-				{
-				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("FindDisclaimer", al), Localization.GetText ("NextButton", al));
-				beginningField.Text = "";
-				return;
-				}
-
-			// Поиск
-			string[] delim = await Notification.FindDelimiters (linkField, beginningField.Text);
-			if (delim == null)
-				{
-				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
-					Localization.GetText ("SearchFailure", al), Localization.GetText ("NextButton", al));
-				return;
-				}
-
-			// Успешно
-			beginningField.Text = delim[0];
-			endingField.Text = delim[1];
-			}*/
-
 		// Запрос всех новостей
-		private async Task<string> GetAllNot ()
+		private async Task<string> GetNotification ()
 			{
 			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
 			Thread.Sleep ((int)ProgramDescription.MasterFrameLength * 2);
@@ -960,15 +947,14 @@ namespace RD_AAOW
 			string newText = "";
 
 			// Опрос с защитой от закрытия приложения до завершения опроса
-			while (AndroidSupport.AppIsRunning && ((newText = await Task.Run<string> (GetAllNot)) != NotificationsSet.NoNewsSign))
-				{
+			while (AndroidSupport.AppIsRunning && ((newText = await Task.Run<string> (GetNotification)) !=
+				NotificationsSet.NoNewsSign))
 				if (newText != "")
 					{
 					// Запись в журнал
 					AddTextToLog (newText);
 					UpdateLog ();
 					}
-				}
 
 			// Разблокировка
 			SetLogState (true);
