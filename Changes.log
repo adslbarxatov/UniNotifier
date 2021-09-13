@@ -1,5 +1,13 @@
 UniNotifier changes log
 
+Version 4.3.2:
+• Android: fixed non-immediate application of sound / vibro / light settings for notifications;
+• Android: removed redundant characters from texts sent for sharing
+
+Version 4.3.1:
+• Android: fixed app failure on Android restart;
+• Adjusted update rate for TG modification
+
 Version 4.3:
 • Android: added automated update for notification templates (at first try to use them in current
   application start);
