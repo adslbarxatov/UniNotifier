@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RD_AAOW
 	{
@@ -45,9 +46,7 @@ namespace RD_AAOW
 #else
 			byte[] s = Properties.Resources.Templates;
 			if (FullyInitializeTemplates)
-				{
-				TemplatesListLoader (null, null);
-				}
+				TemplatesListLoader ();
 #endif
 			string buf = Encoding.UTF8.GetString (s);
 
@@ -191,9 +190,11 @@ namespace RD_AAOW
 			templatesElements = null;
 			}
 
-		// Получение списка шаблонов
+		/// <summary>
+		/// Получение списка шаблонов
+		/// </summary>
 #if ANDROID
-		private async void TemplatesListLoader (object sender, DoWorkEventArgs e)
+		public async Task<bool> TemplatesListLoader ()
 #else
 		private void TemplatesListLoader (object sender, DoWorkEventArgs e)
 #endif
@@ -201,23 +202,29 @@ namespace RD_AAOW
 			// Запрос списка пакетов
 #if ANDROID
 			string html = await NotificationsSupport.GetHTML (listLink);
+			if (html == "")
+				return false;
 #else
 			string html = AboutForm.GetHTML (listLink);
-#endif
 			if (html == "")
 				{
 				if (e != null)
 					e.Result = -1;
 				return;
 				}
+#endif
 
 			// Разбор
 			int left, right;
 			if (((left = html.IndexOf ("<code>")) < 0) || ((right = html.IndexOf ("</code>", left)) < 0))
 				{
+#if ANDROID
+				return false;
+#else
 				if (e != null)
 					e.Result = -2;
 				return;
+#endif
 				}
 			html = html.Substring (left + 6, right - left - 6);
 
@@ -227,16 +234,18 @@ namespace RD_AAOW
 			string oldVersion = "";
 #if ANDROID
 			oldVersion = Preferences.Get (externalTemplatesVersionSubkey, "");
+			if (oldVersion == newVersion)
+				return false;
 #else
 			oldVersion = Registry.GetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesVersionSubkey,
 				"").ToString ();
-#endif
 			if (oldVersion == newVersion)
 				{
 				if (e != null)
 					e.Result = 1;
 				return;
 				}
+#endif
 
 			// Интерпретация (удаление лишних элементов)
 			string tmp = "", str;
@@ -270,8 +279,12 @@ namespace RD_AAOW
 			// Завершено
 			SR.Close ();
 			reloadRequired = true;
+#if ANDROID
+			return true;
+#else
 			if (e != null)
 				e.Result = 0;
+#endif
 			}
 
 		/// <summary>

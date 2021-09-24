@@ -252,6 +252,13 @@ namespace RD_AAOW.Droid
 			msg = string.Format (Localization.GetText ("NewItemsMessage", al), NotificationsSupport.NewItems);
 			newItemsShown = true;
 
+			// Подтягивание настроек из интерфейса
+			if (AndroidSupport.AreNotificationsConfigurable)
+				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
+					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
+
+// Формирование сообщения
 notMessage:
 			notBuilder.SetContentText (msg);
 			notTextStyle.BigText (msg);
@@ -272,11 +279,15 @@ notMessage:
 			if (isStarted)
 				return StartCommandResult.NotSticky;
 
+			// Инициализация оповещений
+			if (ProgramDescription.NSet == null)
+				ProgramDescription.NSet = new NotificationsSet (false);
+
 			// Инициализация объектов настройки
 			notManager = (NotificationManager)this.GetSystemService (Service.NotificationService);
 			notBuilder = new NotificationCompat.Builder (this, ProgramDescription.AssemblyMainName.ToLower ());
 
-			// Создание канала (для Android O и выше)
+			// Создание канала (для Android O и выше, поэтому это свойство)
 			if (AndroidSupport.IsForegroundAvailable)
 				{
 				NotificationChannel channel = new NotificationChannel (ProgramDescription.AssemblyMainName.ToLower (),
@@ -301,9 +312,17 @@ notMessage:
 			notBuilder.SetTicker (ProgramDescription.AssemblyTitle);
 
 			// Настройка видимости для стартового сообщения
-			notBuilder.SetDefaults (0);         // Для служебного сообщения
-			notBuilder.SetPriority (!AndroidSupport.IsForegroundAvailable ? (int)NotificationPriority.Default :
-				(int)NotificationPriority.High);
+			if (!AndroidSupport.IsForegroundAvailable)
+				{
+				notBuilder.SetDefaults (0);         // Для служебного сообщения
+				notBuilder.SetPriority ((int)NotificationPriority.Default);
+				}
+			else
+				{
+				notBuilder.SetDefaults ((int)(NotificationDefaults.Sound | NotificationDefaults.Lights |
+					NotificationDefaults.Vibrate)); // Управляется из ОС, но должно быть включено
+				notBuilder.SetPriority ((int)NotificationPriority.High);
+				}
 
 			notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
 			if (AndroidSupport.IsLargeIconRequired)
@@ -325,7 +344,9 @@ notMessage:
 			// Перенастройка для основного режима
 			if (!AndroidSupport.IsForegroundAvailable)
 				{
-				notBuilder.SetDefaults ((int)NotificationDefaults.Sound);
+				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
+					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
 				}
 

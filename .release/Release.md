@@ -1,6 +1,11 @@
-_Changes for v 4.2.2_:
-- Notifications wizard now includes all non-manual methods of adding new notifications;
-- Manual delimiters search has been removed;
-- Android: some obsolete code elements have been removed;
-- Android: solved mismatch of real unread texts with their quantity in system tray;
-- Updated video guide for users
+_Changes for v 4.3.3_:
+- Updated known GMJ records;
+- Android: добавлен контроль на выходе с метода GetRandomGMJ: теперь все ошибки будут отображаться в toast;
+- Android: removed redundant characters from texts sent for sharing;
+- Android: fixed app failure on Android restart;
+- Adjusted update rate for TG modification;
+- Android: added automated update for notification templates (at first try to use them in current application start);
+- Android: re-added ability to select sound / light / vibro indication for notifications (for Android Pie and older; on Android Q and newer these options are only configurable from system parameters of application);
+- Android: some bugs in the wizard's interface have been fixed;
+- Android: startup tips have been updated;
+- Notifications wizard now includes all non-manual methods of adding new notifications

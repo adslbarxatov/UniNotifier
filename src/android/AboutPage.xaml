@@ -11,6 +11,7 @@
 			<StackLayout >
 
 				<Label x:Name="AboutLabel" />
+
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#606060" Margin="9" />
 
@@ -20,7 +21,6 @@
 				</StackLayout>
 
 				<Button x:Name="ManualPage" HorizontalOptions="Center" />
-				<Button x:Name="UpdateTemplates" HorizontalOptions="Center" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#606060" Margin="9" />

@@ -35,7 +35,7 @@ namespace RD_AAOW
 		private uint currentTGCount = 0;
 		private DateTime currentTGTimeStamp = new DateTime (2021, 1, 1, 0, 0, 0);
 		private uint currentTGOffset = 0;
-		private const uint TGTimerOffset = 117; // 19,5 минут
+		private const uint TGTimerOffset = 117 + 240; // 19,5 минут + 40 минут
 		private const uint TGMessagesPerDay = 4;
 #endif
 

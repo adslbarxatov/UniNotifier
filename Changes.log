@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 4.3.3:
+• Updated known GMJ records
+• Android: добавлен контроль на выходе с метода GetRandomGMJ: теперь все ошибки будут отображаться в toast
+
 Version 4.3.2:
 • Android: fixed non-immediate application of sound / vibro / light settings for notifications;
 • Android: removed redundant characters from texts sent for sharing

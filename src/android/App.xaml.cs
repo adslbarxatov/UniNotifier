@@ -37,8 +37,10 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
-		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel, eftLabel;
-		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch;
+		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel, eftLabel,
+			allowSoundLabel, allowLightLabel, allowVibroLabel;
+		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch,
+			allowSoundSwitch, allowLightSwitch, allowVibroSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton;
 		private Editor nameField, beginningField, endingField, eftField;
@@ -85,13 +87,35 @@ namespace RD_AAOW
 				Localization.GetText ("ServiceSettingsLabel", al), true);
 
 			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowStartLabel",
-				Localization.GetText ("AllowStartSwitch", al), false);
-			allowStart = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowStart");
+				Localization.GetText ("AllowStartLabel", al), false);
+			allowStart = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowStartSwitch");
 			allowStart.IsToggled = AndroidSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
 			notWizardButton = AndroidSupport.ApplyButtonSettings (settingsPage, "NotWizardButton",
 				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, StartNotificationsWizard);
+
+			allowSoundLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowSoundLabel",
+				Localization.GetText ("AllowSoundLabel", al), false);
+			allowSoundSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowSoundSwitch");
+			allowSoundSwitch.IsToggled = NotificationsSupport.AllowSound;
+			allowSoundSwitch.Toggled += AllowSound_Toggled;
+
+			allowLightLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowLightLabel",
+				Localization.GetText ("AllowLightLabel", al), false);
+			allowLightSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowLightSwitch");
+			allowLightSwitch.IsToggled = NotificationsSupport.AllowLight;
+			allowLightSwitch.Toggled += AllowLight_Toggled;
+
+			allowVibroLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowVibroLabel",
+				Localization.GetText ("AllowVibroLabel", al), false);
+			allowVibroSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowVibroSwitch");
+			allowVibroSwitch.IsToggled = NotificationsSupport.AllowVibro;
+			allowVibroSwitch.Toggled += AllowVibro_Toggled;
+
+			allowLightLabel.IsVisible = allowLightSwitch.IsVisible = allowSoundLabel.IsVisible =
+				allowSoundSwitch.IsVisible = allowVibroLabel.IsVisible = allowVibroSwitch.IsVisible =
+				AndroidSupport.AreNotificationsConfigurable;
 
 			#endregion
 
@@ -180,8 +204,6 @@ namespace RD_AAOW
 				aboutFieldBackColor, DevButton_Clicked);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage",
 				AndroidSupport.MasterLabName, aboutFieldBackColor, CommunityButton_Clicked);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "UpdateTemplates", Localization.GetText ("UpdateTemplates", al),
-				aboutFieldBackColor, UpdateTemplates_Clicked);
 
 			UpdateNotButtons ();
 
@@ -261,7 +283,7 @@ namespace RD_AAOW
 
 			#endregion
 
-			// Запуск цикла обратной связи
+			// Запуск цикла обратной связи (без ожидания)
 			FinishBackgroundRequest ();
 
 			// Принятие соглашений
@@ -372,11 +394,8 @@ namespace RD_AAOW
 					if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareButton))
 						await ShowTips (NotificationsSupport.TipTypes.ShareButton, logPage);
 
-					await Share.RequestAsync (new ShareTextRequest
-						{
-						Text = notText + "\r\n\r\n" + notLink,
-						Title = ProgramDescription.AssemblyTitle
-						});
+					await Share.RequestAsync ((notText + "\n\n" + notLink).Replace ("\r", ""),
+						ProgramDescription.AssemblyTitle);
 					break;
 				}
 
@@ -391,6 +410,34 @@ namespace RD_AAOW
 				await ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip, settingsPage);
 
 			AndroidSupport.AllowServiceToStart = allowStart.IsToggled;
+			}
+
+		// Включение / выключение вариантов индикации
+		private async void AllowSound_Toggled (object sender, ToggledEventArgs e)
+			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
+				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+
+			NotificationsSupport.AllowSound = allowSoundSwitch.IsToggled;
+			}
+
+		private async void AllowLight_Toggled (object sender, ToggledEventArgs e)
+			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
+				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+
+			NotificationsSupport.AllowLight = allowLightSwitch.IsToggled;
+			}
+
+		private async void AllowVibro_Toggled (object sender, ToggledEventArgs e)
+			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
+				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+
+			NotificationsSupport.AllowVibro = allowVibroSwitch.IsToggled;
 			}
 
 		// Выбор языка приложения
@@ -436,8 +483,11 @@ namespace RD_AAOW
 			await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
 				Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
 
+			string tip03 = Localization.GetText ("Tip03_1", al);
+			if (!AndroidSupport.AreNotificationsConfigurable)
+				tip03 += Localization.GetText ("Tip03_2", al);
 			await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
-				Localization.GetText ("Tip03", al), Localization.GetText ("NextButton", al));
+				tip03, Localization.GetText ("NextButton", al));
 
 			NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.StartupTips);
 			}
@@ -479,21 +529,6 @@ namespace RD_AAOW
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WebIsUnavailable", al),
 					ToastLength.Long).Show ();
 				}
-			}
-
-		// Обновление шаблонов
-		private async void UpdateTemplates_Clicked (object sender, EventArgs e)
-			{
-			((Xamarin.Forms.Button)sender).IsEnabled = false;
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("UpdatingTemplates", al),
-				ToastLength.Long).Show ();
-
-			// Запрос
-			AndroidSupport.StopRequested = false; // Разблокировка метода GetHTML
-			await Task.Run<bool> (ProgramDescription.NSet.UpdateNotificationsTemplates);
-
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp", al),
-				ToastLength.Long).Show ();
 			}
 
 		// Страница лаборатории
@@ -615,6 +650,10 @@ namespace RD_AAOW
 				{
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed", al),
 					ToastLength.Long).Show ();
+				}
+			else if (newText.Contains (GMJ.GMJName + " не вернула"))
+				{
+				Toast.MakeText (Android.App.Application.Context, newText, ToastLength.Long).Show ();
 				}
 			else
 				{
@@ -770,13 +809,10 @@ namespace RD_AAOW
 
 		// Метод загружает шаблон оповещения
 		private List<string> templatesNames = new List<string> ();
-
 		private async void StartNotificationsWizard (object sender, EventArgs e)
 			{
 			// Подсказки
 			notWizardButton.IsEnabled = false;
-			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.TemplateButton))
-				await ShowTips (NotificationsSupport.TipTypes.TemplateButton, notSettingsPage);
 
 			// Запрос варианта использования
 			List<string> items = new List<string> {
@@ -797,15 +833,32 @@ namespace RD_AAOW
 
 				// Мастер
 				case 0:
-					await NotificationsWizard ();
+					if (!await NotificationsWizard ())
+						{
+						notWizardButton.IsEnabled = true;
+						return;
+						}
 					break;
 
 				// Шаблон
 				case 1:
+					// Обновление списка шаблонов
+					if (!NotificationsSupport.TemplatesForCurrentSessionAreUpdated)
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("UpdatingTemplates", al),
+							ToastLength.Long).Show ();
+
+						await Task.Run<bool> (ProgramDescription.NSet.UpdateNotificationsTemplates);
+						NotificationsSupport.TemplatesForCurrentSessionAreUpdated = true;
+						}
+
 					// Запрос списка шаблонов
-					if (templatesNames.Count == 0)
+					if (templatesNames.Count != ProgramDescription.NSet.NotificationsTemplates.TemplatesCount)
+						{
+						templatesNames.Clear ();
 						for (uint i = 0; i < ProgramDescription.NSet.NotificationsTemplates.TemplatesCount; i++)
 							templatesNames.Add (ProgramDescription.NSet.NotificationsTemplates.GetName (i));
+						}
 
 					res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
 						Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());
@@ -909,15 +962,12 @@ namespace RD_AAOW
 				await ShowTips (NotificationsSupport.TipTypes.ShareNotButton, notSettingsPage);
 
 			// Формирование и отправка
-			await Share.RequestAsync (new ShareTextRequest
-				{
-				Text = nameField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+			await Share.RequestAsync (nameField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					linkField + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					beginningField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					endingField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					currentOcc.ToString (),
-				Title = ProgramDescription.AssemblyTitle
-				});
+					ProgramDescription.AssemblyTitle);
 			}
 
 		// Запрос всех новостей
@@ -1165,14 +1215,7 @@ namespace RD_AAOW
 			ProgramDescription.NSet.SaveNotifications ();
 			NotificationsSupport.MasterLog = masterLog.ToArray ();
 			AndroidSupport.AppIsRunning = false;
-
-			try
-				{
-				Localization.CurrentLanguage = al;
-				}
-			catch
-				{
-				}
+			Localization.CurrentLanguage = al;
 			}
 
 		/// <summary>

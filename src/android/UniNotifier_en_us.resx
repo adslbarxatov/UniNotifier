@@ -138,8 +138,17 @@
   <data name="AllNewsRequest" xml:space="preserve">
     <value>This option will poll all notifications with 5 seconds steps. It may take some time. Continue?</value>
   </data>
-  <data name="AllowStartSwitch" xml:space="preserve">
+  <data name="AllowLightLabel" xml:space="preserve">
+    <value>Light indication</value>
+  </data>
+  <data name="AllowSoundLabel" xml:space="preserve">
+    <value>Sound alerts</value>
+  </data>
+  <data name="AllowStartLabel" xml:space="preserve">
     <value>Keep service active after exit</value>
+  </data>
+  <data name="AllowVibroLabel" xml:space="preserve">
+    <value>Vibration</value>
   </data>
   <data name="ApplyMessage" xml:space="preserve">
     <value>Notification updated: </value>
@@ -217,7 +226,7 @@
     <value>Interface language:</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
-    <value>Notification service is in standby mode. Click on this message to go to the app log</value>
+    <value>Notification service is in standby mode. Click on this message to go to the main log</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Link:</value>
@@ -356,47 +365,46 @@
     <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left and select the user guide.
 • The main notifications log is available on the first page of application. It will be opened on every further start of UniNotifier</value>
   </data>
-  <data name="Tip03" xml:space="preserve">
+  <data name="Tip03_1" xml:space="preserve">
     <value>Warning! Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get</value>
+  </data>
+  <data name="Tip03_2" xml:space="preserve">
+    <value>.
+
+Also, your device requires manual permission for sounds, lights and vibration for notifications. Select them in the system settings if necessary</value>
   </data>
   <data name="Tip04_1" xml:space="preserve">
     <value>This button allows you to apply changes performed below to the currently selected notification</value>
   </data>
   <data name="Tip04_10" xml:space="preserve">
-    <value>This button allows you to select the notification, the source of which will be opened in browser</value>
+    <value>This option allows you to open the source of selected notification in browser</value>
   </data>
   <data name="Tip04_11" xml:space="preserve">
     <value>This button allows you to select notification for configuring</value>
   </data>
   <data name="Tip04_13" xml:space="preserve">
-    <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. In some cases, this allows you to quickly call the application when necessary (via a pinned notification)</value>
+    <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. This allows you to quickly call the app when necessary (via a pinned notification) and see the quantity of unread news</value>
   </data>
   <data name="Tip04_15" xml:space="preserve">
     <value>In some cases, the needed part of web page is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of page) should be displayed</value>
   </data>
-  <data name="Tip04_16" xml:space="preserve">
-    <value>This button allows you to request the next available news item in the order of notifications requesting</value>
-  </data>
   <data name="Tip04_18" xml:space="preserve">
     <value>All operations with texts of notifications are now available through the clicking on them right in the main log</value>
+  </data>
+  <data name="Tip04_19" xml:space="preserve">
+    <value>These switches allow you to specify which methods of indication the app should use when there is unread news</value>
   </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of the current notification</value>
   </data>
   <data name="Tip04_3" xml:space="preserve">
-    <value>This button allows you to add new notification with settings presented below</value>
+    <value>This button allows you to add new notification with settings presented above</value>
   </data>
   <data name="Tip04_4" xml:space="preserve">
     <value>This button allows you to remove selected notification</value>
   </data>
-  <data name="Tip04_5" xml:space="preserve">
-    <value>This button allows you to load settings from notification template or shared notification</value>
-  </data>
-  <data name="Tip04_6" xml:space="preserve">
-    <value>This button allows you to automatically find delimiters for the new notification (see user manual for details)</value>
-  </data>
   <data name="Tip04_7" xml:space="preserve">
-    <value>These buttons allow you to select what notification (starting at the top of log) will be shared.
+    <value>This option allows you to share the text of selected notification.
 
 Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
   </data>
