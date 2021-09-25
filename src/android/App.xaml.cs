@@ -216,8 +216,8 @@ namespace RD_AAOW
 				Localization.GetText ("EFTLabel", al), false);
 			eftField = AndroidSupport.ApplyEditorSettings (aboutPage, "EFTField", aboutFieldBackColor,
 				Keyboard.Default, 71, "", CheckEFToken);
-			if ((NotificationsSupport.ExtendedFunctionsToken != "") || (al != SupportedLanguages.ru_ru))
-				eftLabel.IsVisible = eftField.IsVisible = false;
+			/*if ((NotificationsSupport.ExtendedFunctionsToken != "") || (al != SupportedLanguages.ru_ru))*/
+			eftLabel.IsVisible = eftField.IsVisible = false;
 
 			#endregion
 
@@ -238,7 +238,7 @@ namespace RD_AAOW
 			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
 				Localization.GetText ("GMJButton", al), logFieldBackColor, GetGMJ);
 			getGMJButton.Margin = new Thickness (0);
-			getGMJButton.IsVisible = ((al == SupportedLanguages.ru_ru) && (NotificationsSupport.ExtendedFunctionsToken != ""));
+			getGMJButton.IsVisible = ((al == SupportedLanguages.ru_ru)); //&& (NotificationsSupport.ExtendedFunctionsToken != ""));
 
 			#endregion
 
@@ -322,7 +322,7 @@ namespace RD_AAOW
 		// Проверка токена расширенного функционала
 		private void CheckEFToken (object sender, TextChangedEventArgs e)
 			{
-			if (eftField.Text.Trim ().Length == eftField.MaxLength)
+			/*if (eftField.Text.Trim ().Length == eftField.MaxLength)
 				{
 				eftField.IsEnabled = false;
 				NotificationsSupport.ExtendedFunctionsToken = eftField.Text;
@@ -330,7 +330,7 @@ namespace RD_AAOW
 
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp", al),
 					ToastLength.Long).Show ();
-				}
+				}*/
 			}
 
 		// Выбор оповещения для перехода или share

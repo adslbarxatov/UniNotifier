@@ -308,8 +308,8 @@ notMessage:
 
 			string launchMessage = Localization.GetText ("LaunchMessage", al);
 			notBuilder.SetContentText (launchMessage);
-			notBuilder.SetContentTitle (ProgramDescription.AssemblyTitle);
-			notBuilder.SetTicker (ProgramDescription.AssemblyTitle);
+			notBuilder.SetContentTitle (ProgramDescription.AssemblyMainName);
+			notBuilder.SetTicker (ProgramDescription.AssemblyMainName);
 
 			// Настройка видимости для стартового сообщения
 			if (!AndroidSupport.IsForegroundAvailable)
