@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 4.3.6:
+• Fixed '\/' character in redirected texts;
+• Android: upgraded the localization system: notifications language will now change without the application restart;
+• Android: notifications wizard button is now the first one on the screen
+
 Version 4.3.5:
 • Improved filtering for separator finder
 

@@ -285,6 +285,9 @@
   <data name="NotWizardButton" xml:space="preserve">
     <value>Notifications wizard</value>
   </data>
+  <data name="NotWizardLabel" xml:space="preserve">
+    <value>Creating new notifications:</value>
+  </data>
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Occurrence #{0:D}</value>
   </data>
@@ -442,7 +445,7 @@ First, enter a link (URL) to the site from which you want to receive notificatio
   <data name="WizardStep2" xml:space="preserve">
     <value>Now enter a keyword.
 
-This word (or phrase) should be present right now in that part of the site that will change over time, which will be the source of text for notifications. The ideal would be a phrase that is present now only in this area or is first encountered on the site in it. The case of letters doesn't matter</value>
+This word (or phrase) should be present right now in that part of the site that will change over time, which will be the source of text for notifications. The ideal would be a phrase that is present now only in this area or is first encountered on the site in it. The case of letters doesn’t matter</value>
   </data>
   <data name="WizardStep3" xml:space="preserve">
     <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we'll try again</value>
@@ -451,6 +454,6 @@ This word (or phrase) should be present right now in that part of the site that 
     <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, cancel the action and try a different keyword</value>
   </data>
   <data name="WizardStep5" xml:space="preserve">
-    <value>It's ready! Now specify the name of notification to be displayed in the main log</value>
+    <value>It’s ready! Now specify the name of notification to be displayed in the main log</value>
   </data>
 </root>

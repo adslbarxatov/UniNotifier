@@ -311,6 +311,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="NotWizardButton" xml:space="preserve">
     <value>Мастер оповещений</value>
   </data>
+  <data name="NotWizardLabel" xml:space="preserve">
+    <value>Создание новых оповещений:</value>
+  </data>
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Вхождение №{0:D}</value>
   </data>

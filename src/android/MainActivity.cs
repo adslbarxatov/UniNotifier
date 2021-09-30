@@ -127,7 +127,6 @@ namespace RD_AAOW.Droid
 	public class MainService: global::Android.App.Service
 		{
 		// Переменные и константы
-		private SupportedLanguages al = Localization.CurrentLanguage;   // Язык интерфейса
 		private Handler handler;                                        // Идентификаторы процесса
 		private Action runnable;
 
@@ -203,7 +202,7 @@ namespace RD_AAOW.Droid
 				if (newItemsShown)
 					{
 					newItemsShown = false;
-					msg = Localization.GetText ("LaunchMessage", al);
+					msg = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage); // Перезапрос языка из приложения
 					goto notMessage;    // inProgress == false
 					}
 
@@ -249,7 +248,8 @@ namespace RD_AAOW.Droid
 				}
 
 			// Оповещение пользователя
-			msg = string.Format (Localization.GetText ("NewItemsMessage", al), NotificationsSupport.NewItems);
+			msg = string.Format (Localization.GetText ("NewItemsMessage", Localization.CurrentLanguage),
+				NotificationsSupport.NewItems);
 			newItemsShown = true;
 
 			// Подтягивание настроек из интерфейса
@@ -306,7 +306,7 @@ notMessage:
 			notBuilder.SetCategory ("msg");     // Категория "сообщение"
 			notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
 
-			string launchMessage = Localization.GetText ("LaunchMessage", al);
+			string launchMessage = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
 			notBuilder.SetContentText (launchMessage);
 			notBuilder.SetContentTitle (ProgramDescription.AssemblyMainName);
 			notBuilder.SetTicker (ProgramDescription.AssemblyMainName);

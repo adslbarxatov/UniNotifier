@@ -92,6 +92,8 @@ namespace RD_AAOW
 			allowStart.IsToggled = AndroidSupport.AllowServiceToStart;
 			allowStart.Toggled += AllowStart_Toggled;
 
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "NotWizardLabel",
+				Localization.GetText ("NotWizardLabel", al), true);
 			notWizardButton = AndroidSupport.ApplyButtonSettings (settingsPage, "NotWizardButton",
 				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, StartNotificationsWizard);
 
