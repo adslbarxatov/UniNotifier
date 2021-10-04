@@ -25,7 +25,7 @@ namespace RD_AAOW
 			notifications = Notifications;
 			updatingFrequencyStep = UpdatingFrequencyStep;
 
-			this.Text = ProgramDescription.AssemblyTitle;
+			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 
 			LanguageCombo.Items.AddRange (Localization.LanguagesNames);
@@ -127,13 +127,13 @@ namespace RD_AAOW
 			if (!ni.IsInited)
 				{
 				MessageBox.Show (Localization.GetText ("NotEnoughDataMessage", al),
-					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
 			if ((ItemNumber < 0) && notifications.Notifications.Contains (ni))
 				{
 				MessageBox.Show (Localization.GetText ("NotMatchingNames", al),
-					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
 
@@ -153,7 +153,7 @@ namespace RD_AAOW
 			else
 				{
 				MessageBox.Show (Localization.GetText ("UpdateLineNotSpecified", al),
-					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
 			}
@@ -166,11 +166,11 @@ namespace RD_AAOW
 			if (NotificationsList.SelectedIndex < 0)
 				{
 				MessageBox.Show (Localization.GetText ("DeleteLineNotSpecified", al),
-					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
 
-			if (MessageBox.Show (Localization.GetText ("DeleteMessage", al), ProgramDescription.AssemblyTitle,
+			if (MessageBox.Show (Localization.GetText ("DeleteMessage", al), ProgramDescription.AssemblyVisibleName,
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
 				return;
 
@@ -181,50 +181,6 @@ namespace RD_AAOW
 			// Обновление кнопок
 			UpdateButtons ();
 			}
-
-		/*// Загрузка шаблона в поля
-		private void BLoadTemplate_Click (object sender, EventArgs e)
-			{
-			// Проверка
-			ProgramDescription.ShowTips (ProgramDescription.TipTypes.TemplateButton);
-			if (notifications.NotificationsTemplates.IsTemplateIncomplete ((uint)TemplatesCombo.SelectedIndex))
-				MessageBox.Show (Localization.GetText ("CurlyTemplate", al), ProgramDescription.AssemblyTitle,
-					MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-			// Заполнение
-			uint i = (uint)TemplatesCombo.SelectedIndex;
-			NameText.Text = notifications.NotificationsTemplates.GetName (i);
-			LinkText.Text = notifications.NotificationsTemplates.GetLink (i);
-			BeginningText.Text = notifications.NotificationsTemplates.GetBeginning (i);
-			EndingText.Text = notifications.NotificationsTemplates.GetEnding (i);
-			OccurrenceField.Value = notifications.NotificationsTemplates.GetOccurrenceNumber (i);
-			}
-
-		// Автоматизированный поиск ограничителей
-		private void FindDelimiters_Click (object sender, EventArgs e)
-			{
-			// Контроль
-			ProgramDescription.ShowTips (ProgramDescription.TipTypes.FindButton);
-			if (BeginningText.Text == "")
-				{
-				MessageBox.Show (Localization.GetText ("KeywordNotSpecified", al),
-					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-				}
-
-			// Поиск
-			string[] delim = Notification.FindDelimiters (LinkText.Text, BeginningText.Text);
-			if (delim == null)
-				{
-				MessageBox.Show (Localization.GetText ("SearchFailure", al),
-					ProgramDescription.AssemblyTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-				}
-
-			// Успешно
-			BeginningText.Text = delim[0];
-			EndingText.Text = delim[1];
-			}*/
 
 		// Локализация формы
 		private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)
@@ -259,45 +215,6 @@ namespace RD_AAOW
 				}
 			catch { }
 			}
-
-		/*// Получение настроек из буфера обмена
-		private void GetSettings_Click (object sender, EventArgs e)
-			{
-			// Подсказка
-			ProgramDescription.ShowTips (ProgramDescription.TipTypes.GetSettings);
-
-			// Запрос настроек
-			string s = "";
-			try
-				{
-				s = Clipboard.GetText ();
-				}
-			catch { }
-
-			// Разбор
-			string[] values = s.Split (NotificationsTemplatesProvider.ClipboardTemplateSplitter,
-				StringSplitOptions.RemoveEmptyEntries);
-			if (values.Length != 5)
-				{
-				MessageBox.Show (Localization.GetText ("NoTemplateInClipboard", al), ProgramDescription.AssemblyTitle,
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-				}
-
-			// Заполнение
-			NameText.Text = values[0];
-			LinkText.Text = values[1];
-			BeginningText.Text = values[2];
-			EndingText.Text = values[3];
-			try
-				{
-				OccurrenceField.Value = uint.Parse (values[4]);
-				}
-			catch
-				{
-				OccurrenceField.Value = OccurrenceField.Minimum;
-				}
-			}*/
 
 		// Вызов мастера оповещений
 		private void NotWizard_Click (object sender, EventArgs e)

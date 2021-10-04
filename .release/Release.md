@@ -1,6 +1,9 @@
-_Changes for v 4.3.6_:
+_Changes for v 4.4_:
+- Visible name of the application changed to “uNot”;
+- Updated ADP link;
+- Android: updated the mechanics of displaying and processing the main log (now headers are real);
+- Android: added advanced options for the main log: remove current text from it and disable the notification from which it came;
+- Updated link for user guide;
 - Fixed '\/' character in redirected texts;
 - Android: upgraded the localization system: notifications language will now change without the application restart;
-- Android: notifications wizard button is now the first one on the screen;
-- Improved filtering for separator finder;
-- Получение записей из сообщества GMJ теперь работает с Telegram-каналом в качестве источника, поскольку ВКонтакте лишил нас возможности делать это без труднопреодолимых ограничений. Таким образом, данная функция успешно восстановлена и готова к использованию без ввода приватного токена, который требовался в случае продолжения работы с ВК
+- Android: notifications wizard button is now the first one on the screen

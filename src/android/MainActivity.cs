@@ -20,7 +20,7 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает загрузчик приложения
 	/// </summary>
-	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
+	[Activity (Label = "uNot", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
 	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
@@ -122,7 +122,7 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
-	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier",
+	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "uNot",
 		Icon = "@mipmap/icon", Exported = true)]
 	public class MainService: global::Android.App.Service
 		{
@@ -219,7 +219,7 @@ namespace RD_AAOW.Droid
 				NotificationsSupport.BackgroundRequestStepMinutes);
 
 			uint newItems = NotificationsSupport.NewItems;
-			List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
+			List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.MasterLog);
 
 			// Извлечение новых записей
 			AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
@@ -231,13 +231,13 @@ namespace RD_AAOW.Droid
 				NotificationsSet.NoNewsSign))
 				if (newText != "")
 					{
-					masterLog.Insert (0, newText);
+					masterLog.Insert (0, new MainLogItem (newText));
 					newItems++;
 					haveNews = true;
 					}
 
 			// Сохранение
-			NotificationsSupport.MasterLog = masterLog.ToArray ();
+			NotificationsSupport.MasterLog = masterLog;
 			NotificationsSupport.NewItems = newItems;
 
 			// Отсечка на случай пересечения с запуском основного приложения или при отсутствии изменений
@@ -308,8 +308,8 @@ notMessage:
 
 			string launchMessage = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
 			notBuilder.SetContentText (launchMessage);
-			notBuilder.SetContentTitle (ProgramDescription.AssemblyMainName);
-			notBuilder.SetTicker (ProgramDescription.AssemblyMainName);
+			notBuilder.SetContentTitle (ProgramDescription.AssemblyVisibleName);
+			notBuilder.SetTicker (ProgramDescription.AssemblyVisibleName);
 
 			// Настройка видимости для стартового сообщения
 			if (!AndroidSupport.IsForegroundAvailable)

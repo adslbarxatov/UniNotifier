@@ -123,6 +123,9 @@
   <data name="AcceptButton" xml:space="preserve">
     <value>Accept</value>
   </data>
+  <data name="ActionIsUnsupported" xml:space="preserve">
+    <value>Action is unsupported for this type of notifications</value>
+  </data>
   <data name="AddAsNewMessage" xml:space="preserve">
     <value>Added new notification: </value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="DevPage" xml:space="preserve">
     <value>Ask developer</value>
+  </data>
+  <data name="DisableOption" xml:space="preserve">
+    <value>Disable the notification</value>
   </data>
   <data name="EarlierMessage" xml:space="preserve">
     <value> Earlier </value>
@@ -291,6 +297,9 @@
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Occurrence #{0:D}</value>
   </data>
+  <data name="OtherOption" xml:space="preserve">
+    <value>More...</value>
+  </data>
   <data name="PolicyMessage" xml:space="preserve">
     <value>Before you can start using this tool, you must accept Application development policy and EULA. Do you want to open them in browser?
 
@@ -300,6 +309,9 @@
   </data>
   <data name="ReadModeLabel" xml:space="preserve">
     <value>Read mode</value>
+  </data>
+  <data name="RemoveOption" xml:space="preserve">
+    <value>Remove from log</value>
   </data>
   <data name="RequestAllStarted" xml:space="preserve">
     <value>Requesting all news...</value>

@@ -26,7 +26,7 @@ namespace RD_AAOW
 		private NotificationsSet ns = new NotificationsSet (true);
 
 		private string startupLink = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup) + "\\" +
-			ProgramDescription.AssemblyMainName + ".lnk";
+			ProgramDescription.AssemblyVisibleName + ".lnk";
 
 		private List<string> texts = new List<string> ();
 		private List<int> notNumbers = new List<int> ();
@@ -47,7 +47,7 @@ namespace RD_AAOW
 			// Инициализация
 			InitializeComponent ();
 
-			this.Text = ProgramDescription.AssemblyTitle;
+			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 			MainText.Font = new Font (SystemFonts.DialogFont.FontFamily.Name, 13);
 
@@ -86,7 +86,7 @@ namespace RD_AAOW
 
 			// Настройка иконки в трее
 			ni.Icon = Properties.GMJNotifier.GMJNotifier16;
-			ni.Text = ProgramDescription.AssemblyTitle;
+			ni.Text = ProgramDescription.AssemblyVisibleName;
 			ni.Visible = true;
 
 			ni.ContextMenu = new ContextMenu ();
@@ -184,7 +184,7 @@ namespace RD_AAOW
 		private void AddToStartup (object sender, EventArgs e)
 			{
 			// Попытка создания
-			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath, ProgramDescription.AssemblyMainName, "");
+			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath, ProgramDescription.AssemblyVisibleName, "");
 
 			// Контроль
 			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled = !File.Exists (startupLink);
@@ -365,11 +365,6 @@ namespace RD_AAOW
 			ReloadNotificationsList ();
 			al = Localization.CurrentLanguage;
 			ResetCulture ();
-#if TG
-			GetGMJ.Visible = false;
-#else
-			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
-#endif
 
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 2).ToString ("D02"), al);

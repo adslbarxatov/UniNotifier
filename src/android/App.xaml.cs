@@ -19,7 +19,7 @@ namespace RD_AAOW
 		#region Общие переменные и константы
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
-		private List<string> masterLog = new List<string> (NotificationsSupport.MasterLog);
+		private List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.MasterLog);
 
 		private readonly Color
 			logMasterBackColor = Color.FromHex ("#F0F0F0"),
@@ -240,7 +240,7 @@ namespace RD_AAOW
 			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
 				Localization.GetText ("GMJButton", al), logFieldBackColor, GetGMJ);
 			getGMJButton.Margin = new Thickness (0);
-			getGMJButton.IsVisible = ((al == SupportedLanguages.ru_ru)); //&& (NotificationsSupport.ExtendedFunctionsToken != ""));
+			getGMJButton.IsVisible = ((al == SupportedLanguages.ru_ru));
 
 			#endregion
 
@@ -306,7 +306,7 @@ namespace RD_AAOW
 
 			// Перезапрос журнала
 			masterLog.Clear ();
-			masterLog = new List<string> (NotificationsSupport.MasterLog);
+			masterLog = new List<MainLogItem> (NotificationsSupport.MasterLog);
 			UpdateLog ();
 
 			SetLogState (true);
@@ -339,41 +339,65 @@ namespace RD_AAOW
 		private async void MainLog_ItemTapped (object sender, ItemTappedEventArgs e)
 			{
 			// Контроль
-			string notText = e.Item.ToString ();
-			if (notText.Contains (NotificationsSupport.ItemsSplitter))
+			MainLogItem notItem = (MainLogItem)e.Item;
+			if (notItem.StringForSaving == "")  // Признак разделителя
 				return;
 
 			// Запрос варианта использования
 			List<string> items = new List<string> {
 				Localization.GetText ("GoToOption", al),
-				Localization.GetText ("ShareOption", al)
+				Localization.GetText ("ShareOption", al),
+				Localization.GetText ("OtherOption", al)
 				};
 			string res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
-					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+				Localization.GetText ("CancelButton", al), null, items.ToArray ());
 			if (!items.Contains (res))
 				{
 				items.Clear ();
 				return;
 				}
 
+			int variant = items.IndexOf (res);
+			items.Clear ();
+
+			// Контроль второго набора
+			if (variant > 1)
+				{
+				items = new List<string> {
+					Localization.GetText ("RemoveOption", al),
+					Localization.GetText ("DisableOption", al)
+					};
+				res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+				if (!items.Contains (res))
+					{
+					items.Clear ();
+					return;
+					}
+
+				variant += items.IndexOf (res);
+				items.Clear ();
+				}
+
 			// Извлечение текста и ссылки
 			string notLink = "";
-			if (notText.Contains (GMJ.GMJName))
+			int notNumber = -1;
+			if (notItem.Header.Contains (GMJ.GMJName))
 				{
 				notLink = GMJ.GMJRedirectLink;
 				}
 			else
 				{
-				for (int i = 0; i < ProgramDescription.NSet.Notifications.Count; i++)
-					if (notText.Contains (ProgramDescription.NSet.Notifications[i].Name))
+				for (notNumber = 0; notNumber < ProgramDescription.NSet.Notifications.Count; notNumber++)
+					if (notItem.Header.Contains (ProgramDescription.NSet.Notifications[notNumber].Name))
 						{
-						notLink = ProgramDescription.NSet.Notifications[i].Link;
+						notLink = ProgramDescription.NSet.Notifications[notNumber].Link;
 						break;
 						}
 				}
 
 			// Обработка (неподходящие варианты будут отброшены)
-			switch (items.IndexOf (res))
+			switch (variant)
 				{
 				// Переход по ссылке
 				case 0:
@@ -396,12 +420,35 @@ namespace RD_AAOW
 					if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareButton))
 						await ShowTips (NotificationsSupport.TipTypes.ShareButton, logPage);
 
-					await Share.RequestAsync ((notText + "\n\n" + notLink).Replace ("\r", ""),
-						ProgramDescription.AssemblyTitle);
+					await Share.RequestAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" + notLink).Replace ("\r", ""),
+						ProgramDescription.AssemblyVisibleName);
+					break;
+
+				// Удаление из журнала
+				case 2:
+					masterLog.RemoveAt (e.ItemIndex);
+					UpdateLog ();
+					break;
+
+				// Отключение оповещения
+				case 3:
+					// Проверка
+					if ((notNumber < 0) || (notNumber >= ProgramDescription.NSet.Notifications.Count))
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ActionIsUnsupported", al),
+							ToastLength.Long).Show ();
+						break;
+						}
+
+					// Применение
+					currentNotification = notNumber;
+					SelectNotification (null, null);
+					enabledSwitch.IsToggled = false;
+					ApplyNotification (null, null);
 					break;
 				}
 
-			items.Clear ();
+			// Завершено
 			}
 
 		// Включение / выключение службы
@@ -672,7 +719,7 @@ namespace RD_AAOW
 		// Добавление текста в журнал
 		private void AddTextToLog (string Text)
 			{
-			masterLog.Insert (0, Text);
+			masterLog.Insert (0, new MainLogItem (Text));
 
 			// Удаление нижних строк (здесь требуется, т.к. не выполняется обрезка свойством .MainLog)
 			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
@@ -709,7 +756,7 @@ namespace RD_AAOW
 				await ShowTips (NotificationsSupport.TipTypes.DeleteButton, notSettingsPage);
 
 			// Контроль
-			if (!await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+			if (!await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("DeleteMessage", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al)))
 				return;
@@ -769,7 +816,7 @@ namespace RD_AAOW
 
 			if (!ni.IsInited)
 				{
-				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 					Localization.GetText ("NotEnoughDataMessage", al), Localization.GetText ("NextButton", al));
 
 				nameField.Focus ();
@@ -777,7 +824,7 @@ namespace RD_AAOW
 				}
 			if ((ItemNumber < 0) && ProgramDescription.NSet.Notifications.Contains (ni)) // Не относится к обновлению позиции
 				{
-				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 					Localization.GetText ("NotMatchingNames", al), Localization.GetText ("NextButton", al));
 
 				nameField.Focus ();
@@ -880,7 +927,7 @@ namespace RD_AAOW
 
 					// Проверка
 					if (ProgramDescription.NSet.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
-						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 							Localization.GetText ("CurlyTemplate", al), Localization.GetText ("NextButton", al));
 
 					// Заполнение
@@ -904,7 +951,7 @@ namespace RD_AAOW
 
 					if ((text == null) || (text == ""))
 						{
-						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
 						notWizardButton.IsEnabled = true;
 						return;
@@ -915,7 +962,7 @@ namespace RD_AAOW
 						StringSplitOptions.RemoveEmptyEntries);
 					if (values.Length != 5)
 						{
-						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
 						notWizardButton.IsEnabled = true;
 						return;
@@ -969,7 +1016,7 @@ namespace RD_AAOW
 					beginningField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					endingField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 					currentOcc.ToString (),
-					ProgramDescription.AssemblyTitle);
+					ProgramDescription.AssemblyVisibleName);
 			}
 
 		// Запрос всех новостей
@@ -983,7 +1030,7 @@ namespace RD_AAOW
 		private async void AllNewsItems (object sender, EventArgs e)
 			{
 			// Проверка
-			if (!await logPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+			if (!await logPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("AllNewsRequest", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al)))
 				return;
@@ -1115,7 +1162,7 @@ namespace RD_AAOW
 		private async Task<bool> NotificationsWizard ()
 			{
 			// Шаг запроса ссылки
-			string link = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyTitle,
+			string link = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep1", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), Localization.GetText ("LinkFieldPlaceholder", al),
 				Notification.MaxLinkLength, Keyboard.Url, "");
@@ -1124,7 +1171,7 @@ namespace RD_AAOW
 				return false;
 
 			// Шаг запроса ключевого слова
-			string keyword = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyTitle,
+			string keyword = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep2", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), null,
 				Notification.MaxBeginningEndingLength, Keyboard.Default, "");
@@ -1139,7 +1186,7 @@ namespace RD_AAOW
 			string[] delim = await Notification.FindDelimiters (link, keyword);
 			if (delim == null)
 				{
-				await settingsPage.DisplayAlert (ProgramDescription.AssemblyTitle, Localization.GetText ("WizardFailure", al),
+				await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName, Localization.GetText ("WizardFailure", al),
 					Localization.GetText ("NextButton", al));
 				return false;
 				}
@@ -1154,8 +1201,8 @@ namespace RD_AAOW
 				Notification not = new Notification ("Test", link, delim[0], delim[1], 1, occ);
 				if (!await not.Update ())
 					{
-					await settingsPage.DisplayAlert (ProgramDescription.AssemblyTitle, Localization.GetText ("WizardFailure", al),
-						Localization.GetText ("NextButton", al));
+					await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
+						Localization.GetText ("WizardFailure", al), Localization.GetText ("NextButton", al));
 					return false;
 					}
 
@@ -1163,9 +1210,9 @@ namespace RD_AAOW
 				string text = not.CurrentText;
 				if (text.Length > 300)
 					text = text.Substring (0, 297) + "...";
-				if (await settingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				if (await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 					Localization.GetText ((occ < 3) ? "WizardStep3" : "WizardStep4", al) + "\n\n" +
-					NotificationsSupport.ItemsSplitter + "\n\n" + text,
+					"~".PadRight (10, '~') + "\n\n" + text,
 					Localization.GetText ("NextButton", al),
 					Localization.GetText ((occ < 3) ? "RetryButton" : "CancelButton", al)))
 					{
@@ -1181,7 +1228,7 @@ namespace RD_AAOW
 				}
 
 			// Завершено, запрос названия
-			string name = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyTitle,
+			string name = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep5", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), null,
 				Notification.MaxBeginningEndingLength, Keyboard.Default, "");
@@ -1215,7 +1262,7 @@ namespace RD_AAOW
 				}
 
 			ProgramDescription.NSet.SaveNotifications ();
-			NotificationsSupport.MasterLog = masterLog.ToArray ();
+			NotificationsSupport.MasterLog = masterLog;
 			AndroidSupport.AppIsRunning = false;
 			Localization.CurrentLanguage = al;
 			}
