@@ -24,4 +24,5 @@ vk.com, community wall			(works)
 youtube.com, Youtube studio		(fails to parse page containment)
 finance.yahoo.com, stock news	(works)
 retro.yr.no						(disabled)
+yr.no							(has no “all in one” text line)
 ```

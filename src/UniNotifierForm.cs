@@ -26,7 +26,7 @@ namespace RD_AAOW
 		private NotificationsSet ns = new NotificationsSet (true);
 
 		private string startupLink = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup) + "\\" +
-			ProgramDescription.AssemblyVisibleName + ".lnk";
+			ProgramDescription.AssemblyMainName + ".lnk";
 
 		private List<string> texts = new List<string> ();
 		private List<int> notNumbers = new List<int> ();
@@ -184,7 +184,7 @@ namespace RD_AAOW
 		private void AddToStartup (object sender, EventArgs e)
 			{
 			// Попытка создания
-			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath, ProgramDescription.AssemblyVisibleName, "");
+			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath, ProgramDescription.AssemblyMainName, "");
 
 			// Контроль
 			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled = !File.Exists (startupLink);

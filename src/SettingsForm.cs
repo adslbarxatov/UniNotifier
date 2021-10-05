@@ -156,6 +156,9 @@ namespace RD_AAOW
 					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
+
+			// Переключение на новую позицию
+			NotificationsList.SelectedIndex = NotificationsList.Items.Count - 1;
 			}
 
 		// Удаление оповещения
@@ -175,8 +178,14 @@ namespace RD_AAOW
 				return;
 
 			// Удаление
-			notifications.Notifications.RemoveAt (NotificationsList.SelectedIndex);
-			NotificationsList.Items.RemoveAt (NotificationsList.SelectedIndex);
+			int index = NotificationsList.SelectedIndex;
+			notifications.Notifications.RemoveAt (index);
+			NotificationsList.Items.RemoveAt (index);
+
+			// Переключение
+			if (NotificationsList.Items.Count > 0)
+				NotificationsList.SelectedIndex = (index >= NotificationsList.Items.Count) ?
+					(NotificationsList.Items.Count - 1) : index;
 
 			// Обновление кнопок
 			UpdateButtons ();

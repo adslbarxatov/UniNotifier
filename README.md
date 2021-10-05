@@ -1,5 +1,5 @@
-# UniNotifier v 4.4
-> PCC: 00044E16CA44E35A
+# UniNotifier v 4.4.1
+> PCC: 00044E18ED0A51C9
 
 
 Controllable news service
@@ -19,27 +19,21 @@ Controllable news service
 
 ## Description
 
-This utility provides ability to receive notifications about changes in state of monitored web pages
-(in other words - about updates and news) in form of system messages.
+This utility (formerly known as UniNotifier) provides the ability to receive notifications about changes in the state of user-specified sites and their webpages (in other words, updates and news) in the form of a text log. In this case, only what the user specified is loaded – all other objects (including advertising) are ignored.
 
-The context menu invoked by right-clicking on the application icon in system tray allows you to manage and build notifications,
-view them in main window, as well as request information about the application and go to monitored pages.
-
-In addition, the utility automatically requests new records with specified update rate and,
-if available, displays the appropriate notifications
+- The settings section allows you to manage and design notifications.
+- The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
+- A locked service notification will inform you about the presence of unread news received in the background (it’s again available since version 4.0)
 
 #
 
 ## Описание
 
-Данная служба предоставляет возможность получать оповещения об изменении состояния отслеживаемых веб-страниц
-(иначе – об обновлениях и новостях) в виде системных сообщений.
+Эта утилита (ранее известная как UniNotifier) предоставляет возможность получать уведомления об изменении состояния заданных пользователем сайтов и их веб-страниц (иными словами – об обновлениях и новостях) в виде текстового журнала. При этом загружается только то, что указал пользователь – все остальные объекты (включая рекламу) игнорируются.
 
-Контекстное меню, вызываемое по правому щелчку на значке приложения в трее, позволяет управлять оповещениями и конструировать их,
-просматривать их в большом окне, а также запрашивать информацию о приложении и переходить на отслеживаемые страницы.
-
-Кроме того, приложение с указанной частотой обновления самостоятельно запрашивает новые записи
-и при их наличии отображает соответствующие оповещения
+- Раздел настроек позволяет управлять уведомлениями и конструировать их.
+- Главный журнал обеспечивает просмотр новостей, переход на веб-страницы, с которых они были получены, и возможность ими поделиться.
+- Закреплённое служебное оповещение будет сообщать о наличии непрочитанных новостей, полученных в фоновом режиме (вновь доступен начиная с версии 4.0)
 
 &nbsp;
 
