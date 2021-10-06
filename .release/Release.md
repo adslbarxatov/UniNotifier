@@ -1,4 +1,4 @@
-_Changes for v 4.4.1_:
+_Changes for v 4.4.1.1_:
 - Visible name of the application changed to “uNot”;
 - Windows: fixed some inconveniences in the user interface;
 - Windows: fixed “already exists” error on creating the notification from template;

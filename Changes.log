@@ -1,6 +1,6 @@
 UniNotifier changes log
 
-Version 4.4.1:
+Version 4.4.1.1:
 • Windows: fixed some inconveniences in the user interface;
 • Windows: fixed “already exists” error on creating the notification from template;
 • Android: some interface adjustments applied

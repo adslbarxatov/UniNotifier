@@ -157,8 +157,9 @@ namespace RD_AAOW
 				return;
 				}
 
-			// Переключение на новую позицию
-			NotificationsList.SelectedIndex = NotificationsList.Items.Count - 1;
+			// Переключение на новую позицию в случае добавления
+			if (ItemNumber < 0)
+				NotificationsList.SelectedIndex = NotificationsList.Items.Count - 1;
 			}
 
 		// Удаление оповещения

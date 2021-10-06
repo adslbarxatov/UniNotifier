@@ -711,7 +711,7 @@ htmlError:
 				{
 				resp = (HttpWebResponse)rq.GetResponse ();
 				}
-			catch
+			catch //(Exception e)
 				{
 				// Любая ошибка здесь будет означать необходимость прекращения проверки
 				return html;
