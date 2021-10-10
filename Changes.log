@@ -4,9 +4,10 @@ Version 4.5.2:
 • Android: locked tap menu when control buttons are also locked due to updating operations;
 • Android: adjusted placement of splitters in the main log;
 • Android: fixed bug in the updater of records set;
-• Android, TPNot: updated Xamarin support packages;
-• TPNot: visible name of the application changed to “TPNot”;
-• TPNot: updated link for ADP
+• Android: updated Xamarin support packages;
+• TPNot: обновлены пакеты поддержки Xamarin;
+• TPNot: видимое имя приложения изменено на “TPNot”;
+• TPNot: обновлена ссылка на ADP
 
 Version 4.5.1:
 • Fixed display of incorrect characters when the code page of the site doesn’t fit
