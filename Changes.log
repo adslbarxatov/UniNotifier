@@ -3,7 +3,7 @@ UniNotifier changes log
 Version 4.5.2:
 • Android: locked tap menu when control buttons are also locked due to updating operations;
 • Android: adjusted placement of splitters in the main log;
-• Android: fixed bug in the updater of records set;
+• Android: fixed bug in the updater of GMJ records set;
 • Android: updated Xamarin support packages;
 • TPNot: обновлены пакеты поддержки Xamarin;
 • TPNot: видимое имя приложения изменено на “TPNot”;
