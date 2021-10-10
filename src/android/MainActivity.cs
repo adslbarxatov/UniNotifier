@@ -171,7 +171,7 @@ namespace RD_AAOW.Droid
 			{
 			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
 			Thread.Sleep ((int)ProgramDescription.MasterFrameLength * 2);
-			return await ProgramDescription.NSet.GetNextNotification (true);
+			return await ProgramDescription.NSet.GetNextNotification (-1);
 			}
 
 		// Основной метод службы

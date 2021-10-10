@@ -313,6 +313,9 @@
   <data name="RemoveOption" xml:space="preserve">
     <value>Remove from log</value>
   </data>
+  <data name="RequestAgainOption" xml:space="preserve">
+    <value>Request again</value>
+  </data>
   <data name="RequestAllStarted" xml:space="preserve">
     <value>Requesting all news...</value>
   </data>
@@ -323,7 +326,7 @@
     <value>News not found. Try again for checking next 5 notifications</value>
   </data>
   <data name="RequestStarted" xml:space="preserve">
-    <value>Requesting next news item...</value>
+    <value>Requesting news item...</value>
   </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>

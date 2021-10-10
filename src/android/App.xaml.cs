@@ -340,13 +340,14 @@ namespace RD_AAOW
 			{
 			// Контроль
 			MainLogItem notItem = (MainLogItem)e.Item;
-			if (notItem.StringForSaving == "")  // Признак разделителя
+			if (!allNewsButton.IsEnabled || (notItem.StringForSaving == ""))  // Признак разделителя
 				return;
 
 			// Запрос варианта использования
 			List<string> items = new List<string> {
 				Localization.GetText ("GoToOption", al),
 				Localization.GetText ("ShareOption", al),
+				Localization.GetText ("RequestAgainOption",al),
 				Localization.GetText ("OtherOption", al)
 				};
 			string res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
@@ -361,7 +362,7 @@ namespace RD_AAOW
 			items.Clear ();
 
 			// Контроль второго набора
-			if (variant > 1)
+			if (variant > 2)
 				{
 				items = new List<string> {
 					Localization.GetText ("RemoveOption", al),
@@ -424,14 +425,49 @@ namespace RD_AAOW
 						ProgramDescription.AssemblyVisibleName);
 					break;
 
-				// Удаление из журнала
+				// Повторный опрос
 				case 2:
+					// Проверка
+					if ((notNumber < 0) || (notNumber >= ProgramDescription.NSet.Notifications.Count))
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ActionIsUnsupported", al),
+							ToastLength.Long).Show ();
+						break;
+						}
+
+					// Блокировка
+					SetLogState (false);
+					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
+						ToastLength.Long).Show ();
+
+					// Запрос
+					AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
+					ProgramDescription.NSet.ResetTimer (false);     // Без сброса текстов
+					string newText = "";
+
+					// Опрос с защитой от закрытия приложения до завершения опроса
+					if (AndroidSupport.AppIsRunning &&
+						((newText = await ProgramDescription.NSet.GetNextNotification (notNumber)) != ""))
+						{
+						// Запись в журнал
+						AddTextToLog (newText);
+						UpdateLog ();
+						}
+
+					// Разблокировка
+					SetLogState (true);
+					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted", al),
+						ToastLength.Long).Show ();
+					break;
+
+				// Удаление из журнала
+				case 3:
 					masterLog.RemoveAt (e.ItemIndex);
 					UpdateLog ();
 					break;
 
 				// Отключение оповещения
-				case 3:
+				case 4:
 					// Проверка
 					if ((notNumber < 0) || (notNumber >= ProgramDescription.NSet.Notifications.Count))
 						{
@@ -1024,7 +1060,7 @@ namespace RD_AAOW
 			{
 			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
 			Thread.Sleep ((int)ProgramDescription.MasterFrameLength * 2);
-			return await ProgramDescription.NSet.GetNextNotification (true);
+			return await ProgramDescription.NSet.GetNextNotification (-1);
 			}
 
 		private async void AllNewsItems (object sender, EventArgs e)
