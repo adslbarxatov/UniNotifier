@@ -1,5 +1,5 @@
 ```
-06.10.2021
+12.10.2021
 CodeProject					https://codeproject.com/script/Articles/Latest.aspx			class="description">			</div>		1
 Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>		1
 Весьма						https://vesma.today/news									class="color-text">				</div>		1
@@ -9,6 +9,7 @@ Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		Stretch
 Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>		2
 Число подписчиков ВК		https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						act=members">					</em>		1
 Число подписчиков Instagram	https://instagram.com/{USERNAME}							•								</title>	1
+Число подписчиков Telegram	https://t.me/s/{CHANNEL_NAME}								class="counter_value">			</div		1
 
 ***
 
