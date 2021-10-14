@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+Version 4.5.3:
+• Fixed text processing bug that could lead to infinite ininterruptible cycles
+
 Version 4.5.2:
 • Android: locked tap menu when control buttons are also locked due to updating operations;
 • Android: adjusted placement of splitters in the main log;

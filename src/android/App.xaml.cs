@@ -37,13 +37,13 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
-		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel, eftLabel,
+		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
 			allowSoundLabel, allowLightLabel, allowVibroLabel;
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton;
-		private Editor nameField, beginningField, endingField, eftField;
+		private Editor nameField, beginningField, endingField;
 		private string linkField;
 		private Xamarin.Forms.ListView mainLog;
 		private uint currentOcc;
@@ -214,13 +214,6 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettingsForKKT (aboutPage, "LanguageLabel",
 				Localization.GetText ("LanguageLabel", al), false);
 
-			eftLabel = AndroidSupport.ApplyLabelSettingsForKKT (aboutPage, "EFTLabel",
-				Localization.GetText ("EFTLabel", al), false);
-			eftField = AndroidSupport.ApplyEditorSettings (aboutPage, "EFTField", aboutFieldBackColor,
-				Keyboard.Default, 71, "", CheckEFToken);
-			/*if ((NotificationsSupport.ExtendedFunctionsToken != "") || (al != SupportedLanguages.ru_ru))*/
-			eftLabel.IsVisible = eftField.IsVisible = false;
-
 			#endregion
 
 			#region Страница лога приложения
@@ -319,20 +312,6 @@ namespace RD_AAOW
 			while (NotificationsSupport.BackgroundRequestInProgress && AndroidSupport.AppIsRunning)
 				Thread.Sleep ((int)ProgramDescription.MasterFrameLength);
 			return true;
-			}
-
-		// Проверка токена расширенного функционала
-		private void CheckEFToken (object sender, TextChangedEventArgs e)
-			{
-			/*if (eftField.Text.Trim ().Length == eftField.MaxLength)
-				{
-				eftField.IsEnabled = false;
-				NotificationsSupport.ExtendedFunctionsToken = eftField.Text;
-				eftLabel.Text = Localization.GetText ("EFTAccepted", al);
-
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp", al),
-					ToastLength.Long).Show ();
-				}*/
 			}
 
 		// Выбор оповещения для перехода или share

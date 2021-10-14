@@ -33,9 +33,6 @@
 				<Button x:Name="DevPage" HorizontalOptions="Center" />
 				<Button x:Name="CommunityPage" HorizontalOptions="Center" />
 
-				<Label x:Name="EFTLabel" />
-				<Editor x:Name="EFTField" HorizontalOptions="Fill" />
-
 				<Label />
 
 			</StackLayout>
