@@ -15,7 +15,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс предоставляет доступ к шаблонам оповещений
 	/// </summary>
-	public class NotificationsTemplatesProvider: IDisposable
+	public class NotificationsTemplatesProvider:IDisposable
 		{
 		// Переменные и константы
 		private List<string[]> templatesElements = new List<string[]> ();
@@ -41,7 +41,7 @@ namespace RD_AAOW
 			byte[] s = Properties.GMJNotifier.Templates;
 			if (FullyInitializeTemplates)
 				{
-				HardWorkExecutor hwe = new HardWorkExecutor (TemplatesListLoader, null, null);
+				HardWorkExecutor hwe = new HardWorkExecutor (TemplatesListLoader, null, null, false, false);
 				}
 #else
 			byte[] s = Properties.Resources.Templates;

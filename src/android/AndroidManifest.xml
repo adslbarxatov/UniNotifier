@@ -1,24 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--package="uninotifier.huawei" package="com.RD_AAOW.UniNotifier"-->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-	android:installLocation="internalOnly" android:versionCode="600422" android:versionName="4.5.3">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier" android:installLocation="internalOnly" android:versionCode="600423" android:versionName="4.5.4">
 
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
-
+	
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
-
+	
 	<application android:label="uNot" android:icon="@mipmap/icon">
-
 		<receiver android:name="com.RD_AAOW.UniNotifierBoot" android:label="UniNotifierBoot">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 				<action android:name="android.intent.action.QUICKBOOT_POWERON" />
 			</intent-filter>
 		</receiver>
-
 	</application>
 </manifest>

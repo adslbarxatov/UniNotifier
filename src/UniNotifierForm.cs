@@ -13,7 +13,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает главную форму приложения
 	/// </summary>
-	public partial class UniNotifierForm: Form
+	public partial class UniNotifierForm:Form
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
@@ -227,7 +227,7 @@ namespace RD_AAOW
 		private void MainTimer_Tick (object sender, EventArgs e)
 			{
 			// Запуск запроса
-			HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null);
+			HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null, false, false);
 			hwe.Dispose ();
 
 			// Обновление очереди отображения

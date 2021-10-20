@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+Version 4.5.10:
+• Windows: AboutForm and HardWorkExecutor universal classes have been upgraded and improved;
+
 Version 4.5.4:
 • Fixed failure on GMJ first start
 
