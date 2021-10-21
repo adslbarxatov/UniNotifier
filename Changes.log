@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 4.5.15:
+• Windows: added the registry access checker: it will show recommended actions for the executable file
+  when Windows doesn’t allow saving settings;
+• Windows: applied new elements in user interface
+
 Version 4.5.10:
 • Windows: AboutForm and HardWorkExecutor universal classes have been upgraded and improved;
 
