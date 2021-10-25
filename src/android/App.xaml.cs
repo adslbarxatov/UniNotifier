@@ -14,7 +14,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает функционал приложения
 	/// </summary>
-	public partial class App: Application
+	public partial class App:Application
 		{
 		#region Общие переменные и константы
 

@@ -443,7 +443,7 @@ namespace RD_AAOW
 			// Разбор ответа (извлечение версии)
 			string version = "";
 			string[] htmlMarkers = { "</a>" + ProgramDescription.AssemblyMainName, "</h1>",
-								   "markdown-body\">", "</div>" };
+								   "markdown-body my-3\">", "</div>" };
 
 			int i = html.IndexOf (htmlMarkers[0]);
 			if (i < 0)

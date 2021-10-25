@@ -270,7 +270,8 @@ namespace RD_AAOW
 		public HardWorkExecutor (DoWorkEventHandler HardWorkProcess, object Parameters, string WindowCaption,
 			bool CaptionInTheMiddle, bool AllowOperationAbort)
 			{
-			HardWorkExecutor_Init (HardWorkProcess, Parameters, WindowCaption, CaptionInTheMiddle, AllowOperationAbort);
+			HardWorkExecutor_Init (HardWorkProcess, Parameters, WindowCaption, CaptionInTheMiddle,
+				AllowOperationAbort);
 			}
 
 		// Общий метод подготовки исполнителя заданий
