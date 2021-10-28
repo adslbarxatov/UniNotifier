@@ -1,9 +1,11 @@
 ```
-12.10.2021
+29.10.2021
 CodeProject					https://codeproject.com/script/Articles/Latest.aspx			class="description">			</div>		1
 Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>		1
 Весьма						https://vesma.today/news									class="color-text">				</div>		1
 КоммерсантЪ					https://kommersant.ru										<article						</article>	1
+Курс доллара, КоммерсантЪ	https://www.kommersant.ru									slider-link">					<li			1
+Курс евро, КоммерсантЪ		https://www.kommersant.ru									slider-link">					<li			2
 Погода на Mail.ru			https://pogoda.mail.ru/prognoz/{ГОРОД}						property="og:title" content="	" />		1
 Российская газета			https://rg.ru												html" class="b-link">			</div>		1
 Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>		2
