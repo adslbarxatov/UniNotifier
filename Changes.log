@@ -3,7 +3,7 @@ UniNotifier changes log
 Version 4.5.17:
 • Windows: updated internal mechanism of checking for updates (applied compatibility with new GitHub theme);
 • Unified text splitters for notifications;
-• Fixed processing bug for main log: when user clicks on one of news with similar names of parent
+• Android: fixed processing bug for main log: when user clicks on one of news with similar names of parent
   notifications, app targets only one of them
 
 Version 4.5.16:
