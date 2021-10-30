@@ -264,7 +264,7 @@ namespace RD_AAOW
 				GetGMJ.Enabled = true;
 				}
 #if TG
-			else if (currentTGOffset++ >= TGTimerOffset)   // 9,5 минут
+			else if (currentTGOffset++ >= TGTimerOffset)
 				{
 				// Контроль состояния переменных
 				currentTGOffset = 0;
@@ -304,7 +304,8 @@ namespace RD_AAOW
 					}
 
 				// Ретрансляция
-				s = "-" + s.Substring (s.IndexOf ("joy") + 4);
+				s = NotificationsSet.HeaderBeginning + s.Substring (s.IndexOf (NotificationsSet.HeaderMiddle) +
+					NotificationsSet.HeaderMiddle.Length);
 				for (int i = 0; i < webReplacements.Length; i++)
 					s = s.Replace (webReplacements[i][0], webReplacements[i][1]);
 

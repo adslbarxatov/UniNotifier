@@ -1,4 +1,4 @@
-_Changes for v 4.5.17_:
+_Changes for v 4.5.17_: 
 - Windows: updated internal mechanism of checking for updates (applied compatibility with new GitHub theme);
 - Unified text splitters for notifications;
 - Fixed processing bug for main log: when user clicks on one of news with similar names of parent notifications, app targets only one of them;

@@ -4,7 +4,8 @@ Version 4.5.17:
 • Windows: updated internal mechanism of checking for updates (applied compatibility with new GitHub theme);
 • Unified text splitters for notifications;
 • Android: fixed processing bug for main log: when user clicks on one of news with similar names of parent
-  notifications, app targets only one of them
+  notifications, app targets only one of them;
+• Added isolated release of Android application in APK format to temporarily replace Google play
 
 Version 4.5.16:
 • Fixed minor GMJ processing bugs
