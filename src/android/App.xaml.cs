@@ -369,7 +369,8 @@ namespace RD_AAOW
 			else
 				{
 				for (notNumber = 0; notNumber < ProgramDescription.NSet.Notifications.Count; notNumber++)
-					if (notItem.Header.Contains (ProgramDescription.NSet.Notifications[notNumber].Name))
+					if (notItem.Header.StartsWith (NotificationsSet.HeaderBeginning +
+						ProgramDescription.NSet.Notifications[notNumber].Name + NotificationsSet.HeaderMiddle))
 						{
 						notLink = ProgramDescription.NSet.Notifications[notNumber].Link;
 						break;
