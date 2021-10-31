@@ -2,18 +2,18 @@
 > PCC: 000456181D2ABE38
 
 
-Controllable news service
+uNot (UniNotifier), the managed news service
 
-Служба настраиваемых новостей
+uNot (UniNotifier) – служба управляемых новостей
 
 
 
 # Tablepedia notifier v 3.10.1
 
 
-[Tablepedia.com](http://tablepedia.com) notifications service
+TPNot, the [Tablepedia.com](http://tablepedia.com) notifications service
 
-Служба оповещений для [Tablepedia.com](http://tablepedia.com)
+TPNot – служба оповещений для [Tablepedia.com](http://tablepedia.com)
 
 
 
