@@ -178,10 +178,10 @@
     <value>Выберите сообщество:</value>
   </data>
   <data name="CommunityTG" xml:space="preserve">
-    <value>Телеграм</value>
+    <value>Сообщество ВК</value>
   </data>
-  <data name="CommunityVK" xml:space="preserve">
-    <value>ВКонтакте</value>
+  <data name="CommunityWelcome" xml:space="preserve">
+    <value>Начальная страница</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Не забудьте заменить элементы, заключённые в фигурные скобки (включая фрагменты ссылки на веб-страницу), на то, что Вам нужно</value>

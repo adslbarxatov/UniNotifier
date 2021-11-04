@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 4.5.18:
+• Improved processing of special characters in notification texts;
+• Android: updated links for FDL communities
+
 Version 4.5.17:
 • Windows: updated internal mechanism of checking for updates (applied compatibility with new GitHub theme);
 • Unified text splitters for notifications;
