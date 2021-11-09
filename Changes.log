@@ -127,7 +127,7 @@ Version 3.9.1:
 • Tablepedia notifier: за ненадобностью удалена функциональность закрепления оповещения
   в системной области;
 • Android: fixed bug with inability to call the main app from permanent notification
-  on Android O and newer
+  on Android 1O and newer
 • Android: adjusted first start tips and behavior
 
 Version 3.9:
