@@ -350,12 +350,33 @@ notMessage:
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
 				}
 
-			// Запуск петли
+			// Регистрация ресиверов событий перезагрузки
 			this.RegisterReceiver (bcReceivers[0] = new BootReceiver (),
 				new IntentFilter (Intent.ActionBootCompleted));
 			this.RegisterReceiver (bcReceivers[1] = new BootReceiver (),
 				new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
 
+			// Запрос разрешения на игнорирование оптимизации батареи
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+				{
+				Intent intentBatRq = new Intent ();
+				string packageName = this.PackageName;
+				PowerManager pm = (PowerManager)this.GetSystemService (Context.PowerService);
+
+				if (pm.IsIgnoringBatteryOptimizations (packageName))
+					{
+					intentBatRq.SetAction (Android.Provider.Settings.ActionIgnoreBatteryOptimizationSettings);
+					}
+				else
+					{
+					intentBatRq.SetAction (Android.Provider.Settings.ActionRequestIgnoreBatteryOptimizations);
+					intentBatRq.SetData (Android.Net.Uri.Parse ("package:" + packageName));
+					}
+
+				StartActivity (intentBatRq);
+				}
+			
+			// Запуск петли
 			handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
 			isStarted = true;
 

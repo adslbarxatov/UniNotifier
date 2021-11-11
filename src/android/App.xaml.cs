@@ -396,11 +396,19 @@ namespace RD_AAOW
 		#region Журнал
 
 		// Запрос всех новостей
+		private int getNotificationIndex = -1;
 		private async Task<string> GetNotification ()
 			{
 			// Оболочка с включённой в неё паузой (иначе блокируется интерфейсный поток)
-			Thread.Sleep ((int)ProgramDescription.MasterFrameLength * 2);
-			return await ProgramDescription.NSet.GetNextNotification (-1);
+			if (getNotificationIndex < 0)
+				{
+				Thread.Sleep ((int)ProgramDescription.MasterFrameLength * 2);
+				return await ProgramDescription.NSet.GetNextNotification (-1);
+				}
+			else
+				{
+				return await ProgramDescription.NSet.GetNextNotification (getNotificationIndex);
+				}
 			}
 
 		private async void AllNewsItems (object sender, EventArgs e)
@@ -422,6 +430,7 @@ namespace RD_AAOW
 			string newText = "";
 
 			// Опрос с защитой от закрытия приложения до завершения опроса
+			getNotificationIndex = -1;	// Порядковый опрос
 			while (AndroidSupport.AppIsRunning && ((newText = await Task.Run<string> (GetNotification)) !=
 				NotificationsSet.NoNewsSign))
 				if (newText != "")
@@ -559,8 +568,8 @@ namespace RD_AAOW
 					string newText = "";
 
 					// Опрос с защитой от закрытия приложения до завершения опроса
-					if (AndroidSupport.AppIsRunning &&
-						((newText = await ProgramDescription.NSet.GetNextNotification (notNumber)) != ""))
+					getNotificationIndex = notNumber;
+					if (AndroidSupport.AppIsRunning && ((newText = await Task.Run<string> (GetNotification)) != ""))
 						{
 						// Запись в журнал
 						AddTextToLog (newText);
