@@ -356,7 +356,7 @@ notMessage:
 			this.RegisterReceiver (bcReceivers[1] = new BootReceiver (),
 				new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
 
-			// Запрос разрешения на игнорирование оптимизации батареи
+			/*// Запрос разрешения на игнорирование оптимизации батареи
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
 				{
 				Intent intentBatRq = new Intent ();
@@ -374,7 +374,7 @@ notMessage:
 					}
 
 				StartActivity (intentBatRq);
-				}
+				}*/
 			
 			// Запуск петли
 			handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
