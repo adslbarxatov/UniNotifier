@@ -85,7 +85,8 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает экран-заставку приложения
 	/// </summary>
-	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true, Exported = true,
+	/*[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true, Exported = true,*/
+	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class SplashActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{

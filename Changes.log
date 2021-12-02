@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 4.6.1:
+• Android: implemented new mechanism for evaluation of font sizes in the main interface;
+• Android: fixed some minor bugs
+
 Version 4.6:
 • Android: fixed interface blocking on manual notification request;
 • Android: added possible fix for unexpected application termination on Xiaomi devices;
