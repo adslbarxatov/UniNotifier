@@ -1,5 +1,13 @@
 UniNotifier changes log
 
+ToDo:
+• Add threshold-dependent warnings for notifications with numeric elements
+
+Version 4.6.2:
+• Windows: app got the scalable icon and the digital signature (only self-signed for now);
+• Android: target API upgraded to 31 (S);
+• Android: updated Xamarin support packages
+
 Version 4.6.1:
 • Android: implemented new mechanism for evaluation of font sizes in the main interface;
 • Android: fixed some minor bugs
