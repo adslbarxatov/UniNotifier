@@ -183,6 +183,12 @@
   <data name="CommunityWelcome" xml:space="preserve">
     <value>Welcome page</value>
   </data>
+  <data name="ComparatorLabel" xml:space="preserve">
+    <value>Compare the first number in text and show warnings if it is</value>
+  </data>
+  <data name="ComparatorLabelOff" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces (including parts of webpage's link) with what you want</value>
   </data>
@@ -228,6 +234,9 @@
   <data name="GoToOption" xml:space="preserve">
     <value>Go to the webpage</value>
   </data>
+  <data name="IgnoreMisfitsLabel" xml:space="preserve">
+    <value>Don’t show misfits</value>
+  </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Interface language:</value>
   </data>
@@ -260,6 +269,10 @@
   </data>
   <data name="NewItemsMessage" xml:space="preserve">
     <value>New notifications: {0:D}. Click this message to read them</value>
+  </data>
+  <data name="NewItemsUrgentMessage" xml:space="preserve">
+    <value>WARNING! URGENT NOTIFICATIONS RECEIVED!
+</value>
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
@@ -340,6 +353,9 @@
   <data name="SearchFailure" xml:space="preserve">
     <value>Link to webpage is incorrect or keyword is not found on this page</value>
   </data>
+  <data name="SelectComparatorType" xml:space="preserve">
+    <value>Select comparison type:</value>
+  </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select language:</value>
   </data>
@@ -414,6 +430,9 @@ Also, your device requires manual permission for sounds, lights and vibration fo
   </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of the current notification</value>
+  </data>
+  <data name="Tip04_20" xml:space="preserve">
+    <value>This function allows you to set a numerical value that will be compared with the first number in notification text. If the new text matches the specified condition, app will display a special warning. It is also possible to display a notification only if this condition is met</value>
   </data>
   <data name="Tip04_3" xml:space="preserve">
     <value>This button allows you to add new notification with settings presented above</value>

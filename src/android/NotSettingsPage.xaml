@@ -58,6 +58,21 @@
 					<Editor x:Name="EndingField" VerticalOptions="Center" />
 				</StackLayout>
 
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+					<Switch x:Name="ComparatorSwitch" VerticalOptions="Center" />
+					<Label x:Name="ComparatorLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+					<Button x:Name="ComparatorType" VerticalOptions="Center" />
+					<Editor x:Name="ComparatorValue" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+					<Switch x:Name="IgnoreMisfitsSwitch" VerticalOptions="Center" />
+					<Label x:Name="IgnoreMisfitsLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+				
 			</FlexLayout>
 
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 

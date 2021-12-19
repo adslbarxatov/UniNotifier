@@ -324,4 +324,13 @@
   <data name="TemplateSelect" xml:space="preserve">
     <value>Создание нового оповещения:</value>
   </data>
+  <data name="SettingsForm_ComparatorFlag" xml:space="preserve">
+    <value>Сравнивать первое число в тексте и показывать предупреждение, если оно</value>
+  </data>
+  <data name="SettingsForm_MisfitsFlag" xml:space="preserve">
+    <value>Не показывать несоответствующие</value>
+  </data>
+  <data name="SettingsForm_WindowCallFlag" xml:space="preserve">
+    <value>Показывать главное окно при срочных уведомлениях</value>
+  </data>
 </root>

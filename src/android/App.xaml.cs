@@ -20,6 +20,7 @@ namespace RD_AAOW
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.MasterLog);
+		private CultureInfo eci = new CultureInfo ("en-us");
 
 		private readonly Color
 			logMasterBackColor = Color.FromHex ("#F0F0F0"),
@@ -38,12 +39,12 @@ namespace RD_AAOW
 
 		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
-			allowSoundLabel, allowLightLabel, allowVibroLabel;
+			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel;
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch,
-			allowSoundSwitch, allowLightSwitch, allowVibroSwitch;
+			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, comparatorSwitch, ignoreMisfitsSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
-			allNewsButton, notWizardButton;
-		private Editor nameField, beginningField, endingField;
+			allNewsButton, notWizardButton, comparatorTypeButton;
+		private Editor nameField, beginningField, endingField, comparatorValueField;
 		private string linkField;
 		private Xamarin.Forms.ListView mainLog;
 		private uint currentOcc;
@@ -62,6 +63,7 @@ namespace RD_AAOW
 			InitializeComponent ();
 			if (ProgramDescription.NSet == null)
 				ProgramDescription.NSet = new NotificationsSet (false);
+			ProgramDescription.NSet.HasUrgentNotifications = false;
 
 			// Переход в статус запуска для отмены вызова из оповещения
 			AndroidSupport.AppIsRunning = true;
@@ -131,7 +133,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "NameFieldLabel",
 				Localization.GetText ("NameFieldLabel", al), false);
 			nameField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "NameField", solutionFieldBackColor,
-				Keyboard.Default, Notification.MaxBeginningEndingLength, "", null);
+				Keyboard.Text, Notification.MaxBeginningEndingLength, "", null);
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "LinkFieldLabel",
@@ -163,7 +165,26 @@ namespace RD_AAOW
 				Localization.GetText ("EnabledLabel", al), false);
 			enabledSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("EnabledSwitch");
 
+			// Новые
+			comparatorLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "ComparatorLabel",
+				Localization.GetText ("ComparatorLabelOff", al), false);
+			comparatorSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("ComparatorSwitch");
+			comparatorSwitch.IsToggled = false;
+			comparatorSwitch.Toggled += ComparatorSwitch_Toggled;
+
+			comparatorTypeButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorType",
+				" ", solutionFieldBackColor, ComparatorTypeChanged);
+			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue", solutionFieldBackColor,
+				Keyboard.Numeric, 10, "0", null);
+
+			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "IgnoreMisfitsLabel",
+				Localization.GetText ("IgnoreMisfitsLabel", al), false);
+			ignoreMisfitsSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("IgnoreMisfitsSwitch");
+			ignoreMisfitsSwitch.IsToggled = false;
+
 			// Инициализация полей
+			ComparatorTypeChanged (null, null);
+			ComparatorSwitch_Toggled (null, null);
 			SelectNotification (null, null);
 
 			#endregion
@@ -430,7 +451,7 @@ namespace RD_AAOW
 			string newText = "";
 
 			// Опрос с защитой от закрытия приложения до завершения опроса
-			getNotificationIndex = -1;	// Порядковый опрос
+			getNotificationIndex = -1;  // Порядковый опрос
 			while (AndroidSupport.AppIsRunning && ((newText = await Task.Run<string> (GetNotification)) !=
 				NotificationsSet.NoNewsSign))
 				if (newText != "")
@@ -849,7 +870,8 @@ namespace RD_AAOW
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch2", al),
 					ToastLength.Long).Show ();
 
-				Notification not = new Notification ("Test", link, delim[0], delim[1], 1, occ);
+				Notification not = new Notification ("Test", link, delim[0], delim[1], 1, occ,
+					Notification.ComparatorTypes.Disabled, 0.0, false);
 				if (!await not.Update ())
 					{
 					await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
@@ -1151,9 +1173,22 @@ namespace RD_AAOW
 				linkField = ProgramDescription.NSet.Notifications[i].Link;
 				beginningField.Text = ProgramDescription.NSet.Notifications[i].Beginning;
 				endingField.Text = ProgramDescription.NSet.Notifications[i].Ending;
+
 				currentOcc = ProgramDescription.NSet.Notifications[i].OccurrenceNumber;
 				OccurrenceChanged (null, null);
+
 				enabledSwitch.IsToggled = ProgramDescription.NSet.Notifications[i].IsEnabled;
+
+				comparatorSwitch.IsToggled = (ProgramDescription.NSet.Notifications[i].ComparisonType !=
+					Notification.ComparatorTypes.Disabled);
+				if (comparatorSwitch.IsToggled)
+					{
+					comparatorType = ProgramDescription.NSet.Notifications[i].ComparisonType;
+					ComparatorTypeChanged (null, null);
+					}
+
+				comparatorValueField.Text = ProgramDescription.NSet.Notifications[i].ComparisonValue.ToString (eci.NumberFormat);
+				ignoreMisfitsSwitch.IsToggled = ProgramDescription.NSet.Notifications[i].IgnoreComparisonMisfits;
 				}
 
 			// Сброс
@@ -1246,8 +1281,15 @@ namespace RD_AAOW
 		private async Task<bool> UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
+			double comparatorValue = 0.0;
+			try
+				{
+				comparatorValue = double.Parse (comparatorValueField.Text, eci.NumberFormat);
+				}
+			catch { }
 			Notification ni = new Notification (nameField.Text, linkField, beginningField.Text, endingField.Text,
-				1, currentOcc);
+				1, currentOcc, comparatorSwitch.IsToggled ? comparatorType : Notification.ComparatorTypes.Disabled,
+				comparatorValue, ignoreMisfitsSwitch.IsToggled);
 
 			if (!ni.IsInited)
 				{
@@ -1318,6 +1360,43 @@ namespace RD_AAOW
 			if (!string.IsNullOrWhiteSpace (res))
 				linkField = res;
 			}
+
+		// Включение / выключение службы
+		private async void ComparatorSwitch_Toggled (object sender, ToggledEventArgs e)
+			{
+			// Подсказки
+			if ((e != null) && !NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ThresholdTip))
+				await ShowTips (NotificationsSupport.TipTypes.ThresholdTip, notSettingsPage);
+
+			comparatorTypeButton.IsVisible = comparatorValueField.IsVisible = ignoreMisfitsLabel.IsVisible =
+				ignoreMisfitsSwitch.IsVisible = comparatorSwitch.IsToggled;
+			comparatorLabel.Text = comparatorSwitch.IsToggled ? Localization.GetText ("ComparatorLabel", al) :
+				Localization.GetText ("ComparatorLabelOff", al);
+			}
+
+		// Выбор типа сравнения
+		private async void ComparatorTypeChanged (object sender, EventArgs e)
+			{
+			// Запрос списка оповещений
+			List<string> list = new List<string> (Notification.ComparatorTypesNames);
+			int i = (int)comparatorType;
+			string res = list[i];
+
+			if (e != null)
+				res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectComparatorType", al),
+					Localization.GetText ("CancelButton", al), null, list.ToArray ());
+
+			// Установка результата
+			if ((e == null) || ((i = list.IndexOf (res)) >= 0))
+				{
+				comparatorType = (Notification.ComparatorTypes)i;
+				comparatorTypeButton.Text = res;
+				}
+
+			// Сброс
+			list.Clear ();
+			}
+		private Notification.ComparatorTypes comparatorType = Notification.ComparatorTypes.Equal;
 
 		#endregion
 		}

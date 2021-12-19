@@ -6,7 +6,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает форму настроек оповещений
 	/// </summary>
-	public partial class SettingsForm: Form
+	public partial class SettingsForm:Form
 		{
 		// Переменные и константы
 		private NotificationsSet notifications;
@@ -18,12 +18,14 @@ namespace RD_AAOW
 		/// </summary>
 		/// <param name="Notifications">Набор загруженных оповещений</param>
 		/// <param name="UpdatingFrequencyStep">Шаг изменения частоты обновления</param>
-		public SettingsForm (NotificationsSet Notifications, uint UpdatingFrequencyStep)
+		/// <param name="CallWindowOnUrgents">Флаг вызова главного окна при срочных оповещениях</param>
+		public SettingsForm (NotificationsSet Notifications, uint UpdatingFrequencyStep, bool CallWindowOnUrgents)
 			{
 			// Инициализация
 			InitializeComponent ();
 			notifications = Notifications;
 			updatingFrequencyStep = UpdatingFrequencyStep;
+			WindowCallFlag.Checked = CallWindowOnUrgents;
 
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
@@ -48,6 +50,9 @@ namespace RD_AAOW
 
 			NameText.MaxLength = BeginningText.MaxLength = EndingText.MaxLength = Notification.MaxBeginningEndingLength;
 
+			ComparatorType.Items.AddRange (Notification.ComparatorTypesNames);
+			ComparatorType.SelectedIndex = 0;
+
 			// Загрузка оповещений в список
 			UpdateButtons ();
 
@@ -69,11 +74,24 @@ namespace RD_AAOW
 			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 1);    // Одно должно остаться
 			}
 
+		/// <summary>
+		/// Возвращает флаг вызова главного окна при срочных оповещениях
+		/// </summary>
+		public bool CallWindowOnUrgents
+			{
+			get
+				{
+				return callWindowOnUrgents;
+				}
+			}
+		private bool callWindowOnUrgents = false;
+
 		// Закрытие окна просмотра
 		private void BClose_Click (object sender, EventArgs e)
 			{
 			// Сохранение оповещений
 			notifications.SaveNotifications ();
+			callWindowOnUrgents = WindowCallFlag.Checked;
 
 			// Закрытие окна
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ServiceLaunchTip);
@@ -98,6 +116,12 @@ namespace RD_AAOW
 			FrequencyCombo.SelectedIndex = (int)notifications.Notifications[i].UpdateFrequency - 1;
 			EnabledCheck.Checked = notifications.Notifications[i].IsEnabled;
 			OccurrenceField.Value = notifications.Notifications[i].OccurrenceNumber;
+
+			ComparatorFlag.Checked = (notifications.Notifications[i].ComparisonType != Notification.ComparatorTypes.Disabled);
+			ComparatorValue.Value = (decimal)notifications.Notifications[i].ComparisonValue;
+			MisfitsFlag.Checked = notifications.Notifications[i].IgnoreComparisonMisfits;
+			if (ComparatorFlag.Checked)
+				ComparatorType.SelectedIndex = (int)notifications.Notifications[i].ComparisonType;
 			}
 
 		// Добавление и обновление позиций
@@ -122,7 +146,10 @@ namespace RD_AAOW
 			{
 			// Инициализация оповещения
 			Notification ni = new Notification (NameText.Text, LinkText.Text, BeginningText.Text, EndingText.Text,
-				(uint)(FrequencyCombo.SelectedIndex + 1), (uint)OccurrenceField.Value);
+				(uint)(FrequencyCombo.SelectedIndex + 1), (uint)OccurrenceField.Value,
+				ComparatorFlag.Checked ? (Notification.ComparatorTypes)ComparatorType.SelectedIndex :
+				Notification.ComparatorTypes.Disabled,
+				(double)ComparatorValue.Value, MisfitsFlag.Checked);
 
 			if (!ni.IsInited)
 				{
@@ -244,8 +271,19 @@ namespace RD_AAOW
 			OccurrenceField.Value = wf.NotificationOccurrence;
 			EnabledCheck.Checked = true;
 
+			// Пока не будем использовать
+			ComparatorFlag.Checked = false;
+			ComparatorValue.Value = 0;
+			MisfitsFlag.Checked = false;
+
 			UpdateItem (-1);
 			UpdateButtons ();
+			}
+
+		// Изменение состояния функции
+		private void ComparatorFlag_CheckedChanged (object sender, EventArgs e)
+			{
+			ComparatorType.Enabled = ComparatorValue.Enabled = MisfitsFlag.Enabled = ComparatorFlag.Checked;
 			}
 		}
 	}

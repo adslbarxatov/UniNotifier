@@ -22,7 +22,7 @@ namespace RD_AAOW.Droid
 	/// </summary>
 	[Activity (Label = "uNot", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
-	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
 		/// Обработчик события создания экземпляра
@@ -87,7 +87,7 @@ namespace RD_AAOW.Droid
 	/// </summary>
 	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class SplashActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	public class SplashActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
 		/// Обработчик события создания экземпляра
@@ -124,7 +124,7 @@ namespace RD_AAOW.Droid
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "uNot",
 		Icon = "@mipmap/icon", Exported = true)]
-	public class MainService: global::Android.App.Service
+	public class MainService:global::Android.App.Service
 		{
 		// Переменные и константы
 		private Handler handler;                                        // Идентификаторы процесса
@@ -248,7 +248,10 @@ namespace RD_AAOW.Droid
 				}
 
 			// Оповещение пользователя
-			msg = string.Format (Localization.GetText ("NewItemsMessage", Localization.CurrentLanguage),
+			msg = (ProgramDescription.NSet.HasUrgentNotifications ?
+				Localization.GetText ("NewItemsUrgentMessage", Localization.CurrentLanguage) : "") +
+
+				string.Format (Localization.GetText ("NewItemsMessage", Localization.CurrentLanguage),
 				NotificationsSupport.NewItems);
 			newItemsShown = true;
 
@@ -375,7 +378,7 @@ notMessage:
 
 				StartActivity (intentBatRq);
 				}*/
-			
+
 			// Запуск петли
 			handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
 			isStarted = true;
@@ -438,7 +441,7 @@ notMessage:
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink",
 		Icon = "@mipmap/icon", Exported = true)]
-	public class NotificationLink: JobIntentService
+	public class NotificationLink:JobIntentService
 		{
 		/// <summary>
 		/// Конструктор (заглушка)
@@ -485,7 +488,7 @@ notMessage:
 	/// </summary>
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot",
 		Icon = "@mipmap/icon", Exported = true)]
-	public class BootReceiver: BroadcastReceiver
+	public class BootReceiver:BroadcastReceiver
 		{
 		/// <summary>
 		/// Обработчик события наступления события окончания загрузки

@@ -1,7 +1,10 @@
 UniNotifier changes log
 
-ToDo:
-• Add threshold-dependent warnings for notifications with numeric elements
+Version 4.7:
+• Implemented threshold-dependent warnings for notifications with numeric elements. Now it is possible
+  to set a numeric value that will be compared with the first one in the notification’s text. If
+  the new text will fit the specified condition, app will display special warning;
+• Windows: main log now will scroll its text down to the latest item every time it is displayed;
 
 Version 4.6.2:
 • Windows: app got the scalable icon and the digital signature (only self-signed for now);

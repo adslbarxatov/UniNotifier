@@ -19,9 +19,10 @@ namespace RD_AAOW
 		private NotifyIcon ni = new NotifyIcon ();
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private CultureInfo ci;
+		private bool callWindowOnUrgents = false;
 
 		private bool allowExit = false;
-		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read" };
+		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read", "CallOnUrgents" };
 
 		private NotificationsSet ns = new NotificationsSet (true);
 
@@ -71,6 +72,8 @@ namespace RD_AAOW
 				this.Height = int.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[3],
 					"").ToString ());
 				this.ReadMode.Checked = bool.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[4],
+					"").ToString ());
+				callWindowOnUrgents = bool.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[5],
 					"").ToString ());
 
 #if TG
@@ -230,6 +233,19 @@ namespace RD_AAOW
 			HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null, false, false);
 			hwe.Dispose ();
 
+			// Срочные оповещения
+			if (ns.HasUrgentNotifications)
+				{
+				ns.HasUrgentNotifications = false;
+
+				if (callWindowOnUrgents)
+					{
+					this.Show ();
+					this.TopMost = true;
+					this.TopMost = false;
+					}
+				}
+
 			// Обновление очереди отображения
 			if (texts.Count > 0)
 				{
@@ -349,6 +365,7 @@ namespace RD_AAOW
 				this.Show ();
 				this.TopMost = true;
 				this.TopMost = false;
+				MainText.ScrollToCaret ();
 				}
 			}
 
@@ -360,7 +377,15 @@ namespace RD_AAOW
 
 			// Настройка
 			SettingsForm sf = new SettingsForm (ns,
-				(uint)MainTimer.Interval * NotificationsSet.MaxNotifications / 60000);
+				(uint)MainTimer.Interval * NotificationsSet.MaxNotifications / 60000, callWindowOnUrgents);
+
+			// Запоминание
+			callWindowOnUrgents = sf.CallWindowOnUrgents;
+			try
+				{
+				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[5], callWindowOnUrgents.ToString ());
+				}
+			catch { }
 
 			// Обновление настроек
 			ReloadNotificationsList ();
@@ -414,9 +439,7 @@ namespace RD_AAOW
 				{
 				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[4], ReadMode.Checked.ToString ());
 				}
-			catch
-				{
-				}
+			catch { }
 			}
 
 		// Изменение размера формы

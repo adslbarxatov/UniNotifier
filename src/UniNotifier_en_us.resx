@@ -273,13 +273,13 @@ First, enter a link (URL) to the site from which you want to receive notificatio
 This word (or phrase) should be present right now in that part of the site that will change over time, which will be the source of text for notifications. The ideal would be a phrase that is present now only in this area or is first encountered on the site in it. The case of letters doesn't matter</value>
   </data>
   <data name="WizardStep3" xml:space="preserve">
-    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we'll try again</value>
+    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we’ll try again</value>
   </data>
   <data name="WizardStep4" xml:space="preserve">
     <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, retry the action and try a different keyword</value>
   </data>
   <data name="WizardStep5" xml:space="preserve">
-    <value>It's ready! Now specify the name of notification to be displayed in the main log</value>
+    <value>It’s ready! Now specify the name of notification to be displayed in the main log</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>&amp;Cancel</value>
@@ -301,5 +301,14 @@ This word (or phrase) should be present right now in that part of the site that 
   </data>
   <data name="TemplateSelect" xml:space="preserve">
     <value>Create new notification:</value>
+  </data>
+  <data name="SettingsForm_ComparatorFlag" xml:space="preserve">
+    <value>Compare the first number in text and show warnings if it is</value>
+  </data>
+  <data name="SettingsForm_MisfitsFlag" xml:space="preserve">
+    <value>Don’t show misfits</value>
+  </data>
+  <data name="SettingsForm_WindowCallFlag" xml:space="preserve">
+    <value>Show main window on urgent notifications</value>
   </data>
 </root>
