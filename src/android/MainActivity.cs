@@ -267,7 +267,20 @@ notMessage:
 			notTextStyle.BigText (msg);
 
 			Android.App.Notification notification = notBuilder.Build ();
+
+			// Отображение (с дублированием для срочных)
 			notManager.Notify (notServiceID, notification);
+
+			if (ProgramDescription.NSet.HasUrgentNotifications)
+				{
+				for (int j = 0; j < 2; j++)
+					{
+					Thread.Sleep (1000);
+					notManager.Notify (notServiceID, notification);
+					}
+				}
+
+			// Завершено
 			notification.Dispose ();
 			NotificationsSupport.BackgroundRequestInProgress = false;
 			}
@@ -358,26 +371,6 @@ notMessage:
 				new IntentFilter (Intent.ActionBootCompleted));
 			this.RegisterReceiver (bcReceivers[1] = new BootReceiver (),
 				new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
-
-			/*// Запрос разрешения на игнорирование оптимизации батареи
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
-				{
-				Intent intentBatRq = new Intent ();
-				string packageName = this.PackageName;
-				PowerManager pm = (PowerManager)this.GetSystemService (Context.PowerService);
-
-				if (pm.IsIgnoringBatteryOptimizations (packageName))
-					{
-					intentBatRq.SetAction (Android.Provider.Settings.ActionIgnoreBatteryOptimizationSettings);
-					}
-				else
-					{
-					intentBatRq.SetAction (Android.Provider.Settings.ActionRequestIgnoreBatteryOptimizations);
-					intentBatRq.SetData (Android.Net.Uri.Parse ("package:" + packageName));
-					}
-
-				StartActivity (intentBatRq);
-				}*/
 
 			// Запуск петли
 			handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);

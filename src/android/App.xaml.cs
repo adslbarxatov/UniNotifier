@@ -20,7 +20,7 @@ namespace RD_AAOW
 
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.MasterLog);
-		private CultureInfo eci = new CultureInfo ("en-us");
+		private string[] comparatorTypes;
 
 		private readonly Color
 			logMasterBackColor = Color.FromHex ("#F0F0F0"),
@@ -67,6 +67,10 @@ namespace RD_AAOW
 
 			// Переход в статус запуска для отмены вызова из оповещения
 			AndroidSupport.AppIsRunning = true;
+
+			// Список типов компараторов
+			char[] ctSplitter = new char[] { '\n' };
+			comparatorTypes = Localization.GetText ("ComparatorTypes", al).Split (ctSplitter);
 
 			// Общая конструкция страниц приложения
 			MainPage = new MasterPage ();
@@ -174,8 +178,8 @@ namespace RD_AAOW
 
 			comparatorTypeButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorType",
 				" ", solutionFieldBackColor, ComparatorTypeChanged);
-			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue", solutionFieldBackColor,
-				Keyboard.Numeric, 10, "0", null);
+			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue",
+				solutionFieldBackColor, Keyboard.Numeric, 10, "0", null);
 
 			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "IgnoreMisfitsLabel",
 				Localization.GetText ("IgnoreMisfitsLabel", al), false);
@@ -296,6 +300,12 @@ namespace RD_AAOW
 				solutionFieldBackColor, RequestStepChanged);
 			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepDecButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
+				solutionFieldBackColor, RequestStepChanged);
+			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepLongIncButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Start),
+				solutionFieldBackColor, RequestStepChanged);
+			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepLongDecButton",
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Backward),
 				solutionFieldBackColor, RequestStepChanged);
 			RequestStepChanged (null, null);
 
@@ -1016,12 +1026,34 @@ namespace RD_AAOW
 			if (e != null)
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
+
 				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
 					(NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep))
+					{
 					NotificationsSupport.BackgroundRequestStep++;
+					}
+
 				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
 					(NotificationsSupport.BackgroundRequestStep > 0))
+					{
 					NotificationsSupport.BackgroundRequestStep--;
+					}
+
+				else if (b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Start))
+					{
+					if (NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep - 4)
+						NotificationsSupport.BackgroundRequestStep += 5;
+					else
+						NotificationsSupport.BackgroundRequestStep = NotificationsSupport.MaxBackgroundRequestStep;
+					}
+
+				else if (b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Backward))
+					{
+					if (NotificationsSupport.BackgroundRequestStep > 4)
+						NotificationsSupport.BackgroundRequestStep -= 5;
+					else
+						NotificationsSupport.BackgroundRequestStep = 0;
+					}
 				}
 
 			// Обновление
@@ -1167,6 +1199,8 @@ namespace RD_AAOW
 			if ((e == null) || ((i = list.IndexOf (res)) >= 0))
 				{
 				currentNotification = i;
+				if (res.Length > 15)
+					res = res.Substring (0, 12) + "...";
 				selectedNotification.Text = res;
 
 				nameField.Text = ProgramDescription.NSet.Notifications[i].Name;
@@ -1187,7 +1221,7 @@ namespace RD_AAOW
 					ComparatorTypeChanged (null, null);
 					}
 
-				comparatorValueField.Text = ProgramDescription.NSet.Notifications[i].ComparisonValue.ToString (eci.NumberFormat);
+				comparatorValueField.Text = ProgramDescription.NSet.Notifications[i].ComparisonValue.ToString ();
 				ignoreMisfitsSwitch.IsToggled = ProgramDescription.NSet.Notifications[i].IgnoreComparisonMisfits;
 				}
 
@@ -1284,7 +1318,7 @@ namespace RD_AAOW
 			double comparatorValue = 0.0;
 			try
 				{
-				comparatorValue = double.Parse (comparatorValueField.Text, eci.NumberFormat);
+				comparatorValue = double.Parse (comparatorValueField.Text);
 				}
 			catch { }
 			Notification ni = new Notification (nameField.Text, linkField, beginningField.Text, endingField.Text,
@@ -1370,6 +1404,7 @@ namespace RD_AAOW
 
 			comparatorTypeButton.IsVisible = comparatorValueField.IsVisible = ignoreMisfitsLabel.IsVisible =
 				ignoreMisfitsSwitch.IsVisible = comparatorSwitch.IsToggled;
+
 			comparatorLabel.Text = comparatorSwitch.IsToggled ? Localization.GetText ("ComparatorLabel", al) :
 				Localization.GetText ("ComparatorLabelOff", al);
 			}
@@ -1378,7 +1413,7 @@ namespace RD_AAOW
 		private async void ComparatorTypeChanged (object sender, EventArgs e)
 			{
 			// Запрос списка оповещений
-			List<string> list = new List<string> (Notification.ComparatorTypesNames);
+			List<string> list = new List<string> (comparatorTypes);
 			int i = (int)comparatorType;
 			string res = list[i];
 

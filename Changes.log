@@ -1,10 +1,17 @@
 UniNotifier changes log
 
+Version 4.7.1:
+• Android: notifications settings interface has been rebuilt;
+• Android: minimum rate of automated requests is now 3 minutes;
+• Android: request rate now can be specified simpler
+
 Version 4.7:
-• Implemented threshold-dependent warnings for notifications with numeric elements. Now it is possible
-  to set a numeric value that will be compared with the first one in the notification’s text. If
-  the new text will fit the specified condition, app will display special warning;
+• Implemented function that allows you to set a numerical threshold for notifications. It will be compared
+  with the first number in every obtained text using the specified comparison method. If the new text matches
+  the condition, app will display a special warning. It is also possible to display a notification
+  only if this condition is met;
 • Windows: main log now will scroll its text down to the latest item every time it is displayed;
+• Added new tips for the implemented function
 
 Version 4.6.2:
 • Windows: app got the scalable icon and the digital signature (only self-signed for now);

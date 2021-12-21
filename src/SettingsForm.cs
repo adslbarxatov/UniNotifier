@@ -283,6 +283,9 @@ namespace RD_AAOW
 		// Изменение состояния функции
 		private void ComparatorFlag_CheckedChanged (object sender, EventArgs e)
 			{
+			if (ComparatorFlag.Checked)
+				ProgramDescription.ShowTips (ProgramDescription.TipTypes.Threshold);
+
 			ComparatorType.Enabled = ComparatorValue.Enabled = MisfitsFlag.Enabled = ComparatorFlag.Checked;
 			}
 		}

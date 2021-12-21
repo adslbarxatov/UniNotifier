@@ -306,9 +306,14 @@ This word (or phrase) should be present right now in that part of the site that 
     <value>Compare the first number in text and show warnings if it is</value>
   </data>
   <data name="SettingsForm_MisfitsFlag" xml:space="preserve">
-    <value>Don’t show misfits</value>
+    <value>Don’t show inconsistent texts</value>
   </data>
   <data name="SettingsForm_WindowCallFlag" xml:space="preserve">
     <value>Show main window on urgent notifications</value>
+  </data>
+  <data name="Tip_12" xml:space="preserve">
+    <value>This function allows you to set a numerical threshold. It will be compared with the first number in every obtained text using the specified comparison method. If the new text matches the condition, app will display a special warning.
+
+It is also possible to display a notification only if this condition is met</value>
   </data>
 </root>

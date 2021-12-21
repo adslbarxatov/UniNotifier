@@ -139,7 +139,7 @@
     <value>ALL</value>
   </data>
   <data name="AllNewsRequest" xml:space="preserve">
-    <value>This option will poll all notifications with 5 seconds steps. It may take some time. Continue?</value>
+    <value>This option will sequentially poll all notifications. It may take some time. Continue?</value>
   </data>
   <data name="AllowLightLabel" xml:space="preserve">
     <value>Light indication</value>
@@ -189,6 +189,14 @@
   <data name="ComparatorLabelOff" xml:space="preserve">
     <value>Threshold</value>
   </data>
+  <data name="ComparatorTypes" xml:space="preserve">
+    <value>&gt; (greater than)
+≥ (greater than or equal to)
+&lt; (less than)
+≤ (less than or equal to)
+= (equal to)
+≠ (not equal to)</value>
+  </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces (including parts of webpage's link) with what you want</value>
   </data>
@@ -235,7 +243,7 @@
     <value>Go to the webpage</value>
   </data>
   <data name="IgnoreMisfitsLabel" xml:space="preserve">
-    <value>Don’t show misfits</value>
+    <value>Don’t show inconsistent texts</value>
   </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Interface language:</value>
@@ -432,7 +440,9 @@ Also, your device requires manual permission for sounds, lights and vibration fo
     <value>This button allows you to share settings of the current notification</value>
   </data>
   <data name="Tip04_20" xml:space="preserve">
-    <value>This function allows you to set a numerical value that will be compared with the first number in notification text. If the new text matches the specified condition, app will display a special warning. It is also possible to display a notification only if this condition is met</value>
+    <value>This function allows you to set a numerical threshold. It will be compared with the first number in every obtained text using the specified comparison method. If the new text matches the condition, app will display a special warning.
+
+It is also possible to display a notification only if this condition is met</value>
   </data>
   <data name="Tip04_3" xml:space="preserve">
     <value>This button allows you to add new notification with settings presented above</value>
