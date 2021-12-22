@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+Version 4.7.2:
+• Android: general settings interface has been rebuilt
+
 Version 4.7.1:
 • Android: notifications settings interface has been rebuilt;
 • Android: minimum rate of automated requests is now 3 minutes;
