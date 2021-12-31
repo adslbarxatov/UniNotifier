@@ -1,5 +1,9 @@
 UniNotifier changes log
 
+Version 4.7.3:
+• Windows: balloons now work more correctly: the will show warning sign when app has unread urgent messages;
+• Android: adjusted sound effect of urgent messages
+
 Version 4.7.2:
 • Android: general settings interface has been rebuilt
 

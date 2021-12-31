@@ -1,17 +1,19 @@
 ```
-29.10.2021
-CodeProject					https://codeproject.com/script/Articles/Latest.aspx			class="description">			</div>		1
-Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>		1
-Весьма						https://vesma.today/news									class="color-text">				</div>		1
-КоммерсантЪ					https://kommersant.ru										<article						</article>	1
-Курс доллара, КоммерсантЪ	https://www.kommersant.ru									slider-link">					<li			1
-Курс евро, КоммерсантЪ		https://www.kommersant.ru									slider-link">					<li			2
-Погода на Mail.ru			https://pogoda.mail.ru/prognoz/{ГОРОД}						property="og:title" content="	" />		1
-Российская газета			https://rg.ru												html" class="b-link">			</div>		1
-Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>		2
-Число подписчиков ВК		https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						act=members">					</em>		1
-Число подписчиков Instagram	https://instagram.com/{USERNAME}							•								</title>	1
-Число подписчиков Telegram	https://t.me/s/{CHANNEL_NAME}								class="counter_value">			</div		1
+1.01.2022
+CodeProject					https://codeproject.com/script/Articles/Latest.aspx			class="description">			</div>			1
+Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>			1
+Весьма						https://vesma.today/news									class="color-text">				</div>			1
+КоммерсантЪ					https://kommersant.ru										<article						</article>		1
+Курс доллара, КоммерсантЪ	https://www.kommersant.ru									slider-link">					<li				1
+Курс доллара, Google		https://google.com/search?q=курс+доллара					AP7Wnd">						</div></div>	3
+Курс евро, КоммерсантЪ		https://www.kommersant.ru									slider-link">					<li				2
+Курс евро, Google			https://google.com/search?q=курс+евро						AP7Wnd">						</div></div>	3
+Погода на Mail.ru			https://pogoda.mail.ru/prognoz/{ГОРОД}						property="og:title" content="	" />			1
+Российская газета			https://rg.ru												html" class="b-link">			</div>			1
+Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>			2
+Число подписчиков ВК		https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						act=members">					</em>			1
+Число подписчиков Instagram	https://instagram.com/{USERNAME}							•								</title>		1
+Число подписчиков Telegram	https://t.me/s/{CHANNEL_NAME}								class="counter_value">			</div			1
 
 ***
 

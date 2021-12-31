@@ -229,22 +229,13 @@ namespace RD_AAOW
 		// Итерация таймера обновления
 		private void MainTimer_Tick (object sender, EventArgs e)
 			{
+			// Переменные
+			int spl;
+			string hdr, txt;
+
 			// Запуск запроса
 			HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null, false, false);
 			hwe.Dispose ();
-
-			// Срочные оповещения
-			if (ns.HasUrgentNotifications)
-				{
-				ns.HasUrgentNotifications = false;
-
-				if (callWindowOnUrgents)
-					{
-					this.Show ();
-					this.TopMost = true;
-					this.TopMost = false;
-					}
-				}
 
 			// Обновление очереди отображения
 			if (texts.Count > 0)
@@ -260,15 +251,23 @@ namespace RD_AAOW
 					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
 						" ---\r\n\r\n");
 					}
-				MainText.AppendText (texts[0]);
+				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (), "\r\n"));
 
 				// Отображение всплывающего сообщения
 				if (!this.Visible)
 					{
-					if (texts[0].Length > 210)
-						texts[0] = texts[0].Substring (0, 210) + "...";
+					try
+						{
+						spl = texts[0].IndexOf (NotificationsSet.MainLogItemSplitter);
+						hdr = texts[0].Substring (0, spl);
+						txt = texts[0].Substring (spl + 1);
 
-					ni.ShowBalloonTip (10000, "", texts[0], ToolTipIcon.Info);
+						if (txt.Length > 210)
+							txt = txt.Substring (0, 210) + "...";
+
+						ni.ShowBalloonTip (10000, hdr, txt, ns.HasUrgentNotifications ? ToolTipIcon.Warning : ToolTipIcon.Info);
+						}
+					catch { }
 					}
 
 				// Обновление прочих полей
@@ -336,6 +335,16 @@ namespace RD_AAOW
 				catch { }
 				}
 #endif
+
+			// Срочные оповещения
+			if (ns.HasUrgentNotifications && callWindowOnUrgents)
+				{
+				ns.HasUrgentNotifications = false;
+
+				this.Show ();
+				this.TopMost = true;
+				this.TopMost = false;
+				}
 			}
 
 		private void DoUpdate (object sender, DoWorkEventArgs e)
@@ -353,9 +362,14 @@ namespace RD_AAOW
 		// Отображение / скрытие полного списка оповещений
 		private void ShowHideFullText (object sender, MouseEventArgs e)
 			{
+			// Работа только с левой кнопкой мыши
 			if (e.Button != MouseButtons.Left)
 				return;
 
+			// Отмена состояния сообщений
+			ns.HasUrgentNotifications = false;
+
+			// Обработка состояния
 			if (this.Visible)
 				{
 				this.Close ();
@@ -416,6 +430,9 @@ namespace RD_AAOW
 		// Закрытие окна просмотра
 		private void BClose_Click (object sender, EventArgs e)
 			{
+			// Отмена состояния сообщений
+			ns.HasUrgentNotifications = false;
+
 			this.Close ();
 			}
 

@@ -166,7 +166,7 @@
     <value>Background request: off</value>
   </data>
   <data name="BackgroundRequestOn" xml:space="preserve">
-    <value>Background request step: {0:D} minutes</value>
+    <value>Background request step: &lt;b&gt;{0:D}&lt;/b&gt; minutes</value>
   </data>
   <data name="BeginningFieldLabel" xml:space="preserve">
     <value>Beginning:</value>
@@ -234,7 +234,7 @@
     <value>For using this function specify some keyword from needed site's area in “Beginning” field</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
-    <value>Font size: </value>
+    <value>Font size: &lt;b&gt;{0:D}&lt;/b&gt;</value>
   </data>
   <data name="GMJButton" xml:space="preserve">
     <value>GMJ</value>
@@ -316,7 +316,7 @@
     <value>Creating new notifications:</value>
   </data>
   <data name="OccFieldLabel" xml:space="preserve">
-    <value>Occurrence #{0:D}</value>
+    <value>Occurrence &lt;b&gt;#{0:D}&lt;/b&gt;</value>
   </data>
   <data name="OtherOption" xml:space="preserve">
     <value>More...</value>

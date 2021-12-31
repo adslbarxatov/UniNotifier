@@ -8,76 +8,68 @@
 
 		<ScrollView>
 			<StackLayout>
-				
+
 				<!-- Мастер оповещений -->
 				<Label x:Name="NotWizardLabel" />
 
 				<Button x:Name="NotWizardButton" HorizontalOptions="Center" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" Margin="12" />
+					WidthRequest="200" Color="#606060" Margin="12" />
 
 				<!-- Настройки службы -->
 				<Label x:Name="ServiceSettingsLabel" />
 
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+				<StackLayout Orientation="Horizontal" Margin="3">
 					<Switch x:Name="AllowStartSwitch" VerticalOptions="Center" />
 					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Button x:Name="RequestStepLongDecButton" HorizontalOptions="Start" />
-					<Button x:Name="RequestStepDecButton" HorizontalOptions="Start" />
+				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="RequestStepFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-					<Button x:Name="RequestStepIncButton" HorizontalOptions="Start" />
-					<Button x:Name="RequestStepLongIncButton" HorizontalOptions="Start" />
+
+					<Button x:Name="RequestStepDecButton" />
+					<Button x:Name="RequestStepLongIncButton" />
+					<Button x:Name="RequestStepIncButton" />
 				</StackLayout>
 
-				<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowSoundSwitch" VerticalOptions="Center" />
+					<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
 
-					<StackLayout Orientation="Horizontal">
-						<Switch x:Name="AllowSoundSwitch" VerticalOptions="Center" />
-						<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" />
-					</StackLayout>
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowLightSwitch" VerticalOptions="Center" />
+					<Label x:Name="AllowLightLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
 
-					<StackLayout Orientation="Horizontal">
-						<Switch x:Name="AllowLightSwitch" VerticalOptions="Center" />
-						<Label x:Name="AllowLightLabel" VerticalTextAlignment="Center" />
-					</StackLayout>
-
-					<StackLayout Orientation="Horizontal">
-						<Switch x:Name="AllowVibroSwitch" VerticalOptions="Center" />
-						<Label x:Name="AllowVibroLabel" VerticalTextAlignment="Center" />
-					</StackLayout>
-
-				</FlexLayout>
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="AllowVibroSwitch" VerticalOptions="Center" />
+					<Label x:Name="AllowVibroLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
 
 				<!-- Настройки журнала -->
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-				WidthRequest="200" Color="#606060" Margin="12" />
+					WidthRequest="200" Color="#606060" Margin="12" />
 
 				<Label x:Name="LogSettingsLabel" />
 
-				<FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center">
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="ReadModeSwitch" VerticalOptions="Center" />
+					<Label x:Name="ReadModeLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
 
-					<StackLayout Orientation="Horizontal">
-						<Switch x:Name="ReadModeSwitch" VerticalOptions="Center" />
-						<Label x:Name="ReadModeLabel" VerticalTextAlignment="Center" />
-					</StackLayout>
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
+					<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
 
-					<StackLayout Orientation="Horizontal">
-						<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
-						<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
-					</StackLayout>
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
 
-					<StackLayout Orientation="Horizontal">
-						<Label Text="   " VerticalTextAlignment="Center" />
-						<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
-						<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-						<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
-					</StackLayout>
-
-				</FlexLayout>
+					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
+					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
+				</StackLayout>
 
 				<Label />
 

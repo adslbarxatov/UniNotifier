@@ -138,6 +138,7 @@ namespace RD_AAOW
 				Localization.GetText ("NameFieldLabel", al), false);
 			nameField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "NameField", solutionFieldBackColor,
 				Keyboard.Text, Notification.MaxBeginningEndingLength, "", null);
+			nameField.FontSize *= 1.1;
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "LinkFieldLabel",
@@ -150,13 +151,17 @@ namespace RD_AAOW
 				Localization.GetText ("BeginningFieldLabel", al), false);
 			beginningField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "BeginningField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
+			beginningField.FontSize *= 1.1;
 
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EndingFieldLabel",
 				Localization.GetText ("EndingFieldLabel", al), false);
 			endingField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "EndingField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
+			endingField.FontSize *= 1.1;
 
 			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "OccFieldLabel", "", false);
+			occFieldLabel.TextType = TextType.Html;
+
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccIncButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
 				solutionFieldBackColor, OccurrenceChanged);
@@ -172,14 +177,18 @@ namespace RD_AAOW
 			// Новые
 			comparatorLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "ComparatorLabel",
 				Localization.GetText ("ComparatorLabelOff", al), false);
+
 			comparatorSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("ComparatorSwitch");
 			comparatorSwitch.IsToggled = false;
 			comparatorSwitch.Toggled += ComparatorSwitch_Toggled;
 
 			comparatorTypeButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorType",
 				" ", solutionFieldBackColor, ComparatorTypeChanged);
+			comparatorTypeButton.FontSize *= 1.1;
+
 			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue",
 				solutionFieldBackColor, Keyboard.Numeric, 10, "0", null);
+			comparatorValueField.FontSize *= 1.1;
 
 			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "IgnoreMisfitsLabel",
 				Localization.GetText ("IgnoreMisfitsLabel", al), false);
@@ -286,6 +295,8 @@ namespace RD_AAOW
 			RightAlignmentSwitch_Toggled (null, null);
 
 			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "FontSizeFieldLabel", "", false);
+			fontSizeFieldLabel.TextType = TextType.Html;
+
 			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeIncButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
 				solutionFieldBackColor, FontSizeChanged);
@@ -295,6 +306,8 @@ namespace RD_AAOW
 			FontSizeChanged (null, null);
 
 			requestStepFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RequestStepFieldLabel", "", false);
+			requestStepFieldLabel.TextType = TextType.Html;
+
 			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepIncButton",
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
 				solutionFieldBackColor, RequestStepChanged);
@@ -302,10 +315,7 @@ namespace RD_AAOW
 				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
 				solutionFieldBackColor, RequestStepChanged);
 			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepLongIncButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Start),
-				solutionFieldBackColor, RequestStepChanged);
-			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepLongDecButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Backward),
+				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Create),
 				solutionFieldBackColor, RequestStepChanged);
 			RequestStepChanged (null, null);
 
@@ -1016,11 +1026,12 @@ namespace RD_AAOW
 				}
 
 			// Принудительное обновление
-			fontSizeFieldLabel.Text = Localization.GetText ("FontSizeLabel", al) + fontSize.ToString ();
+			fontSizeFieldLabel.Text = string.Format (Localization.GetText ("FontSizeLabel", al), fontSize.ToString ());
 			UpdateLog ();
 			}
 
 		// Изменение значения частоты опроса
+		private bool requestStepIncreased = true;
 		private void RequestStepChanged (object sender, EventArgs e)
 			{
 			if (e != null)
@@ -1031,28 +1042,32 @@ namespace RD_AAOW
 					(NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep))
 					{
 					NotificationsSupport.BackgroundRequestStep++;
+					requestStepIncreased = true;
 					}
 
 				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
 					(NotificationsSupport.BackgroundRequestStep > 0))
 					{
 					NotificationsSupport.BackgroundRequestStep--;
+					requestStepIncreased = false;
 					}
 
-				else if (b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Start))
+				else if (b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Create))
 					{
-					if (NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep - 4)
-						NotificationsSupport.BackgroundRequestStep += 5;
+					if (requestStepIncreased)
+						{
+						if (NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep - 4)
+							NotificationsSupport.BackgroundRequestStep += 5;
+						else
+							NotificationsSupport.BackgroundRequestStep = NotificationsSupport.MaxBackgroundRequestStep;
+						}
 					else
-						NotificationsSupport.BackgroundRequestStep = NotificationsSupport.MaxBackgroundRequestStep;
-					}
-
-				else if (b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Backward))
-					{
-					if (NotificationsSupport.BackgroundRequestStep > 4)
-						NotificationsSupport.BackgroundRequestStep -= 5;
-					else
-						NotificationsSupport.BackgroundRequestStep = 0;
+						{
+						if (NotificationsSupport.BackgroundRequestStep > 4)
+							NotificationsSupport.BackgroundRequestStep -= 5;
+						else
+							NotificationsSupport.BackgroundRequestStep = 0;
+						}
 					}
 				}
 

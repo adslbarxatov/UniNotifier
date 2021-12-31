@@ -275,7 +275,7 @@ notMessage:
 				{
 				for (int j = 0; j < 2; j++)
 					{
-					Thread.Sleep (1000);
+					Thread.Sleep (1500);
 					notManager.Notify (notServiceID, notification);
 					}
 				}
