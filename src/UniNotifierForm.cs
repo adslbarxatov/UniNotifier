@@ -63,29 +63,27 @@ namespace RD_AAOW
 			// Получение настроек
 			try
 				{
-				this.Left = int.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[0],
+				this.Left = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[0],
 					"").ToString ());
-				this.Top = int.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[1],
+				this.Top = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[1],
 					"").ToString ());
-				this.Width = int.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[2],
+				this.Width = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[2],
 					"").ToString ());
-				this.Height = int.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[3],
+				this.Height = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[3],
 					"").ToString ());
-				this.ReadMode.Checked = bool.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[4],
+				this.ReadMode.Checked = bool.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[4],
 					"").ToString ());
-				callWindowOnUrgents = bool.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, regParameters[5],
+				callWindowOnUrgents = bool.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[5],
 					"").ToString ());
 
 #if TG
-				currentTGCount = uint.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, "TGCount",
+				currentTGCount = uint.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, "TGCount",
 					"").ToString ());
-				currentTGTimeStamp = DateTime.Parse (Registry.GetValue (ProgramDescription.AssemblySettingsKey, "TGTimeStamp",
+				currentTGTimeStamp = DateTime.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, "TGTimeStamp",
 					"").ToString ());
 #endif
 				}
-			catch
-				{
-				}
+			catch { }
 
 			// Настройка иконки в трее
 			ni.Icon = Properties.GMJNotifier.GMJNotifier16;
@@ -288,7 +286,7 @@ namespace RD_AAOW
 					currentTGTimeStamp = DateTime.Today;
 					try
 						{
-						Registry.SetValue (ProgramDescription.AssemblySettingsKey, "TGTimeStamp",
+						Registry.SetValue (RDGenerics.AssemblySettingsKey, "TGTimeStamp",
 							currentTGTimeStamp.ToString ());
 						}
 					catch { }
@@ -309,7 +307,7 @@ namespace RD_AAOW
 
 				if (s.Contains ("joy не вернула сообщение"))
 					{
-					StreamWriter SW = File.AppendText (AboutForm.AppStartupPath + "TG.log");
+					StreamWriter SW = File.AppendText (RDGenerics.AppStartupPath + "TG.log");
 					SW.Write (s + "\r\n\r\n");
 					SW.Close ();
 
@@ -330,7 +328,7 @@ namespace RD_AAOW
 				currentTGCount++;
 				try
 					{
-					Registry.SetValue (ProgramDescription.AssemblySettingsKey, "TGCount", currentTGCount.ToString ());
+					Registry.SetValue (RDGenerics.AssemblySettingsKey, "TGCount", currentTGCount.ToString ());
 					}
 				catch { }
 				}
@@ -397,7 +395,7 @@ namespace RD_AAOW
 			callWindowOnUrgents = sf.CallWindowOnUrgents;
 			try
 				{
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[5], callWindowOnUrgents.ToString ());
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[5], callWindowOnUrgents.ToString ());
 				}
 			catch { }
 
@@ -454,7 +452,7 @@ namespace RD_AAOW
 			// Запоминание
 			try
 				{
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[4], ReadMode.Checked.ToString ());
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[4], ReadMode.Checked.ToString ());
 				}
 			catch { }
 			}
@@ -474,14 +472,12 @@ namespace RD_AAOW
 			{
 			try
 				{
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[0], this.Left.ToString ());
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[1], this.Top.ToString ());
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[2], this.Width.ToString ());
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, regParameters[3], this.Height.ToString ());
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[0], this.Left.ToString ());
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[1], this.Top.ToString ());
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[2], this.Width.ToString ());
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[3], this.Height.ToString ());
 				}
-			catch
-				{
-				}
+			catch { }
 			}
 
 		// Запрос сообщения от GMJ

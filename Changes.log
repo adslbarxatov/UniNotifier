@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 4.8:
+• Changed app visual style;
+• Android: fixed bug with font size on large screens;
+• Android: other fixes and improvements applied
+
 Version 4.7.4:
 • Removed non-break space character from notification texts;
 • Android: changed alignment for notification headers;

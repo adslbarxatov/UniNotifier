@@ -91,37 +91,45 @@ namespace RD_AAOW
 
 			#region Настройки службы
 
-			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "ServiceSettingsLabel",
-				Localization.GetText ("ServiceSettingsLabel", al), true);
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "ServiceSettingsLabel",
+				Localization.GetText ("ServiceSettingsLabel", al), true, false);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowStartLabel",
-				Localization.GetText ("AllowStartLabel", al), false);
-			allowStart = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowStartSwitch");
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowStartLabel",
+				Localization.GetText ("AllowStartLabel", al), false, false);
+			/*allowStart = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowStartSwitch");
 			allowStart.IsToggled = AndroidSupport.AllowServiceToStart;
-			allowStart.Toggled += AllowStart_Toggled;
+			allowStart.Toggled += AllowStart_Toggled;*/
+			allowStart = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowStartSwitch",
+				false, solutionFieldBackColor, AllowStart_Toggled, AndroidSupport.AllowServiceToStart);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "NotWizardLabel",
-				Localization.GetText ("NotWizardLabel", al), true);
-			notWizardButton = AndroidSupport.ApplyButtonSettings (settingsPage, "NotWizardButton",
-				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, StartNotificationsWizard);
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "NotWizardLabel",
+				Localization.GetText ("NotWizardLabel", al), true, false);
+			notWizardButton = AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "NotWizardButton",
+				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, StartNotificationsWizard, false);
 
-			allowSoundLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowSoundLabel",
-				Localization.GetText ("AllowSoundLabel", al), false);
-			allowSoundSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowSoundSwitch");
+			allowSoundLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowSoundLabel",
+				Localization.GetText ("AllowSoundLabel", al), false, false);
+			/*allowSoundSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowSoundSwitch");
 			allowSoundSwitch.IsToggled = NotificationsSupport.AllowSound;
-			allowSoundSwitch.Toggled += AllowSound_Toggled;
+			allowSoundSwitch.Toggled += AllowSound_Toggled;*/
+			allowSoundSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowSoundSwitch",
+				false, solutionFieldBackColor, AllowSound_Toggled, NotificationsSupport.AllowSound);
 
-			allowLightLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowLightLabel",
-				Localization.GetText ("AllowLightLabel", al), false);
-			allowLightSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowLightSwitch");
+			allowLightLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowLightLabel",
+				Localization.GetText ("AllowLightLabel", al), false, false);
+			/*allowLightSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowLightSwitch");
 			allowLightSwitch.IsToggled = NotificationsSupport.AllowLight;
-			allowLightSwitch.Toggled += AllowLight_Toggled;
+			allowLightSwitch.Toggled += AllowLight_Toggled;*/
+			allowLightSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowLightSwitch",
+				false, solutionFieldBackColor, AllowLight_Toggled, NotificationsSupport.AllowLight);
 
-			allowVibroLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowVibroLabel",
-				Localization.GetText ("AllowVibroLabel", al), false);
-			allowVibroSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowVibroSwitch");
+			allowVibroLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowVibroLabel",
+				Localization.GetText ("AllowVibroLabel", al), false, false);
+			/*allowVibroSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowVibroSwitch");
 			allowVibroSwitch.IsToggled = NotificationsSupport.AllowVibro;
-			allowVibroSwitch.Toggled += AllowVibro_Toggled;
+			allowVibroSwitch.Toggled += AllowVibro_Toggled;*/
+			allowVibroSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowVibroSwitch",
+				false, solutionFieldBackColor, AllowVibro_Toggled, NotificationsSupport.AllowVibro);
 
 			allowLightLabel.IsVisible = allowLightSwitch.IsVisible = allowSoundLabel.IsVisible =
 				allowSoundSwitch.IsVisible = allowVibroLabel.IsVisible = allowVibroSwitch.IsVisible =
@@ -131,69 +139,67 @@ namespace RD_AAOW
 
 			#region Настройки оповещений
 
-			selectedNotification = AndroidSupport.ApplyButtonSettings (notSettingsPage, "SelectedNotification",
-				"", solutionFieldBackColor, SelectNotification);
+			selectedNotification = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "SelectedNotification",
+				"", solutionFieldBackColor, SelectNotification, false);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "NameFieldLabel",
-				Localization.GetText ("NameFieldLabel", al), false);
-			nameField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "NameField", solutionFieldBackColor,
-				Keyboard.Text, Notification.MaxBeginningEndingLength, "", null);
-			nameField.FontSize *= 1.1;
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "NameFieldLabel",
+				Localization.GetText ("NameFieldLabel", al), false, false);
+			nameField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "NameField", solutionFieldBackColor,
+				Keyboard.Text, Notification.MaxBeginningEndingLength, "", null, true);
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "LinkFieldLabel",
-				Localization.GetText ("LinkFieldLabel", al), false);
-			AndroidSupport.ApplyButtonSettings (notSettingsPage, "LinkFieldButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Select),
-				solutionFieldBackColor, SpecifyNotificationLink);
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "LinkFieldLabel",
+				Localization.GetText ("LinkFieldLabel", al), false, false);
+			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "LinkFieldButton",
+				AndroidSupport.ButtonsDefaultNames.Select, solutionFieldBackColor, SpecifyNotificationLink);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "BeginningFieldLabel",
-				Localization.GetText ("BeginningFieldLabel", al), false);
-			beginningField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "BeginningField", solutionFieldBackColor,
-				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
-			beginningField.FontSize *= 1.1;
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "BeginningFieldLabel",
+				Localization.GetText ("BeginningFieldLabel", al), false, false);
+			beginningField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "BeginningField", solutionFieldBackColor,
+				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EndingFieldLabel",
-				Localization.GetText ("EndingFieldLabel", al), false);
-			endingField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "EndingField", solutionFieldBackColor,
-				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null);
-			endingField.FontSize *= 1.1;
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "EndingFieldLabel",
+				Localization.GetText ("EndingFieldLabel", al), false, false);
+			endingField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "EndingField", solutionFieldBackColor,
+				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
 
-			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "OccFieldLabel", "", false);
+			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "OccFieldLabel", "", false, true);
 			occFieldLabel.TextType = TextType.Html;
 
-			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccIncButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
-				solutionFieldBackColor, OccurrenceChanged);
-			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccDecButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
-				solutionFieldBackColor, OccurrenceChanged);
+			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "OccIncButton",
+				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, OccurrenceChanged);
+			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "OccDecButton",
+				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
-			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EnabledLabel",
-				Localization.GetText ("EnabledLabel", al), false);
-			enabledSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("EnabledSwitch");
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "EnabledLabel",
+				Localization.GetText ("EnabledLabel", al), false, false);
+			/*enabledSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("EnabledSwitch");*/
+			enabledSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "EnabledSwitch",
+				false, solutionFieldBackColor, null, false);
 
 			// Новые
-			comparatorLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "ComparatorLabel",
-				Localization.GetText ("ComparatorLabelOff", al), false);
+			comparatorLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "ComparatorLabel",
+				Localization.GetText ("ComparatorLabelOff", al), false, false);
 
-			comparatorSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("ComparatorSwitch");
+			/*comparatorSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("ComparatorSwitch");
 			comparatorSwitch.IsToggled = false;
-			comparatorSwitch.Toggled += ComparatorSwitch_Toggled;
+			comparatorSwitch.Toggled += ComparatorSwitch_Toggled;*/
+			comparatorSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "ComparatorSwitch",
+				false, solutionFieldBackColor, ComparatorSwitch_Toggled, false);
 
-			comparatorTypeButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorType",
-				" ", solutionFieldBackColor, ComparatorTypeChanged);
-			comparatorTypeButton.FontSize *= 1.1;
+			comparatorTypeButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "ComparatorType",
+				" ", solutionFieldBackColor, ComparatorTypeChanged, true);
 
-			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue",
-				solutionFieldBackColor, Keyboard.Numeric, 10, "0", null);
-			comparatorValueField.FontSize *= 1.1;
+			comparatorValueField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "ComparatorValue",
+				solutionFieldBackColor, Keyboard.Numeric, 10, "0", null, true);
 
-			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "IgnoreMisfitsLabel",
-				Localization.GetText ("IgnoreMisfitsLabel", al), false);
-			ignoreMisfitsSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("IgnoreMisfitsSwitch");
-			ignoreMisfitsSwitch.IsToggled = false;
+			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "IgnoreMisfitsLabel",
+				Localization.GetText ("IgnoreMisfitsLabel", al), false, false);
+			/*ignoreMisfitsSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("IgnoreMisfitsSwitch");
+			ignoreMisfitsSwitch.IsToggled = false;*/
+			ignoreMisfitsSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "IgnoreMisfitsSwitch",
+				false, solutionFieldBackColor, null, false);
 
 			// Инициализация полей
 			ComparatorTypeChanged (null, null);
@@ -204,19 +210,15 @@ namespace RD_AAOW
 
 			#region Управление оповещениями
 
-			applyButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ApplyButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Apply),
-				solutionFieldBackColor, ApplyNotification);
-			addButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "AddButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Create),
-				solutionFieldBackColor, AddNotification);
-			deleteButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "DeleteButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Delete),
-				solutionFieldBackColor, DeleteNotification);
+			applyButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "ApplyButton",
+				AndroidSupport.ButtonsDefaultNames.Apply, solutionFieldBackColor, ApplyNotification);
+			addButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "AddButton",
+				AndroidSupport.ButtonsDefaultNames.Create, solutionFieldBackColor, AddNotification);
+			deleteButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "DeleteButton",
+				AndroidSupport.ButtonsDefaultNames.Delete, solutionFieldBackColor, DeleteNotification);
 
-			AndroidSupport.ApplyButtonSettings (notSettingsPage, "ShareTemplateButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Share),
-				solutionFieldBackColor, ShareTemplate);
+			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "ShareTemplateButton",
+				AndroidSupport.ButtonsDefaultNames.Share, solutionFieldBackColor, ShareTemplate);
 
 			#endregion
 
@@ -225,30 +227,30 @@ namespace RD_AAOW
 			aboutLabel = AndroidSupport.ApplyLabelSettings (aboutPage, "AboutLabel",
 				ProgramDescription.AssemblyTitle + "\n" +
 				ProgramDescription.AssemblyDescription + "\n\n" +
-				ProgramDescription.AssemblyCopyright + "\nv " +
+				RDGenerics.AssemblyCopyright + "\nv " +
 				ProgramDescription.AssemblyVersion +
 				"; " + ProgramDescription.AssemblyLastUpdate,
 				Color.FromHex ("#000080"));
 			aboutLabel.FontAttributes = FontAttributes.Bold;
 			aboutLabel.HorizontalTextAlignment = TextAlignment.Center;
 
-			AndroidSupport.ApplyButtonSettings (aboutPage, "AppPage", Localization.GetText ("AppPage", al),
-				aboutFieldBackColor, AppButton_Clicked);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualPage", Localization.GetText ("ManualPage", al),
-				aboutFieldBackColor, ManualButton_Clicked);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
-				aboutFieldBackColor, ADPButton_Clicked);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
-				aboutFieldBackColor, DevButton_Clicked);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage",
-				AndroidSupport.MasterLabName, aboutFieldBackColor, CommunityButton_Clicked);
+			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "AppPage", Localization.GetText ("AppPage", al),
+				aboutFieldBackColor, AppButton_Clicked, false);
+			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "ManualPage", Localization.GetText ("ManualPage", al),
+				aboutFieldBackColor, ManualButton_Clicked, false);
+			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
+				aboutFieldBackColor, ADPButton_Clicked, false);
+			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
+				aboutFieldBackColor, DevButton_Clicked, false);
+			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "CommunityPage", RDGenerics.AssemblyCompany,
+				aboutFieldBackColor, CommunityButton_Clicked, false);
 
 			UpdateNotButtons ();
 
-			AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
-				aboutFieldBackColor, SelectLanguage_Clicked);
-			AndroidSupport.ApplyLabelSettingsForKKT (aboutPage, "LanguageLabel",
-				Localization.GetText ("LanguageLabel", al), false);
+			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
+				aboutFieldBackColor, SelectLanguage_Clicked, false);
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (aboutPage, "LanguageLabel",
+				Localization.GetText ("LanguageLabel", al), false, false);
 
 			#endregion
 
@@ -262,12 +264,12 @@ namespace RD_AAOW
 			mainLog.SelectionMode = ListViewSelectionMode.None;
 			mainLog.SeparatorVisibility = SeparatorVisibility.None;
 
-			allNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "AllNewsButton",
-				Localization.GetText ("AllNewsButton", al), logFieldBackColor, AllNewsItems);
+			allNewsButton = AndroidSupport.ApplyButtonSettings_Fix (logPage, "AllNewsButton",
+				Localization.GetText ("AllNewsButton", al), logFieldBackColor, AllNewsItems, false);
 			allNewsButton.Margin = new Thickness (0);
 
-			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
-				Localization.GetText ("GMJButton", al), logFieldBackColor, GetGMJ);
+			getGMJButton = AndroidSupport.ApplyButtonSettings_Fix (logPage, "GetGMJ",
+				Localization.GetText ("GMJButton", al), logFieldBackColor, GetGMJ, false);
 			getGMJButton.Margin = new Thickness (0);
 			getGMJButton.IsVisible = ((al == SupportedLanguages.ru_ru));
 
@@ -275,48 +277,50 @@ namespace RD_AAOW
 
 			#region Прочие настройки
 
-			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "LogSettingsLabel",
-				Localization.GetText ("LogSettingsLabel", al), true);
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "LogSettingsLabel",
+				Localization.GetText ("LogSettingsLabel", al), true, false);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "ReadModeLabel",
-				Localization.GetText ("ReadModeLabel", al), false);
-			readModeSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("ReadModeSwitch");
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "ReadModeLabel",
+				Localization.GetText ("ReadModeLabel", al), false, false);
+			/*readModeSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("ReadModeSwitch");
 			readModeSwitch.IsToggled = NotificationsSupport.LogReadingMode;
-			readModeSwitch.Toggled += ReadModeSwitch_Toggled;
+			readModeSwitch.Toggled += ReadModeSwitch_Toggled;*/
+			readModeSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "ReadModeSwitch",
+				false, solutionFieldBackColor, ReadModeSwitch_Toggled, NotificationsSupport.LogReadingMode);
+
 			ReadModeSwitch_Toggled (null, null);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RightAlignmentLabel",
-				Localization.GetText ("RightAlignmentLabel", al), false);
-			rightAlignmentSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("RightAlignmentSwitch");
+			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "RightAlignmentLabel",
+				Localization.GetText ("RightAlignmentLabel", al), false, false);
+			/*rightAlignmentSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("RightAlignmentSwitch");
 			rightAlignmentSwitch.IsToggled = NotificationsSupport.LogButtonsOnTheRightSide;
-			rightAlignmentSwitch.Toggled += RightAlignmentSwitch_Toggled;
+			rightAlignmentSwitch.Toggled += RightAlignmentSwitch_Toggled;*/
+			rightAlignmentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "RightAlignmentSwitch",
+				false, solutionFieldBackColor, RightAlignmentSwitch_Toggled, NotificationsSupport.LogButtonsOnTheRightSide);
 
 			mainGrid = (Grid)logPage.FindByName ("MainGrid");
 			RightAlignmentSwitch_Toggled (null, null);
 
-			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "FontSizeFieldLabel", "", false);
+			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "FontSizeFieldLabel",
+				"", false, false);
 			fontSizeFieldLabel.TextType = TextType.Html;
 
-			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeIncButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
-				solutionFieldBackColor, FontSizeChanged);
-			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeDecButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
-				solutionFieldBackColor, FontSizeChanged);
+			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "FontSizeIncButton",
+				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, FontSizeChanged);
+			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "FontSizeDecButton",
+				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, FontSizeChanged);
 			FontSizeChanged (null, null);
 
-			requestStepFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RequestStepFieldLabel", "", false);
+			requestStepFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "RequestStepFieldLabel",
+				"", false, false);
 			requestStepFieldLabel.TextType = TextType.Html;
 
-			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepIncButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase),
-				solutionFieldBackColor, RequestStepChanged);
-			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepDecButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease),
-				solutionFieldBackColor, RequestStepChanged);
-			AndroidSupport.ApplyButtonSettings (settingsPage, "RequestStepLongIncButton",
-				AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Create),
-				solutionFieldBackColor, RequestStepChanged);
+			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "RequestStepIncButton",
+				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, RequestStepChanged);
+			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "RequestStepDecButton",
+				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, RequestStepChanged);
+			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "RequestStepLongIncButton",
+				AndroidSupport.ButtonsDefaultNames.Create, solutionFieldBackColor, RequestStepChanged);
 			RequestStepChanged (null, null);
 
 			#endregion
@@ -1015,10 +1019,10 @@ namespace RD_AAOW
 			if (e != null)
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
-				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
+				if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Increase) &&
 					(fontSize < NotificationsSupport.MaxFontSize))
 					fontSize++;
-				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
+				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Decrease) &&
 					(fontSize > NotificationsSupport.MinFontSize))
 					fontSize--;
 
@@ -1038,21 +1042,21 @@ namespace RD_AAOW
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 
-				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
+				if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Increase) &&
 					(NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep))
 					{
 					NotificationsSupport.BackgroundRequestStep++;
 					requestStepIncreased = true;
 					}
 
-				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
+				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Decrease) &&
 					(NotificationsSupport.BackgroundRequestStep > 0))
 					{
 					NotificationsSupport.BackgroundRequestStep--;
 					requestStepIncreased = false;
 					}
 
-				else if (b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Create))
+				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Create))
 					{
 					if (requestStepIncreased)
 						{
@@ -1105,7 +1109,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				await Launcher.OpenAsync (AndroidSupport.MasterGitLink + ProgramDescription.AssemblyMainName);
+				await Launcher.OpenAsync (RDGenerics.AssemblyGitLink + ProgramDescription.AssemblyMainName);
 				}
 			catch
 				{
@@ -1142,10 +1146,10 @@ namespace RD_AAOW
 			try
 				{
 				if (comm.IndexOf (res) == 0)
-					await Launcher.OpenAsync (AndroidSupport.WelcomeLink);
+					await Launcher.OpenAsync (RDGenerics.DPModuleLink);
 				else
-					await Launcher.OpenAsync ((al == SupportedLanguages.ru_ru) ? AndroidSupport.MasterCommunityLink :
-						AndroidSupport.CommunityInTelegram);
+					await Launcher.OpenAsync ((al == SupportedLanguages.ru_ru) ? RDGenerics.LabVKLink :
+						RDGenerics.LabTGLink);
 				}
 			catch
 				{
@@ -1159,7 +1163,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				await Launcher.OpenAsync (AndroidSupport.ADPLink);
+				await Launcher.OpenAsync (RDGenerics.ADPLink);
 				}
 			catch
 				{
@@ -1177,7 +1181,7 @@ namespace RD_AAOW
 					{
 					Subject = "Wish, advice or bug in " + ProgramDescription.AssemblyTitle,
 					Body = "",
-					To = new List<string> () { AndroidSupport.MasterDeveloperLink }
+					To = new List<string> () { RDGenerics.LabMailLink }
 					};
 				await Email.ComposeAsync (message);
 				}
@@ -1256,10 +1260,10 @@ namespace RD_AAOW
 					await ShowTips (NotificationsSupport.TipTypes.OccurenceTip, notSettingsPage);
 
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
-				if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Increase)) &&
+				if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Increase) &&
 					(currentOcc < Notification.MaxOccurrenceNumber))
 					currentOcc++;
-				else if ((b.Text == AndroidSupport.GetDefaultButtonName (AndroidSupport.ButtonsDefaultNames.Decrease)) &&
+				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Decrease) &&
 					(currentOcc > 1))
 					currentOcc--;
 				}

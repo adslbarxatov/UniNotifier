@@ -57,12 +57,10 @@ namespace RD_AAOW
 #if ANDROID
 				buf2 = Preferences.Get (externalTemplatesSubkey, "");
 #else
-				buf2 = Registry.GetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesSubkey, "").ToString ();
+				buf2 = Registry.GetValue (RDGenerics.AssemblySettingsKey, externalTemplatesSubkey, "").ToString ();
 #endif
 				}
-			catch
-				{
-				}
+			catch { }
 			buf += buf2;
 
 			// Разбор
@@ -232,12 +230,13 @@ namespace RD_AAOW
 			StringReader SR = new StringReader (html);
 			string newVersion = SR.ReadLine ();
 			string oldVersion = "";
+
 #if ANDROID
 			oldVersion = Preferences.Get (externalTemplatesVersionSubkey, "");
 			if (oldVersion == newVersion)
 				return false;
 #else
-			oldVersion = Registry.GetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesVersionSubkey,
+			oldVersion = Registry.GetValue (RDGenerics.AssemblySettingsKey, externalTemplatesVersionSubkey,
 				"").ToString ();
 			if (oldVersion == newVersion)
 				{
@@ -268,8 +267,8 @@ namespace RD_AAOW
 				Preferences.Set (externalTemplatesVersionSubkey, newVersion);
 				Preferences.Set (externalTemplatesSubkey, tmp);
 #else
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesVersionSubkey, newVersion);
-				Registry.SetValue (ProgramDescription.AssemblySettingsKey, externalTemplatesSubkey, tmp);
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, externalTemplatesVersionSubkey, newVersion);
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, externalTemplatesSubkey, tmp);
 #endif
 				}
 			catch
