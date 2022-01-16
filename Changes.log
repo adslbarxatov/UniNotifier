@@ -1,8 +1,7 @@
 UniNotifier changes log
 
-ToDo:
-- Необходимо проверить, не происходит ли запись полей оповещения ДО проверки на совпадение его названия с уже имеющимися;
-- Проверить применения условия к курсу евро
+Version 4.8.1:
+• Current updates and improvements applied
 
 Version 4.8:
 • Changed app visual style;

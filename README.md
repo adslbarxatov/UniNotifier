@@ -1,5 +1,5 @@
-# UniNotifier v 4.8
-> PCC: 000693BA5F7F3279
+# UniNotifier v 4.8.1
+> PCC: 000699C74E1A61F9
 
 
 uNot (UniNotifier), the managed news service
@@ -41,17 +41,22 @@ This utility (formerly known as UniNotifier) provides the ability to receive not
 
 ## Requirements / Требования
 
-- Windows version requires Windows XP or newer, Framework 4.0 or newer. Interface languages: ru_ru, en_us;
-- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 5.0 or newer. Interface languages: ru_ru, en_us;
-- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.TablepediaNotifier) of Tablepedia notifier also requires OS 5.0 or newer. Interface language: ru_ru;
-- Application available in AppGallery
+- Windows XP or newer / или новее;
+- [Microsoft .NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718).
+
+Interface languages / языки интерфейса: ru_ru, en_us.
 
 #
 
-- Для Windows-версии требуется ОС Windows XP или новее, Framework 4.0 или новее. Языки интерфейса: ru_ru, en_us;
+- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 5.0 or newer. Interface languages: ru_ru, en_us;
+- Application available in AppGallery.
+
 - Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 5.0 или новее. Языки интерфейса: ru_ru, en_us;
-- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.TablepediaNotifier) Tablepedia notifier также требуется ОС версии 5.0 или новее. Язык интерфейса: ru_ru;
-- Приложение доступно в AppGallery
+- Приложение доступно в AppGallery.
+
+#
+
+- Для [Tablepedia notifier](https://play.google.com/store/apps/details?id=com.RD_AAOW.TablepediaNotifier) также требуется ОС версии 5.0 или новее. Язык интерфейса: ru_ru.
 
 &nbsp;
 
