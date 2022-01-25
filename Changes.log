@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 4.9:
+• Android: restored the individual update rate settings for each notification;
+• Android: fixed incorrect templates applying;
+• Windows: current updates for “About” interface applied
+
 Version 4.8.3:
 • Current updates and improvements applied
 

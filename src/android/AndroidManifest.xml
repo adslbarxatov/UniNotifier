@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--package="uninotifier.huawei" package="com.RD_AAOW.UniNotifier"-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-	android:installLocation="internalOnly" android:versionCode="600438" android:versionName="4.8">
+	android:installLocation="internalOnly" android:versionCode="600439" android:versionName="4.9">
 
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
 	
@@ -12,7 +12,7 @@
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	
 	<application android:label="uNot" android:icon="@mipmap/icon">
-		<receiver android:name="com.RD_AAOW.UniNotifierBoot" android:label="UniNotifierBoot">
+		<receiver android:name="com.RD_AAOW.UniNotifierBoot" android:label="UniNotifierBoot" android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 				<action android:name="android.intent.action.QUICKBOOT_POWERON" />

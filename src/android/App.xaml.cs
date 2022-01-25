@@ -45,9 +45,10 @@ namespace RD_AAOW
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton, comparatorTypeButton;
 		private Editor nameField, beginningField, endingField, comparatorValueField;
+
 		private string linkField;
 		private Xamarin.Forms.ListView mainLog;
-		private uint currentOcc;
+		private uint currentOcc, currentFreq;
 		private Grid mainGrid;
 
 		#endregion
@@ -91,43 +92,31 @@ namespace RD_AAOW
 
 			#region Настройки службы
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "ServiceSettingsLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "ServiceSettingsLabel",
 				Localization.GetText ("ServiceSettingsLabel", al), true, false);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowStartLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowStartLabel",
 				Localization.GetText ("AllowStartLabel", al), false, false);
-			/*allowStart = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowStartSwitch");
-			allowStart.IsToggled = AndroidSupport.AllowServiceToStart;
-			allowStart.Toggled += AllowStart_Toggled;*/
 			allowStart = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowStartSwitch",
 				false, solutionFieldBackColor, AllowStart_Toggled, AndroidSupport.AllowServiceToStart);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "NotWizardLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "NotWizardLabel",
 				Localization.GetText ("NotWizardLabel", al), true, false);
-			notWizardButton = AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "NotWizardButton",
+			notWizardButton = AndroidSupport.ApplyButtonSettings (settingsPage, "NotWizardButton",
 				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, StartNotificationsWizard, false);
 
-			allowSoundLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowSoundLabel",
+			allowSoundLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowSoundLabel",
 				Localization.GetText ("AllowSoundLabel", al), false, false);
-			/*allowSoundSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowSoundSwitch");
-			allowSoundSwitch.IsToggled = NotificationsSupport.AllowSound;
-			allowSoundSwitch.Toggled += AllowSound_Toggled;*/
 			allowSoundSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowSoundSwitch",
 				false, solutionFieldBackColor, AllowSound_Toggled, NotificationsSupport.AllowSound);
 
-			allowLightLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowLightLabel",
+			allowLightLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowLightLabel",
 				Localization.GetText ("AllowLightLabel", al), false, false);
-			/*allowLightSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowLightSwitch");
-			allowLightSwitch.IsToggled = NotificationsSupport.AllowLight;
-			allowLightSwitch.Toggled += AllowLight_Toggled;*/
 			allowLightSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowLightSwitch",
 				false, solutionFieldBackColor, AllowLight_Toggled, NotificationsSupport.AllowLight);
 
-			allowVibroLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "AllowVibroLabel",
+			allowVibroLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "AllowVibroLabel",
 				Localization.GetText ("AllowVibroLabel", al), false, false);
-			/*allowVibroSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("AllowVibroSwitch");
-			allowVibroSwitch.IsToggled = NotificationsSupport.AllowVibro;
-			allowVibroSwitch.Toggled += AllowVibro_Toggled;*/
 			allowVibroSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowVibroSwitch",
 				false, solutionFieldBackColor, AllowVibro_Toggled, NotificationsSupport.AllowVibro);
 
@@ -139,65 +128,68 @@ namespace RD_AAOW
 
 			#region Настройки оповещений
 
-			selectedNotification = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "SelectedNotification",
+			selectedNotification = AndroidSupport.ApplyButtonSettings (notSettingsPage, "SelectedNotification",
 				"", solutionFieldBackColor, SelectNotification, false);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "NameFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "NameFieldLabel",
 				Localization.GetText ("NameFieldLabel", al), false, false);
-			nameField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "NameField", solutionFieldBackColor,
+			nameField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "NameField", solutionFieldBackColor,
 				Keyboard.Text, Notification.MaxBeginningEndingLength, "", null, true);
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "LinkFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "LinkFieldLabel",
 				Localization.GetText ("LinkFieldLabel", al), false, false);
-			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "LinkFieldButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "LinkFieldButton",
 				AndroidSupport.ButtonsDefaultNames.Select, solutionFieldBackColor, SpecifyNotificationLink);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "BeginningFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "BeginningFieldLabel",
 				Localization.GetText ("BeginningFieldLabel", al), false, false);
-			beginningField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "BeginningField", solutionFieldBackColor,
+			beginningField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "BeginningField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "EndingFieldLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EndingFieldLabel",
 				Localization.GetText ("EndingFieldLabel", al), false, false);
-			endingField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "EndingField", solutionFieldBackColor,
+			endingField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "EndingField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
 
-			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "OccFieldLabel", "", false, true);
+			occFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "OccFieldLabel", "", false, false);
 			occFieldLabel.TextType = TextType.Html;
 
-			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "OccIncButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccIncButton",
 				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, OccurrenceChanged);
-			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "OccDecButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccDecButton",
 				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "EnabledLabel",
+			requestStepFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "RequestStepFieldLabel",
+				"", false, false);
+			requestStepFieldLabel.TextType = TextType.Html;
+
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "RequestStepIncButton",
+				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, RequestStepChanged);
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "RequestStepDecButton",
+				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, RequestStepChanged);
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "RequestStepLongIncButton",
+				AndroidSupport.ButtonsDefaultNames.Create, solutionFieldBackColor, RequestStepChanged);
+			currentFreq = NotificationsSet.DefaultUpdatingFrequency;
+
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EnabledLabel",
 				Localization.GetText ("EnabledLabel", al), false, false);
-			/*enabledSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("EnabledSwitch");*/
 			enabledSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "EnabledSwitch",
 				false, solutionFieldBackColor, null, false);
 
 			// Новые
-			comparatorLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "ComparatorLabel",
+			comparatorLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "ComparatorLabel",
 				Localization.GetText ("ComparatorLabelOff", al), false, false);
-
-			/*comparatorSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("ComparatorSwitch");
-			comparatorSwitch.IsToggled = false;
-			comparatorSwitch.Toggled += ComparatorSwitch_Toggled;*/
 			comparatorSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "ComparatorSwitch",
 				false, solutionFieldBackColor, ComparatorSwitch_Toggled, false);
-
-			comparatorTypeButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "ComparatorType",
+			comparatorTypeButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorType",
 				" ", solutionFieldBackColor, ComparatorTypeChanged, true);
-
-			comparatorValueField = AndroidSupport.ApplyEditorSettings_Fix (notSettingsPage, "ComparatorValue",
+			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue",
 				solutionFieldBackColor, Keyboard.Numeric, 10, "0", null, true);
 
-			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (notSettingsPage, "IgnoreMisfitsLabel",
+			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "IgnoreMisfitsLabel",
 				Localization.GetText ("IgnoreMisfitsLabel", al), false, false);
-			/*ignoreMisfitsSwitch = (Xamarin.Forms.Switch)notSettingsPage.FindByName ("IgnoreMisfitsSwitch");
-			ignoreMisfitsSwitch.IsToggled = false;*/
 			ignoreMisfitsSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "IgnoreMisfitsSwitch",
 				false, solutionFieldBackColor, null, false);
 
@@ -210,14 +202,14 @@ namespace RD_AAOW
 
 			#region Управление оповещениями
 
-			applyButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "ApplyButton",
+			applyButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ApplyButton",
 				AndroidSupport.ButtonsDefaultNames.Apply, solutionFieldBackColor, ApplyNotification);
-			addButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "AddButton",
+			addButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "AddButton",
 				AndroidSupport.ButtonsDefaultNames.Create, solutionFieldBackColor, AddNotification);
-			deleteButton = AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "DeleteButton",
+			deleteButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "DeleteButton",
 				AndroidSupport.ButtonsDefaultNames.Delete, solutionFieldBackColor, DeleteNotification);
 
-			AndroidSupport.ApplyButtonSettings_Fix (notSettingsPage, "ShareTemplateButton",
+			AndroidSupport.ApplyButtonSettings (notSettingsPage, "ShareTemplateButton",
 				AndroidSupport.ButtonsDefaultNames.Share, solutionFieldBackColor, ShareTemplate);
 
 			#endregion
@@ -234,22 +226,22 @@ namespace RD_AAOW
 			aboutLabel.FontAttributes = FontAttributes.Bold;
 			aboutLabel.HorizontalTextAlignment = TextAlignment.Center;
 
-			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "AppPage", Localization.GetText ("AppPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "AppPage", Localization.GetText ("AppPage", al),
 				aboutFieldBackColor, AppButton_Clicked, false);
-			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "ManualPage", Localization.GetText ("ManualPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualPage", Localization.GetText ("ManualPage", al),
 				aboutFieldBackColor, ManualButton_Clicked, false);
-			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "ADPPage", Localization.GetText ("ADPPage", al),
 				aboutFieldBackColor, ADPButton_Clicked, false);
-			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
+			AndroidSupport.ApplyButtonSettings (aboutPage, "DevPage", Localization.GetText ("DevPage", al),
 				aboutFieldBackColor, DevButton_Clicked, false);
-			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "CommunityPage", RDGenerics.AssemblyCompany,
+			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage", RDGenerics.AssemblyCompany,
 				aboutFieldBackColor, CommunityButton_Clicked, false);
 
 			UpdateNotButtons ();
 
-			AndroidSupport.ApplyButtonSettings_Fix (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
+			AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
 				aboutFieldBackColor, SelectLanguage_Clicked, false);
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (aboutPage, "LanguageLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (aboutPage, "LanguageLabel",
 				Localization.GetText ("LanguageLabel", al), false, false);
 
 			#endregion
@@ -264,11 +256,11 @@ namespace RD_AAOW
 			mainLog.SelectionMode = ListViewSelectionMode.None;
 			mainLog.SeparatorVisibility = SeparatorVisibility.None;
 
-			allNewsButton = AndroidSupport.ApplyButtonSettings_Fix (logPage, "AllNewsButton",
+			allNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "AllNewsButton",
 				Localization.GetText ("AllNewsButton", al), logFieldBackColor, AllNewsItems, false);
 			allNewsButton.Margin = new Thickness (0);
 
-			getGMJButton = AndroidSupport.ApplyButtonSettings_Fix (logPage, "GetGMJ",
+			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
 				Localization.GetText ("GMJButton", al), logFieldBackColor, GetGMJ, false);
 			getGMJButton.Margin = new Thickness (0);
 			getGMJButton.IsVisible = ((al == SupportedLanguages.ru_ru));
@@ -277,51 +269,33 @@ namespace RD_AAOW
 
 			#region Прочие настройки
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "LogSettingsLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "LogSettingsLabel",
 				Localization.GetText ("LogSettingsLabel", al), true, false);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "ReadModeLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "ReadModeLabel",
 				Localization.GetText ("ReadModeLabel", al), false, false);
-			/*readModeSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("ReadModeSwitch");
-			readModeSwitch.IsToggled = NotificationsSupport.LogReadingMode;
-			readModeSwitch.Toggled += ReadModeSwitch_Toggled;*/
 			readModeSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "ReadModeSwitch",
 				false, solutionFieldBackColor, ReadModeSwitch_Toggled, NotificationsSupport.LogReadingMode);
 
 			ReadModeSwitch_Toggled (null, null);
 
-			AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "RightAlignmentLabel",
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RightAlignmentLabel",
 				Localization.GetText ("RightAlignmentLabel", al), false, false);
-			/*rightAlignmentSwitch = (Xamarin.Forms.Switch)settingsPage.FindByName ("RightAlignmentSwitch");
-			rightAlignmentSwitch.IsToggled = NotificationsSupport.LogButtonsOnTheRightSide;
-			rightAlignmentSwitch.Toggled += RightAlignmentSwitch_Toggled;*/
 			rightAlignmentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "RightAlignmentSwitch",
 				false, solutionFieldBackColor, RightAlignmentSwitch_Toggled, NotificationsSupport.LogButtonsOnTheRightSide);
 
 			mainGrid = (Grid)logPage.FindByName ("MainGrid");
 			RightAlignmentSwitch_Toggled (null, null);
 
-			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "FontSizeFieldLabel",
+			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "FontSizeFieldLabel",
 				"", false, false);
 			fontSizeFieldLabel.TextType = TextType.Html;
 
-			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "FontSizeIncButton",
+			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeIncButton",
 				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, FontSizeChanged);
-			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "FontSizeDecButton",
+			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeDecButton",
 				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, FontSizeChanged);
 			FontSizeChanged (null, null);
-
-			requestStepFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT_Fix2 (settingsPage, "RequestStepFieldLabel",
-				"", false, false);
-			requestStepFieldLabel.TextType = TextType.Html;
-
-			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "RequestStepIncButton",
-				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, RequestStepChanged);
-			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "RequestStepDecButton",
-				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, RequestStepChanged);
-			AndroidSupport.ApplyButtonSettings_Fix (settingsPage, "RequestStepLongIncButton",
-				AndroidSupport.ButtonsDefaultNames.Create, solutionFieldBackColor, RequestStepChanged);
-			RequestStepChanged (null, null);
 
 			#endregion
 
@@ -378,22 +352,30 @@ namespace RD_AAOW
 				}
 
 			// Подсказки
-			if (NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.StartupTips))
-				return;
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.StartupTips))
+				{
+				await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
+					Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
 
-			await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
-				Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
+				await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
+					Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
 
-			await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
-				Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
+				string tip03 = Localization.GetText ("Tip03_1", al);
+				if (!AndroidSupport.AreNotificationsConfigurable)
+					tip03 += Localization.GetText ("Tip03_2", al);
+				await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
+					tip03, Localization.GetText ("NextButton", al));
 
-			string tip03 = Localization.GetText ("Tip03_1", al);
-			if (!AndroidSupport.AreNotificationsConfigurable)
-				tip03 += Localization.GetText ("Tip03_2", al);
-			await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
-				tip03, Localization.GetText ("NextButton", al));
+				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.StartupTips);
+				}
 
-			NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.StartupTips);
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FrequencyTip))
+				{
+				await logPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
+					Localization.GetText ("Tip05", al), Localization.GetText ("NextButton", al));
+
+				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.FrequencyTip);
+				}
 			}
 
 		// Метод отображает остальные подсказки
@@ -470,7 +452,7 @@ namespace RD_AAOW
 				ToastLength.Long).Show ();
 
 			// Запрос
-			AndroidSupport.StopRequested = false; // Разблокировка метода GetHTML
+			AndroidSupport.StopRequested = false;       // Разблокировка метода GetHTML
 			ProgramDescription.NSet.ResetTimer (false); // Без сброса текстов
 			string newText = "";
 
@@ -787,6 +769,8 @@ namespace RD_AAOW
 					beginningField.Text = ProgramDescription.NSet.NotificationsTemplates.GetBeginning (templateNumber);
 					endingField.Text = ProgramDescription.NSet.NotificationsTemplates.GetEnding (templateNumber);
 					currentOcc = ProgramDescription.NSet.NotificationsTemplates.GetOccurrenceNumber (templateNumber);
+					currentFreq = NotificationsSet.DefaultUpdatingFrequency;
+
 
 					break;
 
@@ -832,16 +816,19 @@ namespace RD_AAOW
 						{
 						currentOcc = 1;
 						}
+					currentFreq = NotificationsSet.DefaultUpdatingFrequency;
 
 					break;
 				}
 
 			// Обновление
 			OccurrenceChanged (null, null);
+			RequestStepChanged (null, null);
 			items.Clear ();
 
 			// Создание уведомления
 			enabledSwitch.IsToggled = true;
+			comparatorSwitch.IsToggled = false;
 			if (await UpdateItem (-1))
 				{
 				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
@@ -939,6 +926,7 @@ namespace RD_AAOW
 			beginningField.Text = delim[0];
 			endingField.Text = delim[1];
 			currentOcc = occ;
+			currentFreq = NotificationsSet.DefaultUpdatingFrequency;
 
 			return true;
 			}
@@ -1032,55 +1020,6 @@ namespace RD_AAOW
 			// Принудительное обновление
 			fontSizeFieldLabel.Text = string.Format (Localization.GetText ("FontSizeLabel", al), fontSize.ToString ());
 			UpdateLog ();
-			}
-
-		// Изменение значения частоты опроса
-		private bool requestStepIncreased = true;
-		private void RequestStepChanged (object sender, EventArgs e)
-			{
-			if (e != null)
-				{
-				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
-
-				if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Increase) &&
-					(NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep))
-					{
-					NotificationsSupport.BackgroundRequestStep++;
-					requestStepIncreased = true;
-					}
-
-				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Decrease) &&
-					(NotificationsSupport.BackgroundRequestStep > 0))
-					{
-					NotificationsSupport.BackgroundRequestStep--;
-					requestStepIncreased = false;
-					}
-
-				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Create))
-					{
-					if (requestStepIncreased)
-						{
-						if (NotificationsSupport.BackgroundRequestStep < NotificationsSupport.MaxBackgroundRequestStep - 4)
-							NotificationsSupport.BackgroundRequestStep += 5;
-						else
-							NotificationsSupport.BackgroundRequestStep = NotificationsSupport.MaxBackgroundRequestStep;
-						}
-					else
-						{
-						if (NotificationsSupport.BackgroundRequestStep > 4)
-							NotificationsSupport.BackgroundRequestStep -= 5;
-						else
-							NotificationsSupport.BackgroundRequestStep = 0;
-						}
-					}
-				}
-
-			// Обновление
-			if (NotificationsSupport.BackgroundRequestStep > 0)
-				requestStepFieldLabel.Text = string.Format (Localization.GetText ("BackgroundRequestOn", al),
-					NotificationsSupport.BackgroundRequestStep * NotificationsSupport.BackgroundRequestStepMinutes);
-			else
-				requestStepFieldLabel.Text = Localization.GetText ("BackgroundRequestOff", al);
 			}
 
 		#endregion
@@ -1229,6 +1168,8 @@ namespace RD_AAOW
 
 				currentOcc = ProgramDescription.NSet.Notifications[i].OccurrenceNumber;
 				OccurrenceChanged (null, null);
+				currentFreq = ProgramDescription.NSet.Notifications[i].UpdateFrequency;
+				RequestStepChanged (null, null);
 
 				enabledSwitch.IsToggled = ProgramDescription.NSet.Notifications[i].IsEnabled;
 
@@ -1269,6 +1210,55 @@ namespace RD_AAOW
 				}
 
 			occFieldLabel.Text = string.Format (Localization.GetText ("OccFieldLabel", al), currentOcc);
+			}
+
+		// Изменение значения частоты опроса
+		private bool requestStepIncreased = true;
+		private void RequestStepChanged (object sender, EventArgs e)
+			{
+			if (e != null)
+				{
+				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
+
+				if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Increase) &&
+					(currentFreq < NotificationsSupport.MaxBackgroundRequestStep))
+					{
+					currentFreq++;
+					requestStepIncreased = true;
+					}
+
+				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Decrease) &&
+					(currentFreq > 1))
+					{
+					currentFreq--;
+					requestStepIncreased = false;
+					}
+
+				else if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Create))
+					{
+					if (requestStepIncreased)
+						{
+						if (currentFreq < NotificationsSupport.MaxBackgroundRequestStep - 4)
+							currentFreq += 5;
+						else
+							currentFreq = NotificationsSupport.MaxBackgroundRequestStep;
+						}
+					else
+						{
+						if (currentFreq > 5)
+							currentFreq -= 5;
+						else
+							currentFreq = 1;
+						}
+					}
+				}
+
+			// Обновление
+			/*if (NotificationsSupport.BackgroundRequestStep > 0)*/
+			requestStepFieldLabel.Text = string.Format (Localization.GetText ("BackgroundRequestOn", al),
+				currentFreq * NotificationsSupport.BackgroundRequestStepMinutes);
+			/*else
+				requestStepFieldLabel.Text = Localization.GetText ("BackgroundRequestOff", al);*/
 			}
 
 		// Удаление оповещения
@@ -1341,7 +1331,7 @@ namespace RD_AAOW
 				}
 			catch { }
 			Notification ni = new Notification (nameField.Text, linkField, beginningField.Text, endingField.Text,
-				1, currentOcc, comparatorSwitch.IsToggled ? comparatorType : Notification.ComparatorTypes.Disabled,
+				currentFreq, currentOcc, comparatorSwitch.IsToggled ? comparatorType : Notification.ComparatorTypes.Disabled,
 				comparatorValue, ignoreMisfitsSwitch.IsToggled);
 
 			if (!ni.IsInited)

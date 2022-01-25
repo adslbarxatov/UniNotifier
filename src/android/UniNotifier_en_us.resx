@@ -455,6 +455,9 @@ It is also possible to display a notification only if this condition is met</val
 
 Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
   </data>
+  <data name="Tip05" xml:space="preserve">
+    <value>The update rate is now configurable for each notification separately. Check it before running the background request</value>
+  </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Tip</value>
   </data>

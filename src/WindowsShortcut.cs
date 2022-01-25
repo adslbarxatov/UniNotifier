@@ -15,7 +15,7 @@ namespace RD_AAOW
 		/// <param name="ShortcutArguments">Аргументы командной строки, передаваемые с файлом</param>
 		/// <param name="ShortcutFileName">Имя файла ярлыка</param>
 		/// <param name="TargetFile">Файл, для которого создаётся ярлык</param>
-		/// <returns>Возвращает true в случае успеха</returns>
+		/// <returns>Возвращает 0 в случае успеха</returns>
 		public static int CreateDesktopShortcut (string TargetFile, string ShortcutFileName, string ShortcutArguments)
 			{
 			return CreateShortcut (TargetFile, ShortcutFileName, Environment.GetFolderPath (Environment.SpecialFolder.Desktop),
@@ -28,7 +28,7 @@ namespace RD_AAOW
 		/// <param name="ShortcutArguments">Аргументы командной строки, передаваемые с файлом</param>
 		/// <param name="ShortcutFileName">Имя файла ярлыка</param>
 		/// <param name="TargetFile">Файл, для которого создаётся ярлык</param>
-		/// <returns>Возвращает true в случае успеха</returns>
+		/// <returns>Возвращает 0 в случае успеха</returns>
 		public static int CreateStartupShortcut (string TargetFile, string ShortcutFileName, string ShortcutArguments)
 			{
 			return CreateShortcut (TargetFile, ShortcutFileName, Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup),

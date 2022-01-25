@@ -1,5 +1,5 @@
-# UniNotifier v 4.8.3
-> PCC: 000699BF686B731F
+# UniNotifier v 4.9
+> PCC: 000697BDEA0FA01E
 
 
 uNot (UniNotifier), the managed news service
@@ -8,7 +8,7 @@ uNot (UniNotifier) – служба управляемых новостей
 
 
 
-# Tablepedia notifier v 3.10.1
+# Tablepedia notifier v 4.0
 
 
 TPNot, the [Tablepedia.com](http://tablepedia.com) notifications service

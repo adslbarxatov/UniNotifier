@@ -59,6 +59,15 @@
 					<Button x:Name="OccDecButton" VerticalOptions="Center" />
 				</StackLayout>
 
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label x:Name="RequestStepFieldLabel" VerticalOptions="Center" VerticalTextAlignment="Center"
+						HorizontalTextAlignment="Center" />
+
+					<Button x:Name="RequestStepDecButton" />
+					<Button x:Name="RequestStepLongIncButton" />
+					<Button x:Name="RequestStepIncButton" />
+				</StackLayout>
+
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="100" Color="#606060" Margin="6" />
 

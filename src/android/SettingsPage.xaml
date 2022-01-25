@@ -25,14 +25,6 @@
 					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label x:Name="RequestStepFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-
-					<Button x:Name="RequestStepDecButton" />
-					<Button x:Name="RequestStepLongIncButton" />
-					<Button x:Name="RequestStepIncButton" />
-				</StackLayout>
-
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowSoundSwitch" VerticalOptions="Center" />
 					<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" />

@@ -186,9 +186,9 @@ namespace RD_AAOW.Droid
 				return;
 				}
 
-			// Отмена действия, если таймер отключён
+			/*// Отмена действия, если таймер отключён
 			if (NotificationsSupport.BackgroundRequestStep < 1)
-				return;
+				return;*/
 
 			// Защита от двойного входа
 			if (NotificationsSupport.BackgroundRequestInProgress)
@@ -215,7 +215,7 @@ namespace RD_AAOW.Droid
 
 			// Перезапрос журнала и счётчика выполняется здесь, т.к. состояние могло измениться в основном интерфейсе
 			NotificationsSupport.BackgroundRequestInProgress = true;
-			nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStep *
+			nextRequest = DateTime.Now.AddMinutes (/*NotificationsSupport.BackgroundRequestStep * */
 				NotificationsSupport.BackgroundRequestStepMinutes);
 
 			uint newItems = NotificationsSupport.NewItems;
@@ -223,7 +223,7 @@ namespace RD_AAOW.Droid
 
 			// Извлечение новых записей
 			AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
-			ProgramDescription.NSet.ResetTimer (false);     // Без сброса текстов
+			/*ProgramDescription.NSet.ResetTimer (false);     // Без сброса текстов*/
 
 			string newText = "";
 			bool haveNews = false;
