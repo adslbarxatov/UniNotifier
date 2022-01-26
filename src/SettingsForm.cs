@@ -157,7 +157,13 @@ namespace RD_AAOW
 					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 				}
-			if ((ItemNumber < 0) && notifications.Notifications.Contains (ni))
+
+			// Условие не выполняется только в двух случаях:
+			// - когда добавляется новое оповещение, не имеющее аналогов в списке;
+			// - когда обновляется текущее выбранное оповещение.
+			// Остальные случаи следует считать попыткой задвоения имени
+			int idx = notifications.Notifications.IndexOf (ni);
+			if ((idx >= 0) && (idx != ItemNumber))
 				{
 				MessageBox.Show (Localization.GetText ("NotMatchingNames", al),
 					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

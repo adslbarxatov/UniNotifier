@@ -1157,9 +1157,7 @@ namespace RD_AAOW
 			if ((e == null) || ((i = list.IndexOf (res)) >= 0))
 				{
 				currentNotification = i;
-				if (res.Length > 15)
-					res = res.Substring (0, 12) + "...";
-				selectedNotification.Text = res;
+				selectedNotification.Text = GetShortNotificationName (res);
 
 				nameField.Text = ProgramDescription.NSet.Notifications[i].Name;
 				linkField = ProgramDescription.NSet.Notifications[i].Link;
@@ -1189,6 +1187,17 @@ namespace RD_AAOW
 			list.Clear ();
 			}
 		private int currentNotification = 0;
+
+		// Метод возвращает усечённое имя оповещения
+		private string GetShortNotificationName (string Name)
+			{
+			string res = Name;
+
+			if (res.Length > 15)
+				res = res.Substring (0, 12) + "...";
+
+			return res;
+			}
 
 		// Изменение порядкового номера вхождения
 		private async void OccurrenceChanged (object sender, EventArgs e)
@@ -1254,11 +1263,8 @@ namespace RD_AAOW
 				}
 
 			// Обновление
-			/*if (NotificationsSupport.BackgroundRequestStep > 0)*/
 			requestStepFieldLabel.Text = string.Format (Localization.GetText ("BackgroundRequestOn", al),
 				currentFreq * NotificationsSupport.BackgroundRequestStepMinutes);
-			/*else
-				requestStepFieldLabel.Text = Localization.GetText ("BackgroundRequestOff", al);*/
 			}
 
 		// Удаление оповещения
@@ -1313,7 +1319,7 @@ namespace RD_AAOW
 			// Обновление (при успехе – обновление названия)
 			if (await UpdateItem (currentNotification))
 				{
-				selectedNotification.Text = nameField.Text;
+				selectedNotification.Text = GetShortNotificationName (nameField.Text);
 
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ApplyMessage", al) + nameField.Text,
 					ToastLength.Short).Show ();
@@ -1342,7 +1348,13 @@ namespace RD_AAOW
 				nameField.Focus ();
 				return false;
 				}
-			if ((ItemNumber < 0) && ProgramDescription.NSet.Notifications.Contains (ni)) // Не относится к обновлению позиции
+
+			// Условие не выполняется только в двух случаях:
+			// - когда добавляется новое оповещение, не имеющее аналогов в списке;
+			// - когда обновляется текущее выбранное оповещение.
+			// Остальные случаи следует считать попыткой задвоения имени
+			int idx = ProgramDescription.NSet.Notifications.IndexOf (ni);
+			if ((idx >= 0) && (idx != ItemNumber))
 				{
 				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
 					Localization.GetText ("NotMatchingNames", al), Localization.GetText ("NextButton", al));
