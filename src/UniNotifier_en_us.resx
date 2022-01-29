@@ -303,7 +303,7 @@ This word (or phrase) should be present right now in that part of the site that 
     <value>Create new notification:</value>
   </data>
   <data name="SettingsForm_ComparatorFlag" xml:space="preserve">
-    <value>Compare the first number in text and show warnings if it is</value>
+    <value>Check the first number in text and show warnings if it is</value>
   </data>
   <data name="SettingsForm_MisfitsFlag" xml:space="preserve">
     <value>Don’t show inconsistent texts</value>

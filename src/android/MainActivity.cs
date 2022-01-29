@@ -186,10 +186,6 @@ namespace RD_AAOW.Droid
 				return;
 				}
 
-			/*// Отмена действия, если таймер отключён
-			if (NotificationsSupport.BackgroundRequestStep < 1)
-				return;*/
-
 			// Защита от двойного входа
 			if (NotificationsSupport.BackgroundRequestInProgress)
 				return;
@@ -223,7 +219,6 @@ namespace RD_AAOW.Droid
 
 			// Извлечение новых записей
 			AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
-			/*ProgramDescription.NSet.ResetTimer (false);     // Без сброса текстов*/
 
 			string newText = "";
 			bool haveNews = false;
@@ -256,10 +251,13 @@ namespace RD_AAOW.Droid
 			newItemsShown = true;
 
 			// Подтягивание настроек из интерфейса
-			if (AndroidSupport.AreNotificationsConfigurable)
-				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
-					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
-					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
+			/*if (AndroidSupport.AreNotificationsConfigurable)*/
+			notBuilder.SetDefaults (NotificationsSupport.IndicateOnlyUrgentNotifications &&
+				!ProgramDescription.NSet.HasUrgentNotifications ? 0 :
+
+				(int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+				(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
+				(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 
 // Формирование сообщения
 notMessage:
@@ -335,7 +333,8 @@ notMessage:
 				}
 			else
 				{
-				notBuilder.SetDefaults ((int)(NotificationDefaults.Sound | NotificationDefaults.Lights |
+				notBuilder.SetDefaults (NotificationsSupport.IndicateOnlyUrgentNotifications ? 0 :
+					(int)(NotificationDefaults.Sound | NotificationDefaults.Lights |
 					NotificationDefaults.Vibrate)); // Управляется из ОС, но должно быть включено
 				notBuilder.SetPriority ((int)NotificationPriority.High);
 				}
@@ -360,7 +359,8 @@ notMessage:
 			// Перенастройка для основного режима
 			if (!AndroidSupport.IsForegroundAvailable)
 				{
-				notBuilder.SetDefaults ((int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
+				notBuilder.SetDefaults (NotificationsSupport.IndicateOnlyUrgentNotifications ? 0 :
+					(int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
 					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
 					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 				notBuilder.SetPriority ((int)NotificationPriority.Max);

@@ -20,9 +20,14 @@
 				<!-- Настройки службы -->
 				<Label x:Name="ServiceSettingsLabel" />
 
-				<StackLayout Orientation="Horizontal" Margin="3">
+				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowStartSwitch" VerticalOptions="Center" />
 					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="IndicateOnlyUrgentSwitch" VerticalOptions="Center" />
+					<Label x:Name="IndicateOnlyUrgentLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">

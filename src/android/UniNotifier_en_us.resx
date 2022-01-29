@@ -184,7 +184,7 @@
     <value>Welcome page</value>
   </data>
   <data name="ComparatorLabel" xml:space="preserve">
-    <value>Compare the first number in text and show warnings if it is</value>
+    <value>Check the first number in text and make urgent notifications when value is</value>
   </data>
   <data name="ComparatorLabelOff" xml:space="preserve">
     <value>Threshold</value>
@@ -244,6 +244,9 @@
   </data>
   <data name="IgnoreMisfitsLabel" xml:space="preserve">
     <value>Don’t show inconsistent texts</value>
+  </data>
+  <data name="IndicateOnlyUrgentLabel" xml:space="preserve">
+    <value>Indicate only urgent notifications</value>
   </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Interface language:</value>
@@ -433,9 +436,6 @@ Also, your device requires manual permission for sounds, lights and vibration fo
   <data name="Tip04_18" xml:space="preserve">
     <value>All operations with texts of notifications are now available through the clicking on them right in the main log</value>
   </data>
-  <data name="Tip04_19" xml:space="preserve">
-    <value>These switches allow you to specify which methods of indication the app should use when there is unread news</value>
-  </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of the current notification</value>
   </data>
@@ -443,6 +443,12 @@ Also, your device requires manual permission for sounds, lights and vibration fo
     <value>This function allows you to set a numerical threshold. It will be compared with the first number in every obtained text using the specified comparison method. If the new text matches the condition, app will display a special warning.
 
 It is also possible to display a notification only if this condition is met</value>
+  </data>
+  <data name="Tip04_21" xml:space="preserve">
+    <value>The update rate is now configurable for each notification separately. Check it before running the background request</value>
+  </data>
+  <data name="Tip04_22" xml:space="preserve">
+    <value>These switches allow you to specify which methods of indication the app should use when there is unread news. You can also disable indication for non-urgent notifications</value>
   </data>
   <data name="Tip04_3" xml:space="preserve">
     <value>This button allows you to add new notification with settings presented above</value>
@@ -454,9 +460,6 @@ It is also possible to display a notification only if this condition is met</val
     <value>This option allows you to share the text of selected notification.
 
 Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
-  </data>
-  <data name="Tip05" xml:space="preserve">
-    <value>The update rate is now configurable for each notification separately. Check it before running the background request</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Tip</value>

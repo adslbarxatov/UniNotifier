@@ -1,5 +1,10 @@
 UniNotifier changes log
 
+Version 4.9.2:
+• Android: improved the GMJ request method;
+• Android: added the ability to “mute” non-urgent notifications;
+• Fixed bug in the method of numbers comparison
+
 Version 4.9.1:
 • Fixed processing of notifications names in the settings interface (all platforms).
   In previous version they was able to be duplicated; on Android this duplication causes

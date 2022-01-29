@@ -325,7 +325,7 @@
     <value>Создание нового оповещения:</value>
   </data>
   <data name="SettingsForm_ComparatorFlag" xml:space="preserve">
-    <value>Сравнивать первое число в тексте и показывать предупреждение, если оно</value>
+    <value>Проверять первое число в тексте и показывать предупреждение, если оно</value>
   </data>
   <data name="SettingsForm_MisfitsFlag" xml:space="preserve">
     <value>Не показывать несоответствующие</value>

@@ -41,7 +41,8 @@ namespace RD_AAOW
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel;
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch,
-			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, comparatorSwitch, ignoreMisfitsSwitch;
+			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
+			comparatorSwitch, ignoreMisfitsSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, addButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton, comparatorTypeButton;
 		private Editor nameField, beginningField, endingField, comparatorValueField;
@@ -119,6 +120,11 @@ namespace RD_AAOW
 				Localization.GetText ("AllowVibroLabel", al), false, false);
 			allowVibroSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowVibroSwitch",
 				false, solutionFieldBackColor, AllowVibro_Toggled, NotificationsSupport.AllowVibro);
+
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "IndicateOnlyUrgentLabel",
+				Localization.GetText ("IndicateOnlyUrgentLabel", al), false, false);
+			indicateOnlyUrgentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "IndicateOnlyUrgentSwitch",
+				false, solutionFieldBackColor, IndicateOnlyUrgent_Toggled, NotificationsSupport.IndicateOnlyUrgentNotifications);
 
 			allowLightLabel.IsVisible = allowLightSwitch.IsVisible = allowSoundLabel.IsVisible =
 				allowSoundSwitch.IsVisible = allowVibroLabel.IsVisible = allowVibroSwitch.IsVisible =
@@ -372,7 +378,7 @@ namespace RD_AAOW
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FrequencyTip))
 				{
 				await logPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-					Localization.GetText ("Tip05", al), Localization.GetText ("NextButton", al));
+					Localization.GetText ("Tip04_21", al), Localization.GetText ("NextButton", al));
 
 				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.FrequencyTip);
 				}
@@ -652,14 +658,22 @@ namespace RD_AAOW
 
 			// Запуск и разбор
 			AndroidSupport.StopRequested = false; // Разблокировка метода GetHTML
-			string newText = await Task.Run<string> (GMJ.GetRandomGMJ);
+			string newText = "";
+
+			for (int i = 0; i < 3; i++)     // Минимизация возможных попаданий в пропуски
+				{
+				newText = await Task.Run<string> (GMJ.GetRandomGMJ);
+
+				if (!newText.Contains (GMJ.GMJNoReturnPattern))
+					break;
+				}
 
 			if (newText == "")
 				{
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed", al),
 					ToastLength.Long).Show ();
 				}
-			else if (newText.Contains (GMJ.GMJName + " не вернула"))
+			else if (newText.Contains (GMJ.GMJNoReturnPattern))
 				{
 				Toast.MakeText (Android.App.Application.Context, newText, ToastLength.Long).Show ();
 				}
@@ -967,6 +981,15 @@ namespace RD_AAOW
 				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
 
 			NotificationsSupport.AllowVibro = allowVibroSwitch.IsToggled;
+			}
+
+		private async void IndicateOnlyUrgent_Toggled (object sender, ToggledEventArgs e)
+			{
+			// Подсказки
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
+				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+
+			NotificationsSupport.IndicateOnlyUrgentNotifications = indicateOnlyUrgentSwitch.IsToggled;
 			}
 
 		// Включение / выключение режима чтения для лога
