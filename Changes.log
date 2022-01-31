@@ -2,7 +2,12 @@ UniNotifier changes log
 
 Version 4.9.2:
 • Android: improved the GMJ request method;
-• Android: added the ability to “mute” non-urgent notifications;
+• Android: app now properly operates with notification channels on Oreo and newer. There are two channels:
+  - for urgent and mixed notifications (which require sound or vibration indication);
+  - for non-urgent notifications (which can be left without indication).
+  The channeling is determined by the “Urgent notifications only” and “Threshold” settings;
+• Android: added the ability to “mute” non-urgent notifications. But it requires a file with some
+  quiet sound or without it at all;
 • Fixed bug in the method of numbers comparison
 
 Version 4.9.1:
