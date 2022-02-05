@@ -1,10 +1,10 @@
-# UniNotifier v 4.9.2
-> PCC: 000427BF83E46860
+# UniNotifier v 4.10.37
+> PCC: 000439BBC1ED2A86
 
 
-uNot (UniNotifier), the managed news service
+UniNotifier, the managed news service
 
-uNot (UniNotifier) – служба управляемых новостей
+UniNotifier – служба управляемых новостей
 
 
 
@@ -19,7 +19,7 @@ TPNot – служба оповещений для [Tablepedia.com](http://table
 
 ## Description
 
-This utility (formerly known as UniNotifier) provides the ability to receive notifications about changes in the state of user-specified sites and their webpages (in other words, updates and news) in the form of a text log. In this case, only what the user specified is loaded – all other objects (including advertising) are ignored.
+This utility provides the ability to receive notifications about changes in the state of user-specified sites and their webpages (in other words, updates and news) in the form of a text log. In this case, only what the user specified is loaded – all other objects (including advertising) are ignored.
 
 - The settings section allows you to manage and design notifications.
 - The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
@@ -29,7 +29,7 @@ This utility (formerly known as UniNotifier) provides the ability to receive not
 
 ## Описание
 
-Эта утилита (ранее известная как UniNotifier) предоставляет возможность получать уведомления об изменении состояния заданных пользователем сайтов и их веб-страниц (иными словами – об обновлениях и новостях) в виде текстового журнала. При этом загружается только то, что указал пользователь – все остальные объекты (включая рекламу) игнорируются.
+Эта утилита предоставляет возможность получать уведомления об изменении состояния заданных пользователем сайтов и их веб-страниц (иными словами – об обновлениях и новостях) в виде текстового журнала. При этом загружается только то, что указал пользователь – все остальные объекты (включая рекламу) игнорируются.
 
 - Раздел настроек позволяет управлять уведомлениями и конструировать их.
 - Главный журнал обеспечивает просмотр новостей, переход на веб-страницы, с которых они были получены, и возможность ими поделиться.

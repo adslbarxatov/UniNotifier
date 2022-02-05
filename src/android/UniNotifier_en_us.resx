@@ -162,9 +162,6 @@
   <data name="BackgroundRequestInProgress" xml:space="preserve">
     <value>Please wait for the remaining notifications to respond...</value>
   </data>
-  <data name="BackgroundRequestOff" xml:space="preserve">
-    <value>Background request: off</value>
-  </data>
   <data name="BackgroundRequestOn" xml:space="preserve">
     <value>Background request step: &lt;b&gt;{0:D}&lt;/b&gt; minutes</value>
   </data>
@@ -202,6 +199,9 @@
   </data>
   <data name="DeclineButton" xml:space="preserve">
     <value>Read</value>
+  </data>
+  <data name="DefaultChannel" xml:space="preserve">
+    <value>Non-urgent (that must be silenced)</value>
   </data>
   <data name="DeleteMessage" xml:space="preserve">
     <value>Delete selected notification?</value>
@@ -416,7 +416,12 @@
   <data name="Tip03_2" xml:space="preserve">
     <value>.
 
-Also, your device requires manual permission for sounds, lights and vibration for notifications. Select them in the system settings if necessary</value>
+Also, your device requires manual permission for sounds, lights and vibration for notifications. Select them in the system settings if necessary (when the background service is enabled – otherwise the settings will be unavailable).
+
+The application creates two notification channels:
+• for urgent and mixed (which require sound or vibration indication);
+• for non-urgent (which can be left without indication).
+The channeling is determined by the “Urgent notifications only” and “Threshold” settings</value>
   </data>
   <data name="Tip04_1" xml:space="preserve">
     <value>This button allows you to apply changes performed below to the currently selected notification</value>
@@ -450,6 +455,9 @@ It is also possible to display a notification only if this condition is met</val
   <data name="Tip04_22" xml:space="preserve">
     <value>These switches allow you to specify which methods of indication the app should use when there is unread news. You can also disable indication for non-urgent notifications</value>
   </data>
+  <data name="Tip04_23" xml:space="preserve">
+    <value>This switch allows you to turn off the indication for non-urgent notifications. If it is inactive, all news are processed as mixed (have an indication)</value>
+  </data>
   <data name="Tip04_3" xml:space="preserve">
     <value>This button allows you to add new notification with settings presented above</value>
   </data>
@@ -472,6 +480,9 @@ Please note that app adds links to information sources to notifications you shar
   </data>
   <data name="UpdatingTemplatesCompleted" xml:space="preserve">
     <value>Updating of templates completed...</value>
+  </data>
+  <data name="UrgentChannel" xml:space="preserve">
+    <value>Urgent and mixed (when indication is required)</value>
   </data>
   <data name="WebIsUnavailable" xml:space="preserve">
     <value>This device has no web browser</value>
@@ -498,7 +509,7 @@ First, enter a link (URL) to the site from which you want to receive notificatio
 This word (or phrase) should be present right now in that part of the site that will change over time, which will be the source of text for notifications. The ideal would be a phrase that is present now only in this area or is first encountered on the site in it. The case of letters doesn’t matter</value>
   </data>
   <data name="WizardStep3" xml:space="preserve">
-    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we'll try again</value>
+    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we’ll try again</value>
   </data>
   <data name="WizardStep4" xml:space="preserve">
     <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, cancel the action and try a different keyword</value>

@@ -1,7 +1,6 @@
-_Changes for v 4.9.2_:
+_Changes for v 4.10.37_:
+- Visible name of the application changed back to “UniNotifier” due to invisibility through the search algorithms;
+- Windows: implemented downloading updates directly from the “About the app” interface (for other projects). This function requires DPModule. It allows you to download DPModule if it was not previously installed;
 - Android: improved the GMJ request method;
 - Android: added the ability to “mute” non-urgent notifications;
-- Fixed bug in the method of numbers comparison;
-- Android: restored the individual update rate settings for each notification;
-- Fixed processing of notifications names in the settings interface (all platforms). In previous version they was able to be duplicated; on Android this duplication causes incorrect behavior of the settings interface;
-- Android: fixed incorrect templates applying
+- Android: restored the individual update rate settings for each notification

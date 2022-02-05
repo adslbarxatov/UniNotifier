@@ -136,6 +136,7 @@ namespace RD_AAOW.Droid
 		private NotificationManager notManager;
 		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
+		private string urgentChannelID, defaultChannelID;
 
 		private Intent masterIntent;                                    // Дескрипторы действий
 		private PendingIntent masterPendingIntent;
@@ -198,7 +199,10 @@ namespace RD_AAOW.Droid
 				if (newItemsShown)
 					{
 					newItemsShown = false;
-					msg = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage); // Перезапрос языка из приложения
+					msg = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
+					if (AndroidSupport.IsForegroundAvailable)
+						notBuilder.SetChannelId (defaultChannelID);
+
 					goto notMessage;    // inProgress == false
 					}
 
@@ -211,8 +215,7 @@ namespace RD_AAOW.Droid
 
 			// Перезапрос журнала и счётчика выполняется здесь, т.к. состояние могло измениться в основном интерфейсе
 			NotificationsSupport.BackgroundRequestInProgress = true;
-			nextRequest = DateTime.Now.AddMinutes (/*NotificationsSupport.BackgroundRequestStep * */
-				NotificationsSupport.BackgroundRequestStepMinutes);
+			nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStepMinutes);
 
 			uint newItems = NotificationsSupport.NewItems;
 			List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.MasterLog);
@@ -251,13 +254,16 @@ namespace RD_AAOW.Droid
 			newItemsShown = true;
 
 			// Подтягивание настроек из интерфейса
-			/*if (AndroidSupport.AreNotificationsConfigurable)*/
 			notBuilder.SetDefaults (NotificationsSupport.IndicateOnlyUrgentNotifications &&
 				!ProgramDescription.NSet.HasUrgentNotifications ? 0 :
 
 				(int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
 				(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
 				(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
+
+			if (AndroidSupport.IsForegroundAvailable)
+				notBuilder.SetChannelId (NotificationsSupport.IndicateOnlyUrgentNotifications &&
+					!ProgramDescription.NSet.HasUrgentNotifications ? defaultChannelID : urgentChannelID);
 
 // Формирование сообщения
 notMessage:
@@ -304,16 +310,24 @@ notMessage:
 			// Создание канала (для Android O и выше, поэтому это свойство)
 			if (AndroidSupport.IsForegroundAvailable)
 				{
-				NotificationChannel channel = new NotificationChannel (ProgramDescription.AssemblyMainName.ToLower (),
-					ProgramDescription.AssemblyMainName, NotificationImportance.High);
+				urgentChannelID = ProgramDescription.AssemblyMainName.ToLower () + "_urgent";
+				NotificationChannel urgentChannel = new NotificationChannel (urgentChannelID,
+					ProgramDescription.AssemblyVisibleName + " / Urgent", NotificationImportance.High);
+				defaultChannelID = ProgramDescription.AssemblyMainName.ToLower () + "_default";
+				NotificationChannel defaultChannel = new NotificationChannel (defaultChannelID,
+					ProgramDescription.AssemblyVisibleName + " / Non-urgent", NotificationImportance.High);
 
 				// Настройка
-				channel.Description = ProgramDescription.AssemblyTitle;
-				channel.LockscreenVisibility = NotificationVisibility.Public;
+				urgentChannel.Description = Localization.GetText ("UrgentChannel", Localization.CurrentLanguage);
+				defaultChannel.Description = Localization.GetText ("DefaultChannel", Localization.CurrentLanguage);
+				urgentChannel.LockscreenVisibility = defaultChannel.LockscreenVisibility = NotificationVisibility.Private;
+
+				// Создание
+				notManager.CreateNotificationChannel (urgentChannel);
+				notManager.CreateNotificationChannel (defaultChannel);
 
 				// Запуск
-				notManager.CreateNotificationChannel (channel);
-				notBuilder.SetChannelId (ProgramDescription.AssemblyMainName.ToLower ());
+				notBuilder.SetChannelId (defaultChannelID);
 				}
 
 			// Инициализация сообщений
@@ -388,7 +402,10 @@ notMessage:
 			handler.RemoveCallbacks (runnable);
 			notManager.Cancel (notServiceID);
 			if (AndroidSupport.IsForegroundAvailable)
-				notManager.DeleteNotificationChannel (ProgramDescription.AssemblyMainName.ToLower ());
+				{
+				notManager.DeleteNotificationChannel (urgentChannelID);
+				notManager.DeleteNotificationChannel (defaultChannelID);
+				}
 			isStarted = false;
 
 			// Освобождение ресурсов

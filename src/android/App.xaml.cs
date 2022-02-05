@@ -354,6 +354,7 @@ namespace RD_AAOW
 					{
 					ADPButton_Clicked (null, null);
 					}
+
 				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.PolicyTip);
 				}
 
@@ -373,6 +374,7 @@ namespace RD_AAOW
 					tip03, Localization.GetText ("NextButton", al));
 
 				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.StartupTips);
+				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.FrequencyTip);  // Нежелательно дублировать
 				}
 
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FrequencyTip))
@@ -986,8 +988,8 @@ namespace RD_AAOW
 		private async void IndicateOnlyUrgent_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
-				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.OnlyUrgent))
+				await ShowTips (NotificationsSupport.TipTypes.OnlyUrgent, settingsPage);
 
 			NotificationsSupport.IndicateOnlyUrgentNotifications = indicateOnlyUrgentSwitch.IsToggled;
 			}

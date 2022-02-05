@@ -1,5 +1,11 @@
 UniNotifier changes log
 
+Version 4.10.37:
+• Visible name of the application changed back to “UniNotifier” due to invisibility through the search algorithms;
+• Windows: implemented the updates downloading directly from the “About the app” interface. This function
+  requires DPModule. It allows you to download DPModule if it was not previously installed;
+• Android: added color changing for notifications on urgent messages
+
 Version 4.9.2:
 • Android: improved the GMJ request method;
 • Android: app now properly operates with notification channels on Oreo and newer. There are two channels:
