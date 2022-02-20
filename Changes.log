@@ -1,5 +1,12 @@
 UniNotifier changes log
 
+Version 4.10.40:
+• Android: font size in lists and tooltips now corresponds to the system one;
+• Android: some other UI fixes applied;
+• TPNotifier: реализована постраничная загрузка ссылок для ускорения обработки ресурсов;
+• TPNotifier: исправлен сбой при запуске приложения «с нуля»;
+• TPNotifier: добавлен функционал вызова предопределённых ссылок
+
 Version 4.10.37:
 • Visible name of the application changed back to “UniNotifier” due to invisibility through the search algorithms;
 • Windows: implemented the updates downloading directly from the “About the app” interface. This function
