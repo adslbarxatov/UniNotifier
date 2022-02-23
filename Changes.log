@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+ToDo:
+- Add 'Go to settings' option to the news item's context menu
+
 Version 4.10.40:
 • Android: font size in lists and tooltips now corresponds to the system one;
 • Android: some other UI fixes applied;
