@@ -1,7 +1,8 @@
 UniNotifier changes log
 
-ToDo:
-- Add 'Go to settings' option to the news item's context menu
+Version 4.11:
+• Android: added “Go to notification settings” option to the context menu of the item’s list;
+• Android: creation of notifications by copying of existent item moved to the wizard section
 
 Version 4.10.40:
 • Android: font size in lists and tooltips now corresponds to the system one;
