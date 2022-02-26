@@ -12,7 +12,6 @@
 			<Button x:Name="ApplyButton" VerticalOptions="Center" />
 			<Label Text=" " />
 
-			<Button x:Name="AddButton" VerticalOptions="Center"  />
 			<Button x:Name="ShareTemplateButton" VerticalOptions="Center" />
 			<Button x:Name="DeleteButton" VerticalOptions="Center" HorizontalOptions="End" />
 		</StackLayout>
@@ -63,9 +62,9 @@
 					<Label x:Name="RequestStepFieldLabel" VerticalOptions="Center" VerticalTextAlignment="Center"
 						HorizontalTextAlignment="Center" />
 
-					<Button x:Name="RequestStepDecButton" />
-					<Button x:Name="RequestStepLongIncButton" />
-					<Button x:Name="RequestStepIncButton" />
+					<Button x:Name="RequestStepDecButton" VerticalOptions="Center" />
+					<Button x:Name="RequestStepLongIncButton" VerticalOptions="Center" />
+					<Button x:Name="RequestStepIncButton" VerticalOptions="Center" />
 				</StackLayout>
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
@@ -79,6 +78,10 @@
 				<StackLayout Orientation="Horizontal">
 					<Button x:Name="ComparatorType" VerticalOptions="Center" />
 					<Editor x:Name="ComparatorValue" VerticalOptions="Center" />
+
+					<Button x:Name="ComparatorValueDecButton" VerticalOptions="Center" />
+					<Button x:Name="ComparatorValueLongButton" VerticalOptions="Center" />
+					<Button x:Name="ComparatorValueIncButton" VerticalOptions="Center" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">

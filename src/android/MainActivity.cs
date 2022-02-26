@@ -20,7 +20,7 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает загрузчик приложения
 	/// </summary>
-	[Activity (Label = "uNot", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
+	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
 	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
@@ -48,13 +48,13 @@ namespace RD_AAOW.Droid
 			// Запуск
 			LoadApplication (new App ());
 			}
-
+		
 		/// <summary>
 		/// Перезапуск службы
 		/// </summary>
 		protected override void OnStop ()
 			{
-			Intent mainService = new Intent (this, typeof (MainService));
+			/*Intent mainService = new Intent (this, typeof (MainService));*/
 
 			// Запрос на остановку при необходимости
 			if (!AndroidSupport.AllowServiceToStart)
@@ -122,7 +122,7 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
-	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "uNot",
+	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier",
 		Icon = "@mipmap/icon", Exported = true)]
 	public class MainService:global::Android.App.Service
 		{
@@ -137,6 +137,7 @@ namespace RD_AAOW.Droid
 		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
 		private string urgentChannelID, defaultChannelID;
+		private int urgentColor = 0xFF8000, defaultColor = 0x80FFC0;
 
 		private Intent masterIntent;                                    // Дескрипторы действий
 		private PendingIntent masterPendingIntent;
@@ -202,6 +203,7 @@ namespace RD_AAOW.Droid
 					msg = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
 					if (AndroidSupport.IsForegroundAvailable)
 						notBuilder.SetChannelId (defaultChannelID);
+					notBuilder.SetColor (defaultColor);
 
 					goto notMessage;    // inProgress == false
 					}
@@ -264,6 +266,7 @@ namespace RD_AAOW.Droid
 			if (AndroidSupport.IsForegroundAvailable)
 				notBuilder.SetChannelId (NotificationsSupport.IndicateOnlyUrgentNotifications &&
 					!ProgramDescription.NSet.HasUrgentNotifications ? defaultChannelID : urgentChannelID);
+			notBuilder.SetColor (ProgramDescription.NSet.HasUrgentNotifications ? urgentColor : defaultColor);
 
 // Формирование сообщения
 notMessage:
@@ -331,8 +334,8 @@ notMessage:
 				}
 
 			// Инициализация сообщений
-			notBuilder.SetCategory ("msg");     // Категория "сообщение"
-			notBuilder.SetColor (0x80FFC0);     // Оттенок заголовков оповещений
+			notBuilder.SetCategory ("msg");			// Категория "сообщение"
+			notBuilder.SetColor (defaultColor);		// Оттенок заголовков оповещений
 
 			string launchMessage = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
 			notBuilder.SetContentText (launchMessage);

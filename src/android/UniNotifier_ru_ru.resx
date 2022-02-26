@@ -194,6 +194,9 @@
 = (равно)
 ≠ (не равно)</value>
   </data>
+  <data name="CopyNotification" xml:space="preserve">
+    <value>Из имеющегося элемента</value>
+  </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Не забудьте заменить элементы, заключённые в фигурные скобки (включая фрагменты ссылки на веб-страницу), на то, что Вам нужно</value>
   </data>
@@ -410,6 +413,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   </data>
   <data name="SettingsPage" xml:space="preserve">
     <value>Настройки приложения</value>
+  </data>
+  <data name="SetupOption" xml:space="preserve">
+    <value>Настроить оповещение</value>
   </data>
   <data name="ShareOption" xml:space="preserve">
     <value>Поделиться текстом</value>

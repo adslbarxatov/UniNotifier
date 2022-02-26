@@ -1,5 +1,12 @@
 UniNotifier changes log
 
+Version 4.11.1:
+• TPNotifier (v 4.1): реализована настройка и работа 16-и стационарных ссылок;
+• Android: added the increment buttons for the value of threshold;
+• Android: context options in the main log for removed and special notifications are now different from 
+  options for generic items;
+• Android: context options in the main log now have recognizable icons
+
 Version 4.11:
 • Android: added “Go to notification settings” option to the context menu of the item’s list;
 • Android: creation of notifications by copying of existent item moved to the wizard section
@@ -7,9 +14,9 @@ Version 4.11:
 Version 4.10.40:
 • Android: font size in lists and tooltips now corresponds to the system one;
 • Android: some other UI fixes applied;
-• TPNotifier: реализована постраничная загрузка ссылок для ускорения обработки ресурсов;
-• TPNotifier: исправлен сбой при запуске приложения «с нуля»;
-• TPNotifier: добавлен функционал вызова предопределённых ссылок
+• TPNotifier (v 4.0.6): реализована постраничная загрузка ссылок для ускорения обработки ресурсов;
+• TPNotifier (v 4.0.6): исправлен сбой при запуске приложения «с нуля»;
+• TPNotifier (v 4.0.6): добавлен функционал вызова предопределённых ссылок
 
 Version 4.10.37:
 • Visible name of the application changed back to “UniNotifier” due to invisibility through the search algorithms;

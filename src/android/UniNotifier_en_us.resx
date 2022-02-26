@@ -194,8 +194,11 @@
 = (equal to)
 ≠ (not equal to)</value>
   </data>
+  <data name="CopyNotification" xml:space="preserve">
+    <value>From existent item</value>
+  </data>
   <data name="CurlyTemplate" xml:space="preserve">
-    <value>Remember to replace items enclosed in curly braces (including parts of webpage's link) with what you want</value>
+    <value>Remember to replace items enclosed in curly braces (including parts of webpage’s link) with what you want</value>
   </data>
   <data name="DeclineButton" xml:space="preserve">
     <value>Read</value>
@@ -384,6 +387,9 @@
   </data>
   <data name="SettingsPage" xml:space="preserve">
     <value>Application settings</value>
+  </data>
+  <data name="SetupOption" xml:space="preserve">
+    <value>Set up the notification</value>
   </data>
   <data name="ShareOption" xml:space="preserve">
     <value>Share text</value>
