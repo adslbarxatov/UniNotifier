@@ -1,14 +1,12 @@
-_Changes for v 4.11.1_:
+_Changes for v 4.11.2_:
+- Android: system back button now allows you to return to the main log;
+- Android: added some extra warnings about the app availability;
+- Android: updated lab links;
+- Windows: fixed critical bug in the main log;
 - TPNotifier ```v 4.1```: реализована настройка и работа 16-и стационарных ссылок;
 - Android: added the increment buttons for the value of threshold;
 - Android: context options in the main log for removed and special notifications are now different from options for generic items;
 - Android: context options in the main log now have recognizable icons;
 - Android: added “Go to notification settings” option to the context menu of the item’s list;
 - Android: creation of notifications by copying of existent item moved to the wizard section;
-- Android: font size in lists and tooltips now corresponds to the system one;
-- Android: some other UI fixes applied;
-- TPNotifier ```v 4.0.6```: реализована постраничная загрузка ссылок для ускорения обработки ресурсов;
-- TPNotifier ```v 4.0.6```: исправлен сбой при запуске приложения «с нуля»;
-- TPNotifier ```v 4.0.6```: добавлен функционал вызова предопределённых ссылок;
-- Visible name of the application changed back to “UniNotifier” due to invisibility through the search algorithms;
-- Windows: implemented downloading updates directly from the “About the app” interface (for other projects). This function requires DPModule. It allows you to download DPModule if it was not previously installed
+- Android: font size in lists and tooltips now corresponds to the system one

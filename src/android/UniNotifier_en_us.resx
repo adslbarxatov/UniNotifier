@@ -175,7 +175,10 @@
     <value>Select community:</value>
   </data>
   <data name="CommunityTG" xml:space="preserve">
-    <value>Telegram feed</value>
+    <value>FDL in Telegram</value>
+  </data>
+  <data name="CommunityVK" xml:space="preserve">
+    <value>FDL on VK.com</value>
   </data>
   <data name="CommunityWelcome" xml:space="preserve">
     <value>Welcome page</value>

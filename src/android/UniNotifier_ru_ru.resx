@@ -175,10 +175,13 @@
     <value>Выберите сообщество:</value>
   </data>
   <data name="CommunityTG" xml:space="preserve">
-    <value>Сообщество ВК</value>
+    <value>FDL в Telegram</value>
+  </data>
+  <data name="CommunityVK" xml:space="preserve">
+    <value>FDL на VK.com</value>
   </data>
   <data name="CommunityWelcome" xml:space="preserve">
-    <value>Начальная страница</value>
+    <value>Приветственная страница</value>
   </data>
   <data name="ComparatorLabel" xml:space="preserve">
     <value>Проверять первое число в тексте и создавать срочное оповещение, если значение</value>

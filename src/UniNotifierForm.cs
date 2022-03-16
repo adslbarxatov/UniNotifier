@@ -239,7 +239,8 @@ namespace RD_AAOW
 			if (texts.Count > 0)
 				{
 				// Добавление в главное окно
-				if (MainText.Text.Length + texts[0].Length > ProgramDescription.MasterLogMaxLength)
+				if ((MainText.Text.Length + texts[0].Length > ProgramDescription.MasterLogMaxLength) &&
+					(MainText.Text.Length > texts[0].Length))   // Бывает и так
 					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
 					MainText.AppendText ("\r\n\r\n");

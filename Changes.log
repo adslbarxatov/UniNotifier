@@ -1,5 +1,11 @@
 UniNotifier changes log
 
+Version 4.11.2:
+• Android: system back button now allows you to return to the main log;
+• Android: added some extra warnings about the app availability;
+• Android: updated lab links;
+• Windows: fixed critical bug in the main log
+
 Version 4.11.1:
 • TPNotifier (v 4.1): реализована настройка и работа 16-и стационарных ссылок;
 • Android: added the increment buttons for the value of threshold;

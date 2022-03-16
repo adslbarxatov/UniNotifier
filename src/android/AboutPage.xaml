@@ -29,8 +29,9 @@
 					<Button x:Name="AppPage" HorizontalOptions="Center" />
 					<Button x:Name="ADPPage" HorizontalOptions="Center" />
 				</StackLayout>
-
 				<Button x:Name="DevPage" HorizontalOptions="Center" />
+
+				<Label x:Name="Alert" HorizontalOptions="Center" />
 				<Button x:Name="CommunityPage" HorizontalOptions="Center" />
 
 				<Label />

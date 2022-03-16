@@ -1,5 +1,5 @@
-# UniNotifier v 4.11.1
-> PCC: 000439B20376ACEF
+# UniNotifier v 4.11.2
+> PCC: 000443BAB3C90E6E
 
 
 UniNotifier, the managed news service
