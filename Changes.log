@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+Version 4.11.3:
+• Some adjustments applied to the user interface
+
 Version 4.11.2:
 • Android: system back button now allows you to return to the main log;
 • Android: added some extra warnings about the app availability;

@@ -262,7 +262,7 @@ namespace RD_AAOW
 			if (al == SupportedLanguages.ru_ru)
 				AndroidSupport.ApplyLabelSettingsForKKT (aboutPage, "Alert", RDGenerics.RuAlertMessage,
 					false, false);
-					
+
 			#endregion
 
 			#region Страница лога приложения
@@ -568,7 +568,7 @@ namespace RD_AAOW
 				if (variant > 11)
 					{
 					items = new List<string> {
-						"✗\t" + Localization.GetText ("RemoveOption", al)
+						"✕\t" + Localization.GetText ("RemoveOption", al)
 					};
 
 					res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
@@ -608,7 +608,7 @@ namespace RD_AAOW
 				if (variant > 3)
 					{
 					items = new List<string> {
-						"✗\t" + Localization.GetText ("RemoveOption", al),
+						"✕\t" + Localization.GetText ("RemoveOption", al),
 						"✂\t" + Localization.GetText ("DisableOption", al)
 					};
 
@@ -657,14 +657,6 @@ namespace RD_AAOW
 
 				// Повторный опрос
 				case 2:
-					/*// Проверка
-					if ((notNumber < 0) || (notNumber >= ProgramDescription.NSet.Notifications.Count))
-						{
-						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ActionIsUnsupported", al),
-							ToastLength.Long).Show ();
-						break;
-						}*/
-
 					// Блокировка
 					SetLogState (false);
 					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
@@ -692,15 +684,6 @@ namespace RD_AAOW
 
 				// Настройка оповещения
 				case 3:
-					/*// Проверка
-					if ((notNumber < 0) || (notNumber >= ProgramDescription.NSet.Notifications.Count))
-						{
-						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ActionIsUnsupported", al),
-							ToastLength.Long).Show ();
-						break;
-						}*/
-
-					// Применение
 					currentNotification = notNumber;
 					SelectNotification (null, null);
 					((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[notSettingsTab];
@@ -715,15 +698,6 @@ namespace RD_AAOW
 
 				// Отключение оповещения
 				case 5:
-					/*// Проверка
-					if ((notNumber < 0) || (notNumber >= ProgramDescription.NSet.Notifications.Count))
-						{
-						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ActionIsUnsupported", al),
-							ToastLength.Long).Show ();
-						break;
-						}*/
-
-					// Применение
 					currentNotification = notNumber;
 					SelectNotification (null, null);
 					enabledSwitch.IsToggled = false;
@@ -1214,31 +1188,35 @@ namespace RD_AAOW
 		// Страница лаборатории
 		private async void CommunityButton_Clicked (object sender, EventArgs e)
 			{
-			List<string> comm = new List<string> {
+			/*List<string> comm = new List<string> {
 				Localization.GetText ("CommunityWelcome", al), Localization.GetText ("CommunityVK", al),
-				Localization.GetText ("CommunityTG", al) };
+				Localization.GetText ("CommunityTG", al) };*/
+			string[] comm = RDGenerics.GetCommunitiesNames (al != SupportedLanguages.ru_ru);
 			string res = await aboutPage.DisplayActionSheet (Localization.GetText ("CommunitySelect", al),
-				Localization.GetText ("CancelButton", al), null, comm.ToArray ());
+				Localization.GetText ("CancelButton", al), null, comm);
 
-			if (!comm.Contains (res))
-				return;
+			/*if (!comm.Contains (res))
+				return;*/
 
 			try
 				{
-				switch (comm.IndexOf (res))
+				/*switch (comm.IndexOf (res))
 					{
-					case 1:
-						await Launcher.OpenAsync (RDGenerics.LabVKLink);
-						break;
+					case 2:*/
+				if (res == comm[2])
+					await Launcher.OpenAsync (RDGenerics.LabVKLink);
+				/*break;
 
-					case 2:
-						await Launcher.OpenAsync (RDGenerics.LabTGLink);
-						break;
+			case 1:*/
+				else if (res == comm[1])
+					await Launcher.OpenAsync (RDGenerics.LabTGLink);
+				/*break;
 
-					case 0:
-						await Launcher.OpenAsync (RDGenerics.DPModuleLink);
-						break;
-					}
+			case 0:*/
+				else if (res == comm[0])
+					await Launcher.OpenAsync (RDGenerics.DPModuleLink);
+				/*break;
+			}*/
 				}
 			catch
 				{
@@ -1439,25 +1417,6 @@ namespace RD_AAOW
 			// Обновление контролов
 			UpdateNotButtons ();
 			}
-
-		/*// Добавление нового оповещения
-		private async void AddNotification (object sender, EventArgs e)
-			{
-			// Подсказки
-			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.AddButton))
-				await ShowTips (NotificationsSupport.TipTypes.AddButton, notSettingsPage);
-
-			// Добавление (требует ожидания для корректного отображения сообщений)
-			// При успехе – выбор нового оповещения
-			if (await UpdateItem (-1))
-				{
-				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
-				SelectNotification (null, null);
-
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage", al) + nameField.Text,
-					ToastLength.Short).Show ();
-				}
-			}*/
 
 		// Обновление оповещения
 		private async void ApplyNotification (object sender, EventArgs e)
