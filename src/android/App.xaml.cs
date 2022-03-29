@@ -42,7 +42,7 @@ namespace RD_AAOW
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel;
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
-			comparatorSwitch, ignoreMisfitsSwitch;
+			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton, comparatorTypeButton, comparatorIncButton, comparatorLongButton,
 			comparatorDecButton;
@@ -184,6 +184,11 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EnabledLabel",
 				Localization.GetText ("EnabledLabel", al), false, false);
 			enabledSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "EnabledSwitch",
+				false, solutionFieldBackColor, null, false);
+
+			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "AvailabilityLabel",
+				Localization.GetText ("AvailabilityLabel", al), false, false);
+			notifyIfUnavailableSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "AvailabilitySwitch",
 				false, solutionFieldBackColor, null, false);
 
 			// Новые
@@ -931,7 +936,9 @@ namespace RD_AAOW
 
 			// Создание уведомления
 			enabledSwitch.IsToggled = true;
+			notifyIfUnavailableSwitch.IsToggled = false;
 			comparatorSwitch.IsToggled = false;
+
 			if (await UpdateItem (-1))
 				{
 				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
@@ -950,12 +957,14 @@ namespace RD_AAOW
 		private async Task<bool> NotificationsWizard ()
 			{
 			// Шаг запроса ссылки
-			string link = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
+			Notification.NotConfiguration cfg;
+
+			cfg.SourceLink = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep1", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), Localization.GetText ("LinkFieldPlaceholder", al),
 				Notification.MaxLinkLength, Keyboard.Url, "");
 
-			if (string.IsNullOrWhiteSpace (link))
+			if (string.IsNullOrWhiteSpace (cfg.SourceLink))
 				return false;
 
 			// Шаг запроса ключевого слова
@@ -971,7 +980,7 @@ namespace RD_AAOW
 			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch1", al),
 				ToastLength.Long).Show ();
 
-			string[] delim = await Notification.FindDelimiters (link, keyword);
+			string[] delim = await Notification.FindDelimiters (cfg.SourceLink, keyword);
 			if (delim == null)
 				{
 				await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName, Localization.GetText ("WizardFailure", al),
@@ -980,14 +989,21 @@ namespace RD_AAOW
 				}
 
 			// Попытка запроса
-			uint occ;
-			for (occ = 1; occ <= 3; occ++)
+			for (cfg.OccurrenceNumber = 1; cfg.OccurrenceNumber <= 3; cfg.OccurrenceNumber++)
 				{
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch2", al),
 					ToastLength.Long).Show ();
 
-				Notification not = new Notification ("Test", link, delim[0], delim[1], 1, occ,
-					Notification.ComparatorTypes.Disabled, 0.0, false);
+				cfg.NotificationName = "Test";
+				cfg.WatchAreaBeginningSign = delim[0];
+				cfg.WatchAreaEndingSign = delim[1];
+				cfg.UpdatingFrequency = 1;
+				cfg.ComparisonType = Notification.ComparatorTypes.Disabled;
+				cfg.ComparisonValue = 0.0;
+				cfg.IgnoreComparisonMisfits = cfg.NotifyWhenUnavailable = false;
+
+				Notification not = new Notification (cfg /*"Test", link, delim[0], delim[1], 1, occ,
+					Notification.ComparatorTypes.Disabled, 0.0, false*/);
 				if (!await not.Update ())
 					{
 					await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
@@ -1000,16 +1016,16 @@ namespace RD_AAOW
 				if (text.Length > 300)
 					text = text.Substring (0, 297) + "...";
 				if (await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-					Localization.GetText ((occ < 3) ? "WizardStep3" : "WizardStep4", al) + "\n\n" +
+					Localization.GetText ((cfg.OccurrenceNumber < 3) ? "WizardStep3" : "WizardStep4", al) + "\n\n" +
 					"~".PadRight (10, '~') + "\n\n" + text,
 					Localization.GetText ("NextButton", al),
-					Localization.GetText ((occ < 3) ? "RetryButton" : "CancelButton", al)))
+					Localization.GetText ((cfg.OccurrenceNumber < 3) ? "RetryButton" : "CancelButton", al)))
 					{
 					break;
 					}
 				else
 					{
-					if (occ < 3)
+					if (cfg.OccurrenceNumber < 3)
 						continue;
 					else
 						return false;
@@ -1027,10 +1043,10 @@ namespace RD_AAOW
 
 			// Добавление оповещения
 			nameField.Text = name;
-			linkField = link;
+			linkField = cfg.SourceLink;
 			beginningField.Text = delim[0];
 			endingField.Text = delim[1];
-			currentOcc = occ;
+			currentOcc = cfg.OccurrenceNumber;
 			currentFreq = NotificationsSet.DefaultUpdatingFrequency;
 
 			return true;
@@ -1198,25 +1214,31 @@ namespace RD_AAOW
 			/*if (!comm.Contains (res))
 				return;*/
 
+			res = RDGenerics.GetCommunityLink (res, al != SupportedLanguages.ru_ru);
+			if (string.IsNullOrWhiteSpace (res))
+				return;
+
 			try
 				{
+				await Launcher.OpenAsync (res);
+
 				/*switch (comm.IndexOf (res))
 					{
-					case 2:*/
+					case 2:
 				if (res == comm[2])
 					await Launcher.OpenAsync (RDGenerics.LabVKLink);
-				/*break;
+				break;
 
-			case 1:*/
+				case 1:
 				else if (res == comm[1])
 					await Launcher.OpenAsync (RDGenerics.LabTGLink);
-				/*break;
+				break;
 
-			case 0:*/
+				case 0:
 				else if (res == comm[0])
 					await Launcher.OpenAsync (RDGenerics.DPModuleLink);
-				/*break;
-			}*/
+				break;
+				}*/
 				}
 			catch
 				{
@@ -1298,6 +1320,7 @@ namespace RD_AAOW
 				RequestStepChanged (null, null);
 
 				enabledSwitch.IsToggled = ProgramDescription.NSet.Notifications[i].IsEnabled;
+				notifyIfUnavailableSwitch.IsToggled = ProgramDescription.NSet.Notifications[i].NotifyIfSourceIsUnavailable;
 
 				comparatorSwitch.IsToggled = (ProgramDescription.NSet.Notifications[i].ComparisonType !=
 					Notification.ComparatorTypes.Disabled);
@@ -1445,9 +1468,22 @@ namespace RD_AAOW
 				comparatorValue = double.Parse (comparatorValueField.Text);
 				}
 			catch { }
-			Notification ni = new Notification (nameField.Text, linkField, beginningField.Text, endingField.Text,
+
+			Notification.NotConfiguration cfg;
+			cfg.NotificationName = nameField.Text;
+			cfg.SourceLink = linkField;
+			cfg.WatchAreaBeginningSign = beginningField.Text;
+			cfg.WatchAreaEndingSign = endingField.Text;
+			cfg.UpdatingFrequency = currentFreq;
+			cfg.OccurrenceNumber = currentOcc;
+			cfg.ComparisonType = comparatorSwitch.IsToggled ? comparatorType : Notification.ComparatorTypes.Disabled;
+			cfg.ComparisonValue = comparatorValue;
+			cfg.IgnoreComparisonMisfits = ignoreMisfitsSwitch.IsToggled;
+			cfg.NotifyWhenUnavailable = notifyIfUnavailableSwitch.IsToggled;
+
+			Notification ni = new Notification (cfg /*nameField.Text, linkField, beginningField.Text, endingField.Text,
 				currentFreq, currentOcc, comparatorSwitch.IsToggled ? comparatorType : Notification.ComparatorTypes.Disabled,
-				comparatorValue, ignoreMisfitsSwitch.IsToggled);
+				comparatorValue, ignoreMisfitsSwitch.IsToggled*/);
 
 			if (!ni.IsInited)
 				{

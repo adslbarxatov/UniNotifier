@@ -1,5 +1,5 @@
-# UniNotifier v 4.11.3
-> PCC: 000443BAD852B6FE
+# UniNotifier v 4.12
+> PCC: 00044BB8375DCE7B
 
 
 UniNotifier, the managed news service
@@ -11,9 +11,9 @@ UniNotifier – служба управляемых новостей
 # Tablepedia notifier v 4.1.1
 
 
-TPNot, the [Tablepedia.com](http://tablepedia.com) notifications service
+TPNotifier, the [Tablepedia.com](http://tablepedia.com) notifications service
 
-TPNot – служба оповещений для [Tablepedia.com](http://tablepedia.com)
+TPNotifier – служба оповещений для [Tablepedia.com](http://tablepedia.com)
 
 
 
@@ -42,7 +42,7 @@ This utility provides the ability to receive notifications about changes in the 
 ## Requirements / Требования
 
 - Windows XP or newer / или новее;
-- [Microsoft .NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718).
+- [Microsoft .NET Framework 4.0](https://microsoft.com/en-us/download/details.aspx?id=17718).
 
 Interface languages / языки интерфейса: ru_ru, en_us.
 

@@ -174,9 +174,6 @@
   <data name="SettingsForm_BUpdate" xml:space="preserve">
     <value>&amp;Обновить</value>
   </data>
-  <data name="SettingsForm_EnabledCheck" xml:space="preserve">
-    <value>&amp;Включено</value>
-  </data>
   <data name="SettingsForm_Label01" xml:space="preserve">
     <value>Название:</value>
   </data>
@@ -337,5 +334,8 @@
     <value>Эта функция позволяет установить числовой порог. Он будет сравниваться с первым номером в каждом полученном тексте с использованием указанного метода сравнения. Если новый текст соответствует условию, приложение отобразит специальное предупреждение.
 
 Также возможно отображение уведомления только при соблюдении этого условия</value>
+  </data>
+  <data name="SettingsForm_CheckAvailability" xml:space="preserve">
+    <value>Сообщать, если ресурс недоступен</value>
   </data>
 </root>

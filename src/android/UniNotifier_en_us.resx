@@ -159,6 +159,9 @@
   <data name="AppPage" xml:space="preserve">
     <value>App webpage</value>
   </data>
+  <data name="AvailabilityLabel" xml:space="preserve">
+    <value>Notify if source is unavailable</value>
+  </data>
   <data name="BackgroundRequestInProgress" xml:space="preserve">
     <value>Please wait for the remaining notifications to respond...</value>
   </data>

@@ -33,29 +33,9 @@
 					<Label x:Name="EnabledLabel" VerticalOptions="Center" />
 				</StackLayout>
 
-				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-					WidthRequest="100" Color="#606060" Margin="6" />
-
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
-					<Button x:Name="LinkFieldButton" VerticalOptions="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
-					<Editor x:Name="BeginningField" VerticalOptions="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
-					<Editor x:Name="EndingField" VerticalOptions="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label x:Name="OccFieldLabel" VerticalOptions="Center" />
-
-					<Button x:Name="OccIncButton" VerticalOptions="Center" />
-					<Button x:Name="OccDecButton" VerticalOptions="Center" />
+				<StackLayout Orientation="Horizontal" >
+					<Switch x:Name="AvailabilitySwitch" VerticalOptions="Center" />
+					<Label x:Name="AvailabilityLabel" VerticalOptions="Center" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">
@@ -88,6 +68,33 @@
 					<Switch x:Name="IgnoreMisfitsSwitch" VerticalOptions="Center" />
 					<Label x:Name="IgnoreMisfitsLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
+
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="100" Color="#606060" Margin="6" />
+
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
+					<Button x:Name="LinkFieldButton" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
+					<Editor x:Name="BeginningField" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
+					<Editor x:Name="EndingField" VerticalOptions="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label x:Name="OccFieldLabel" VerticalOptions="Center" />
+
+					<Button x:Name="OccIncButton" VerticalOptions="Center" />
+					<Button x:Name="OccDecButton" VerticalOptions="Center" />
+				</StackLayout>
+
+				<Label />
 
 			</StackLayout>
 		</ScrollView>

@@ -159,6 +159,9 @@
   <data name="AppPage" xml:space="preserve">
     <value>Страница проекта</value>
   </data>
+  <data name="AvailabilityLabel" xml:space="preserve">
+    <value>Оповещать, если ресурс недоступен</value>
+  </data>
   <data name="BackgroundRequestInProgress" xml:space="preserve">
     <value>Пожалуйста, дождитесь ответа всех оповещений...</value>
   </data>

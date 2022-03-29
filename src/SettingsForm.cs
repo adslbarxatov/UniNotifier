@@ -120,6 +120,8 @@ namespace RD_AAOW
 			ComparatorFlag.Checked = (notifications.Notifications[i].ComparisonType != Notification.ComparatorTypes.Disabled);
 			ComparatorValue.Value = (decimal)notifications.Notifications[i].ComparisonValue;
 			MisfitsFlag.Checked = notifications.Notifications[i].IgnoreComparisonMisfits;
+			CheckAvailability.Checked = notifications.Notifications[i].NotifyIfSourceIsUnavailable;
+
 			if (ComparatorFlag.Checked)
 				ComparatorType.SelectedIndex = (int)notifications.Notifications[i].ComparisonType;
 			}
@@ -145,11 +147,24 @@ namespace RD_AAOW
 		private void UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
-			Notification ni = new Notification (NameText.Text, LinkText.Text, BeginningText.Text, EndingText.Text,
+			Notification.NotConfiguration cfg;
+			cfg.NotificationName = NameText.Text;
+			cfg.SourceLink = LinkText.Text;
+			cfg.WatchAreaBeginningSign = BeginningText.Text;
+			cfg.WatchAreaEndingSign = EndingText.Text;
+			cfg.UpdatingFrequency = (uint)(FrequencyCombo.SelectedIndex + 1);
+			cfg.OccurrenceNumber = (uint)OccurrenceField.Value;
+			cfg.ComparisonType = ComparatorFlag.Checked ? (Notification.ComparatorTypes)ComparatorType.SelectedIndex :
+				Notification.ComparatorTypes.Disabled;
+			cfg.ComparisonValue = (double)ComparatorValue.Value;
+			cfg.IgnoreComparisonMisfits = MisfitsFlag.Checked;
+			cfg.NotifyWhenUnavailable = CheckAvailability.Checked;
+
+			Notification ni = new Notification (cfg /*NameText.Text, LinkText.Text, BeginningText.Text, EndingText.Text,
 				(uint)(FrequencyCombo.SelectedIndex + 1), (uint)OccurrenceField.Value,
 				ComparatorFlag.Checked ? (Notification.ComparatorTypes)ComparatorType.SelectedIndex :
 				Notification.ComparatorTypes.Disabled,
-				(double)ComparatorValue.Value, MisfitsFlag.Checked);
+				(double)ComparatorValue.Value, MisfitsFlag.Checked*/);
 
 			if (!ni.IsInited)
 				{
@@ -281,6 +296,7 @@ namespace RD_AAOW
 			ComparatorFlag.Checked = false;
 			ComparatorValue.Value = 0;
 			MisfitsFlag.Checked = false;
+			CheckAvailability.Checked = false;
 
 			UpdateItem (-1);
 			UpdateButtons ();
@@ -293,6 +309,12 @@ namespace RD_AAOW
 				ProgramDescription.ShowTips (ProgramDescription.TipTypes.Threshold);
 
 			ComparatorType.Enabled = ComparatorValue.Enabled = MisfitsFlag.Enabled = ComparatorFlag.Checked;
+			}
+
+		// Изменение состояния «включено»
+		private void EnabledCheck_CheckedChanged (object sender, EventArgs e)
+			{
+			EnabledCheck.Text = (EnabledCheck.Checked ? "4" : ";");
 			}
 		}
 	}

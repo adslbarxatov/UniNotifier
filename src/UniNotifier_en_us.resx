@@ -174,9 +174,6 @@ In addition, the utility automatically requests new records with specified updat
   <data name="SettingsForm_BUpdate" xml:space="preserve">
     <value>&amp;Update</value>
   </data>
-  <data name="SettingsForm_EnabledCheck" xml:space="preserve">
-    <value>&amp;Enabled</value>
-  </data>
   <data name="SettingsForm_Label01" xml:space="preserve">
     <value>Name:</value>
   </data>
@@ -315,5 +312,8 @@ This word (or phrase) should be present right now in that part of the site that 
     <value>This function allows you to set a numerical threshold. It will be compared with the first number in every obtained text using the specified comparison method. If the new text matches the condition, app will display a special warning.
 
 It is also possible to display a notification only if this condition is met</value>
+  </data>
+  <data name="SettingsForm_CheckAvailability" xml:space="preserve">
+    <value>Notify if the source is unavailable</value>
   </data>
 </root>
