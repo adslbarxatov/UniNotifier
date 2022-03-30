@@ -1,5 +1,12 @@
 UniNotifier changes log
 
+Version 4.13:
+• Implemented the ability to load / save the complete notifications set from / into the file.
+  It allows you to keep your settings in case of app reinstallation and / or migration from
+  Windows to Android or backward;
+• Windows: complete reset of texts of notifications when changing settings is now optional;
+• Notification of unavailability will not be repeated after the first occurrence
+
 Version 4.12:
 • Settings interface has been redesigned (settings grouped by type);
 • Implemented the ability to check the availability of the specified resource: when notification
