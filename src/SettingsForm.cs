@@ -12,6 +12,8 @@ namespace RD_AAOW
 		private NotificationsSet notifications;
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private uint updatingFrequencyStep;
+		private OpenFileDialog ofd;
+		private SaveFileDialog sfd;
 
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
@@ -29,6 +31,16 @@ namespace RD_AAOW
 
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
+
+			ofd = new OpenFileDialog ();
+			sfd = new SaveFileDialog ();
+			ofd.Filter = sfd.Filter = ProgramDescription.AssemblyMainName + " settings files|" + NotificationsSet.SettingsFileName;
+			ofd.Title = sfd.Title = ProgramDescription.AssemblyVisibleName;
+			ofd.CheckFileExists = ofd.CheckPathExists = true;
+			sfd.OverwritePrompt = true;
+			ofd.Multiselect = false;
+			ofd.RestoreDirectory = sfd.RestoreDirectory = true;
+			ofd.ShowHelp = ofd.ShowReadOnly = sfd.ShowHelp = false;
 
 			LanguageCombo.Items.AddRange (Localization.LanguagesNames);
 			try
@@ -262,16 +274,36 @@ namespace RD_AAOW
 			// Подсказка
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ShareSettings);
 
-			// Копирование
-			try
+			// Выбор варианта выгрузки
+			switch (MessageBox.Show (Localization.GetText ("ShareVariant", al), ProgramDescription.AssemblyVisibleName,
+				MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
 				{
-				Clipboard.SetText (NameText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					LinkText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					BeginningText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					EndingText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					((uint)(OccurrenceField.Value)).ToString ());
+				// Сохранение в файл
+				case DialogResult.Yes:
+					// Запрос пути
+					sfd.FileName = NotificationsSet.SettingsFileName;
+					if (sfd.ShowDialog () != DialogResult.OK)
+						return;
+
+					// Сохранение
+					if (!notifications.SaveSettingsToFile (sfd.FileName))
+						MessageBox.Show (Localization.GetText ("ShareFailure", al), ProgramDescription.AssemblyVisibleName,
+							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					break;
+
+				// Копирование
+				case DialogResult.No:
+					try
+						{
+						Clipboard.SetText (NameText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+							LinkText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+							BeginningText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+							EndingText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+							((uint)(OccurrenceField.Value)).ToString ());
+						}
+					catch { }
+					break;
 				}
-			catch { }
 			}
 
 		// Вызов мастера оповещений
@@ -283,6 +315,37 @@ namespace RD_AAOW
 			// Обновление
 			if (wf.Cancelled)
 				return;
+
+			// Обработка случая с файлом
+			if (wf.CreateFromFile)
+				{
+				// Запрос файла
+				ofd.FileName = NotificationsSet.SettingsFileName;
+				if (ofd.ShowDialog () != DialogResult.OK)
+					return;
+
+				if (MessageBox.Show (Localization.GetText ("LoadingWarning", al), ProgramDescription.AssemblyVisibleName,
+					MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+					return;
+
+				if (!notifications.ReadSettingsFromFile (ofd.FileName))
+					{
+					MessageBox.Show (Localization.GetText ("LoadingFailure", al), ProgramDescription.AssemblyVisibleName,
+						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					return;
+					}
+
+				// Загрузка оповещений в список
+				UpdateButtons ();
+
+				NotificationsList.Items.Clear ();
+				for (int i = 0; i < notifications.Notifications.Count; i++)
+					NotificationsList.Items.Add (notifications.Notifications[i].Name +
+						(notifications.Notifications[i].IsEnabled ? " (+)" : " (–)"));
+				if (NotificationsList.Items.Count > 0)
+					NotificationsList.SelectedIndex = 0;
+				return;
+				}
 
 			NameText.Text = wf.NotificationName;
 			LinkText.Text = wf.NotificationLink;

@@ -262,10 +262,10 @@
     <value>В буфере обмена не найдено совместимых шаблонов уведомлений. Скопируйте строку шаблона в буфер обмена и попробуйте ещё раз</value>
   </data>
   <data name="Tip_10" xml:space="preserve">
-    <value>Эта кнопка позволяет поделиться настройками текущего уведомления (скопировать их в буфер обмена)</value>
+    <value>Эта кнопка позволяет поделиться настройками уведомлений</value>
   </data>
   <data name="Tip_11" xml:space="preserve">
-    <value>Эта кнопка позволяет загружать настройки из буфера обмена</value>
+    <value>Эта кнопка позволяет загружать настройки уведомлений</value>
   </data>
   <data name="SettingsForm_NotWizard" xml:space="preserve">
     <value>Мастер оповещений</value>
@@ -337,5 +337,26 @@
   </data>
   <data name="SettingsForm_CheckAvailability" xml:space="preserve">
     <value>Сообщать, если ресурс недоступен</value>
+  </data>
+  <data name="RecallAllNews" xml:space="preserve">
+    <value>Перезапросить все новости для проверки настроек?</value>
+  </data>
+  <data name="ShareVariant" xml:space="preserve">
+    <value>Вы хотите поделиться всеми настроенными уведомлениями?
+
+• Нажмите «Да», чтобы сохранить все настройки в файл;
+• Нажмите «Нет», чтобы отправить настройки текущего уведомления в буфер обмена</value>
+  </data>
+  <data name="ShareFailure" xml:space="preserve">
+    <value>Не удалось создать файл настроек оповещений. Попробуйте выбрать другое расположение</value>
+  </data>
+  <data name="LoadingFailure" xml:space="preserve">
+    <value>Не удалось загрузить файл настроек уведомлений: он повреждён или не поддерживается</value>
+  </data>
+  <data name="LoadingWarning" xml:space="preserve">
+    <value>ВНИМАНИЕ: эта опция перезапишет все существующие настройки. Продолжить?</value>
+  </data>
+  <data name="TemplateFile" xml:space="preserve">
+    <value>Из &amp;файла</value>
   </data>
 </root>

@@ -240,10 +240,10 @@ Detailed instructions for setting up the service are available on YouTube button
     <value>No compatible notification templates found in the clipboard. Copy template string to clipboard and try again</value>
   </data>
   <data name="Tip_10" xml:space="preserve">
-    <value>This button allows you to share settings of the current notification (copy them to clipboard)</value>
+    <value>This button allows you to share settings of configured notifications</value>
   </data>
   <data name="Tip_11" xml:space="preserve">
-    <value>This button allows you to load shared settings from clipboard</value>
+    <value>This button allows you to load shared or saved settings</value>
   </data>
   <data name="SettingsForm_NotWizard" xml:space="preserve">
     <value>Notifications wizard</value>
@@ -315,5 +315,26 @@ It is also possible to display a notification only if this condition is met</val
   </data>
   <data name="SettingsForm_CheckAvailability" xml:space="preserve">
     <value>Notify if the source is unavailable</value>
+  </data>
+  <data name="RecallAllNews" xml:space="preserve">
+    <value>Re-request all news to check settings?</value>
+  </data>
+  <data name="ShareVariant" xml:space="preserve">
+    <value>Do you want to share all configured notifications?
+
+• Click “Yes” to save all settings to the file;
+• Click “No” to send settings of the current notification to the clipboard</value>
+  </data>
+  <data name="ShareFailure" xml:space="preserve">
+    <value>Failed to create notifications settings file. Try choosing a different location</value>
+  </data>
+  <data name="LoadingFailure" xml:space="preserve">
+    <value>Failed to load notifications settings file: it’s damaged or unsupported</value>
+  </data>
+  <data name="LoadingWarning" xml:space="preserve">
+    <value>WARNING: this option will overwrite all existing settings. Continue?</value>
+  </data>
+  <data name="TemplateFile" xml:space="preserve">
+    <value>From &amp;file</value>
   </data>
 </root>

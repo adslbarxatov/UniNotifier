@@ -35,6 +35,7 @@ namespace RD_AAOW.Droid
 
 			base.OnCreate (savedInstanceState);
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
+			global::Xamarin.Essentials.Platform.Init (this, savedInstanceState);
 
 			// Запуск независимо от разрешения
 			Intent mainService = new Intent (this, typeof (MainService));

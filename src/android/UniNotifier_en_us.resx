@@ -269,6 +269,15 @@
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
   </data>
+  <data name="LoadingFailure" xml:space="preserve">
+    <value>Failed to load notifications settings file: it’s damaged or unsupported</value>
+  </data>
+  <data name="LoadingSuccess" xml:space="preserve">
+    <value>Loading completed successfully</value>
+  </data>
+  <data name="LoadingWarning" xml:space="preserve">
+    <value>WARNING: this option will overwrite all existing settings. Continue?</value>
+  </data>
   <data name="LogPage" xml:space="preserve">
     <value>Notifications log</value>
   </data>
@@ -397,14 +406,32 @@
   <data name="SetupOption" xml:space="preserve">
     <value>Set up the notification</value>
   </data>
+  <data name="ShareAll" xml:space="preserve">
+    <value>Save all settings to file</value>
+  </data>
+  <data name="ShareCurrent" xml:space="preserve">
+    <value>Copy current settings to clipboard</value>
+  </data>
   <data name="ShareOption" xml:space="preserve">
     <value>Share text</value>
+  </data>
+  <data name="ShareVariantSelect" xml:space="preserve">
+    <value>Select sharing variant:</value>
+  </data>
+  <data name="SharingFailure" xml:space="preserve">
+    <value>Failed to create notifications settings file. Make sure you have permission to access the storage</value>
+  </data>
+  <data name="SharingSuccess" xml:space="preserve">
+    <value>Settings file has been saved into Downloads directory</value>
   </data>
   <data name="SpecialNotificationsSwitch" xml:space="preserve">
     <value>Enable special notifications</value>
   </data>
   <data name="TemplateClipboard" xml:space="preserve">
     <value>From clipboard</value>
+  </data>
+  <data name="TemplateFile" xml:space="preserve">
+    <value>Restore from file</value>
   </data>
   <data name="TemplateList" xml:space="preserve">
     <value>From template</value>

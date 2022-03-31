@@ -224,8 +224,6 @@ namespace RD_AAOW
 
 			applyButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ApplyButton",
 				AndroidSupport.ButtonsDefaultNames.Apply, solutionFieldBackColor, ApplyNotification);
-			/*addButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "AddButton",
-				AndroidSupport.ButtonsDefaultNames.Create, solutionFieldBackColor, AddNotification);*/
 			deleteButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "DeleteButton",
 				AndroidSupport.ButtonsDefaultNames.Delete, solutionFieldBackColor, DeleteNotification);
 
@@ -785,13 +783,14 @@ namespace RD_AAOW
 			List<string> items = new List<string> {
 				Localization.GetText ("NotificationsWizard", al),
 				Localization.GetText ("TemplateList", al),
+				Localization.GetText ("CopyNotification", al),
 				Localization.GetText ("TemplateClipboard", al),
-				Localization.GetText ("CopyNotification", al)
+				Localization.GetText ("TemplateFile", al),
 				};
 			string res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("TemplateSelect", al),
 					Localization.GetText ("CancelButton", al), null, items.ToArray ());
 
-			// Обработка (недопустимые значения будут отброшены)
+			// Обработка
 			switch (items.IndexOf (res))
 				{
 				// Отмена
@@ -860,7 +859,7 @@ namespace RD_AAOW
 					break;
 
 				// Разбор переданного шаблона
-				case 2:
+				case 3:
 					// Запрос из буфера обмена
 					string text = "";
 					try
@@ -906,7 +905,7 @@ namespace RD_AAOW
 					break;
 
 				// Создание копированием
-				case 3:
+				case 2:
 					// Запрос списка оповещений
 					List<string> list = new List<string> ();
 					foreach (Notification element in ProgramDescription.NSet.Notifications)
@@ -927,6 +926,54 @@ namespace RD_AAOW
 
 					list.Clear ();
 					break;
+
+				// Загрузка из файла
+				case 4:
+					// Запрос имени файла
+					notWizardButton.IsEnabled = true;
+
+					if (!await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
+						Localization.GetText ("LoadingWarning", al), Localization.GetText ("NextButton", al),
+						Localization.GetText ("CancelButton", al)))
+						return;
+
+					// Контроль разрешений
+					await Xamarin.Essentials.Permissions.RequestAsync<Xamarin.Essentials.Permissions.StorageRead> ();
+					if (await Xamarin.Essentials.Permissions.CheckStatusAsync<Xamarin.Essentials.Permissions.StorageRead> () !=
+						PermissionStatus.Granted)
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("LoadingFailure", al),
+							ToastLength.Long).Show ();
+						return;
+						}
+
+					// Запрос
+					PickOptions po = new PickOptions ();
+					po.FileTypes = new FilePickerFileType (new Dictionary<DevicePlatform, IEnumerable<string>>
+						{
+						{ DevicePlatform.Android, new[] { "*/*" } },
+						});
+					po.PickerTitle = ProgramDescription.AssemblyVisibleName;
+
+					FileResult fr = await FilePicker.PickAsync (po);
+					if (fr == null)
+						return;
+
+					// Загрузка
+					if (!ProgramDescription.NSet.ReadSettingsFromFile (fr.FullPath))
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("LoadingFailure", al),
+							ToastLength.Long).Show ();
+						return;
+						}
+
+					// Сброс состояния
+					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("LoadingSuccess", al),
+						ToastLength.Long).Show ();
+
+					currentNotification = 0;
+					SelectNotification (null, null);
+					return;
 				}
 
 			// Обновление
@@ -1541,13 +1588,90 @@ NotificationsSet.MaxNotifications);
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareNotButton))
 				await ShowTips (NotificationsSupport.TipTypes.ShareNotButton, notSettingsPage);
 
-			// Формирование и отправка
-			await Share.RequestAsync (nameField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					linkField + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					beginningField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					endingField.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-					currentOcc.ToString (),
-					ProgramDescription.AssemblyVisibleName);
+			// Запрос варианта использования
+			List<string> items = new List<string> {
+				Localization.GetText ("ShareCurrent", al),
+				Localization.GetText ("ShareAll", al)
+				};
+			string res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("ShareVariantSelect", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+
+			// Обработка
+			switch (items.IndexOf (res))
+				{
+				// Отмена
+				default:
+					notWizardButton.IsEnabled = true;
+					return;
+
+				// Формирование и отправка
+				case 0:
+					await Share.RequestAsync (nameField.Text +
+						NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () + linkField +
+						NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () + beginningField.Text +
+						NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () + endingField.Text +
+						NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () + currentOcc.ToString (),
+						ProgramDescription.AssemblyVisibleName);
+					break;
+
+				case 1:
+					// Контроль разрешений
+					await Xamarin.Essentials.Permissions.RequestAsync<Xamarin.Essentials.Permissions.StorageWrite> ();
+					if (await Xamarin.Essentials.Permissions.CheckStatusAsync<Xamarin.Essentials.Permissions.StorageWrite> () !=
+						PermissionStatus.Granted)
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("SharingFailure", al),
+							ToastLength.Long).Show ();
+						return;
+						}
+
+					// Получение имени файла
+					string fileName;
+					try
+						{
+						if (AndroidSupport.IsStorageDirectlyAccessible)
+							{
+							fileName = Android.OS.Environment.GetExternalStoragePublicDirectory
+								(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+							}
+						else
+							{
+							fileName = Android.App.Application.Context.FilesDir.AbsolutePath;
+							}
+						}
+					catch
+						{
+						return;
+						}
+
+					// Запись
+					fileName += ("/" + NotificationsSet.SettingsFileName);
+					if (!ProgramDescription.NSet.SaveSettingsToFile (fileName))
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("SharingFailure", al),
+							ToastLength.Long).Show ();
+						return;
+						}
+
+					// Дополнительная обработка для новых ОС
+					if (!AndroidSupport.IsStorageDirectlyAccessible)
+						{
+						ShareFile sf = new ShareFile (fileName);
+
+						await Share.RequestAsync (new ShareFileRequest
+							{
+							File = sf,
+							Title = ProgramDescription.AssemblyVisibleName
+							});
+						}
+					else
+						{
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("SharingSuccess", al),
+							ToastLength.Long).Show ();
+						}
+
+					break;
+				}
 			}
 
 		// Выбор ссылки для оповещения

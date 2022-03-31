@@ -409,7 +409,9 @@ namespace RD_AAOW
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 2).ToString ("D02"), al);
 
 			// Перезапуск
-			ns.ResetTimer (true);
+			bool complete = (MessageBox.Show (Localization.GetText ("RecallAllNews", al), ProgramDescription.AssemblyVisibleName,
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes);
+			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
 			MainTimer.Enabled = true;
 			}
 
