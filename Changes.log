@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+ToDo:
+- Must check the internet connection before creating the urgent alerts
+
 Version 4.13:
 • Implemented the ability to load / save the complete notifications set from / into the file.
   It allows you to preserve your settings in case of app reinstallation and / or migration from
