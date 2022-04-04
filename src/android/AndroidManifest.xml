@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- uninotifier.huawei -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-	android:installLocation="internalOnly" android:versionCode="600452" android:versionName="4.13">
+	android:installLocation="internalOnly" android:versionCode="600454" android:versionName="4.13.1.5">
 
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
 	
@@ -13,6 +13,7 @@
 
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 	<application android:label="UniNotifier" android:icon="@mipmap/icon">
 		<receiver android:name="com.RD_AAOW.UniNotifierBoot" android:label="UniNotifierBoot" android:exported="true">

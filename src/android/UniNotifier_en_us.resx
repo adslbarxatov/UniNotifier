@@ -481,7 +481,7 @@ The channeling is determined by the “Urgent notifications only” and “Thres
     <value>All operations with texts of notifications are now available through the clicking on them right in the main log</value>
   </data>
   <data name="Tip04_2" xml:space="preserve">
-    <value>This button allows you to share settings of the current notification</value>
+    <value>This button allows you to share settings of notifications</value>
   </data>
   <data name="Tip04_20" xml:space="preserve">
     <value>This function allows you to set a numerical threshold. It will be compared with the first number in every obtained text using the specified comparison method. If the new text matches the condition, app will display a special warning.

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 #if DEBUG
 [assembly: Application (Debuggable = true)]
@@ -215,6 +216,13 @@ namespace RD_AAOW.Droid
 			// Опрос по достижении даты (позволяет выполнить моментальный опрос при простое службы)
 			if (DateTime.Now < nextRequest)
 				return;
+
+			// Контроль интернет-подключения (во избежание ложных сообщений о недоступности ресурсов)
+			if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+				{
+				nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStepMinutes);
+				return;
+				}
 
 			// Перезапрос журнала и счётчика выполняется здесь, т.к. состояние могло измениться в основном интерфейсе
 			NotificationsSupport.BackgroundRequestInProgress = true;

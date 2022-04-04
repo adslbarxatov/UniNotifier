@@ -1,7 +1,9 @@
 UniNotifier changes log
 
-ToDo:
-- Must check the internet connection before creating the urgent alerts
+Version 4.13.1.5:
+• Android: app will now check the internet connection before requesting news in automated mode.
+  So, it will not anymore use CPU and create unavailability alert when no internet connection
+  is active
 
 Version 4.13:
 • Implemented the ability to load / save the complete notifications set from / into the file.
