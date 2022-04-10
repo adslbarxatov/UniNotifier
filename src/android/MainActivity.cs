@@ -50,7 +50,7 @@ namespace RD_AAOW.Droid
 			// Запуск
 			LoadApplication (new App ());
 			}
-		
+
 		/// <summary>
 		/// Перезапуск службы
 		/// </summary>
@@ -343,8 +343,8 @@ notMessage:
 				}
 
 			// Инициализация сообщений
-			notBuilder.SetCategory ("msg");			// Категория "сообщение"
-			notBuilder.SetColor (defaultColor);		// Оттенок заголовков оповещений
+			notBuilder.SetCategory ("msg");         // Категория "сообщение"
+			notBuilder.SetColor (defaultColor);     // Оттенок заголовков оповещений
 
 			string launchMessage = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
 			notBuilder.SetContentText (launchMessage);
@@ -375,7 +375,7 @@ notMessage:
 
 			// Прикрепление ссылки для перехода в основное приложение
 			masterIntent = new Intent (this, typeof (NotificationLink));
-			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, 0);
+			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, PendingIntentFlags.Immutable); // Android S+ req
 			notBuilder.SetContentIntent (masterPendingIntent);
 
 			// Стартовое сообщение
@@ -501,7 +501,8 @@ notMessage:
 			AndroidSupport.StopRequested = false;
 			Intent mainActivity = new Intent (this, typeof (MainActivity));
 			mainActivity.PutExtra ("Tab", 0);
-			PendingIntent.GetActivity (this, 0, mainActivity, PendingIntentFlags.UpdateCurrent).Send ();
+			PendingIntent.GetActivity (this, 0, mainActivity,
+				PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable).Send ();  // Android S+ req
 			}
 		}
 

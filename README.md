@@ -1,5 +1,5 @@
-# UniNotifier v 4.13.1.5
-> PCC: 000463EC44644C61
+# UniNotifier v 4.13.2
+> PCC: 000463EABE758B4D
 
 
 UniNotifier, the managed news service
@@ -8,7 +8,7 @@ UniNotifier – служба управляемых новостей
 
 
 
-# Tablepedia notifier v 4.1.1
+# Tablepedia notifier v 4.1.2
 
 
 TPNotifier, the [Tablepedia.com](http://tablepedia.com) notifications service
