@@ -201,7 +201,7 @@
 ≠ (not equal to)</value>
   </data>
   <data name="CopyNotification" xml:space="preserve">
-    <value>From existent item</value>
+    <value>From existing item</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces (including parts of webpage’s link) with what you want</value>

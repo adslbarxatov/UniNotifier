@@ -1,8 +1,19 @@
 UniNotifier changes log
 
+ToDo:
+- News widget;
+- TPN: должен быть виден не только текст дайджеста, но и картинки (те из них, которые прописаны внутри самого файла index.html)
+
+Version 4.13.3:
+• User videoguide has been updated
+
 Version 4.13.2:
 • Android: the app is brought into line with the requirements of Android S+ (API 31);
 • Android: Xamarin support libraries have been updated
+• TPN 4.2: добавлены функции экспорта и импорта файла со стационарными ссылками;
+• TPN 4.2: реализована последовательная (неполная) загрузка вложенных страниц. Теперь при полном обновлении состояния будет
+  немедленно загружаться только текущая выбранная страница ссылок. Остальные будут дозагружаться при первом обращении. Это позволит
+  значительно ускорить работу приложения
 
 Version 4.13.1.5:
 • Android: app will now check the internet connection before requesting news in automated mode.
