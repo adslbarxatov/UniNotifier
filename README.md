@@ -19,7 +19,7 @@ TPNotifier – служба оповещений для [Tablepedia.com](http://
 
 ## Description
 
-This utility provides the ability to receive notifications about changes in the state of user-specified sites and their webpages (in other words, updates and news) in the form of a text log. In this case, only what the user specified is loaded – all other objects (including advertising) are ignored.
+This utility provides the ability to receive notifications about changes in the state of user-specified sites and their webpages (in other words, updates and news) in the form of a text log. In this case, only what the user specified is loaded – all other objects (including advertisement) are ignored.
 
 - The settings section allows you to manage and design notifications.
 - The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
