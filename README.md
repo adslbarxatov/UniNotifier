@@ -23,7 +23,8 @@ This utility provides the ability to receive notifications about changes in the 
 
 - The settings section allows you to manage and design notifications.
 - The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
-- A locked service notification will inform you about the presence of unread news received in the background (it’s again available since version 4.0)
+- A locked service notification (Android) will inform you about the presence of unread news received in the background (it’s again available since version 4.0).
+- A tray icon (Windows) that provides pop-up messages with short texts of the latest updates
 
 #
 
@@ -33,7 +34,8 @@ This utility provides the ability to receive notifications about changes in the 
 
 - Раздел настроек позволяет управлять уведомлениями и конструировать их.
 - Главный журнал обеспечивает просмотр новостей, переход на веб-страницы, с которых они были получены, и возможность ими поделиться.
-- Закреплённое служебное оповещение будет сообщать о наличии непрочитанных новостей, полученных в фоновом режиме (вновь доступен начиная с версии 4.0)
+- Закреплённое служебное оповещение (Android) будет сообщать о наличии непрочитанных новостей, полученных в фоновом режиме (вновь доступен начиная с версии 4.0).
+- Иконка в трее (Windows) обеспечивает всплывающие оповещения с короткими текстами последних изменений
 
 &nbsp;
 
