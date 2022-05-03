@@ -22,7 +22,14 @@ namespace RD_AAOW
 		private bool callWindowOnUrgents = false;
 
 		private bool allowExit = false;
-		private string[] regParameters = new string[] { "Left", "Top", "Width", "Height", "Read", "CallOnUrgents" };
+		private string[] regParameters = new string[] {
+			"Left",
+			"Top",
+			"Width",
+			"Height",
+			"Read",
+			"CallOnUrgents",
+			"FontSize" };
 
 		private NotificationsSet ns = new NotificationsSet (true);
 
@@ -74,6 +81,8 @@ namespace RD_AAOW
 				this.ReadMode.Checked = bool.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[4],
 					"").ToString ());
 				callWindowOnUrgents = bool.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[5],
+					"").ToString ());
+				this.FontSizeField.Value = decimal.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[6],
 					"").ToString ());
 
 #if TG
@@ -468,6 +477,8 @@ namespace RD_AAOW
 
 			BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 60;
 			NamesCombo.Top = BClose.Top + 2;
+
+			FontSizeField.Top = BGo.Top + 3;
 			}
 
 		// Сохранение размера формы
@@ -496,6 +507,17 @@ namespace RD_AAOW
 				texts.Add ("Новый список сформирован"); //("GMJ не вернула сообщение. Проверьте интернет-соединение");
 			notNumbers.Add (0);
 #endif
+			}
+
+		// Изменение размера шрифта
+		private void FontSizeField_ValueChanged (object sender, EventArgs e)
+			{
+			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
+			try
+				{
+				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[6], this.FontSizeField.Value.ToString ());
+				}
+			catch { }
 			}
 		}
 	}

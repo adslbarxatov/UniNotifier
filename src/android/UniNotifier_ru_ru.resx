@@ -274,6 +274,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   <data name="GMJRequestFailed" xml:space="preserve">
     <value>Grammar must joy не вернула сообщение. Проверьте интернет-соединение</value>
   </data>
+  <data name="GMJSourceLabel" xml:space="preserve">
+    <value>Специальная кнопка:</value>
+  </data>
   <data name="GoToOption" xml:space="preserve">
     <value>Перейти на веб-страницу</value>
   </data>
@@ -410,6 +413,9 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
   </data>
   <data name="SelectComparatorType" xml:space="preserve">
     <value>Выберите способ сравнения:</value>
+  </data>
+  <data name="SelectGMJSource" xml:space="preserve">
+    <value>Выберите источник для специальной кнопки</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Выберите язык:</value>

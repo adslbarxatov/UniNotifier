@@ -4,6 +4,11 @@ ToDo:
 - News widget;
 - TPN: должен быть виден не только текст дайджеста, но и картинки (те из них, которые прописаны внутри самого файла index.html)
 
+Version 4.14:
+• Android: GMJ functionality now can be targetted to other platforms (now it is FDL, in test mode);
+• Android: interface of the main log has been rebuilt;
+• Windows: font size of the main log now can be set
+
 Version 4.13.3:
 • User videoguide has been updated
 

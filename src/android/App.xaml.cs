@@ -39,19 +39,20 @@ namespace RD_AAOW
 
 		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
-			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel;
-		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, rightAlignmentSwitch,
+			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel,
+			gmjSourceLabel;
+		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, /*rightAlignmentSwitch,*/
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
 			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton, comparatorTypeButton, comparatorIncButton, comparatorLongButton,
-			comparatorDecButton;
+			comparatorDecButton, gmjSourceButton;
 		private Editor nameField, beginningField, endingField, comparatorValueField;
 
 		private string linkField;
 		private Xamarin.Forms.ListView mainLog;
 		private uint currentOcc, currentFreq;
-		private Grid mainGrid;
+		/*private Grid mainGrid;*/
 
 		#endregion
 
@@ -131,6 +132,12 @@ namespace RD_AAOW
 			allowLightLabel.IsVisible = allowLightSwitch.IsVisible = allowSoundLabel.IsVisible =
 				allowSoundSwitch.IsVisible = allowVibroLabel.IsVisible = allowVibroSwitch.IsVisible =
 				AndroidSupport.AreNotificationsConfigurable;
+
+			gmjSourceLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "GMJSourceLabel",
+				Localization.GetText ("GMJSourceLabel", al), false, false);
+			gmjSourceButton = AndroidSupport.ApplyButtonSettings (settingsPage, "GMJSource",
+				GMJ.SourceName, solutionFieldBackColor, SetGMJSource_Clicked, false);
+			gmjSourceButton.IsVisible = gmjSourceLabel.IsVisible = ((al == SupportedLanguages.ru_ru));
 
 			#endregion
 
@@ -268,7 +275,7 @@ namespace RD_AAOW
 
 			#endregion
 
-			#region Страница лога приложения
+			#region Страница журнала приложения
 
 			mainLog = (Xamarin.Forms.ListView)logPage.FindByName ("MainLog");
 			mainLog.BackgroundColor = logFieldBackColor;
@@ -279,13 +286,16 @@ namespace RD_AAOW
 			mainLog.SeparatorVisibility = SeparatorVisibility.None;
 
 			allNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "AllNewsButton",
-				Localization.GetText ("AllNewsButton", al), logFieldBackColor, AllNewsItems, false);
+				AndroidSupport.ButtonsDefaultNames.Refresh, logFieldBackColor, AllNewsItems);
 			allNewsButton.Margin = new Thickness (0);
 
-			getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
-				Localization.GetText ("GMJButton", al), logFieldBackColor, GetGMJ, false);
+			if (al == SupportedLanguages.ru_ru)
+				getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
+					AndroidSupport.ButtonsDefaultNames.Smile, logFieldBackColor, GetGMJ);
+			else
+				getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
+					AndroidSupport.ButtonsDefaultNames.Refresh, logFieldBackColor, AllNewsItems);
 			getGMJButton.Margin = new Thickness (0);
-			getGMJButton.IsVisible = ((al == SupportedLanguages.ru_ru));
 
 			#endregion
 
@@ -301,13 +311,12 @@ namespace RD_AAOW
 
 			ReadModeSwitch_Toggled (null, null);
 
-			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RightAlignmentLabel",
+			/*AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RightAlignmentLabel",
 				Localization.GetText ("RightAlignmentLabel", al), false, false);
 			rightAlignmentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "RightAlignmentSwitch",
 				false, solutionFieldBackColor, RightAlignmentSwitch_Toggled, NotificationsSupport.LogButtonsOnTheRightSide);
 
-			mainGrid = (Grid)logPage.FindByName ("MainGrid");
-			RightAlignmentSwitch_Toggled (null, null);
+			RightAlignmentSwitch_Toggled (null, null);*/
 
 			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "FontSizeFieldLabel",
 				"", false, false);
@@ -526,9 +535,17 @@ namespace RD_AAOW
 			// Извлечение ссылки и номера оповещения
 			string notLink = "";
 			int notNumber = -1;
-			if (notItem.Header.Contains (GMJ.GMJName))
+			if (notItem.Header.Contains (GMJ.SourceName))
 				{
-				notLink = GMJ.GMJRedirectLink;
+				notLink = GMJ.SourceRedirectLink;
+
+				int l, r;
+				if (((l = notItem.Header.IndexOf (GMJ.NumberStringBeginning)) >= 0) &&
+					((r = notItem.Header.IndexOf (GMJ.NumberStringEnding, l)) >= 0))
+					{
+					l += GMJ.NumberStringBeginning.Length;
+					notLink += ("/" + notItem.Header.Substring (l, r - l));
+					}
 				}
 			else
 				{
@@ -733,7 +750,7 @@ namespace RD_AAOW
 				{
 				newText = await Task.Run<string> (GMJ.GetRandomGMJ);
 
-				if (!newText.Contains (GMJ.GMJNoReturnPattern))
+				if (!newText.Contains (GMJ.SourceNoReturnPattern))
 					break;
 				}
 
@@ -742,7 +759,7 @@ namespace RD_AAOW
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed", al),
 					ToastLength.Long).Show ();
 				}
-			else if (newText.Contains (GMJ.GMJNoReturnPattern))
+			else if (newText.Contains (GMJ.SourceNoReturnPattern))
 				{
 				Toast.MakeText (Android.App.Application.Context, newText, ToastLength.Long).Show ();
 				}
@@ -767,6 +784,20 @@ namespace RD_AAOW
 			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
 				masterLog.RemoveAt (masterLog.Count - 1);
 			}
+
+		/*// Управление боковой панелью
+		private void MainLog_Refreshing (object sender, EventArgs e)
+			{
+			mainGrid.ColumnDefinitions[0].Width = 50;
+			}
+
+		private void MainLog_Scrolled (object sender, ScrolledEventArgs e)
+			{
+			if (!mainLog.IsRefreshing && (mainGrid.ColumnDefinitions[0].Width.Value != 1.0))
+				mainGrid.ColumnDefinitions[0].Width = 1;
+			else
+				mainLog.IsRefreshing = false;
+			}*/
 
 		#endregion
 
@@ -1167,14 +1198,14 @@ namespace RD_AAOW
 			UpdateLog ();
 			}
 
-		// Выравнивание кнопок журнала
+		/*// Выравнивание кнопок журнала
 		private void RightAlignmentSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
 			if (e != null)
 				NotificationsSupport.LogButtonsOnTheRightSide = rightAlignmentSwitch.IsToggled;
 
 			mainGrid.FlowDirection = rightAlignmentSwitch.IsToggled ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-			}
+			}*/
 
 		// Изменение размера шрифта лога
 		private void FontSizeChanged (object sender, EventArgs e)
@@ -1199,6 +1230,24 @@ namespace RD_AAOW
 			UpdateLog ();
 			}
 
+		// Выбор языка приложения
+		private async void SetGMJSource_Clicked (object sender, EventArgs e)
+			{
+			// Запрос
+			string res = await settingsPage.DisplayActionSheet (Localization.GetText ("SelectGMJSource", al),
+				Localization.GetText ("CancelButton", al), null, GMJ.SourceNames);
+
+			// Сохранение
+			List<string> list = new List<string> (GMJ.SourceNames);
+			if (list.Contains (res))
+				{
+				GMJ.SourceNumber = (uint)list.IndexOf (res);
+				gmjSourceButton.Text = res;
+				}
+
+			list.Clear ();
+			}
+
 		#endregion
 
 		#region О приложении
@@ -1218,6 +1267,8 @@ namespace RD_AAOW
 				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp", al),
 					ToastLength.Long).Show ();
 				}
+
+			lngs.Clear ();
 			}
 
 		// Страница проекта

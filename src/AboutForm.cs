@@ -220,6 +220,7 @@ namespace RD_AAOW
 			HardWorkExecutor hwe;
 			if (!AcceptMode)
 				{
+				UpdatesPageButton.Enabled = false;
 #if DPMODULE
 				hwe = new HardWorkExecutor (UpdatesChecker, null, null, false, false, false);
 #else

@@ -56,16 +56,21 @@
 					<Label x:Name="ReadModeLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+				<!--<StackLayout Orientation="Horizontal">
 					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
 					<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
+				</StackLayout>-->
 
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
 
 					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
 					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Label x:Name="GMJSourceLabel" VerticalTextAlignment="Center"/>
+					<Button x:Name="GMJSource" />
 				</StackLayout>
 
 				<Label />

@@ -4,14 +4,28 @@
              x:Class="RD_AAOW.LogPage">
 
 	<StackLayout>
-		<Label x:Name="HeaderLabel" />
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="50" />
+			</Grid.RowDefinitions>
 
-		<Grid x:Name="MainGrid">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="50" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="50" />
+			</Grid.ColumnDefinitions>
+
+			<Button Grid.Row="0" Grid.Column="0" x:Name="GetGMJ" VerticalOptions="Center" />
+			<Label Grid.Row="0" Grid.Column="1" x:Name="HeaderLabel" HorizontalOptions="Center" VerticalOptions="Center"/>
+			<Button Grid.Row="0" Grid.Column="2" x:Name="AllNewsButton" VerticalOptions="Center" />
+		</Grid>
+
+		<!--<Grid x:Name="MainGrid">
 
 			<Grid.RowDefinitions />
 
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="85" />
+				<ColumnDefinition Width="1" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
@@ -19,11 +33,11 @@
 				<Button x:Name="AllNewsButton" HorizontalOptions="Center" />
 				<Label />
 				<Button x:Name="GetGMJ" HorizontalOptions="Center"/>
-			</StackLayout>
+			</StackLayout>-->
 
-			<ListView Grid.Row="0" Grid.Column="1" x:Name="MainLog" HorizontalOptions="Fill" />
+		<ListView x:Name="MainLog" HorizontalOptions="Fill" />
 
-		</Grid>
+		<!--</Grid>-->
 	</StackLayout>
 </ContentPage>
     

@@ -248,6 +248,9 @@
   <data name="GMJButton" xml:space="preserve">
     <value>GMJ</value>
   </data>
+  <data name="GMJSourceLabel" xml:space="preserve">
+    <value>Special button:</value>
+  </data>
   <data name="GoToOption" xml:space="preserve">
     <value>Go to the webpage</value>
   </data>
@@ -384,6 +387,9 @@
   </data>
   <data name="SelectComparatorType" xml:space="preserve">
     <value>Select comparison type:</value>
+  </data>
+  <data name="SelectGMJSource" xml:space="preserve">
+    <value>Select source for the special button</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select language:</value>

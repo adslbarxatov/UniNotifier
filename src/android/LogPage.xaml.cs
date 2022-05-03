@@ -9,8 +9,8 @@ namespace RD_AAOW
 	[XamlCompilation (XamlCompilationOptions.Compile)]
 	public partial class LogPage: ContentPage
 		{
-		private Button[] buttons = new Button[2];
-		private Grid mainGrid;
+		//private Button[] buttons = new Button[2];
+		//private Grid mainGrid;
 
 		/// <summary>
 		/// Конструктор. Запускает страницу
@@ -18,9 +18,9 @@ namespace RD_AAOW
 		public LogPage ()
 			{
 			InitializeComponent ();
-			buttons[0] = (Button)this.FindByName ("AllNewsButton");
-			buttons[1] = (Button)this.FindByName ("GetGMJ");
-			mainGrid = (Grid)this.FindByName ("MainGrid");
+			//buttons[0] = (Button)this.FindByName ("AllNewsButton");
+			//buttons[1] = (Button)this.FindByName ("GetGMJ");
+			//mainGrid = (Grid)this.FindByName ("MainGrid");
 			}
 
 		/// <summary>
@@ -29,9 +29,9 @@ namespace RD_AAOW
 		protected override void OnSizeAllocated (double width, double height)
 			{
 			base.OnSizeAllocated (width, height);
-			buttons[0].HeightRequest = buttons[1].HeightRequest = (width > height) ? 40 : 85;
-			buttons[0].WidthRequest = buttons[1].WidthRequest = (width < height) ? 35 : 85;
-			mainGrid.ColumnDefinitions[0].Width = (width > height) ? 85 : 35;
+			//buttons[0].HeightRequest = buttons[1].HeightRequest = (width > height) ? 40 : 85;
+			//buttons[0].WidthRequest = buttons[1].WidthRequest = (width < height) ? 35 : 85;
+			//mainGrid.ColumnDefinitions[0].Width = (width > height) ? 85 : 35;
 			}
 		}
 	}
