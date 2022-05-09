@@ -3,7 +3,9 @@ UniNotifier changes log
 ToDo:
 - News widget;
 - TPN: должен быть виден не только текст дайджеста, но и картинки (те из них, которые прописаны внутри самого файла index.html)
-- £ / &pound;
+
+Version 4.14.1:
+• Windows: “app about” interface has been updated
 
 Version 4.14:
 • Android: GMJ functionality now can be targeted to other platforms (now it is FDL, in test mode);
