@@ -3,6 +3,7 @@ UniNotifier changes log
 ToDo:
 - News widget;
 - TPN: должен быть виден не только текст дайджеста, но и картинки (те из них, которые прописаны внутри самого файла index.html)
+- 'From file' option must be hidden in non-wizard submodes
 
 Version 4.14.1:
 • Windows: “app about” interface has been updated
