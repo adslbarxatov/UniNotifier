@@ -172,11 +172,7 @@ namespace RD_AAOW
 			cfg.IgnoreComparisonMisfits = MisfitsFlag.Checked;
 			cfg.NotifyWhenUnavailable = CheckAvailability.Checked;
 
-			Notification ni = new Notification (cfg /*NameText.Text, LinkText.Text, BeginningText.Text, EndingText.Text,
-				(uint)(FrequencyCombo.SelectedIndex + 1), (uint)OccurrenceField.Value,
-				ComparatorFlag.Checked ? (Notification.ComparatorTypes)ComparatorType.SelectedIndex :
-				Notification.ComparatorTypes.Disabled,
-				(double)ComparatorValue.Value, MisfitsFlag.Checked*/);
+			Notification ni = new Notification (cfg);
 
 			if (!ni.IsInited)
 				{
