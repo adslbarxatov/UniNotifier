@@ -8,7 +8,7 @@ UniNotifier – служба управляемых новостей
 
 
 
-# Tablepedia notifier v 4.2
+# Tablepedia notifier v 4.3
 
 
 TPNotifier, the [Tablepedia.com](http://tablepedia.com) notifications service

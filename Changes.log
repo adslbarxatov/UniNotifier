@@ -2,11 +2,12 @@ UniNotifier changes log
 
 ToDo:
 - News widget;
-- TPN: должен быть виден не только текст дайджеста, но и картинки (те из них, которые прописаны внутри самого файла index.html)
 
 Version 4.14.2:
 • Windows: some mistakes in the wizard interface have been fixed;
-• Windows: parsing methods for ADP and projects descriptions have been upgraded
+• Windows: parsing methods for ADP and projects descriptions have been upgraded;
+• TPN 4.3: реализована загрузка изображений в формате JPG для части страниц дайджестов;
+• TPN 4.3: дополнена и скорректирована функциональность интерфейса приложения
 
 Version 4.14.1:
 • Windows: “app about” interface has been updated
