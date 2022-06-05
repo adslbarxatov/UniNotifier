@@ -7,7 +7,10 @@ Version 4.14.2:
 • Windows: some mistakes in the wizard interface have been fixed;
 • Windows: parsing methods for ADP and projects descriptions have been upgraded;
 • TPN 4.3: реализована загрузка изображений в формате JPG для части страниц дайджестов;
-• TPN 4.3: дополнена и скорректирована функциональность интерфейса приложения
+• TPN 4.3: дополнена и скорректирована функциональность интерфейса приложения;
+• TPN 4.3.1: уменьшено расстояние между элементами;
+• TPN 4.3.1: добавлены поля вокруг элементов интерфейса;
+• TPN 4.3.1: скорректировано расположение подписей изображений
 
 Version 4.14.1:
 • Windows: “app about” interface has been updated
