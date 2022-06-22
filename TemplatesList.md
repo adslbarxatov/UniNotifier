@@ -1,15 +1,13 @@
 ```
-29.02.2022
-CodeProject					https://codeproject.com/script/Articles/Latest.aspx			class="description">			</div>			1
+23.06.2022
 Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>			1
-Весьма                      https://vesma.today/news									class="color-text">				</div>			1
 КоммерсантЪ					https://kommersant.ru										<article						</article>		1
 Курс доллара, КоммерсантЪ	https://www.kommersant.ru									 actual__fall">					</a>			1
 Курс доллара, Google		https://google.com/search?q=курс+доллара					AP7Wnd">						</div></div>	3
 Курс евро, КоммерсантЪ		https://www.kommersant.ru									 actual__fall">					</a>			2
 Курс евро, Google			https://google.com/search?q=курс+евро						AP7Wnd">						</div></div>	3
 Погода на Mail.ru			https://pogoda.mail.ru/prognoz/{ГОРОД}						property="og:title" content="	" />			1
-Российская газета			https://rg.ru												html" class="b-link">			</div>			1
+Российская газета			https://t.me/s/rgrunews										dir="auto"><b>					</div			10
 Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>			2
 Число подписчиков ВК		https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						act=members">					</em>			1
 Число подписчиков Instagram	https://instagram.com/{USERNAME}							•								</title>		1
