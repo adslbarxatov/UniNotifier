@@ -2,6 +2,8 @@ UniNotifier changes log
 
 ToDo:
 - News widget;
+- Сделать размеры кнопок в журнале зависимыми от масштаба;
+- Сделать звук алерта одинарным
 
 Version 4.14.2:
 • Windows: some mistakes in the wizard interface have been fixed;
