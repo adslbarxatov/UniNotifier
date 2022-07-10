@@ -1,9 +1,12 @@
 UniNotifier changes log
 
 ToDo:
-- News widget;
-- Сделать размеры кнопок в журнале зависимыми от масштаба;
-- Сделать звук алерта одинарным
+- News widget
+
+Version 4.15:
+• Android: urgent notifications now have single (not triple) sound effect;
+• Android: interface of the main log has been rebuilt
+• Current improvements applied
 
 Version 4.14.2:
 • Windows: some mistakes in the wizard interface have been fixed;

@@ -287,14 +287,14 @@ notMessage:
 			// Отображение (с дублированием для срочных)
 			notManager.Notify (notServiceID, notification);
 
-			if (ProgramDescription.NSet.HasUrgentNotifications)
+			/*if (ProgramDescription.NSet.HasUrgentNotifications)
 				{
 				for (int j = 0; j < 2; j++)
 					{
 					Thread.Sleep (1500);
 					notManager.Notify (notServiceID, notification);
 					}
-				}
+				}*/
 
 			// Завершено
 			notification.Dispose ();

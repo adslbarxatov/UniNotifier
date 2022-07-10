@@ -40,8 +40,8 @@ namespace RD_AAOW
 		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel,
-			gmjSourceLabel;
-		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch, /*rightAlignmentSwitch,*/
+			gmjSourceLabel, statusBar;
+		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
 			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton, getGMJButton,
@@ -52,7 +52,6 @@ namespace RD_AAOW
 		private string linkField;
 		private Xamarin.Forms.ListView mainLog;
 		private uint currentOcc, currentFreq;
-		/*private Grid mainGrid;*/
 
 		#endregion
 
@@ -288,6 +287,7 @@ namespace RD_AAOW
 			allNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "AllNewsButton",
 				AndroidSupport.ButtonsDefaultNames.Refresh, logFieldBackColor, AllNewsItems);
 			allNewsButton.Margin = new Thickness (0);
+			allNewsButton.FontSize += 7;
 
 			if (al == SupportedLanguages.ru_ru)
 				getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
@@ -296,6 +296,9 @@ namespace RD_AAOW
 				getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
 					AndroidSupport.ButtonsDefaultNames.Refresh, logFieldBackColor, AllNewsItems);
 			getGMJButton.Margin = new Thickness (0);
+			getGMJButton.FontSize += 7;
+
+			statusBar = (Label)logPage.FindByName ("HeaderLabel");
 
 			#endregion
 
@@ -532,6 +535,9 @@ namespace RD_AAOW
 			if (!allNewsButton.IsEnabled || (notItem.StringForSaving == ""))  // Признак разделителя
 				return;
 
+			// Сброс состояния
+			statusBar.Text = "";
+
 			// Извлечение ссылки и номера оповещения
 			string notLink = "";
 			int notNumber = -1;
@@ -731,7 +737,17 @@ namespace RD_AAOW
 		// Блокировка / разблокировка кнопок
 		private void SetLogState (bool State)
 			{
+			// Переключение кнопок
 			getGMJButton.IsEnabled = allNewsButton.IsEnabled = State;
+
+			// Обновление статуса
+			if (State)
+				{
+				statusBar.Text = Localization.GetText ("LogUpdatedMessage", al) + DateTime.Now.ToString ("dd.MM.yy; HH:mm");
+
+				if (statusBar.FontAttributes != FontAttributes.None)
+					statusBar.FontAttributes = FontAttributes.None;
+				}
 			}
 
 		// Запрос записи из GMJ
@@ -784,20 +800,6 @@ namespace RD_AAOW
 			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
 				masterLog.RemoveAt (masterLog.Count - 1);
 			}
-
-		/*// Управление боковой панелью
-		private void MainLog_Refreshing (object sender, EventArgs e)
-			{
-			mainGrid.ColumnDefinitions[0].Width = 50;
-			}
-
-		private void MainLog_Scrolled (object sender, ScrolledEventArgs e)
-			{
-			if (!mainLog.IsRefreshing && (mainGrid.ColumnDefinitions[0].Width.Value != 1.0))
-				mainGrid.ColumnDefinitions[0].Width = 1;
-			else
-				mainLog.IsRefreshing = false;
-			}*/
 
 		#endregion
 
@@ -1185,27 +1187,20 @@ namespace RD_AAOW
 
 			if (readModeSwitch.IsToggled)
 				{
-				logPage.BackgroundColor = mainLog.BackgroundColor = logReadModeColor;
-				allNewsButton.TextColor = getGMJButton.TextColor = NotificationsSupport.LogFontColor = logMasterBackColor;
+				logPage.BackgroundColor = mainLog.BackgroundColor = statusBar.BackgroundColor = logReadModeColor;
+				allNewsButton.TextColor = getGMJButton.TextColor = statusBar.TextColor =
+					NotificationsSupport.LogFontColor = logMasterBackColor;
 				}
 			else
 				{
-				logPage.BackgroundColor = mainLog.BackgroundColor = logMasterBackColor;
-				allNewsButton.TextColor = getGMJButton.TextColor = NotificationsSupport.LogFontColor = logReadModeColor;
+				logPage.BackgroundColor = mainLog.BackgroundColor = statusBar.BackgroundColor = logMasterBackColor;
+				allNewsButton.TextColor = getGMJButton.TextColor = statusBar.TextColor =
+					NotificationsSupport.LogFontColor = logReadModeColor;
 				}
 
 			// Принудительное обновление
 			UpdateLog ();
 			}
-
-		/*// Выравнивание кнопок журнала
-		private void RightAlignmentSwitch_Toggled (object sender, ToggledEventArgs e)
-			{
-			if (e != null)
-				NotificationsSupport.LogButtonsOnTheRightSide = rightAlignmentSwitch.IsToggled;
-
-			mainGrid.FlowDirection = rightAlignmentSwitch.IsToggled ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-			}*/
 
 		// Изменение размера шрифта лога
 		private void FontSizeChanged (object sender, EventArgs e)

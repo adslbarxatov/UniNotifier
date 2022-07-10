@@ -282,10 +282,13 @@
     <value>WARNING: this option will overwrite all existing settings. Continue?</value>
   </data>
   <data name="LogPage" xml:space="preserve">
-    <value>Notifications log</value>
+    <value>Log</value>
   </data>
   <data name="LogSettingsLabel" xml:space="preserve">
     <value>Log settings:</value>
+  </data>
+  <data name="LogUpdatedMessage" xml:space="preserve">
+    <value>Updated: </value>
   </data>
   <data name="MainLogPlaceholder" xml:space="preserve">
     <value>(no notifications yet)</value>

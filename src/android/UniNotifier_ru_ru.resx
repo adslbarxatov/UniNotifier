@@ -308,10 +308,13 @@ P.S. Очень надеюсь, что Вам понравится юмор, к�
     <value>ВНИМАНИЕ: эта опция перезапишет все существующие настройки. Продолжить?</value>
   </data>
   <data name="LogPage" xml:space="preserve">
-    <value>Журнал оповещений</value>
+    <value>Журнал</value>
   </data>
   <data name="LogSettingsLabel" xml:space="preserve">
     <value>Настройки журнала:</value>
+  </data>
+  <data name="LogUpdatedMessage" xml:space="preserve">
+    <value>Обновлено: </value>
   </data>
   <data name="MainLogPlaceholder" xml:space="preserve">
     <value>(уведомлений пока нет)</value>

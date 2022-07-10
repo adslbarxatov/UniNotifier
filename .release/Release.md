@@ -1,6 +1,6 @@
-_Changes for v 4.14.2_:
-- Windows: some mistakes in the wizard interface have been fixed;
-- Windows: parsing methods for ADP and projects descriptions have been upgraded;
-- Android: GMJ functionality now can be targeted to other platforms (now it is FDL, in test mode);
+_Changes for v 4.15_:
+- Android: urgent notifications now have single (not triple) sound effect;
 - Android: interface of the main log has been rebuilt;
-- Windows: font size of the main log now can be set
+- Current improvements applied;
+- Windows: some mistakes in the wizard interface have been fixed;
+- Windows: parsing methods for ADP and projects descriptions have been upgraded
