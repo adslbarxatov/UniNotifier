@@ -10,6 +10,32 @@ namespace RD_AAOW
 	public static class WindowsShortcut
 		{
 		/// <summary>
+		/// Метод создаёт ярлык к файлу в текущем меню Пуск
+		/// </summary>
+		/// <param name="ShortcutArguments">Аргументы командной строки, передаваемые с файлом</param>
+		/// <param name="ShortcutFileName">Имя файла ярлыка</param>
+		/// <param name="TargetFile">Файл, для которого создаётся ярлык</param>
+		/// <param name="SubdirectoryName">Субдиректория в меню Пуск для данного пакета</param>
+		/// <returns>Возвращает 0 в случае успеха</returns>
+		public static int CreateMenuShortcut (string TargetFile, string SubdirectoryName,
+			string ShortcutFileName, string ShortcutArguments)
+			{
+			string dir = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartMenu) +
+				"\\" + SubdirectoryName;
+
+			try
+				{
+				Directory.CreateDirectory (dir);
+				}
+			catch
+				{
+				return -4;
+				}
+
+			return CreateShortcut (TargetFile, ShortcutFileName, dir, ShortcutArguments);
+			}
+
+		/// <summary>
 		/// Метод создаёт ярлык к файлу на текущем рабочем столе
 		/// </summary>
 		/// <param name="ShortcutArguments">Аргументы командной строки, передаваемые с файлом</param>

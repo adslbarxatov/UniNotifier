@@ -741,13 +741,13 @@ namespace RD_AAOW
 			getGMJButton.IsEnabled = allNewsButton.IsEnabled = State;
 
 			// Обновление статуса
-			if (State)
-				{
-				statusBar.Text = Localization.GetText ("LogUpdatedMessage", al) + DateTime.Now.ToString ("dd.MM.yy; HH:mm");
+			if (statusBar.FontAttributes != FontAttributes.None)
+				statusBar.FontAttributes = FontAttributes.None;
 
-				if (statusBar.FontAttributes != FontAttributes.None)
-					statusBar.FontAttributes = FontAttributes.None;
-				}
+			if (State)
+				statusBar.Text = Localization.GetText ("LogUpdatedMessage", al) + DateTime.Now.ToString ("dd.MM.yy; HH:mm");
+			else
+				statusBar.Text = Localization.GetText ("RequestStarted", al);
 			}
 
 		// Запрос записи из GMJ

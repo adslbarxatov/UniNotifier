@@ -21,8 +21,15 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает загрузчик приложения
 	/// </summary>
-	[Activity (Label = "UniNotifier", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Exported = true)]
+	[Activity (Label = "UniNotifier",
+		Icon = "@drawable/launcher_foreground",
+		/*Icon = "@mipmap/icon",
+		Theme = "@style/MainTheme",*/
+		Theme = "@style/SplashTheme",
+		MainLauncher = true,
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation /*,
+		Exported = true*/
+		)]
 	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
@@ -34,6 +41,10 @@ namespace RD_AAOW.Droid
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 
+			// Отмена темы для splash screen
+			base.SetTheme (Resource.Style.MainTheme);
+
+			// Инициализация и запуск
 			base.OnCreate (savedInstanceState);
 			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
 			global::Xamarin.Essentials.Platform.Init (this, savedInstanceState);
@@ -84,7 +95,7 @@ namespace RD_AAOW.Droid
 			}
 		}
 
-	/// <summary>
+	/*/// <summary>
 	/// Класс описывает экран-заставку приложения
 	/// </summary>
 	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
@@ -119,13 +130,15 @@ namespace RD_AAOW.Droid
 				});
 			startup.Start ();
 			}
-		}
+		}*/
 
 	/// <summary>
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
-	[Service (Name = "com.RD_AAOW.UniNotifier", Label = "UniNotifier",
-		Icon = "@mipmap/icon", Exported = true)]
+	[Service (Name = "com.RD_AAOW.UniNotifier",
+		Label = "UniNotifier",
+		/*Icon = "@mipmap/icon",*/
+		Exported = true)]
 	public class MainService:global::Android.App.Service
 		{
 		// Переменные и константы
@@ -461,8 +474,10 @@ notMessage:
 	/// <summary>
 	/// Класс описывает задание на открытие веб-ссылки
 	/// </summary>
-	[Service (Name = "com.RD_AAOW.UniNotifierLink", Label = "UniNotifierLink",
-		Icon = "@mipmap/icon", Exported = true)]
+	[Service (Name = "com.RD_AAOW.UniNotifierLink",
+		Label = "UniNotifierLink",
+		/*Icon = "@mipmap/icon",*/
+		Exported = true)]
 	public class NotificationLink:JobIntentService
 		{
 		/// <summary>
@@ -509,8 +524,10 @@ notMessage:
 	/// <summary>
 	/// Класс описывает приёмник события окончания загрузки ОС
 	/// </summary>
-	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot", Label = "UniNotifierBoot",
-		Icon = "@mipmap/icon", Exported = true)]
+	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot",
+		Label = "UniNotifierBoot",
+		/*Icon = "@mipmap/icon",*/
+		Exported = true)]
 	public class BootReceiver:BroadcastReceiver
 		{
 		/// <summary>
