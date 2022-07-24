@@ -56,16 +56,18 @@
 					<Label x:Name="ReadModeLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
-				<!--<StackLayout Orientation="Horizontal">
-					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
-					<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
-				</StackLayout>-->
-
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="FontSizeFieldLabel" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
 
 					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
 					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
+				</StackLayout>
+
+				<Label />
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
+					<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal" Margin="3">

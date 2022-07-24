@@ -23,13 +23,9 @@ namespace RD_AAOW.Droid
 	/// </summary>
 	[Activity (Label = "UniNotifier",
 		Icon = "@drawable/launcher_foreground",
-		/*Icon = "@mipmap/icon",
-		Theme = "@style/MainTheme",*/
 		Theme = "@style/SplashTheme",
 		MainLauncher = true,
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation /*,
-		Exported = true*/
-		)]
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
@@ -67,8 +63,6 @@ namespace RD_AAOW.Droid
 		/// </summary>
 		protected override void OnStop ()
 			{
-			/*Intent mainService = new Intent (this, typeof (MainService));*/
-
 			// Запрос на остановку при необходимости
 			if (!AndroidSupport.AllowServiceToStart)
 				AndroidSupport.StopRequested = true;
@@ -95,49 +89,11 @@ namespace RD_AAOW.Droid
 			}
 		}
 
-	/*/// <summary>
-	/// Класс описывает экран-заставку приложения
-	/// </summary>
-	[Activity (Theme = "@style/SplashTheme", MainLauncher = true, NoHistory = true,
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class SplashActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-		{
-		/// <summary>
-		/// Обработчик события создания экземпляра
-		/// </summary>
-		protected override void OnCreate (Bundle savedInstanceState)
-			{
-			base.OnCreate (savedInstanceState);
-			}
-
-		/// <summary>
-		/// Отключение кнопки возврата
-		/// </summary>
-		public override void OnBackPressed ()
-			{
-			}
-
-		/// <summary>
-		/// Запуск основного действия после завершения загрузки
-		/// </summary>
-		protected override void OnResume ()
-			{
-			base.OnResume ();
-
-			Task startup = new Task (() =>
-				{
-					StartActivity (new Intent (Application.Context, typeof (MainActivity)));
-				});
-			startup.Start ();
-			}
-		}*/
-
 	/// <summary>
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifier",
 		Label = "UniNotifier",
-		/*Icon = "@mipmap/icon",*/
 		Exported = true)]
 	public class MainService:global::Android.App.Service
 		{
@@ -299,15 +255,6 @@ notMessage:
 
 			// Отображение (с дублированием для срочных)
 			notManager.Notify (notServiceID, notification);
-
-			/*if (ProgramDescription.NSet.HasUrgentNotifications)
-				{
-				for (int j = 0; j < 2; j++)
-					{
-					Thread.Sleep (1500);
-					notManager.Notify (notServiceID, notification);
-					}
-				}*/
 
 			// Завершено
 			notification.Dispose ();
@@ -476,7 +423,6 @@ notMessage:
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifierLink",
 		Label = "UniNotifierLink",
-		/*Icon = "@mipmap/icon",*/
 		Exported = true)]
 	public class NotificationLink:JobIntentService
 		{
@@ -526,7 +472,6 @@ notMessage:
 	/// </summary>
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot",
 		Label = "UniNotifierBoot",
-		/*Icon = "@mipmap/icon",*/
 		Exported = true)]
 	public class BootReceiver:BroadcastReceiver
 		{

@@ -7,7 +7,7 @@
 
 		<ListView x:Name="MainLog" HorizontalOptions="Fill" />
 
-		<Grid>
+		<Grid x:Name="StatusBarGrid">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="50" />
 			</Grid.RowDefinitions>

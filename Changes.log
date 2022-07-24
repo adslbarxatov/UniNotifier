@@ -1,8 +1,11 @@
 UniNotifier changes log
 
 ToDo:
-- News widget;
-- Размер шрифтов на кнопках и в статусбаре должен быть фиксированным
+- News widget
+
+Version 4.17:
+• Android: sizes of the news buttons and the font in the status bar and have been locked;
+• Android: maximum font size for the main log now depends on the screen size
 
 Version 4.16.1:
 • Fixed the bug that affected the file association method;

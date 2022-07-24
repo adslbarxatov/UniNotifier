@@ -40,14 +40,15 @@ namespace RD_AAOW
 		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel,
-			gmjSourceLabel, statusBar;
+			gmjSourceLabel, statusBar, rightAlignmentLabel;
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
-			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch;
+			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch, rightAlignmentSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton, comparatorTypeButton, comparatorIncButton, comparatorLongButton,
 			comparatorDecButton, gmjSourceButton;
 		private Editor nameField, beginningField, endingField, comparatorValueField;
+		private Grid statusBarGrid;
 
 		private string linkField;
 		private Xamarin.Forms.ListView mainLog;
@@ -219,10 +220,21 @@ namespace RD_AAOW
 			ignoreMisfitsSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "IgnoreMisfitsSwitch",
 				false, solutionFieldBackColor, null, false);
 
+			// Расположение кнопки GMJ справа
+			statusBarGrid = (Grid)logPage.FindByName ("StatusBarGrid");
+
+			rightAlignmentLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RightAlignmentLabel",
+				Localization.GetText ("RightAlignmentLabel", al), false, false);
+			rightAlignmentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "RightAlignmentSwitch",
+				false, solutionFieldBackColor, RightAlignmentSwitch_Toggled, NotificationsSupport.LogButtonsOnTheRightSide);
+			rightAlignmentLabel.IsVisible = rightAlignmentSwitch.IsVisible = (al == SupportedLanguages.ru_ru);
+
 			// Инициализация полей
 			ComparatorTypeChanged (null, null);
 			ComparatorSwitch_Toggled (null, null);
 			SelectNotification (null, null);
+			if (al == SupportedLanguages.ru_ru)
+				RightAlignmentSwitch_Toggled (null, null);
 
 			#endregion
 
@@ -287,7 +299,7 @@ namespace RD_AAOW
 			allNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "AllNewsButton",
 				AndroidSupport.ButtonsDefaultNames.Refresh, logFieldBackColor, AllNewsItems);
 			allNewsButton.Margin = new Thickness (0);
-			allNewsButton.FontSize += 7;
+			allNewsButton.FontSize = 25;    // Принудительно, т.к. размер статусбара задан жёстко
 
 			if (al == SupportedLanguages.ru_ru)
 				getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
@@ -296,9 +308,10 @@ namespace RD_AAOW
 				getGMJButton = AndroidSupport.ApplyButtonSettings (logPage, "GetGMJ",
 					AndroidSupport.ButtonsDefaultNames.Refresh, logFieldBackColor, AllNewsItems);
 			getGMJButton.Margin = new Thickness (0);
-			getGMJButton.FontSize += 7;
+			getGMJButton.FontSize = ((al == SupportedLanguages.ru_ru) ? 23 : allNewsButton.FontSize);
 
 			statusBar = (Label)logPage.FindByName ("HeaderLabel");
+			statusBar.FontSize = 15;
 
 			#endregion
 
@@ -307,6 +320,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "LogSettingsLabel",
 				Localization.GetText ("LogSettingsLabel", al), true, false);
 
+			// Режим чтения
 			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "ReadModeLabel",
 				Localization.GetText ("ReadModeLabel", al), false, false);
 			readModeSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "ReadModeSwitch",
@@ -314,13 +328,7 @@ namespace RD_AAOW
 
 			ReadModeSwitch_Toggled (null, null);
 
-			/*AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "RightAlignmentLabel",
-				Localization.GetText ("RightAlignmentLabel", al), false, false);
-			rightAlignmentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "RightAlignmentSwitch",
-				false, solutionFieldBackColor, RightAlignmentSwitch_Toggled, NotificationsSupport.LogButtonsOnTheRightSide);
-
-			RightAlignmentSwitch_Toggled (null, null);*/
-
+			// Размер шрифта
 			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "FontSizeFieldLabel",
 				"", false, false);
 			fontSizeFieldLabel.TextType = TextType.Html;
@@ -329,6 +337,7 @@ namespace RD_AAOW
 				AndroidSupport.ButtonsDefaultNames.Increase, solutionFieldBackColor, FontSizeChanged);
 			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeDecButton",
 				AndroidSupport.ButtonsDefaultNames.Decrease, solutionFieldBackColor, FontSizeChanged);
+
 			FontSizeChanged (null, null);
 
 			#endregion
@@ -1082,8 +1091,7 @@ namespace RD_AAOW
 				cfg.ComparisonValue = 0.0;
 				cfg.IgnoreComparisonMisfits = cfg.NotifyWhenUnavailable = false;
 
-				Notification not = new Notification (cfg /*"Test", link, delim[0], delim[1], 1, occ,
-					Notification.ComparatorTypes.Disabled, 0.0, false*/);
+				Notification not = new Notification (cfg);
 				if (!await not.Update ())
 					{
 					await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
@@ -1202,6 +1210,16 @@ namespace RD_AAOW
 			UpdateLog ();
 			}
 
+		// Включение / выключение правого расположения кнопки GMJ
+		private void RightAlignmentSwitch_Toggled (object sender, ToggledEventArgs e)
+			{
+			if (e != null)
+				NotificationsSupport.LogButtonsOnTheRightSide = rightAlignmentSwitch.IsToggled;
+
+			statusBarGrid.FlowDirection = (rightAlignmentSwitch.IsToggled) ? FlowDirection.RightToLeft :
+				FlowDirection.LeftToRight;
+			}
+
 		// Изменение размера шрифта лога
 		private void FontSizeChanged (object sender, EventArgs e)
 			{
@@ -1297,15 +1315,9 @@ namespace RD_AAOW
 		// Страница лаборатории
 		private async void CommunityButton_Clicked (object sender, EventArgs e)
 			{
-			/*List<string> comm = new List<string> {
-				Localization.GetText ("CommunityWelcome", al), Localization.GetText ("CommunityVK", al),
-				Localization.GetText ("CommunityTG", al) };*/
 			string[] comm = RDGenerics.GetCommunitiesNames (al != SupportedLanguages.ru_ru);
 			string res = await aboutPage.DisplayActionSheet (Localization.GetText ("CommunitySelect", al),
 				Localization.GetText ("CancelButton", al), null, comm);
-
-			/*if (!comm.Contains (res))
-				return;*/
 
 			res = RDGenerics.GetCommunityLink (res, al != SupportedLanguages.ru_ru);
 			if (string.IsNullOrWhiteSpace (res))
@@ -1314,24 +1326,6 @@ namespace RD_AAOW
 			try
 				{
 				await Launcher.OpenAsync (res);
-
-				/*switch (comm.IndexOf (res))
-					{
-					case 2:
-				if (res == comm[2])
-					await Launcher.OpenAsync (RDGenerics.LabVKLink);
-				break;
-
-				case 1:
-				else if (res == comm[1])
-					await Launcher.OpenAsync (RDGenerics.LabTGLink);
-				break;
-
-				case 0:
-				else if (res == comm[0])
-					await Launcher.OpenAsync (RDGenerics.DPModuleLink);
-				break;
-				}*/
 				}
 			catch
 				{
@@ -1574,9 +1568,7 @@ namespace RD_AAOW
 			cfg.IgnoreComparisonMisfits = ignoreMisfitsSwitch.IsToggled;
 			cfg.NotifyWhenUnavailable = notifyIfUnavailableSwitch.IsToggled;
 
-			Notification ni = new Notification (cfg /*nameField.Text, linkField, beginningField.Text, endingField.Text,
-				currentFreq, currentOcc, comparatorSwitch.IsToggled ? comparatorType : Notification.ComparatorTypes.Disabled,
-				comparatorValue, ignoreMisfitsSwitch.IsToggled*/);
+			Notification ni = new Notification (cfg);
 
 			if (!ni.IsInited)
 				{
@@ -1621,9 +1613,8 @@ namespace RD_AAOW
 		// Обновление кнопок
 		private void UpdateNotButtons ()
 			{
-			/*addButton.IsVisible =*/
 			notWizardButton.IsEnabled = (ProgramDescription.NSet.Notifications.Count <
-NotificationsSet.MaxNotifications);
+				NotificationsSet.MaxNotifications);
 			deleteButton.IsVisible = (ProgramDescription.NSet.Notifications.Count > 1);
 			}
 
