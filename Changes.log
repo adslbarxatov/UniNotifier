@@ -1,7 +1,10 @@
 UniNotifier changes log
 
 ToDo:
-- News widget
+- News widget;
+- Изменить подпись для больших постов GMJ;
+- Изменить подпись Перейти на веб-страницу;
+- Изменить предисловие GMJ
 
 Version 4.17:
 • Android: sizes of the news buttons and the font in the status bar and have been locked;
