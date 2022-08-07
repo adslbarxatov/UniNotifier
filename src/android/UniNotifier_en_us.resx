@@ -200,8 +200,14 @@
 = (equal to)
 ≠ (not equal to)</value>
   </data>
+  <data name="CopyMessage" xml:space="preserve">
+    <value>Copied to clipboard</value>
+  </data>
   <data name="CopyNotification" xml:space="preserve">
     <value>From existing item</value>
+  </data>
+  <data name="CopyOption" xml:space="preserve">
+    <value>Copy text</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces (including parts of webpage’s link) with what you want</value>
@@ -252,7 +258,7 @@
     <value>Special button:</value>
   </data>
   <data name="GoToOption" xml:space="preserve">
-    <value>Go to the webpage</value>
+    <value>Go to the source</value>
   </data>
   <data name="IgnoreMisfitsLabel" xml:space="preserve">
     <value>Don’t show inconsistent texts</value>
@@ -487,7 +493,7 @@ The channeling is determined by the “Urgent notifications only” and “Thres
     <value>In some cases, the needed part of web page is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of page) should be displayed</value>
   </data>
   <data name="Tip04_18" xml:space="preserve">
-    <value>All operations with texts of notifications are now available through the clicking on them right in the main log</value>
+    <value>All operations with texts of notifications are available through the clicking on them right in the main log</value>
   </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of notifications</value>

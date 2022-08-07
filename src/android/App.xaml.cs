@@ -581,6 +581,7 @@ namespace RD_AAOW
 				{
 				items = new List<string> {
 					"☍\t" + Localization.GetText ("ShareOption", al),
+					"❏\t" + Localization.GetText ("CopyOption",al),
 					Localization.GetText ("OtherOption", al)
 					};
 				if (!string.IsNullOrWhiteSpace (notLink))
@@ -600,7 +601,7 @@ namespace RD_AAOW
 				items.Clear ();
 
 				// Контроль второго набора
-				if (variant > 11)
+				if (variant > 12)
 					{
 					items = new List<string> {
 						"✕\t" + Localization.GetText ("RemoveOption", al)
@@ -623,6 +624,7 @@ namespace RD_AAOW
 				items = new List<string> {
 					"▷\t" + Localization.GetText ("GoToOption", al),
 					"☍\t" + Localization.GetText ("ShareOption", al),
+					"❏\t" + Localization.GetText ("CopyOption",al),
 					"↺\t" + Localization.GetText ("RequestAgainOption",al),
 					"✎\t" + Localization.GetText ("SetupOption", al),
 					Localization.GetText ("OtherOption", al)
@@ -640,7 +642,7 @@ namespace RD_AAOW
 				items.Clear ();
 
 				// Контроль второго набора
-				if (variant > 3)
+				if (variant > 4)
 					{
 					items = new List<string> {
 						"✕\t" + Localization.GetText ("RemoveOption", al),
@@ -690,8 +692,20 @@ namespace RD_AAOW
 						ProgramDescription.AssemblyVisibleName);
 					break;
 
-				// Повторный опрос
+				// Скопировать в буфер обмена
 				case 2:
+				case 12:
+					try
+						{
+						await Clipboard.SetTextAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" + notLink).Replace ("\r", ""));
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("CopyMessage",al),
+							ToastLength.Short).Show ();
+						}
+					catch { }
+					break;
+
+				// Повторный опрос
+				case 3:
 					// Блокировка
 					SetLogState (false);
 					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted", al),
@@ -718,21 +732,21 @@ namespace RD_AAOW
 					break;
 
 				// Настройка оповещения
-				case 3:
+				case 4:
 					currentNotification = notNumber;
 					SelectNotification (null, null);
 					((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[notSettingsTab];
 					break;
 
 				// Удаление из журнала
-				case 4:
-				case 12:
+				case 5:
+				case 13:
 					masterLog.RemoveAt (e.ItemIndex);
 					UpdateLog ();
 					break;
 
 				// Отключение оповещения
-				case 5:
+				case 6:
 					currentNotification = notNumber;
 					SelectNotification (null, null);
 					enabledSwitch.IsToggled = false;
