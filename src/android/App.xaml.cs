@@ -43,7 +43,8 @@ namespace RD_AAOW
 			gmjSourceLabel, statusBar, rightAlignmentLabel;
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, readModeSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
-			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch, rightAlignmentSwitch;
+			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch, rightAlignmentSwitch,
+			newsAtTheEndSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton, comparatorTypeButton, comparatorIncButton, comparatorLongButton,
 			comparatorDecButton, gmjSourceButton;
@@ -229,6 +230,11 @@ namespace RD_AAOW
 				false, solutionFieldBackColor, RightAlignmentSwitch_Toggled, NotificationsSupport.LogButtonsOnTheRightSide);
 			rightAlignmentLabel.IsVisible = rightAlignmentSwitch.IsVisible = (al == SupportedLanguages.ru_ru);
 
+			AndroidSupport.ApplyLabelSettingsForKKT (settingsPage, "NewsAtTheEndLabel",
+				Localization.GetText ("NewsAtTheEndLabel", al), false, false);
+			newsAtTheEndSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "NewsAtTheEndSwitch",
+				false, solutionFieldBackColor, NewsAtTheEndSwitch_Toggled, NotificationsSupport.LogNewsItemsAtTheEnd);
+
 			// Инициализация полей
 			ComparatorTypeChanged (null, null);
 			ComparatorSwitch_Toggled (null, null);
@@ -295,6 +301,7 @@ namespace RD_AAOW
 			mainLog.ItemTemplate = new DataTemplate (typeof (NotificationView));
 			mainLog.SelectionMode = ListViewSelectionMode.None;
 			mainLog.SeparatorVisibility = SeparatorVisibility.None;
+			mainLog.ItemAppearing += MainLog_ItemAppearing;
 
 			allNewsButton = AndroidSupport.ApplyButtonSettings (logPage, "AllNewsButton",
 				AndroidSupport.ButtonsDefaultNames.Refresh, logFieldBackColor, AllNewsItems);
@@ -353,7 +360,10 @@ namespace RD_AAOW
 		private async Task<bool> FinishBackgroundRequest ()
 			{
 			if (!NotificationsSupport.BackgroundRequestInProgress)
+				{
+				UpdateLog ();
 				return false;
+				}
 
 			// Ожидание завершения операции
 			SetLogState (false);
@@ -517,6 +527,7 @@ namespace RD_AAOW
 					{
 					// Запись в журнал
 					AddTextToLog (newText);
+					needsScroll = true;
 					UpdateLog ();
 					}
 
@@ -534,6 +545,34 @@ namespace RD_AAOW
 			{
 			mainLog.ItemsSource = null;
 			mainLog.ItemsSource = masterLog;
+			}
+		private bool needsScroll = true;
+
+		// Промотка журнала к нужной позиции
+		private async void MainLog_ItemAppearing (object sender, ItemVisibilityEventArgs e)
+			{
+			// Контроль
+			if ((masterLog.Count < 1) || !needsScroll)
+				return;
+
+			// Искусственная задержка
+			await Task.Delay (100);
+
+			// Промотка с повторением до достижения нужного участка
+			if (newsAtTheEndSwitch.IsToggled)
+				{
+				if (e.ItemIndex > masterLog.Count - 3)
+					needsScroll = false;
+
+				mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, false);
+				}
+			else
+				{
+				if (e.ItemIndex < 2)
+					needsScroll = false;
+
+				mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, false);
+				}
 			}
 
 		// Выбор оповещения для перехода или share
@@ -698,7 +737,7 @@ namespace RD_AAOW
 					try
 						{
 						await Clipboard.SetTextAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" + notLink).Replace ("\r", ""));
-						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("CopyMessage",al),
+						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("CopyMessage", al),
 							ToastLength.Short).Show ();
 						}
 					catch { }
@@ -805,6 +844,7 @@ namespace RD_AAOW
 			else
 				{
 				AddTextToLog (newText);
+				needsScroll = true;
 				UpdateLog ();
 				}
 
@@ -817,11 +857,22 @@ namespace RD_AAOW
 		// Добавление текста в журнал
 		private void AddTextToLog (string Text)
 			{
-			masterLog.Insert (0, new MainLogItem (Text));
+			if (newsAtTheEndSwitch.IsToggled)
+				{
+				masterLog.Add (new MainLogItem (Text));
 
-			// Удаление нижних строк (здесь требуется, т.к. не выполняется обрезка свойством .MainLog)
-			while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
-				masterLog.RemoveAt (masterLog.Count - 1);
+				// Удаление верхних строк
+				while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
+					masterLog.RemoveAt (0);
+				}
+			else
+				{
+				masterLog.Insert (0, new MainLogItem (Text));
+
+				// Удаление нижних строк (здесь требуется, т.к. не выполняется обрезка свойством .MainLog)
+				while (masterLog.Count >= ProgramDescription.MasterLogMaxItems)
+					masterLog.RemoveAt (masterLog.Count - 1);
+				}
 			}
 
 		#endregion
@@ -1220,8 +1271,9 @@ namespace RD_AAOW
 					NotificationsSupport.LogFontColor = logReadModeColor;
 				}
 
-			// Принудительное обновление
-			UpdateLog ();
+			// Принудительное обновление (только не при старте)
+			if (e != null)
+				UpdateLog ();
 			}
 
 		// Включение / выключение правого расположения кнопки GMJ
@@ -1232,6 +1284,13 @@ namespace RD_AAOW
 
 			statusBarGrid.FlowDirection = (rightAlignmentSwitch.IsToggled) ? FlowDirection.RightToLeft :
 				FlowDirection.LeftToRight;
+			}
+
+		// Включение / выключение добавления новостей с конца журнала
+		private void NewsAtTheEndSwitch_Toggled (object sender, ToggledEventArgs e)
+			{
+			if (e != null)
+				NotificationsSupport.LogNewsItemsAtTheEnd = newsAtTheEndSwitch.IsToggled;
 			}
 
 		// Изменение размера шрифта лога
@@ -1254,7 +1313,9 @@ namespace RD_AAOW
 
 			// Принудительное обновление
 			fontSizeFieldLabel.Text = string.Format (Localization.GetText ("FontSizeLabel", al), fontSize.ToString ());
-			UpdateLog ();
+
+			if (e != null)
+				UpdateLog ();
 			}
 
 		// Выбор языка приложения

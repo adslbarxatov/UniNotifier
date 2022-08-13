@@ -318,6 +318,9 @@
     <value>ВНИМАНИЕ! ЕСТЬ СРОЧНЫЕ ОПОВЕЩЕНИЯ!
 </value>
   </data>
+  <data name="NewsAtTheEndLabel" xml:space="preserve">
+    <value>Добавлять новости в конец журнала</value>
+  </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
   </data>

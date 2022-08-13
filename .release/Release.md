@@ -1,4 +1,7 @@
-_Changes for v 4.18_:
+_Changes for v 4.19_:
+- Android: implemented the ability to add new news items to the end of the main log;
+- Android: implemented the ability to autoscroll to the newest item;
+- Android: fixed multiple log loading at the app start;
 - Android: upgraded the method of retrieving of the GMJ agreement;
 - Android: added the “Copy to clipboard” option for the main log;
 - Android: updated some tips;

@@ -209,7 +209,11 @@ namespace RD_AAOW.Droid
 				NotificationsSet.NoNewsSign))
 				if (newText != "")
 					{
-					masterLog.Insert (0, new MainLogItem (newText));
+					if (NotificationsSupport.LogNewsItemsAtTheEnd)
+						masterLog.Add (new MainLogItem (newText));
+					else
+						masterLog.Insert (0, new MainLogItem (newText));
+
 					newItems++;
 					haveNews = true;
 					}

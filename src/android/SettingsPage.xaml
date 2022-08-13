@@ -66,6 +66,11 @@
 				<Label />
 
 				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="NewsAtTheEndSwitch" VerticalOptions="Center" />
+					<Label x:Name="NewsAtTheEndLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
 					<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
 				</StackLayout>

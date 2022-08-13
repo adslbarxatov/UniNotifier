@@ -315,6 +315,9 @@
     <value>WARNING! URGENT NOTIFICATIONS RECEIVED!
 </value>
   </data>
+  <data name="NewsAtTheEndLabel" xml:space="preserve">
+    <value>Add news at the end of main log</value>
+  </data>
   <data name="NextButton" xml:space="preserve">
     <value>OK</value>
   </data>

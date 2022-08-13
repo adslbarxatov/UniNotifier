@@ -1,9 +1,5 @@
 UniNotifier changes log
 
-ToDo:
-- News widget;
-- Allow adding of new items to the bottom of the log too
-
 TPNot:
 1. Картинки: максимальная ширина - половина узкого экрана, максимальная высота - треть высокой части экрана.
 2. Видимый текст (пример): [Городской дайджест] \n http://citypedia.site \n #17 (это - первая строка, которая
@@ -11,6 +7,11 @@ TPNot:
 3. При перелистывании страниц наверху должна оказываться строка с заголовком (строки, относящиеся к предыдущему
    заголовку, должны остаться на предыдущей странице).
 4. При перелистывании страниц пользователь должен видеть верхнюю часть страницы.
+
+Version 4.19:
+• Android: implemented the ability to add new news items to the end of the main log;
+• Android: implemented the ability to autoscroll to the newest item;
+• Android: fixed multiple log loading at the app start
 
 Version 4.18:
 • Android: upgraded the method of retrieving of the GMJ agreement;
