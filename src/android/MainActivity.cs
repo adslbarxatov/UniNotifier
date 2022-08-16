@@ -218,7 +218,7 @@ namespace RD_AAOW.Droid
 					haveNews = true;
 					}
 
-			// Сохранение
+			// Сохранение с обрезкой журнала
 			NotificationsSupport.MasterLog = masterLog;
 			NotificationsSupport.NewItems = newItems;
 

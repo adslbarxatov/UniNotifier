@@ -8,7 +8,7 @@ TPNot:
    заголовку, должны остаться на предыдущей странице).
 4. При перелистывании страниц пользователь должен видеть верхнюю часть страницы.
 
-Version 4.19:
+Version 4.19.2:
 • Android: implemented the ability to add new news items to the end of the main log;
 • Android: implemented the ability to autoscroll to the newest item;
 • Android: fixed multiple log loading at the app start
