@@ -21,7 +21,7 @@ namespace RD_AAOW.Droid
 	/// <summary>
 	/// Класс описывает загрузчик приложения
 	/// </summary>
-	[Activity (Label = "UniNotifier",
+	[Activity (Label = "uNot",
 		Icon = "@drawable/launcher_foreground",
 		Theme = "@style/SplashTheme",
 		MainLauncher = true,
@@ -93,7 +93,7 @@ namespace RD_AAOW.Droid
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifier",
-		Label = "UniNotifier",
+		Label = "uNot",
 		Exported = true)]
 	public class MainService:global::Android.App.Service
 		{

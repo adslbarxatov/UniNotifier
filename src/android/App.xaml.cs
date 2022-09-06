@@ -1111,7 +1111,7 @@ namespace RD_AAOW
 		private async Task<bool> NotificationsWizard ()
 			{
 			// Шаг запроса ссылки
-			Notification.NotConfiguration cfg;
+			NotConfiguration cfg;
 
 			cfg.SourceLink = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep1", al), Localization.GetText ("NextButton", al),
@@ -1152,7 +1152,7 @@ namespace RD_AAOW
 				cfg.WatchAreaBeginningSign = delim[0];
 				cfg.WatchAreaEndingSign = delim[1];
 				cfg.UpdatingFrequency = 1;
-				cfg.ComparisonType = Notification.ComparatorTypes.Disabled;
+				cfg.ComparisonType = NotComparatorTypes.Disabled;
 				cfg.ComparisonValue = 0.0;
 				cfg.IgnoreComparisonMisfits = cfg.NotifyWhenUnavailable = false;
 
@@ -1485,7 +1485,7 @@ namespace RD_AAOW
 				notifyIfUnavailableSwitch.IsToggled = ProgramDescription.NSet.Notifications[i].NotifyIfSourceIsUnavailable;
 
 				comparatorSwitch.IsToggled = (ProgramDescription.NSet.Notifications[i].ComparisonType !=
-					Notification.ComparatorTypes.Disabled);
+					NotComparatorTypes.Disabled);
 				if (comparatorSwitch.IsToggled)
 					{
 					comparatorType = ProgramDescription.NSet.Notifications[i].ComparisonType;
@@ -1631,14 +1631,14 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			Notification.NotConfiguration cfg;
+			NotConfiguration cfg;
 			cfg.NotificationName = nameField.Text;
 			cfg.SourceLink = linkField;
 			cfg.WatchAreaBeginningSign = beginningField.Text;
 			cfg.WatchAreaEndingSign = endingField.Text;
 			cfg.UpdatingFrequency = currentFreq;
 			cfg.OccurrenceNumber = currentOcc;
-			cfg.ComparisonType = comparatorSwitch.IsToggled ? comparatorType : Notification.ComparatorTypes.Disabled;
+			cfg.ComparisonType = comparatorSwitch.IsToggled ? comparatorType : NotComparatorTypes.Disabled;
 			cfg.ComparisonValue = comparatorValue;
 			cfg.IgnoreComparisonMisfits = ignoreMisfitsSwitch.IsToggled;
 			cfg.NotifyWhenUnavailable = notifyIfUnavailableSwitch.IsToggled;
@@ -1828,14 +1828,14 @@ namespace RD_AAOW
 			// Установка результата
 			if ((e == null) || ((i = list.IndexOf (res)) >= 0))
 				{
-				comparatorType = (Notification.ComparatorTypes)i;
+				comparatorType = (NotComparatorTypes)i;
 				comparatorTypeButton.Text = res;
 				}
 
 			// Сброс
 			list.Clear ();
 			}
-		private Notification.ComparatorTypes comparatorType = Notification.ComparatorTypes.Equal;
+		private NotComparatorTypes comparatorType = NotComparatorTypes.Equal;
 
 		// Изменение значения частоты опроса
 		private void ComparatorValueChanged (object sender, EventArgs e)

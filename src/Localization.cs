@@ -2,7 +2,6 @@
 #if ANDROID
 	using Xamarin.Essentials;
 #else
-	using Microsoft.Win32;
 	using System.Windows.Forms;
 #endif
 
@@ -91,16 +90,8 @@ namespace RD_AAOW
 			// Установка
 			set
 				{
-				try
-					{
-					currentLanguage = value.ToString ();
-#if ANDROID
-					Preferences.Set (LanguageValueName, currentLanguage);
-#else
-					Registry.SetValue (RDGenerics.AssemblySettingsKey, LanguageValueName, currentLanguage);
-#endif
-					}
-				catch { }
+				currentLanguage = value.ToString ();
+				RDGenerics.SetAppSettingsValue (LanguageValueName, currentLanguage);
 				}
 			}
 		private static string currentLanguage = "";
@@ -119,19 +110,7 @@ namespace RD_AAOW
 		// Метод запрашивает настройку из реестра
 		private static string GetCurrentLanguage ()
 			{
-			// Получение значения
-			string lang = "";
-			try
-				{
-#if ANDROID
-				lang = Preferences.Get (LanguageValueName, "");
-#else
-				lang = Registry.GetValue (RDGenerics.AssemblySettingsKey, LanguageValueName, "").ToString ();
-#endif
-				}
-			catch { }
-
-			return lang;
+			return RDGenerics.GetAppSettingsValue (LanguageValueName);
 			}
 
 		/// <summary>
@@ -317,6 +296,23 @@ namespace RD_AAOW
 		/// <param name="Container">Контейнер типа Panel</param>
 		/// <param name="Language">Требуемый язык локализации</param>
 		public static void SetControlsText (Panel Container, SupportedLanguages Language)
+			{
+			for (int i = 0; i < Container.Controls.Count; i++)
+				{
+				if (GetControlText (Container.Name, Container.Controls[i].Name, Language) != null)
+					{
+					Container.Controls[i].Text = GetControlText (Container.Name, Container.Controls[i].Name, Language);
+					}
+				}
+			}
+
+		/// <summary>
+		/// Метод устанавливает локализованные подписи для всех контролов, входящих в состав 
+		/// указанного контейнера (только Text)
+		/// </summary>
+		/// <param name="Container">Контейнер типа GroupBox</param>
+		/// <param name="Language">Требуемый язык локализации</param>
+		public static void SetControlsText (GroupBox Container, SupportedLanguages Language)
 			{
 			for (int i = 0; i < Container.Controls.Count; i++)
 				{

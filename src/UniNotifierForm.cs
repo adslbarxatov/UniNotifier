@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -29,7 +28,8 @@ namespace RD_AAOW
 			"Height",
 			"Read",
 			"CallOnUrgents",
-			"FontSize" };
+			"FontSize"
+			};
 
 		private NotificationsSet ns = new NotificationsSet (true);
 
@@ -68,7 +68,7 @@ namespace RD_AAOW
 #endif
 
 			// Получение настроек
-			try
+			/*try
 				{
 				this.Left = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[0],
 					"").ToString ());
@@ -90,6 +90,23 @@ namespace RD_AAOW
 					"").ToString ());
 				currentTGTimeStamp = DateTime.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, "TGTimeStamp",
 					"").ToString ());
+#endif
+				}
+			catch { }*/
+
+			try
+				{
+				this.Left = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[0]));
+				this.Top = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[1]));
+				this.Width = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[2]));
+				this.Height = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[3]));
+				this.ReadMode.Checked = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[4]));
+				callWindowOnUrgents = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[5]));
+				this.FontSizeField.Value = decimal.Parse (RDGenerics.GetAppSettingsValue (regParameters[6]));
+
+#if TG
+				currentTGCount = uint.Parse (RDGenerics.GetAppSettingsValue ("TGCount"));
+				currentTGTimeStamp = DateTime.Parse (RDGenerics.GetAppSettingsValue ("TGTimeStamp"));
 #endif
 				}
 			catch { }
@@ -294,12 +311,13 @@ namespace RD_AAOW
 				if (currentTGTimeStamp != DateTime.Today)
 					{
 					currentTGTimeStamp = DateTime.Today;
-					try
+					RDGenerics.SetAppSettingsValue ("TGTimeStamp", currentTGTimeStamp.ToString ());
+					/*try
 						{
 						Registry.SetValue (RDGenerics.AssemblySettingsKey, "TGTimeStamp",
 							currentTGTimeStamp.ToString ());
 						}
-					catch { }
+					catch { }*/
 					currentTGCount = 0;
 					}
 
@@ -336,11 +354,12 @@ namespace RD_AAOW
 
 				// Сохранение состояния
 				currentTGCount++;
-				try
+				RDGenerics.SetAppSettingsValue ("TGCount", currentTGCount.ToString ());
+				/*try
 					{
 					Registry.SetValue (RDGenerics.AssemblySettingsKey, "TGCount", currentTGCount.ToString ());
 					}
-				catch { }
+				catch { }*/
 				}
 #endif
 
@@ -403,11 +422,12 @@ namespace RD_AAOW
 
 			// Запоминание
 			callWindowOnUrgents = sf.CallWindowOnUrgents;
-			try
+			RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());
+			/*try
 				{
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[5], callWindowOnUrgents.ToString ());
 				}
-			catch { }
+			catch { }*/
 
 			// Обновление настроек
 			ReloadNotificationsList ();
@@ -462,11 +482,12 @@ namespace RD_AAOW
 				}
 
 			// Запоминание
-			try
+			RDGenerics.SetAppSettingsValue (regParameters[4], ReadMode.Checked.ToString ());
+			/*try
 				{
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[4], ReadMode.Checked.ToString ());
 				}
-			catch { }
+			catch { }*/
 			}
 
 		// Изменение размера формы
@@ -484,14 +505,19 @@ namespace RD_AAOW
 		// Сохранение размера формы
 		private void UniNotifierForm_ResizeEnd (object sender, EventArgs e)
 			{
-			try
+			/*try
 				{
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[0], this.Left.ToString ());
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[1], this.Top.ToString ());
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[2], this.Width.ToString ());
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[3], this.Height.ToString ());
 				}
-			catch { }
+			catch { }*/
+
+			RDGenerics.SetAppSettingsValue (regParameters[0], this.Left.ToString ());
+			RDGenerics.SetAppSettingsValue (regParameters[1], this.Top.ToString ());
+			RDGenerics.SetAppSettingsValue (regParameters[2], this.Width.ToString ());
+			RDGenerics.SetAppSettingsValue (regParameters[3], this.Height.ToString ());
 			}
 
 		// Запрос сообщения от GMJ
@@ -513,11 +539,12 @@ namespace RD_AAOW
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
-			try
+			RDGenerics.SetAppSettingsValue (regParameters[6], this.FontSizeField.Value.ToString ());
+			/*try
 				{
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[6], this.FontSizeField.Value.ToString ());
 				}
-			catch { }
+			catch { }*/
 			}
 		}
 	}

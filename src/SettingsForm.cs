@@ -129,7 +129,7 @@ namespace RD_AAOW
 			EnabledCheck.Checked = notifications.Notifications[i].IsEnabled;
 			OccurrenceField.Value = notifications.Notifications[i].OccurrenceNumber;
 
-			ComparatorFlag.Checked = (notifications.Notifications[i].ComparisonType != Notification.ComparatorTypes.Disabled);
+			ComparatorFlag.Checked = (notifications.Notifications[i].ComparisonType != NotComparatorTypes.Disabled);
 			ComparatorValue.Value = (decimal)notifications.Notifications[i].ComparisonValue;
 			MisfitsFlag.Checked = notifications.Notifications[i].IgnoreComparisonMisfits;
 			CheckAvailability.Checked = notifications.Notifications[i].NotifyIfSourceIsUnavailable;
@@ -159,15 +159,15 @@ namespace RD_AAOW
 		private void UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
-			Notification.NotConfiguration cfg;
+			NotConfiguration cfg;
 			cfg.NotificationName = NameText.Text;
 			cfg.SourceLink = LinkText.Text;
 			cfg.WatchAreaBeginningSign = BeginningText.Text;
 			cfg.WatchAreaEndingSign = EndingText.Text;
 			cfg.UpdatingFrequency = (uint)(FrequencyCombo.SelectedIndex + 1);
 			cfg.OccurrenceNumber = (uint)OccurrenceField.Value;
-			cfg.ComparisonType = ComparatorFlag.Checked ? (Notification.ComparatorTypes)ComparatorType.SelectedIndex :
-				Notification.ComparatorTypes.Disabled;
+			cfg.ComparisonType = ComparatorFlag.Checked ? (NotComparatorTypes)ComparatorType.SelectedIndex :
+				NotComparatorTypes.Disabled;
 			cfg.ComparisonValue = (double)ComparatorValue.Value;
 			cfg.IgnoreComparisonMisfits = MisfitsFlag.Checked;
 			cfg.NotifyWhenUnavailable = CheckAvailability.Checked;

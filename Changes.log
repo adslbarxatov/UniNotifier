@@ -8,6 +8,11 @@ TPNot:
    заголовку, должны остаться на предыдущей странице).
 4. При перелистывании страниц пользователь должен видеть верхнюю часть страницы.
 
+Version 5.0:
+• App now constantly has the short name – uNot;
+• New system registry call method has been implemented;
+• Cumulative updates and improvements have been applied
+
 Version 4.19.2:
 • Android: implemented the ability to add new news items to the end of the main log;
 • Android: implemented the ability to autoscroll to the newest item;

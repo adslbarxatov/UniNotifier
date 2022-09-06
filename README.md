@@ -1,10 +1,10 @@
-# UniNotifier v 4.19.2
-> PCC: 00046F7A29C2CA33
+# uNot v 5.0
+> PCC: 00046F77B3975A72
 
 
-UniNotifier, the managed news service
+UniNotifier (uNot), the managed news service
 
-UniNotifier – служба управляемых новостей
+UniNotifier (uNot) – служба управляемых новостей
 
 
 

@@ -1,8 +1,8 @@
-﻿#if ANDROID
+﻿/*#if ANDROID
 	using Xamarin.Essentials;
 #else
 	using Microsoft.Win32;
-#endif
+#endif*/
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -51,16 +51,18 @@ namespace RD_AAOW
 			string buf = Encoding.UTF8.GetString (s);
 
 			// Получение загруженных шаблонов
-			string buf2 = "";
+			/*string buf2 = "";
 			try
 				{
-#if ANDROID
+			#if ANDROID
 				buf2 = Preferences.Get (externalTemplatesSubkey, "");
-#else
+			#else
 				buf2 = Registry.GetValue (RDGenerics.AssemblySettingsKey, externalTemplatesSubkey, "").ToString ();
-#endif
+			#endif
 				}
-			catch { }
+			catch { }*/
+
+			string buf2 = RDGenerics.GetAppSettingsValue (externalTemplatesSubkey);
 			buf += buf2;
 
 			// Разбор
@@ -229,22 +231,26 @@ namespace RD_AAOW
 			// Получение списка
 			StringReader SR = new StringReader (html);
 			string newVersion = SR.ReadLine ();
-			string oldVersion = "";
+			/*string oldVersion = "";*/
+			string oldVersion = RDGenerics.GetAppSettingsValue (externalTemplatesVersionSubkey);
 
-#if ANDROID
-			oldVersion = Preferences.Get (externalTemplatesVersionSubkey, "");
-			if (oldVersion == newVersion)
-				return false;
-#else
-			oldVersion = Registry.GetValue (RDGenerics.AssemblySettingsKey, externalTemplatesVersionSubkey,
-				"").ToString ();
 			if (oldVersion == newVersion)
 				{
+#if ANDROID
+				/*oldVersion = Preferences.Get (externalTemplatesVersionSubkey, "");
+				if (oldVersion == newVersion)*/
+				return false;
+#else
+				/*oldVersion = Registry.GetValue (RDGenerics.AssemblySettingsKey, externalTemplatesVersionSubkey,
+					"").ToString ();
+				if (oldVersion == newVersion)
+					{*/
 				if (e != null)
 					e.Result = 1;
 				return;
-				}
+				/*}*/
 #endif
+				}
 
 			// Интерпретация (удаление лишних элементов)
 			string tmp = "", str;
@@ -261,19 +267,20 @@ namespace RD_AAOW
 
 			// Запись
 			tmp = tmp.Replace ("&lt;", "<").Replace ("&gt;", ">");
-			try
+			/*try
 				{
-#if ANDROID
+			#if ANDROID
 				Preferences.Set (externalTemplatesVersionSubkey, newVersion);
 				Preferences.Set (externalTemplatesSubkey, tmp);
-#else
+			#else
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, externalTemplatesVersionSubkey, newVersion);
 				Registry.SetValue (RDGenerics.AssemblySettingsKey, externalTemplatesSubkey, tmp);
-#endif
+			#endif
 				}
-			catch
-				{
-				}
+			catch { }*/
+
+			RDGenerics.SetAppSettingsValue (externalTemplatesVersionSubkey, newVersion);
+			RDGenerics.SetAppSettingsValue (externalTemplatesSubkey, tmp);
 
 			// Завершено
 			SR.Close ();
