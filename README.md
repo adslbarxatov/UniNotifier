@@ -51,10 +51,10 @@ Interface languages / языки интерфейса: ru_ru, en_us.
 #
 
 - [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 5.0 or newer. Interface languages: ru_ru, en_us;
-- Application available in AppGallery.
+- Application available in [AppGallery](https://appgallery.cloud.huawei.com/ag/n/app/C102838121?channelId=GitHub&id=34da22c3478e4601b33a6ec854592895&s=DB4BF2118E523FEF437C11C7FAB0DE5D24080C18F860F60311E2B5919F1B568A&detailType=0&v=&callType=AGDLINK&installType=0000).
 
 - Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 5.0 или новее. Языки интерфейса: ru_ru, en_us;
-- Приложение доступно в AppGallery.
+- Приложение доступно в [AppGallery](https://appgallery.cloud.huawei.com/ag/n/app/C102838121?channelId=GitHub&id=34da22c3478e4601b33a6ec854592895&s=DB4BF2118E523FEF437C11C7FAB0DE5D24080C18F860F60311E2B5919F1B568A&detailType=0&v=&callType=AGDLINK&installType=0000).
 
 #
 
