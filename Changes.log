@@ -8,9 +8,9 @@ TPNot:
    заголовку, должны остаться на предыдущей странице).
 4. При перелистывании страниц пользователь должен видеть верхнюю часть страницы.
 
-ToDo:
-- Notification icon edges;
-- All news button doesn't block settings buttons
+Version 5.0.5:
+• All news request now properly locks settings pages (to avoid unexpected effects);
+• Adjusted the notification icon
 
 Version 5.0:
 • App now constantly has the short name – uNot;

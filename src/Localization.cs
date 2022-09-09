@@ -1,7 +1,5 @@
 ﻿using System.Globalization;
-#if ANDROID
-	using Xamarin.Essentials;
-#else
+#if !ANDROID
 	using System.Windows.Forms;
 #endif
 

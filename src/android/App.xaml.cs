@@ -47,7 +47,7 @@ namespace RD_AAOW
 			newsAtTheEndSwitch;
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton, getGMJButton,
 			allNewsButton, notWizardButton, comparatorTypeButton, comparatorIncButton, comparatorLongButton,
-			comparatorDecButton, gmjSourceButton;
+			comparatorDecButton, gmjSourceButton, linkFieldButton;
 		private Editor nameField, beginningField, endingField, comparatorValueField;
 		private Grid statusBarGrid;
 
@@ -155,7 +155,7 @@ namespace RD_AAOW
 
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "LinkFieldLabel",
 				Localization.GetText ("LinkFieldLabel", al), false, false);
-			AndroidSupport.ApplyButtonSettings (notSettingsPage, "LinkFieldButton",
+			linkFieldButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "LinkFieldButton",
 				AndroidSupport.ButtonsDefaultNames.Select, solutionFieldBackColor, SpecifyNotificationLink);
 
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "BeginningFieldLabel",
@@ -799,8 +799,17 @@ namespace RD_AAOW
 		// Блокировка / разблокировка кнопок
 		private void SetLogState (bool State)
 			{
-			// Переключение кнопок
+			// Переключение состояния кнопок и свичей
 			getGMJButton.IsEnabled = allNewsButton.IsEnabled = State;
+
+			/*allowLightSwitch.IsEnabled = allowSoundSwitch.IsEnabled = allowStart.IsEnabled =
+				allowVibroSwitch.IsEnabled = rightAlignmentSwitch.IsEnabled = newsAtTheEndSwitch.IsEnabled =
+				readModeSwitch.IsEnabled = notWizardButton.IsEnabled = State;
+
+			selectedNotification.IsEnabled = applyButton.IsEnabled = deleteButton.IsEnabled =
+				comparatorTypeButton.IsEnabled = gmjSourceButton.IsEnabled = linkFieldButton.IsEnabled = State;*/
+
+			settingsPage.IsEnabled = notSettingsPage.IsEnabled = aboutPage.IsEnabled = State;
 
 			// Обновление статуса
 			if (statusBar.FontAttributes != FontAttributes.None)
