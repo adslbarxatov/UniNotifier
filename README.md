@@ -8,7 +8,7 @@ UniNotifier (uNot) – служба управляемых новостей
 
 
 
-# Tablepedia notifier v 4.4.1
+# Tablepedia notifier v 4.5
 
 
 TPNotifier, the [Tablepedia.com](http://tablepedia.com) notifications service
@@ -19,7 +19,9 @@ TPNotifier – служба оповещений для [Tablepedia.com](http://
 
 ## Description
 
-This utility provides the ability to receive notifications about changes in the state of user-specified sites and their webpages (in other words, updates and news) in the form of a text log. In this case, only what the user specified is loaded – all other objects (including advertisement) are ignored.
+This utility provides the ability to receive notifications about changes in the state of user-specified sites and their webpages
+(in other words, updates and news) in the form of a text log. In this case, only what the user specified is loaded – all other
+objects (including advertisement) are ignored.
 
 - The settings section allows you to manage and design notifications.
 - The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
@@ -30,7 +32,9 @@ This utility provides the ability to receive notifications about changes in the 
 
 ## Описание
 
-Эта утилита предоставляет возможность получать уведомления об изменении состояния заданных пользователем сайтов и их веб-страниц (иными словами – об обновлениях и новостях) в виде текстового журнала. При этом загружается только то, что указал пользователь – все остальные объекты (включая рекламу) игнорируются.
+Эта утилита предоставляет возможность получать уведомления об изменении состояния заданных пользователем сайтов и их веб-страниц
+(иными словами – об обновлениях и новостях) в виде текстового журнала. При этом загружается только то, что указал пользователь –
+все остальные объекты (включая рекламу) игнорируются.
 
 - Раздел настроек позволяет управлять уведомлениями и конструировать их.
 - Главный журнал обеспечивает просмотр новостей, переход на веб-страницы, с которых они были получены, и возможность ими поделиться.
@@ -64,7 +68,7 @@ Interface languages / языки интерфейса: ru_ru, en_us.
 
 
 
-## [Development policy and EULA / Политика разработки и EULA](https://adslbarxatov.github.io/ADP)
+## [Development policy and EULA](https://adslbarxatov.github.io/ADP) / [Политика разработки и EULA](https://adslbarxatov.github.io/ADP/ru)
 
 This Policy (ADP), its positions, conclusion, EULA and application methods
 describes general rules that we follow in all of our development processes, released applications and implemented ideas.
