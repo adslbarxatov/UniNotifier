@@ -5,12 +5,12 @@ TPNot:
 
 Version 5.0.5:
 • Android: fixed notifications reload failure after the app restart;
-• Androad: all news request now properly locks settings pages (to avoid unexpected effects);
+• Android: all news request now properly locks settings pages (to avoid unexpected effects);
 • Android: adjusted the notification icon;
 • TPNot 4.5: реализована автопрокрутка страниц при переходе между ними: к концу при переходе назад и к началу
   при переходе вперёд;
 • TPNot 4.5: реализована индексация содержимого страниц: приложение теперь будет пытаться разделять страницы
-  таким образом, чтобы в верху каждой из них был подзаголовок следующей темы;
+  таким образом, чтобы в верхней части каждой из них был подзаголовок следующей темы;
 • TPNot 4.5: исправлен дефект обработки ссылок, возникавший при перемещении между страницами и приводивший
   к падению приложения;
 • TPNot 4.5: добавлен контроль разрешений при наличии на страницах загружаемых изображений;
