@@ -105,6 +105,7 @@ namespace RD_AAOW.Droid
 
 		private NotificationCompat.Builder notBuilder;                  // Дескрипторы уведомлений
 		private NotificationManager notManager;
+		private NotificationChannel urgentChannel, defaultChannel;
 		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
 		private string urgentChannelID, defaultChannelID;
@@ -253,6 +254,22 @@ namespace RD_AAOW.Droid
 // Формирование сообщения
 notMessage:
 			notBuilder.SetContentText (msg);
+
+			if (AndroidSupport.IsForegroundAvailable)
+				{
+				if (NotificationsSupport.NewItems > 0)
+					{
+					defaultChannel.SetShowBadge (true);
+					urgentChannel.SetShowBadge (true);
+					notBuilder.SetNumber ((int)NotificationsSupport.NewItems);
+					}
+				else
+					{
+					defaultChannel.SetShowBadge (false);
+					urgentChannel.SetShowBadge (false);
+					}
+				}
+
 			notTextStyle.BigText (msg);
 
 			Android.App.Notification notification = notBuilder.Build ();
@@ -287,10 +304,10 @@ notMessage:
 			if (AndroidSupport.IsForegroundAvailable)
 				{
 				urgentChannelID = ProgramDescription.AssemblyMainName.ToLower () + "_urgent";
-				NotificationChannel urgentChannel = new NotificationChannel (urgentChannelID,
+				urgentChannel = new NotificationChannel (urgentChannelID,
 					ProgramDescription.AssemblyVisibleName + " / Urgent", NotificationImportance.High);
 				defaultChannelID = ProgramDescription.AssemblyMainName.ToLower () + "_default";
-				NotificationChannel defaultChannel = new NotificationChannel (defaultChannelID,
+				defaultChannel = new NotificationChannel (defaultChannelID,
 					ProgramDescription.AssemblyVisibleName + " / Non-urgent", NotificationImportance.High);
 
 				// Настройка

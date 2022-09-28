@@ -28,6 +28,7 @@ namespace RD_AAOW
 			logReadModeColor = Color.FromHex ("#202020"),
 
 			solutionMasterBackColor = Color.FromHex ("#FFF8F0"),
+			solutionLockedBackColor = Color.FromHex ("#F0F0F0"),
 			solutionFieldBackColor = Color.FromHex ("#FFE8D0"),
 
 			aboutMasterBackColor = Color.FromHex ("#F0FFF0"),
@@ -564,14 +565,15 @@ namespace RD_AAOW
 				if (e.ItemIndex > masterLog.Count - 3)
 					needsScroll = false;
 
-				mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, false);
+				mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, true);
+
 				}
 			else
 				{
 				if (e.ItemIndex < 2)
 					needsScroll = false;
 
-				mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, false);
+				mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, true);
 				}
 			}
 
@@ -810,6 +812,16 @@ namespace RD_AAOW
 				comparatorTypeButton.IsEnabled = gmjSourceButton.IsEnabled = linkFieldButton.IsEnabled = State;*/
 
 			settingsPage.IsEnabled = notSettingsPage.IsEnabled = aboutPage.IsEnabled = State;
+			if (!State)
+				{
+				settingsPage.BackgroundColor = notSettingsPage.BackgroundColor =
+					aboutPage.BackgroundColor = solutionLockedBackColor;
+				}
+			else
+				{
+				settingsPage.BackgroundColor = notSettingsPage.BackgroundColor = solutionMasterBackColor;
+				aboutPage.BackgroundColor = aboutMasterBackColor;
+				}
 
 			// Обновление статуса
 			if (statusBar.FontAttributes != FontAttributes.None)
@@ -1282,7 +1294,10 @@ namespace RD_AAOW
 
 			// Принудительное обновление (только не при старте)
 			if (e != null)
+				{
+				needsScroll = true;
 				UpdateLog ();
+				}
 			}
 
 		// Включение / выключение правого расположения кнопки GMJ
@@ -1324,7 +1339,10 @@ namespace RD_AAOW
 			fontSizeFieldLabel.Text = string.Format (Localization.GetText ("FontSizeLabel", al), fontSize.ToString ());
 
 			if (e != null)
+				{
+				needsScroll = true;
 				UpdateLog ();
+				}
 			}
 
 		// Выбор языка приложения
@@ -1423,7 +1441,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				await Launcher.OpenAsync (RDGenerics.ADPLink);
+				await Launcher.OpenAsync (RDGenerics.GetADPLink (al == SupportedLanguages.ru_ru));
 				}
 			catch
 				{

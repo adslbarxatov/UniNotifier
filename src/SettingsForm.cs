@@ -83,7 +83,7 @@ namespace RD_AAOW
 		private void UpdateButtons ()
 			{
 			BAdd.Enabled = NotWizard.Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
-			BDelete.Enabled = BUpdate.Enabled = (notifications.Notifications.Count > 1);    // Одно должно остаться
+			BDelete.Enabled = (notifications.Notifications.Count > 1);    // Одно должно остаться
 			}
 
 		/// <summary>

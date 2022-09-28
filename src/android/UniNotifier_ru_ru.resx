@@ -187,7 +187,7 @@
     <value>Приветственная страница</value>
   </data>
   <data name="ComparatorLabel" xml:space="preserve">
-    <value>Проверять первое число в тексте и создавать срочное оповещение, если значение</value>
+    <value>Проверять первое число в тексте и создавать срочное извещение, если значение</value>
   </data>
   <data name="ComparatorLabelOff" xml:space="preserve">
     <value>Порог</value>
@@ -210,7 +210,9 @@
     <value>Скопировать текст</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
-    <value>Не забудьте заменить элементы, заключённые в фигурные скобки (включая фрагменты ссылки на веб-страницу), на то, что Вам нужно</value>
+    <value>Не забудьте заменить элементы, заключённые в фигурные скобки, на необходимые Вам значения.
+
+Например: {CITY} на Reykjavik, {CURRENCY} на ZWL</value>
   </data>
   <data name="DeclineButton" xml:space="preserve">
     <value>Читать</value>

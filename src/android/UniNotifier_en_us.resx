@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutPage" xml:space="preserve">
-    <value>About application</value>
+    <value>About the application</value>
   </data>
   <data name="AcceptButton" xml:space="preserve">
     <value>Accept</value>
@@ -187,7 +187,7 @@
     <value>Welcome page</value>
   </data>
   <data name="ComparatorLabel" xml:space="preserve">
-    <value>Check the first number in text and make urgent notifications when value is</value>
+    <value>Check the first number in text and make urgent alert when value is</value>
   </data>
   <data name="ComparatorLabelOff" xml:space="preserve">
     <value>Threshold</value>
@@ -210,7 +210,9 @@
     <value>Copy text</value>
   </data>
   <data name="CurlyTemplate" xml:space="preserve">
-    <value>Remember to replace items enclosed in curly braces (including parts of webpage’s link) with what you want</value>
+    <value>Remember to replace items enclosed in curly braces with values you want.
+
+For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   </data>
   <data name="DeclineButton" xml:space="preserve">
     <value>Read</value>
@@ -219,10 +221,10 @@
     <value>Non-urgent (that must be silenced)</value>
   </data>
   <data name="DeleteMessage" xml:space="preserve">
-    <value>Delete selected notification?</value>
+    <value>Remove the selected notification?</value>
   </data>
   <data name="DevPage" xml:space="preserve">
-    <value>Ask developer</value>
+    <value>Ask the developer</value>
   </data>
   <data name="DisableOption" xml:space="preserve">
     <value>Disable the notification</value>
@@ -246,7 +248,7 @@
     <value>Ending:</value>
   </data>
   <data name="FindDisclaimer" xml:space="preserve">
-    <value>For using this function specify some keyword from needed site's area in “Beginning” field</value>
+    <value>For using this function specify some keyword from needed site’s area in the “Beginning” field</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Font size: &lt;b&gt;{0:D}&lt;/b&gt;</value>

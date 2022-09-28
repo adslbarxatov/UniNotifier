@@ -1,9 +1,12 @@
-_Changes for v 5.0.5_:
+_Changes for v 5.1_:
+- Implemented the ability to open localized ADP, SCP and Welcome pages;
+- Windows: required framework version updated from 4.0 to 4.8;
+- Android: target version changed to T (API 33);
+- Android: fixed some headers and tips;
+- Android: updated Xamarin support packages;
+- Android: adjusted the behavior of locked pages (when the news retrieving is in progress);
+- Android: adjusted the autoscrolling behavior;
+- Android: implemented the ability to display the quantity of unread news as the badge for the app icon;
 - Android: fixed notifications reload failure after the app restart;
 - Androad: all news request now properly locks settings pages (to avoid unexpected effects);
-- Android: adjusted the notification icon;
-- App now constantly has the short name – ***uNot***;
-- New system registry call method has been implemented;
-- Cumulative updates and improvements have been applied;
-- Android: implemented the ability to add new news items to the end of the main log;
-- Android: implemented the ability to autoscroll to the newest item
+- App now constantly has the short name – ***uNot***

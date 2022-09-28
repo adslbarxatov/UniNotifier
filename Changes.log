@@ -3,6 +3,17 @@ UniNotifier changes log
 TPNot:
 1. Картинки: максимальная ширина - половина узкого экрана, максимальная высота - треть высокой части экрана.
 
+Version 5.1:
+• Implemented the ability to open localized ADP, SCP and Welcome pages;
+• Windows: required framework version updated from 4.0 to 4.8;
+• Android: target version changed to T (API 33);
+• Android: fixed some headers and tips;
+• Android: updated Xamarin support packages;
+• Android: adjusted the behavior of locked pages (when the news retrieving is in progress);
+• Android: adjusted the autoscrolling behavior;
+• Android: implemented the ability to display the quantity of unread news as the badge for
+  the app icon
+
 Version 5.0.5:
 • Android: fixed notifications reload failure after the app restart;
 • Android: all news request now properly locks settings pages (to avoid unexpected effects);
