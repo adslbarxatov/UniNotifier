@@ -12,7 +12,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает главную форму приложения
 	/// </summary>
-	public partial class UniNotifierForm:Form
+	public partial class UniNotifierForm: Form
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
@@ -68,32 +68,6 @@ namespace RD_AAOW
 #endif
 
 			// Получение настроек
-			/*try
-				{
-				this.Left = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[0],
-					"").ToString ());
-				this.Top = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[1],
-					"").ToString ());
-				this.Width = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[2],
-					"").ToString ());
-				this.Height = int.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[3],
-					"").ToString ());
-				this.ReadMode.Checked = bool.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[4],
-					"").ToString ());
-				callWindowOnUrgents = bool.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[5],
-					"").ToString ());
-				this.FontSizeField.Value = decimal.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, regParameters[6],
-					"").ToString ());
-
-#if TG
-				currentTGCount = uint.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, "TGCount",
-					"").ToString ());
-				currentTGTimeStamp = DateTime.Parse (Registry.GetValue (RDGenerics.AssemblySettingsKey, "TGTimeStamp",
-					"").ToString ());
-#endif
-				}
-			catch { }*/
-
 			try
 				{
 				this.Left = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[0]));
@@ -312,12 +286,6 @@ namespace RD_AAOW
 					{
 					currentTGTimeStamp = DateTime.Today;
 					RDGenerics.SetAppSettingsValue ("TGTimeStamp", currentTGTimeStamp.ToString ());
-					/*try
-						{
-						Registry.SetValue (RDGenerics.AssemblySettingsKey, "TGTimeStamp",
-							currentTGTimeStamp.ToString ());
-						}
-					catch { }*/
 					currentTGCount = 0;
 					}
 
@@ -355,11 +323,6 @@ namespace RD_AAOW
 				// Сохранение состояния
 				currentTGCount++;
 				RDGenerics.SetAppSettingsValue ("TGCount", currentTGCount.ToString ());
-				/*try
-					{
-					Registry.SetValue (RDGenerics.AssemblySettingsKey, "TGCount", currentTGCount.ToString ());
-					}
-				catch { }*/
 				}
 #endif
 
@@ -423,11 +386,6 @@ namespace RD_AAOW
 			// Запоминание
 			callWindowOnUrgents = sf.CallWindowOnUrgents;
 			RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());
-			/*try
-				{
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[5], callWindowOnUrgents.ToString ());
-				}
-			catch { }*/
 
 			// Обновление настроек
 			ReloadNotificationsList ();
@@ -435,11 +393,14 @@ namespace RD_AAOW
 			ResetCulture ();
 
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
-				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" + (i + 2).ToString ("D02"), al);
+				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" +
+					(i + 2).ToString ("D02"), al);
 
 			// Перезапуск
-			bool complete = (MessageBox.Show (Localization.GetText ("RecallAllNews", al), ProgramDescription.AssemblyVisibleName,
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes);
+			bool complete = (MessageBox.Show (Localization.GetText ("RecallAllNews", al),
+				ProgramDescription.AssemblyVisibleName, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				MessageBoxDefaultButton.Button2) == DialogResult.Yes);
+
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
 			MainTimer.Enabled = true;
 			}
@@ -483,11 +444,6 @@ namespace RD_AAOW
 
 			// Запоминание
 			RDGenerics.SetAppSettingsValue (regParameters[4], ReadMode.Checked.ToString ());
-			/*try
-				{
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[4], ReadMode.Checked.ToString ());
-				}
-			catch { }*/
 			}
 
 		// Изменение размера формы
@@ -505,15 +461,6 @@ namespace RD_AAOW
 		// Сохранение размера формы
 		private void UniNotifierForm_ResizeEnd (object sender, EventArgs e)
 			{
-			/*try
-				{
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[0], this.Left.ToString ());
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[1], this.Top.ToString ());
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[2], this.Width.ToString ());
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[3], this.Height.ToString ());
-				}
-			catch { }*/
-
 			RDGenerics.SetAppSettingsValue (regParameters[0], this.Left.ToString ());
 			RDGenerics.SetAppSettingsValue (regParameters[1], this.Top.ToString ());
 			RDGenerics.SetAppSettingsValue (regParameters[2], this.Width.ToString ());
@@ -540,11 +487,6 @@ namespace RD_AAOW
 			{
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
 			RDGenerics.SetAppSettingsValue (regParameters[6], this.FontSizeField.Value.ToString ());
-			/*try
-				{
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, regParameters[6], this.FontSizeField.Value.ToString ());
-				}
-			catch { }*/
 			}
 		}
 	}

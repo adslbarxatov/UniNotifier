@@ -1,4 +1,5 @@
-_Changes for v 5.1_:
+_Changes for v 5.1.8_:
+- Removed obsolete code;
 - Implemented the ability to open localized ADP, SCP and Welcome pages;
 - Windows: required framework version updated from 4.0 to 4.8;
 - Android: target version changed to T (API 33);

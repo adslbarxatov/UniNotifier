@@ -6,7 +6,7 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс описывает форму настроек оповещений
 	/// </summary>
-	public partial class SettingsForm:Form
+	public partial class SettingsForm: Form
 		{
 		// Переменные и константы
 		private NotificationsSet notifications;

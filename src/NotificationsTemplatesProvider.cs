@@ -1,9 +1,4 @@
-﻿/*#if ANDROID
-	using Xamarin.Essentials;
-#else
-	using Microsoft.Win32;
-#endif*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -15,13 +10,14 @@ namespace RD_AAOW
 	/// <summary>
 	/// Класс предоставляет доступ к шаблонам оповещений
 	/// </summary>
-	public class NotificationsTemplatesProvider:IDisposable
+	public class NotificationsTemplatesProvider: IDisposable
 		{
 		// Переменные и константы
 		private List<string[]> templatesElements = new List<string[]> ();
 		private const string externalTemplatesSubkey = "ExternalTemplates";
 		private const string externalTemplatesVersionSubkey = "ExternalTemplatesVersion";
-		private const string listLink = "https://github.com/adslbarxatov/UniNotifier/blob/master/TemplatesList.md";
+		private const string listLink = RDGenerics.AssemblyGitLink + ProgramDescription.AssemblyMainName +
+			"/blob/master/TemplatesList.md";
 		private char[] fileTemplateSplitter = new char[] { '\t' };
 
 		/// <summary>
@@ -51,17 +47,6 @@ namespace RD_AAOW
 			string buf = Encoding.UTF8.GetString (s);
 
 			// Получение загруженных шаблонов
-			/*string buf2 = "";
-			try
-				{
-			#if ANDROID
-				buf2 = Preferences.Get (externalTemplatesSubkey, "");
-			#else
-				buf2 = Registry.GetValue (RDGenerics.AssemblySettingsKey, externalTemplatesSubkey, "").ToString ();
-			#endif
-				}
-			catch { }*/
-
 			string buf2 = RDGenerics.GetAppSettingsValue (externalTemplatesSubkey);
 			buf += buf2;
 
@@ -231,24 +216,16 @@ namespace RD_AAOW
 			// Получение списка
 			StringReader SR = new StringReader (html);
 			string newVersion = SR.ReadLine ();
-			/*string oldVersion = "";*/
 			string oldVersion = RDGenerics.GetAppSettingsValue (externalTemplatesVersionSubkey);
 
 			if (oldVersion == newVersion)
 				{
 #if ANDROID
-				/*oldVersion = Preferences.Get (externalTemplatesVersionSubkey, "");
-				if (oldVersion == newVersion)*/
 				return false;
 #else
-				/*oldVersion = Registry.GetValue (RDGenerics.AssemblySettingsKey, externalTemplatesVersionSubkey,
-					"").ToString ();
-				if (oldVersion == newVersion)
-					{*/
 				if (e != null)
 					e.Result = 1;
 				return;
-				/*}*/
 #endif
 				}
 
@@ -267,17 +244,6 @@ namespace RD_AAOW
 
 			// Запись
 			tmp = tmp.Replace ("&lt;", "<").Replace ("&gt;", ">");
-			/*try
-				{
-			#if ANDROID
-				Preferences.Set (externalTemplatesVersionSubkey, newVersion);
-				Preferences.Set (externalTemplatesSubkey, tmp);
-			#else
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, externalTemplatesVersionSubkey, newVersion);
-				Registry.SetValue (RDGenerics.AssemblySettingsKey, externalTemplatesSubkey, tmp);
-			#endif
-				}
-			catch { }*/
 
 			RDGenerics.SetAppSettingsValue (externalTemplatesVersionSubkey, newVersion);
 			RDGenerics.SetAppSettingsValue (externalTemplatesSubkey, tmp);
