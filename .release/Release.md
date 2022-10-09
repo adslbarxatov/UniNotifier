@@ -1,13 +1,11 @@
-_Changes for v 5.1.8_:
-- Removed obsolete code;
+_Changes for v 5.2_:
+- XPR control has been implemented;
+- Windows: adjusted the control of single active copy;
+- Android: code refactoring has been applied;
+- Android: trying to fix the icon’s numeric badge;
 - Implemented the ability to open localized ADP, SCP and Welcome pages;
 - Windows: required framework version updated from 4.0 to 4.8;
 - Android: target version changed to T (API 33);
-- Android: fixed some headers and tips;
 - Android: updated Xamarin support packages;
 - Android: adjusted the behavior of locked pages (when the news retrieving is in progress);
-- Android: adjusted the autoscrolling behavior;
-- Android: implemented the ability to display the quantity of unread news as the badge for the app icon;
-- Android: fixed notifications reload failure after the app restart;
-- Androad: all news request now properly locks settings pages (to avoid unexpected effects);
-- App now constantly has the short name – ***uNot***
+- Android: adjusted the autoscrolling behavior

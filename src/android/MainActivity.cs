@@ -26,7 +26,7 @@ namespace RD_AAOW.Droid
 		Theme = "@style/SplashTheme",
 		MainLauncher = true,
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class MainActivity:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
 		/// <summary>
 		/// Обработчик события создания экземпляра
@@ -95,7 +95,7 @@ namespace RD_AAOW.Droid
 	[Service (Name = "com.RD_AAOW.UniNotifier",
 		Label = "uNot",
 		Exported = true)]
-	public class MainService:global::Android.App.Service
+	public class MainService: global::Android.App.Service
 		{
 		// Переменные и константы
 		private Handler handler;                                        // Идентификаторы процесса
@@ -257,7 +257,9 @@ notMessage:
 
 			if (AndroidSupport.IsForegroundAvailable)
 				{
-				if (NotificationsSupport.NewItems > 0)
+				notBuilder.SetNumber ((int)NotificationsSupport.NewItems);
+
+				/*if (NotificationsSupport.NewItems > 0)
 					{
 					defaultChannel.SetShowBadge (true);
 					urgentChannel.SetShowBadge (true);
@@ -267,7 +269,7 @@ notMessage:
 					{
 					defaultChannel.SetShowBadge (false);
 					urgentChannel.SetShowBadge (false);
-					}
+					}*/
 				}
 
 			notTextStyle.BigText (msg);
@@ -309,6 +311,9 @@ notMessage:
 				defaultChannelID = ProgramDescription.AssemblyMainName.ToLower () + "_default";
 				defaultChannel = new NotificationChannel (defaultChannelID,
 					ProgramDescription.AssemblyVisibleName + " / Non-urgent", NotificationImportance.High);
+
+				defaultChannel.SetShowBadge (true);
+				urgentChannel.SetShowBadge (true);
 
 				// Настройка
 				urgentChannel.Description = Localization.GetText ("UrgentChannel", Localization.CurrentLanguage);
@@ -445,7 +450,7 @@ notMessage:
 	[Service (Name = "com.RD_AAOW.UniNotifierLink",
 		Label = "UniNotifierLink",
 		Exported = true)]
-	public class NotificationLink:JobIntentService
+	public class NotificationLink: JobIntentService
 		{
 		/// <summary>
 		/// Конструктор (заглушка)
@@ -494,7 +499,7 @@ notMessage:
 	[BroadcastReceiver (Name = "com.RD_AAOW.UniNotifierBoot",
 		Label = "UniNotifierBoot",
 		Exported = true)]
-	public class BootReceiver:BroadcastReceiver
+	public class BootReceiver: BroadcastReceiver
 		{
 		/// <summary>
 		/// Обработчик события наступления события окончания загрузки

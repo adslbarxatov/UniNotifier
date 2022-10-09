@@ -90,6 +90,7 @@ namespace RD_AAOW
 				Localization.GetText ("AboutPage", al), aboutMasterBackColor);
 			logPage = AndroidSupport.ApplyPageSettings (MainPage, "LogPage",
 				Localization.GetText ("LogPage", al), logMasterBackColor);
+			AndroidSupport.SetMainPage (MainPage);
 
 			int tab = 0;
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.PolicyTip))
@@ -161,8 +162,8 @@ namespace RD_AAOW
 
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "BeginningFieldLabel",
 				Localization.GetText ("BeginningFieldLabel", al), false, false);
-			beginningField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "BeginningField", solutionFieldBackColor,
-				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
+			beginningField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "BeginningField",
+				solutionFieldBackColor, Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
 
 			AndroidSupport.ApplyLabelSettingsForKKT (notSettingsPage, "EndingFieldLabel",
 				Localization.GetText ("EndingFieldLabel", al), false, false);
@@ -392,13 +393,21 @@ namespace RD_AAOW
 		// Метод отображает подсказки при первом запуске
 		private async void ShowStartupTips ()
 			{
+			// Контроль XPR
+			while (!Localization.IsXPRClassAcceptable)
+				await AndroidSupport.ShowMessage (Localization.InacceptableXPRClassMessage, "   ");
+			/*await ((CarouselPage)MainPage).CurrentPage.DiplayAlert (ProgramDescription.AssemblyTitle,
+				Localization.InacceptableXPRClassMessage, "   ");*/
+
 			// Требование принятия Политики
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.PolicyTip))
 				{
-				while (!await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyTitle,
+				/*while (!await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyTitle,
 					Localization.GetText ("PolicyMessage", al),
 					Localization.GetText ("AcceptButton", al),
-					Localization.GetText ("DeclineButton", al)))
+					Localization.GetText ("DeclineButton", al)))*/
+				while (!await AndroidSupport.ShowMessage (Localization.GetText ("PolicyMessage", al),
+					Localization.GetText ("AcceptButton", al), Localization.GetText ("DeclineButton", al)))
 					{
 					ADPButton_Clicked (null, null);
 					}
@@ -409,37 +418,51 @@ namespace RD_AAOW
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.StartupTips))
 				{
-				await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
+				/*await notSettingsPage.DiplayAlert (Localization.GetText ("TipHeader01", al),
 					Localization.GetText ("Tip01", al), Localization.GetText ("NextButton", al));
 
-				await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
-					Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));
+				await notSettingsPage.DiplayAlert (Localization.GetText ("TipHeader01", al),
+					Localization.GetText ("Tip02", al), Localization.GetText ("NextButton", al));*/
+
+				await AndroidSupport.ShowMessage (Localization.GetText ("Tip01", al),
+					Localization.GetText ("NextButton", al));
+
+				await AndroidSupport.ShowMessage (Localization.GetText ("Tip02", al),
+					Localization.GetText ("NextButton", al));
 
 				string tip03 = Localization.GetText ("Tip03_1", al);
 				if (!AndroidSupport.AreNotificationsConfigurable)
 					tip03 += Localization.GetText ("Tip03_2", al);
-				await notSettingsPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
-					tip03, Localization.GetText ("NextButton", al));
+
+				/*await notSettingsPage.DiplayAlert (Localization.GetText ("TipHeader01", al),
+					tip03, Localization.GetText ("NextButton", al));*/
+				await AndroidSupport.ShowMessage (tip03, Localization.GetText ("NextButton", al));
 
 				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.StartupTips);
-				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.FrequencyTip);  // Нежелательно дублировать
+				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.FrequencyTip);  
 				}
 
+			// Нежелательно дублировать
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.FrequencyTip))
 				{
-				await logPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-					Localization.GetText ("Tip04_21", al), Localization.GetText ("NextButton", al));
+				/*await logPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+					Localization.GetText ("Tip04_21", al), Localization.GetText ("NextButton", al));*/
+				await AndroidSupport.ShowMessage (Localization.GetText ("Tip04_21", al),
+					Localization.GetText ("NextButton", al));
 
 				NotificationsSupport.SetTipState (NotificationsSupport.TipTypes.FrequencyTip);
 				}
 			}
 
 		// Метод отображает остальные подсказки
-		private async Task<bool> ShowTips (NotificationsSupport.TipTypes Type, Page DisplayPage)
+		private async Task<bool> ShowTips (NotificationsSupport.TipTypes Type)
 			{
 			// Подсказки
-			await DisplayPage.DisplayAlert (Localization.GetText ("TipHeader01", al),
-				Localization.GetText ("Tip04_" + ((int)Type).ToString (), al), Localization.GetText ("NextButton", al));
+			/*await DisplayPage.DiplayAlert (Localization.GetText ("TipHeader01", al),
+				Localization.GetText ("Tip04_" + ((int)Type).ToString (), al), Localization.GetText ("NextButton",
+				al));*/
+			await AndroidSupport.ShowMessage (Localization.GetText ("Tip04_" + ((int)Type).ToString (), al),
+				Localization.GetText ("NextButton", al));
 
 			NotificationsSupport.SetTipState (Type);
 			return true;
@@ -505,9 +528,11 @@ namespace RD_AAOW
 		private async void AllNewsItems (object sender, EventArgs e)
 			{
 			// Проверка
-			if (!await logPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
+			/*if (!await logPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("AllNewsRequest", al), Localization.GetText ("NextButton", al),
-				Localization.GetText ("CancelButton", al)))
+				Localization.GetText ("CancelButton", al)))*/
+			if (!await AndroidSupport.ShowMessage (Localization.GetText ("AllNewsRequest", al),
+				Localization.GetText ("NextButton", al), Localization.GetText ("CancelButton", al)))
 				return;
 
 			// Блокировка
@@ -538,7 +563,7 @@ namespace RD_AAOW
 				ToastLength.Long).Show ();
 
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.MainLogClickMenuTip))
-				await ShowTips (NotificationsSupport.TipTypes.MainLogClickMenuTip, logPage);
+				await ShowTips (NotificationsSupport.TipTypes.MainLogClickMenuTip);
 			}
 
 		// Принудительное обновление лога
@@ -565,15 +590,14 @@ namespace RD_AAOW
 				if (e.ItemIndex > masterLog.Count - 3)
 					needsScroll = false;
 
-				mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, true);
-
+				mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, false);
 				}
 			else
 				{
 				if (e.ItemIndex < 2)
 					needsScroll = false;
 
-				mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, true);
+				mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, false);
 				}
 			}
 
@@ -628,8 +652,10 @@ namespace RD_AAOW
 				if (!string.IsNullOrWhiteSpace (notLink))
 					items.Insert (0, "▷\t" + Localization.GetText ("GoToOption", al));
 
-				string res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
-					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+				/*string res = await logPage.DiplayActionSheet (Localization.GetText ("SelectOption", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());*/
+				string res = await AndroidSupport.ShowList (Localization.GetText ("SelectOption", al),
+					Localization.GetText ("CancelButton", al), items.ToArray ());
 				if (!items.Contains (res))
 					{
 					items.Clear ();
@@ -648,8 +674,10 @@ namespace RD_AAOW
 						"✕\t" + Localization.GetText ("RemoveOption", al)
 					};
 
-					res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
-						Localization.GetText ("CancelButton", al), null, items.ToArray ());
+					/*res = await logPage.DiplayActionSheet (Localization.GetText ("SelectOption", al),
+						Localization.GetText ("CancelButton", al), null, items.ToArray ());*/
+					res = await AndroidSupport.ShowList (Localization.GetText ("SelectOption", al),
+						Localization.GetText ("CancelButton", al), items.ToArray ());
 					if (!items.Contains (res))
 						{
 						items.Clear ();
@@ -671,8 +699,10 @@ namespace RD_AAOW
 					Localization.GetText ("OtherOption", al)
 				};
 
-				string res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
-					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+				/*string res = await logPage.DiplayActionSheet (Localization.GetText ("SelectOption", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());*/
+				string res = await AndroidSupport.ShowList (Localization.GetText ("SelectOption", al),
+					Localization.GetText ("CancelButton", al), items.ToArray ());
 				if (!items.Contains (res))
 					{
 					items.Clear ();
@@ -690,8 +720,10 @@ namespace RD_AAOW
 						"✂\t" + Localization.GetText ("DisableOption", al)
 					};
 
-					res = await logPage.DisplayActionSheet (Localization.GetText ("SelectOption", al),
-							Localization.GetText ("CancelButton", al), null, items.ToArray ());
+					/*res = await logPage.DiplayActionSheet (Localization.GetText ("SelectOption", al),
+						Localization.GetText ("CancelButton", al), null, items.ToArray ());*/
+					res = await AndroidSupport.ShowList (Localization.GetText ("SelectOption", al),
+						Localization.GetText ("CancelButton", al), items.ToArray ());
 					if (!items.Contains (res))
 						{
 						items.Clear ();
@@ -710,7 +742,7 @@ namespace RD_AAOW
 				case 0:
 				case 10:
 					if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.GoToButton))
-						await ShowTips (NotificationsSupport.TipTypes.GoToButton, logPage);
+						await ShowTips (NotificationsSupport.TipTypes.GoToButton);
 
 					try
 						{
@@ -727,10 +759,10 @@ namespace RD_AAOW
 				case 1:
 				case 11:
 					if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareButton))
-						await ShowTips (NotificationsSupport.TipTypes.ShareButton, logPage);
+						await ShowTips (NotificationsSupport.TipTypes.ShareButton);
 
-					await Share.RequestAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" + notLink).Replace ("\r", ""),
-						ProgramDescription.AssemblyVisibleName);
+					await Share.RequestAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" +
+						notLink).Replace ("\r", ""), ProgramDescription.AssemblyVisibleName);
 					break;
 
 				// Скопировать в буфер обмена
@@ -738,7 +770,8 @@ namespace RD_AAOW
 				case 12:
 					try
 						{
-						await Clipboard.SetTextAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" + notLink).Replace ("\r", ""));
+						await Clipboard.SetTextAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" +
+							notLink).Replace ("\r", ""));
 						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("CopyMessage", al),
 							ToastLength.Short).Show ();
 						}
@@ -872,7 +905,7 @@ namespace RD_AAOW
 			// Разблокировка
 			SetLogState (true);
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.MainLogClickMenuTip))
-				await ShowTips (NotificationsSupport.TipTypes.MainLogClickMenuTip, logPage);
+				await ShowTips (NotificationsSupport.TipTypes.MainLogClickMenuTip);
 			}
 
 		// Добавление текста в журнал
@@ -915,8 +948,10 @@ namespace RD_AAOW
 				Localization.GetText ("TemplateClipboard", al),
 				Localization.GetText ("TemplateFile", al),
 				};
-			string res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("TemplateSelect", al),
-					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+			/*string res = await notSettingsPage.DiplayActionSheet (Localization.GetText ("TemplateSelect", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());*/
+			string res = await AndroidSupport.ShowList (Localization.GetText ("TemplateSelect", al),
+				Localization.GetText ("CancelButton", al), items.ToArray ());
 
 			// Обработка
 			switch (items.IndexOf (res))
@@ -955,8 +990,10 @@ namespace RD_AAOW
 							templatesNames.Add (ProgramDescription.NSet.NotificationsTemplates.GetName (i));
 						}
 
-					res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectTemplate", al),
-						Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());
+					/*res = await notSettingsPage.DiplayActionSheet (Localization.GetText ("SelectTemplate", al),
+						Localization.GetText ("CancelButton", al), null, templatesNames.ToArray ());*/
+					res = await AndroidSupport.ShowList (Localization.GetText ("SelectTemplate", al),
+						Localization.GetText ("CancelButton", al), templatesNames.ToArray ());
 
 					// Установка результата
 					uint templateNumber = 0;
@@ -973,8 +1010,10 @@ namespace RD_AAOW
 
 					// Проверка
 					if (ProgramDescription.NSet.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
-						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-							Localization.GetText ("CurlyTemplate", al), Localization.GetText ("NextButton", al));
+						await AndroidSupport.ShowMessage (Localization.GetText ("CurlyTemplate", al),
+							Localization.GetText ("NextButton", al));
+					/*await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+						Localization.GetText ("CurlyTemplate", al), Localization.GetText ("NextButton", al));*/
 
 					// Заполнение
 					nameField.Text = ProgramDescription.NSet.NotificationsTemplates.GetName (templateNumber);
@@ -998,8 +1037,11 @@ namespace RD_AAOW
 
 					if ((text == null) || (text == ""))
 						{
-						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
+						/*await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton",
+							al));*/
+						await AndroidSupport.ShowMessage (Localization.GetText ("NoTemplateInClipboard", al),
+							Localization.GetText ("NextButton", al));
 						notWizardButton.IsEnabled = true;
 						return;
 						}
@@ -1009,8 +1051,11 @@ namespace RD_AAOW
 						StringSplitOptions.RemoveEmptyEntries);
 					if (values.Length != 5)
 						{
-						await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", al));
+						/*await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+							Localization.GetText ("NoTemplateInClipboard", al), Localization.GetText ("NextButton", 
+							al));*/
+						await AndroidSupport.ShowMessage (Localization.GetText ("NoTemplateInClipboard", al),
+							Localization.GetText ("NextButton", al));
 						notWizardButton.IsEnabled = true;
 						return;
 						}
@@ -1039,8 +1084,10 @@ namespace RD_AAOW
 					foreach (Notification element in ProgramDescription.NSet.Notifications)
 						list.Add (element.Name);
 
-					res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
-							Localization.GetText ("CancelButton", al), null, list.ToArray ());
+					/*res = await notSettingsPage.DiplayActionSheet (Localization.GetText ("SelectNotification", al),
+							Localization.GetText ("CancelButton", al), null, list.ToArray ());*/
+					res = await AndroidSupport.ShowList (Localization.GetText ("SelectNotification", al),
+						Localization.GetText ("CancelButton", al), list.ToArray ());
 
 					// Создание псевдокопии
 					int j;
@@ -1060,9 +1107,11 @@ namespace RD_AAOW
 					// Запрос имени файла
 					notWizardButton.IsEnabled = true;
 
-					if (!await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
+					/*if (!await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
 						Localization.GetText ("LoadingWarning", al), Localization.GetText ("NextButton", al),
-						Localization.GetText ("CancelButton", al)))
+						Localization.GetText ("CancelButton", al)))*/
+					if (!await AndroidSupport.ShowMessage (Localization.GetText ("LoadingWarning", al),
+						Localization.GetText ("NextButton", al), Localization.GetText ("CancelButton", al)))
 						return;
 
 					// Контроль разрешений
@@ -1134,19 +1183,27 @@ namespace RD_AAOW
 			// Шаг запроса ссылки
 			NotConfiguration cfg;
 
-			cfg.SourceLink = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
+			/*cfg.SourceLink = await settingsPage.DiplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep1", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), Localization.GetText ("LinkFieldPlaceholder", al),
-				Notification.MaxLinkLength, Keyboard.Url, "");
+				Notification.MaxLinkLength, Keyboard.Url, "");*/
+			cfg.SourceLink = await AndroidSupport.ShowInput (ProgramDescription.AssemblyVisibleName,
+				Localization.GetText ("WizardStep1", al), Localization.GetText ("NextButton", al),
+				Localization.GetText ("CancelButton", al), Notification.MaxLinkLength, Keyboard.Url, "",
+				Localization.GetText ("LinkFieldPlaceholder", al));
 
 			if (string.IsNullOrWhiteSpace (cfg.SourceLink))
 				return false;
 
 			// Шаг запроса ключевого слова
-			string keyword = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
+			/*string keyword = await settingsPage.DiplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep2", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), null,
-				Notification.MaxBeginningEndingLength, Keyboard.Default, "");
+				Notification.MaxBeginningEndingLength, Keyboard.Default, "");*/
+			string keyword = await AndroidSupport.ShowInput (ProgramDescription.AssemblyVisibleName,
+				Localization.GetText ("WizardStep2", al), Localization.GetText ("NextButton", al),
+				Localization.GetText ("CancelButton", al), Notification.MaxBeginningEndingLength,
+				Keyboard.Default);
 
 			if (string.IsNullOrWhiteSpace (keyword))
 				return false;
@@ -1158,7 +1215,9 @@ namespace RD_AAOW
 			string[] delim = await Notification.FindDelimiters (cfg.SourceLink, keyword);
 			if (delim == null)
 				{
-				await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName, Localization.GetText ("WizardFailure", al),
+				/*await settingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+					Localization.GetText ("WizardFailure", al), Localization.GetText ("NextButton", al));*/
+				await AndroidSupport.ShowMessage (Localization.GetText ("WizardFailure", al),
 					Localization.GetText ("NextButton", al));
 				return false;
 				}
@@ -1180,8 +1239,10 @@ namespace RD_AAOW
 				Notification not = new Notification (cfg);
 				if (!await not.Update ())
 					{
-					await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-						Localization.GetText ("WizardFailure", al), Localization.GetText ("NextButton", al));
+					/*await settingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+						Localization.GetText ("WizardFailure", al), Localization.GetText ("NextButton", al));*/
+					await AndroidSupport.ShowMessage (Localization.GetText ("WizardFailure", al),
+						Localization.GetText ("NextButton", al));
 					return false;
 					}
 
@@ -1189,9 +1250,13 @@ namespace RD_AAOW
 				string text = not.CurrentText;
 				if (text.Length > 300)
 					text = text.Substring (0, 297) + "...";
-				if (await settingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
+				/*if (await settingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
 					Localization.GetText ((cfg.OccurrenceNumber < 3) ? "WizardStep3" : "WizardStep4", al) + "\n\n" +
 					"~".PadRight (10, '~') + "\n\n" + text,
+					Localization.GetText ("NextButton", al),
+					Localization.GetText ((cfg.OccurrenceNumber < 3) ? "RetryButton" : "CancelButton", al)))*/
+				if (await AndroidSupport.ShowMessage (Localization.GetText ((cfg.OccurrenceNumber < 3) ?
+					"WizardStep3" : "WizardStep4", al) + "\n\n" + "~".PadRight (10, '~') + "\n\n" + text,
 					Localization.GetText ("NextButton", al),
 					Localization.GetText ((cfg.OccurrenceNumber < 3) ? "RetryButton" : "CancelButton", al)))
 					{
@@ -1207,10 +1272,14 @@ namespace RD_AAOW
 				}
 
 			// Завершено, запрос названия
-			string name = await settingsPage.DisplayPromptAsync (ProgramDescription.AssemblyVisibleName,
+			/*string name = await settingsPage.DiplayPromptAsync (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("WizardStep5", al), Localization.GetText ("NextButton", al),
 				Localization.GetText ("CancelButton", al), null,
-				Notification.MaxBeginningEndingLength, Keyboard.Default, "");
+				Notification.MaxBeginningEndingLength, Keyboard.Default, "");*/
+			string name = await AndroidSupport.ShowInput (ProgramDescription.AssemblyVisibleName,
+				Localization.GetText ("WizardStep5", al), Localization.GetText ("NextButton", al),
+				Localization.GetText ("CancelButton", al), Notification.MaxBeginningEndingLength,
+				Keyboard.Text);
 
 			if (string.IsNullOrWhiteSpace (name))
 				return false;
@@ -1231,7 +1300,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ServiceLaunchTip))
-				await ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip, settingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.ServiceLaunchTip);
 
 			AndroidSupport.AllowServiceToStart = allowStart.IsToggled;
 			}
@@ -1241,7 +1310,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
-				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.IndicationTip);
 
 			NotificationsSupport.AllowSound = allowSoundSwitch.IsToggled;
 			}
@@ -1250,7 +1319,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
-				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.IndicationTip);
 
 			NotificationsSupport.AllowLight = allowLightSwitch.IsToggled;
 			}
@@ -1259,7 +1328,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.IndicationTip))
-				await ShowTips (NotificationsSupport.TipTypes.IndicationTip, settingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.IndicationTip);
 
 			NotificationsSupport.AllowVibro = allowVibroSwitch.IsToggled;
 			}
@@ -1268,7 +1337,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.OnlyUrgent))
-				await ShowTips (NotificationsSupport.TipTypes.OnlyUrgent, settingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.OnlyUrgent);
 
 			NotificationsSupport.IndicateOnlyUrgentNotifications = indicateOnlyUrgentSwitch.IsToggled;
 			}
@@ -1349,8 +1418,10 @@ namespace RD_AAOW
 		private async void SetGMJSource_Clicked (object sender, EventArgs e)
 			{
 			// Запрос
-			string res = await settingsPage.DisplayActionSheet (Localization.GetText ("SelectGMJSource", al),
-				Localization.GetText ("CancelButton", al), null, GMJ.SourceNames);
+			/*string res = await settingsPage.DiplayActionSheet (Localization.GetText ("SelectGMJSource", al),
+				Localization.GetText ("CancelButton", al), null, GMJ.SourceNames);*/
+			string res = await AndroidSupport.ShowList (Localization.GetText ("SelectGMJSource", al),
+				Localization.GetText ("CancelButton", al), GMJ.SourceNames);
 
 			// Сохранение
 			List<string> list = new List<string> (GMJ.SourceNames);
@@ -1371,8 +1442,10 @@ namespace RD_AAOW
 		private async void SelectLanguage_Clicked (object sender, EventArgs e)
 			{
 			// Запрос
-			string res = await aboutPage.DisplayActionSheet (Localization.GetText ("SelectLanguage", al),
-				Localization.GetText ("CancelButton", al), null, Localization.LanguagesNames);
+			/*string res = await aboutPage.DiplayActionSheet (Localization.GetText ("SelectLanguage", al),
+				Localization.GetText ("CancelButton", al), null, Localization.LanguagesNames);*/
+			string res = await AndroidSupport.ShowList (Localization.GetText ("SelectLanguage", al),
+				Localization.GetText ("CancelButton", al), Localization.LanguagesNames);
 
 			// Сохранение
 			List<string> lngs = new List<string> (Localization.LanguagesNames);
@@ -1418,8 +1491,10 @@ namespace RD_AAOW
 		private async void CommunityButton_Clicked (object sender, EventArgs e)
 			{
 			string[] comm = RDGenerics.GetCommunitiesNames (al != SupportedLanguages.ru_ru);
-			string res = await aboutPage.DisplayActionSheet (Localization.GetText ("CommunitySelect", al),
-				Localization.GetText ("CancelButton", al), null, comm);
+			/*string res = await aboutPage.DiplayActionSheet (Localization.GetText ("CommunitySelect", al),
+				Localization.GetText ("CancelButton", al), null, comm);*/
+			string res = await AndroidSupport.ShowList (Localization.GetText ("CommunitySelect", al),
+				Localization.GetText ("CancelButton", al), comm);
 
 			res = RDGenerics.GetCommunityLink (res, al != SupportedLanguages.ru_ru);
 			if (string.IsNullOrWhiteSpace (res))
@@ -1479,7 +1554,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if ((e != null) && !NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.CurrentNotButton))
-				await ShowTips (NotificationsSupport.TipTypes.CurrentNotButton, notSettingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.CurrentNotButton);
 
 			// Запрос списка оповещений
 			List<string> list = new List<string> ();
@@ -1488,8 +1563,10 @@ namespace RD_AAOW
 
 			string res = list[currentNotification];
 			if (e != null)
-				res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectNotification", al),
-					Localization.GetText ("CancelButton", al), null, list.ToArray ());
+				res = await AndroidSupport.ShowList (Localization.GetText ("SelectNotification", al),
+					Localization.GetText ("CancelButton", al), list.ToArray ());
+			/*res = await notSettingsPage.DiplayActionSheet (Localization.GetText ("SelectNotification", al),
+				Localization.GetText ("CancelButton", al), null, list.ToArray ());*/
 
 			// Установка результата
 			int i = currentNotification;
@@ -1547,7 +1624,7 @@ namespace RD_AAOW
 				{
 				// Подсказки
 				if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.OccurenceTip))
-					await ShowTips (NotificationsSupport.TipTypes.OccurenceTip, notSettingsPage);
+					await ShowTips (NotificationsSupport.TipTypes.OccurenceTip);
 
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 				if (AndroidSupport.IsNameDefault (b.Text, AndroidSupport.ButtonsDefaultNames.Increase) &&
@@ -1612,12 +1689,14 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.DeleteButton))
-				await ShowTips (NotificationsSupport.TipTypes.DeleteButton, notSettingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.DeleteButton);
 
 			// Контроль
-			if (!await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
+			/*if (!await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
 				Localization.GetText ("DeleteMessage", al), Localization.GetText ("NextButton", al),
-				Localization.GetText ("CancelButton", al)))
+				Localization.GetText ("CancelButton", al)))*/
+			if (!await AndroidSupport.ShowMessage (Localization.GetText ("DeleteMessage", al),
+				Localization.GetText ("NextButton", al), Localization.GetText ("CancelButton", al)))
 				return;
 
 			// Удаление и переход к другому оповещению
@@ -1635,7 +1714,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ApplyButton))
-				await ShowTips (NotificationsSupport.TipTypes.ApplyButton, notSettingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.ApplyButton);
 
 			// Обновление (при успехе – обновление названия)
 			if (await UpdateItem (currentNotification))
@@ -1674,8 +1753,10 @@ namespace RD_AAOW
 
 			if (!ni.IsInited)
 				{
-				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-					Localization.GetText ("NotEnoughDataMessage", al), Localization.GetText ("NextButton", al));
+				/*await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+					Localization.GetText ("NotEnoughDataMessage", al), Localization.GetText ("NextButton", al));*/
+				await AndroidSupport.ShowMessage (Localization.GetText ("NotEnoughDataMessage", al),
+					Localization.GetText ("NextButton", al));
 
 				nameField.Focus ();
 				return false;
@@ -1688,8 +1769,10 @@ namespace RD_AAOW
 			int idx = ProgramDescription.NSet.Notifications.IndexOf (ni);
 			if ((idx >= 0) && (idx != ItemNumber))
 				{
-				await notSettingsPage.DisplayAlert (ProgramDescription.AssemblyVisibleName,
-					Localization.GetText ("NotMatchingNames", al), Localization.GetText ("NextButton", al));
+				/*await notSettingsPage.DiplayAlert (ProgramDescription.AssemblyVisibleName,
+					Localization.GetText ("NotMatchingNames", al), Localization.GetText ("NextButton", al));*/
+				await AndroidSupport.ShowMessage (Localization.GetText ("NotMatchingNames", al),
+					Localization.GetText ("NextButton", al));
 
 				nameField.Focus ();
 				return false;
@@ -1725,15 +1808,17 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ShareNotButton))
-				await ShowTips (NotificationsSupport.TipTypes.ShareNotButton, notSettingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.ShareNotButton);
 
 			// Запрос варианта использования
 			List<string> items = new List<string> {
 				Localization.GetText ("ShareCurrent", al),
 				Localization.GetText ("ShareAll", al)
 				};
-			string res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("ShareVariantSelect", al),
-					Localization.GetText ("CancelButton", al), null, items.ToArray ());
+			/*string res = await notSettingsPage.DiplayActionSheet (Localization.GetText ("ShareVariantSelect", al),
+					Localization.GetText ("CancelButton", al), null, items.ToArray ());*/
+			string res = await AndroidSupport.ShowList (Localization.GetText ("ShareVariantSelect", al),
+					Localization.GetText ("CancelButton", al), items.ToArray ());
 
 			// Обработка
 			switch (items.IndexOf (res))
@@ -1817,9 +1902,12 @@ namespace RD_AAOW
 		private async void SpecifyNotificationLink (object sender, EventArgs e)
 			{
 			// Запрос
-			string res = await notSettingsPage.DisplayPromptAsync (Localization.GetText ("LinkFieldLabel", al),
+			/*string res = await notSettingsPage.DiplayPromptAsync (Localization.GetText ("LinkFieldLabel", al),
 				null, Localization.GetText ("NextButton", al), Localization.GetText ("CancelButton", al),
-				Localization.GetText ("LinkFieldPlaceholder", al), 150, Keyboard.Url, linkField);
+				Localization.GetText ("LinkFieldPlaceholder", al), 150, Keyboard.Url, linkField);*/
+			string res = await AndroidSupport.ShowInput (Localization.GetText ("LinkFieldLabel", al),
+				null, Localization.GetText ("NextButton", al), Localization.GetText ("CancelButton", al),
+				150, Keyboard.Url, linkField, Localization.GetText ("LinkFieldPlaceholder", al));
 
 			if (!string.IsNullOrWhiteSpace (res))
 				linkField = res;
@@ -1830,7 +1918,7 @@ namespace RD_AAOW
 			{
 			// Подсказки
 			if ((e != null) && !NotificationsSupport.GetTipState (NotificationsSupport.TipTypes.ThresholdTip))
-				await ShowTips (NotificationsSupport.TipTypes.ThresholdTip, notSettingsPage);
+				await ShowTips (NotificationsSupport.TipTypes.ThresholdTip);
 
 			comparatorTypeButton.IsVisible = comparatorValueField.IsVisible = ignoreMisfitsLabel.IsVisible =
 				ignoreMisfitsSwitch.IsVisible = comparatorIncButton.IsVisible = comparatorDecButton.IsVisible =
@@ -1849,8 +1937,10 @@ namespace RD_AAOW
 			string res = list[i];
 
 			if (e != null)
-				res = await notSettingsPage.DisplayActionSheet (Localization.GetText ("SelectComparatorType", al),
-					Localization.GetText ("CancelButton", al), null, list.ToArray ());
+				res = await AndroidSupport.ShowList (Localization.GetText ("SelectComparatorType", al),
+					Localization.GetText ("CancelButton", al), list.ToArray ());
+			/*res = await notSettingsPage.DiplayActionSheet (Localization.GetText ("SelectComparatorType", al),
+				Localization.GetText ("CancelButton", al), null, list.ToArray ());*/
 
 			// Установка результата
 			if ((e == null) || ((i = list.IndexOf (res)) >= 0))

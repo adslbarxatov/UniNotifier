@@ -201,9 +201,6 @@ In addition, the utility automatically requests new records with specified updat
   <data name="SettingsForm_Label07" xml:space="preserve">
     <value>Occurrence number:</value>
   </data>
-  <data name="AlreadyStarted" xml:space="preserve">
-    <value>{0:S} is already running</value>
-  </data>
   <data name="Tip_00" xml:space="preserve">
     <value>Welcome to UniNotifier! Here you can configure the news service and notifications themselves. Some buttons and fields contain useful tips that will be shown once.
 
