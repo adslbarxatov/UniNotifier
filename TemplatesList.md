@@ -1,5 +1,5 @@
 ```
-23.06.2022
+11.10.2022
 Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>			1
 КоммерсантЪ					https://kommersant.ru										<article						</article>		1
 Курс доллара, КоммерсантЪ	https://kommersant.ru										 actual__fall">					</a>			1
@@ -10,7 +10,6 @@ Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		Stretch
 Российская газета			https://t.me/s/rgrunews										dir="auto"><b>					</div			10
 Стена ВКонтакте				https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						class="pi_text					</div>			2
 Число подписчиков ВК		https://vk.com/{ID_ИЛИ_НАЗВАНИЕ_ГРУППЫ}						act=members">					</em>			1
-Число подписчиков Instagram	https://instagram.com/{USERNAME}							•								</title>		1
 Число подписчиков Telegram	https://t.me/s/{CHANNEL_NAME}								class="counter_value">			</div			1
 
 ***
