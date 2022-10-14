@@ -19,6 +19,8 @@ namespace RD_AAOW
 		private SupportedLanguages al = Localization.CurrentLanguage;
 		private CultureInfo ci;
 		private bool callWindowOnUrgents = false;
+		private int notForIndication = -1;
+		private bool indicatorHasBeenUsed = false;
 
 		private bool allowExit = false;
 		private string[] regParameters = new string[] {
@@ -28,7 +30,8 @@ namespace RD_AAOW
 			"Height",
 			"Read",
 			"CallOnUrgents",
-			"FontSize"
+			"FontSize",
+			"NotForInd"
 			};
 
 		private NotificationsSet ns = new NotificationsSet (true);
@@ -74,9 +77,12 @@ namespace RD_AAOW
 				this.Top = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[1]));
 				this.Width = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[2]));
 				this.Height = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[3]));
+
 				this.ReadMode.Checked = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[4]));
 				callWindowOnUrgents = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[5]));
 				this.FontSizeField.Value = decimal.Parse (RDGenerics.GetAppSettingsValue (regParameters[6]));
+
+				notForIndication = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[7]));
 
 #if TG
 				currentTGCount = uint.Parse (RDGenerics.GetAppSettingsValue ("TGCount"));
@@ -100,7 +106,8 @@ namespace RD_AAOW
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
 
 			if (!File.Exists (startupLink))
-				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05", al), AddToStartup));
+				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05", al),
+					AddToStartup));
 			}
 
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
@@ -117,17 +124,18 @@ namespace RD_AAOW
 		private void ReloadNotificationsList ()
 			{
 			NamesCombo.Items.Clear ();
+
 			for (int i = 0; i < ns.Notifications.Count; i++)
 				NamesCombo.Items.Add (ns.Notifications[i].Name);
 
 			if (NamesCombo.Items.Count > 0)
 				{
-				NamesCombo.Enabled = BGo.Enabled = true;
+				NamesCombo.Enabled = BGo.Enabled = RunIndicator.Enabled = true;
 				NamesCombo.SelectedIndex = 0;
 				}
 			else
 				{
-				NamesCombo.Enabled = BGo.Enabled = false;
+				NamesCombo.Enabled = BGo.Enabled = RunIndicator.Enabled = false;
 				}
 			}
 
@@ -156,6 +164,15 @@ namespace RD_AAOW
 
 		private void UniNotifierForm_FormClosing (object sender, FormClosingEventArgs e)
 			{
+			// Сохранение выбранного оповещения для индикации
+			if (nind != null)
+				{
+				if (nind.Visible)
+					RDGenerics.SetAppSettingsValue (regParameters[7], notForIndication.ToString ());
+				else
+					RDGenerics.SetAppSettingsValue (regParameters[7], "-1");
+				}
+
 			// Остановка службы
 			if (allowExit)
 				{
@@ -264,13 +281,21 @@ namespace RD_AAOW
 						if (txt.Length > 210)
 							txt = txt.Substring (0, 210) + "...";
 
-						ni.ShowBalloonTip (10000, hdr, txt, ns.HasUrgentNotifications ? ToolTipIcon.Warning : ToolTipIcon.Info);
+						ni.ShowBalloonTip (10000, hdr, txt, ns.HasUrgentNotifications ? ToolTipIcon.Warning :
+							ToolTipIcon.Info);
 						}
 					catch { }
 					}
 
 				// Обновление прочих полей
 				NamesCombo.SelectedIndex = notNumbers[0];
+
+				// Вызов индикатора (один раз)
+				if (!indicatorHasBeenUsed && (NamesCombo.SelectedIndex == notForIndication))
+					{
+					RunIndicator_Click (null, null);
+					indicatorHasBeenUsed = true;
+					}
 
 				texts.RemoveAt (0);
 				notNumbers.RemoveAt (0);
@@ -383,12 +408,21 @@ namespace RD_AAOW
 			SettingsForm sf = new SettingsForm (ns,
 				(uint)MainTimer.Interval * NotificationsSet.MaxNotifications / 60000, callWindowOnUrgents);
 
-			// Запоминание
+			// Запоминание настроек
 			callWindowOnUrgents = sf.CallWindowOnUrgents;
 			RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());
 
 			// Обновление настроек
 			ReloadNotificationsList ();
+
+			// Обеспечение перезаугркзи индикатора
+			if ((nind != null) && nind.Visible)
+				{
+				nind.Close ();
+				nind.Dispose ();
+				indicatorHasBeenUsed = false;
+				}
+
 			al = Localization.CurrentLanguage;
 			ResetCulture ();
 
@@ -413,9 +447,7 @@ namespace RD_AAOW
 				{
 				Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
 				}
-			catch
-				{
-				}
+			catch { }
 			}
 
 		// Закрытие окна просмотра
@@ -452,7 +484,7 @@ namespace RD_AAOW
 			MainText.Width = this.Width - 30;
 			MainText.Height = this.Height - 80;
 
-			BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 60;
+			BClose.Top = BGo.Top = RunIndicator.Top = ReadMode.Top = GetGMJ.Top = this.Height - 60;
 			NamesCombo.Top = BClose.Top + 2;
 
 			FontSizeField.Top = BGo.Top + 3;
@@ -488,5 +520,21 @@ namespace RD_AAOW
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
 			RDGenerics.SetAppSettingsValue (regParameters[6], this.FontSizeField.Value.ToString ());
 			}
+
+		// Отображение индикатора
+		private void RunIndicator_Click (object sender, EventArgs e)
+			{
+			if (nind != null)
+				{
+				if (nind.Visible)
+					return;
+
+				nind.Dispose ();
+				}
+
+			notForIndication = NamesCombo.SelectedIndex;
+			nind = new NotIndicator (ns.Notifications[notForIndication]);
+			}
+		private NotIndicator nind;
 		}
 	}
