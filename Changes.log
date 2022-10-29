@@ -3,7 +3,8 @@ UniNotifier changes log
 Version 5.3:
 • Windows: added the visual indicator for numeric values. It can be enabled manually for one
   of the created notifications. When it works, the corresponding notification will have
-  static update frequency (1 minute)
+  static update frequency (1 minute);
+• Android: adjusted the notifications icon
 
 Version 5.2:
 • XPR control has been implemented;
