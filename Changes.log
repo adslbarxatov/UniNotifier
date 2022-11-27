@@ -1,6 +1,15 @@
 UniNotifier changes log
 
 Version 5.3:
+• TPNot 4.7: реализована загрузка изображений, расположенных отдельно от текста (не связанных
+  со ссылками);
+• TPNot 4.7: исправлен дефект загрузки изображений, не позволявший корректно вернуть разрешение
+  на запись файлов в хранилище устройства;
+• TPNot 4.7: реализован переход на произвольную страницу раздела с помощью кнопки с её номером;
+• TPNot 4.7: значительно ускорена загрузка изображений;
+• TPNot 4.7: возможно, исправлено зависание основного интерфейса при загрузке изображений (требует
+  проверки);
+• TPNot 4.7: обновлены пакеты поддержки Xamarin;
 • Windows: added the visual indicator for numeric values. It can be enabled manually for one
   of the created notifications. When it works, the corresponding notification will have
   static update frequency (1 minute);
