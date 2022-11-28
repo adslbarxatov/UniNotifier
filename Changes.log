@@ -1,5 +1,8 @@
 UniNotifier changes log
 
+ToDo:
+- GMJ request doesn't reset the news counter
+
 Version 5.3:
 • TPNot 4.7: реализована загрузка изображений, расположенных отдельно от текста (не связанных
   со ссылками);
