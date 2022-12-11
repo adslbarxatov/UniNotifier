@@ -256,22 +256,8 @@ namespace RD_AAOW.Droid
 notMessage:
 			notBuilder.SetContentText (msg);
 
-			if (AndroidSupport.IsForegroundAvailable)
-				{
-				notBuilder.SetNumber ((int)NotificationsSupport.NewItems);
-
-				/*if (NotificationsSupport.NewItems > 0)
-					{
-					defaultChannel.SetShowBadge (true);
-					urgentChannel.SetShowBadge (true);
-					notBuilder.SetNumber ((int)NotificationsSupport.NewItems);
-					}
-				else
-					{
-					defaultChannel.SetShowBadge (false);
-					urgentChannel.SetShowBadge (false);
-					}*/
-				}
+			/*if (AndroidSupport.IsForegroundAvailable)
+				notBuilder.SetNumber ((int)NotificationsSupport.NewItems);*/
 
 			notTextStyle.BigText (msg);
 
@@ -313,8 +299,8 @@ notMessage:
 				defaultChannel = new NotificationChannel (defaultChannelID,
 					ProgramDescription.AssemblyVisibleName + " / Non-urgent", NotificationImportance.High);
 
-				defaultChannel.SetShowBadge (true);
-				urgentChannel.SetShowBadge (true);
+				/*defaultChannel.SetShowBadge (true);
+				urgentChannel.SetShowBadge (true);*/
 
 				// Настройка
 				urgentChannel.Description = Localization.GetText ("UrgentChannel", Localization.CurrentLanguage);
@@ -362,7 +348,7 @@ notMessage:
 
 			// Прикрепление ссылки для перехода в основное приложение
 			masterIntent = new Intent (this, typeof (NotificationLink));
-			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, PendingIntentFlags.Immutable); // Android S+ req
+			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, PendingIntentFlags.Immutable);
 			notBuilder.SetContentIntent (masterPendingIntent);
 
 			// Стартовое сообщение

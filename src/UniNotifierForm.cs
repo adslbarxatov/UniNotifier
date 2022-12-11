@@ -31,7 +31,9 @@ namespace RD_AAOW
 			"Read",
 			"CallOnUrgents",
 			"FontSize",
-			"NotForInd"
+			"NotForInd",
+			"TGCount",
+			"TGTimeStamp"
 			};
 
 		private NotificationsSet ns = new NotificationsSet (true);
@@ -60,7 +62,7 @@ namespace RD_AAOW
 
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
-			MainText.Font = new Font (SystemFonts.DialogFont.FontFamily.Name, 13);
+			MainText.Font = new Font ("Calibri", 13);
 
 			ReloadNotificationsList ();
 			ResetCulture ();
@@ -71,12 +73,13 @@ namespace RD_AAOW
 #endif
 
 			// Получение настроек
+			RDGenerics.LoadWindowDimensions (this);
 			try
 				{
-				this.Left = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[0]));
+				/*this.Left = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[0]));
 				this.Top = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[1]));
 				this.Width = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[2]));
-				this.Height = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[3]));
+				this.Height = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[3]));*/
 
 				this.ReadMode.Checked = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[4]));
 				callWindowOnUrgents = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[5]));
@@ -85,8 +88,8 @@ namespace RD_AAOW
 				notForIndication = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[7]));
 
 #if TG
-				currentTGCount = uint.Parse (RDGenerics.GetAppSettingsValue ("TGCount"));
-				currentTGTimeStamp = DateTime.Parse (RDGenerics.GetAppSettingsValue ("TGTimeStamp"));
+				currentTGCount = uint.Parse (RDGenerics.GetAppSettingsValue (regParameters[8]));
+				currentTGTimeStamp = DateTime.Parse (RDGenerics.GetAppSettingsValue (regParameters[9]));
 #endif
 				}
 			catch { }
@@ -164,6 +167,7 @@ namespace RD_AAOW
 
 		private void UniNotifierForm_FormClosing (object sender, FormClosingEventArgs e)
 			{
+#if NIND
 			// Сохранение выбранного оповещения для индикации
 			if (nind != null)
 				{
@@ -172,6 +176,7 @@ namespace RD_AAOW
 				else
 					RDGenerics.SetAppSettingsValue (regParameters[7], "-1");
 				}
+#endif
 
 			// Остановка службы
 			if (allowExit)
@@ -195,7 +200,7 @@ namespace RD_AAOW
 		// О приложении
 		private void AboutService (object sender, EventArgs e)
 			{
-			ProgramDescription.ShowAbout (false);
+			RDGenerics.ShowAbout (false);
 			}
 
 		// Добавление в автозапуск
@@ -310,7 +315,7 @@ namespace RD_AAOW
 				if (currentTGTimeStamp != DateTime.Today)
 					{
 					currentTGTimeStamp = DateTime.Today;
-					RDGenerics.SetAppSettingsValue ("TGTimeStamp", currentTGTimeStamp.ToString ());
+					RDGenerics.SetAppSettingsValue (regParameters[9], currentTGTimeStamp.ToString ());
 					currentTGCount = 0;
 					}
 
@@ -347,7 +352,7 @@ namespace RD_AAOW
 
 				// Сохранение состояния
 				currentTGCount++;
-				RDGenerics.SetAppSettingsValue ("TGCount", currentTGCount.ToString ());
+				RDGenerics.SetAppSettingsValue (regParameters[8], currentTGCount.ToString ());
 				}
 #endif
 
@@ -415,6 +420,7 @@ namespace RD_AAOW
 			// Обновление настроек
 			ReloadNotificationsList ();
 
+#if NIND
 			// Обеспечение перезаугркзи индикатора
 			if ((nind != null) && nind.Visible)
 				{
@@ -422,6 +428,7 @@ namespace RD_AAOW
 				nind.Dispose ();
 				indicatorHasBeenUsed = false;
 				}
+#endif
 
 			al = Localization.CurrentLanguage;
 			ResetCulture ();
@@ -431,9 +438,12 @@ namespace RD_AAOW
 					(i + 2).ToString ("D02"), al);
 
 			// Перезапуск
-			bool complete = (MessageBox.Show (Localization.GetText ("RecallAllNews", al),
+			/*bool complete = (MessageBox.Shw (Localization.GetText ("RecallAllNews", al),
 				ProgramDescription.AssemblyVisibleName, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-				MessageBoxDefaultButton.Button2) == DialogResult.Yes);
+				MessageBoxDefaultButton.Button2) == DialogResult.Yes);*/
+			bool complete = (RDGenerics.LocalizedMessageBox (RDMessageTypes.Question, "RecallAllNews",
+				Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) ==
+				RDMessageButtons.ButtonOne);
 
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
 			MainTimer.Enabled = true;
@@ -493,10 +503,11 @@ namespace RD_AAOW
 		// Сохранение размера формы
 		private void UniNotifierForm_ResizeEnd (object sender, EventArgs e)
 			{
-			RDGenerics.SetAppSettingsValue (regParameters[0], this.Left.ToString ());
+			/*RDGenerics.SetAppSettingsValue (regParameters[0], this.Left.ToString ());
 			RDGenerics.SetAppSettingsValue (regParameters[1], this.Top.ToString ());
 			RDGenerics.SetAppSettingsValue (regParameters[2], this.Width.ToString ());
-			RDGenerics.SetAppSettingsValue (regParameters[3], this.Height.ToString ());
+			RDGenerics.SetAppSettingsValue (regParameters[3], this.Height.ToString ());*/
+			RDGenerics.SaveWindowDimensions (this);
 			}
 
 		// Запрос сообщения от GMJ
@@ -524,6 +535,7 @@ namespace RD_AAOW
 		// Отображение индикатора
 		private void RunIndicator_Click (object sender, EventArgs e)
 			{
+#if NIND
 			if (nind != null)
 				{
 				if (nind.Visible)
@@ -534,7 +546,10 @@ namespace RD_AAOW
 
 			notForIndication = NamesCombo.SelectedIndex;
 			nind = new NotIndicator (ns.Notifications[notForIndication]);
+#endif
 			}
+#if NIND
 		private NotIndicator nind;
+#endif
 		}
 	}

@@ -28,9 +28,9 @@ namespace RD_AAOW
 				return;
 
 			// Отображение справки и запроса на принятие Политики
-			if (!ProgramDescription.AcceptEULA ())
+			if (!RDGenerics.AcceptEULA ())
 				return;
-			ProgramDescription.ShowAbout (true);
+			RDGenerics.ShowAbout (true);
 
 			// Запуск
 			Application.Run (new UniNotifierForm ());

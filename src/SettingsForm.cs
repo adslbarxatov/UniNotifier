@@ -176,8 +176,9 @@ namespace RD_AAOW
 
 			if (!ni.IsInited)
 				{
-				MessageBox.Show (Localization.GetText ("NotEnoughDataMessage", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				/*MessageBox.Shw (Localization.GetText ("NotEnoughDataMessage", al),
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "NotEnoughDataMessage");
 				return;
 				}
 
@@ -188,8 +189,9 @@ namespace RD_AAOW
 			int idx = notifications.Notifications.IndexOf (ni);
 			if ((idx >= 0) && (idx != ItemNumber))
 				{
-				MessageBox.Show (Localization.GetText ("NotMatchingNames", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				/*MessageBox.Shw (Localization.GetText ("NotMatchingNames", al),
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "NotMatchingNames");
 				return;
 				}
 
@@ -208,8 +210,9 @@ namespace RD_AAOW
 				}
 			else
 				{
-				MessageBox.Show (Localization.GetText ("UpdateLineNotSpecified", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				/*MessageBox.Shw (Localization.GetText ("UpdateLineNotSpecified", al),
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "UpdateLineNotSpecified");
 				return;
 				}
 
@@ -225,13 +228,18 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.DeleteButton);
 			if (NotificationsList.SelectedIndex < 0)
 				{
-				MessageBox.Show (Localization.GetText ("DeleteLineNotSpecified", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				/*MessageBox.Shw (Localization.GetText ("DeleteLineNotSpecified", al),
+					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "DeleteLineNotSpecified");
 				return;
 				}
 
-			if (MessageBox.Show (Localization.GetText ("DeleteMessage", al), ProgramDescription.AssemblyVisibleName,
+			/*if (MessageBox.Shw (Localization.GetText ("DeleteMessage", al), ProgramDescription.AssemblyVisibleName,
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+				return;*/
+			if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "DeleteMessage",
+				Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) ==
+				RDMessageButtons.ButtonTwo)
 				return;
 
 			// Удаление
@@ -271,11 +279,14 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ShareSettings);
 
 			// Выбор варианта выгрузки
-			switch (MessageBox.Show (Localization.GetText ("ShareVariant", al), ProgramDescription.AssemblyVisibleName,
-				MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+			/*switch (MessageBox.Shw (Localization.GetText ("ShareVariant", al), ProgramDescription.AssemblyVisibleName,
+				MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))*/
+			switch (RDGenerics.MessageBox (RDMessageTypes.Question, Localization.GetText ("ShareVariant", al),
+				Localization.GetText ("ShareFile", al), Localization.GetText ("ShareClipboard", al),
+				Localization.GetDefaultButtonName (Localization.DefaultButtons.Cancel)))
 				{
 				// Сохранение в файл
-				case DialogResult.Yes:
+				case RDMessageButtons.ButtonOne: /*DialogResult.Yes:*/
 					// Запрос пути
 					sfd.FileName = NotificationsSet.SettingsFileName;
 					if (sfd.ShowDialog () != DialogResult.OK)
@@ -283,17 +294,21 @@ namespace RD_AAOW
 
 					// Сохранение
 					if (!notifications.SaveSettingsToFile (sfd.FileName))
-						MessageBox.Show (Localization.GetText ("ShareFailure", al), ProgramDescription.AssemblyVisibleName,
-							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "ShareFailure");
+					/*MessageBox.Shw (Localization.GetText ("ShareFailure", al), 
+						ProgramDescription.AssemblyVisibleName,
+						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
 					break;
 
 				// Копирование
-				case DialogResult.No:
+				case RDMessageButtons.ButtonTwo: /*DialogResult.No:*/
 					try
 						{
-						Clipboard.SetText (NameText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+						Clipboard.SetText (NameText.Text +
+							NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 							LinkText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
-							BeginningText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
+							BeginningText.Text +
+							NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 							EndingText.Text + NotificationsTemplatesProvider.ClipboardTemplateSplitter[0].ToString () +
 							((uint)(OccurrenceField.Value)).ToString ());
 						}
@@ -320,14 +335,22 @@ namespace RD_AAOW
 				if (ofd.ShowDialog () != DialogResult.OK)
 					return;
 
-				if (MessageBox.Show (Localization.GetText ("LoadingWarning", al), ProgramDescription.AssemblyVisibleName,
-					MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+				/*if (MessageBox.Shw (Localization.GetText ("LoadingWarning", al),
+					ProgramDescription.AssemblyVisibleName,
+					MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) !=
+					DialogResult.Yes)
+					return;*/
+				if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingWarning",
+					Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) !=
+					RDMessageButtons.ButtonOne)
 					return;
 
 				if (!notifications.ReadSettingsFromFile (ofd.FileName))
 					{
-					MessageBox.Show (Localization.GetText ("LoadingFailure", al), ProgramDescription.AssemblyVisibleName,
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					/*MessageBox.Shw (Localization.GetText ("LoadingFailure", al), 
+						ProgramDescription.AssemblyVisibleName,
+						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
+					RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingFailure");
 					return;
 					}
 

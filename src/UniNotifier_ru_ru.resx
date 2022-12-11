@@ -339,10 +339,10 @@
     <value>Перезапросить все новости для проверки настроек?</value>
   </data>
   <data name="ShareVariant" xml:space="preserve">
-    <value>Вы хотите поделиться всеми настроенными уведомлениями?
+    <value>Как Вы хотите поделиться настроенными уведомлениями?
 
-• Нажмите «Да», чтобы сохранить все настройки в файл;
-• Нажмите «Нет», чтобы отправить настройки текущего уведомления в буфер обмена</value>
+• Нажмите «В файл», чтобы сохранить все настройки в файл;
+• Нажмите «В буфер», чтобы отправить настройки текущего уведомления в буфер обмена</value>
   </data>
   <data name="ShareFailure" xml:space="preserve">
     <value>Не удалось создать файл настроек оповещений. Попробуйте выбрать другое расположение</value>
@@ -355,5 +355,11 @@
   </data>
   <data name="TemplateFile" xml:space="preserve">
     <value>Из &amp;файла</value>
+  </data>
+  <data name="ShareClipboard" xml:space="preserve">
+    <value>В &amp;буфер</value>
+  </data>
+  <data name="ShareFile" xml:space="preserve">
+    <value>В &amp;файл</value>
   </data>
 </root>
