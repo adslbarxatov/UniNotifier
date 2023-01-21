@@ -13,7 +13,7 @@
 				<Label x:Name="AboutLabel" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-					WidthRequest="200" Color="#606060" Margin="9" />
+					WidthRequest="200" Color="#505050" Margin="9" />
 
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 					<Label x:Name="LanguageLabel" VerticalOptions="Center" />
@@ -22,14 +22,14 @@
 
 				<Button x:Name="ManualPage" HorizontalOptions="Center" />
 
-				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-					WidthRequest="200" Color="#606060" Margin="9" />
-
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 					<Button x:Name="AppPage" HorizontalOptions="Center" />
 					<Button x:Name="ADPPage" HorizontalOptions="Center" />
 				</StackLayout>
 				<Button x:Name="DevPage" HorizontalOptions="Center" />
+
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="200" Color="#505050" Margin="9" />
 
 				<Label x:Name="Alert" HorizontalOptions="Center" />
 				<Button x:Name="CommunityPage" HorizontalOptions="Center" />

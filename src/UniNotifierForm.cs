@@ -272,7 +272,22 @@ namespace RD_AAOW
 					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
 						" ---\r\n\r\n");
 					}
+
+				// Добавление и форматирование
 				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (), "\r\n"));
+				
+				/*int left = MainText.Text.LastIndexOf ("\r\n- ");
+				int right;
+				if (left >= 0)
+					{
+					right = MainText.Text.IndexOf (" -\r\n", left);
+					if (right >= 0)
+						{
+						MainText.Select (left, right - left);
+						MainText.SelectedText.ForeColor = Color.FromArgb (255, 0, 0);
+						MainText.DeselectAll ();
+						}
+					}*/
 
 				// Отображение всплывающего сообщения
 				if (!this.Visible)

@@ -5,6 +5,8 @@
 
 	<StackLayout>
 
+		<Label x:Name="HeaderLabel" HorizontalOptions="Center" IsVisible="false" />
+
 		<ListView x:Name="MainLog" HorizontalOptions="Fill" />
 
 		<Grid x:Name="StatusBarGrid">
@@ -19,7 +21,7 @@
 			</Grid.ColumnDefinitions>
 
 			<Button Grid.Row="0" Grid.Column="0" x:Name="GetGMJ" VerticalOptions="Center" />
-			<Label Grid.Row="0" Grid.Column="1" x:Name="HeaderLabel" HorizontalOptions="Center" VerticalOptions="Center"/>
+			<Button Grid.Row="0" Grid.Column="1" x:Name="StatusBar" HorizontalOptions="Center" VerticalOptions="Center"/>
 			<Button Grid.Row="0" Grid.Column="2" x:Name="AllNewsButton" VerticalOptions="Center" />
 		</Grid>
 

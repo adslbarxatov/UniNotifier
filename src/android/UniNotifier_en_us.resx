@@ -159,6 +159,9 @@
   <data name="AppPage" xml:space="preserve">
     <value>App webpage</value>
   </data>
+  <data name="AppSettingsLabel" xml:space="preserve">
+    <value>Viewer</value>
+  </data>
   <data name="AvailabilityLabel" xml:space="preserve">
     <value>Notify if source is unavailable</value>
   </data>
@@ -232,12 +235,6 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="EarlierMessage" xml:space="preserve">
     <value> Earlier </value>
   </data>
-  <data name="EFTAccepted" xml:space="preserve">
-    <value>***</value>
-  </data>
-  <data name="EFTLabel" xml:space="preserve">
-    <value>Extended functionality token:</value>
-  </data>
   <data name="EmailsAreUnavailable" xml:space="preserve">
     <value>This device has no mail agent</value>
   </data>
@@ -268,6 +265,9 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="IndicateOnlyUrgentLabel" xml:space="preserve">
     <value>Indicate only urgent notifications</value>
   </data>
+  <data name="KeepScreenOnLabel" xml:space="preserve">
+    <value>Keep the screen on while app is opened</value>
+  </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Interface language:</value>
   </data>
@@ -293,7 +293,7 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Log</value>
   </data>
   <data name="LogSettingsLabel" xml:space="preserve">
-    <value>Log settings:</value>
+    <value>Main log</value>
   </data>
   <data name="LogUpdatedMessage" xml:space="preserve">
     <value>Updated: </value>
@@ -351,7 +351,7 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Notifications wizard</value>
   </data>
   <data name="NotWizardLabel" xml:space="preserve">
-    <value>Creating new notifications:</value>
+    <value>New notifications</value>
   </data>
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Occurrence &lt;b&gt;#{0:D}&lt;/b&gt;</value>
@@ -367,7 +367,7 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
 • To decline them, close the application</value>
   </data>
   <data name="ReadModeLabel" xml:space="preserve">
-    <value>Read mode</value>
+    <value>Night theme for the main log</value>
   </data>
   <data name="RemoveOption" xml:space="preserve">
     <value>Remove from log</value>
@@ -418,7 +418,7 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Select template:</value>
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
-    <value>Background service:</value>
+    <value>Background service</value>
   </data>
   <data name="SettingsPage" xml:space="preserve">
     <value>Application settings</value>
@@ -480,6 +480,7 @@ Also, your device requires manual permission for sounds, lights and vibration fo
 The application creates two notification channels:
 • for urgent and mixed (which require sound or vibration indication);
 • for non-urgent (which can be left without indication).
+
 The channeling is determined by the “Urgent notifications only” and “Threshold” settings</value>
   </data>
   <data name="Tip04_1" xml:space="preserve">
@@ -516,6 +517,9 @@ It is also possible to display a notification only if this condition is met</val
   </data>
   <data name="Tip04_23" xml:space="preserve">
     <value>This switch allows you to turn off the indication for non-urgent notifications. If it is inactive, all news are processed as mixed (have an indication)</value>
+  </data>
+  <data name="Tip04_25" xml:space="preserve">
+    <value>This switch keeps the screen active while you’re reading notifications texts (i. e. while the app is opened)</value>
   </data>
   <data name="Tip04_3" xml:space="preserve">
     <value>This button allows you to add new notification with settings presented above</value>

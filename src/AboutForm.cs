@@ -211,7 +211,8 @@ namespace RD_AAOW
 
 			new string[] { "&gt;", "›" },
 			new string[] { "&lt;", "‹" },
-			new string[] { "&#39;", "’" }
+			new string[] { "&#39;", "’" },
+			new string[] { "&bull;", "•" }
 			};
 
 		/// <summary>
@@ -575,8 +576,7 @@ namespace RD_AAOW
 
 			// Контроль наличия DPModule
 			string dpmv = RDGenerics.GetAppSettingsValue (LastShownVersionKey, ADPRevisionPath);
-			string downloadLink;
-			string packagePath; /*= Environment.GetFolderPath (Environment.SpecialFolder.Desktop) + "\\";*/
+			string downloadLink, packagePath;
 
 			int l;
 			if (string.IsNullOrWhiteSpace (dpmv))

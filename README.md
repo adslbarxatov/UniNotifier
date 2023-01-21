@@ -1,5 +1,5 @@
-# UniNotifier v 5.3.2
-> PCC: 0004E5C9DAC403B8
+# UniNotifier v 5.4
+> PCC: 0004E7C69172C51F
 
 
 UniNotifier (uNot), the managed news service

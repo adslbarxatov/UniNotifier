@@ -159,6 +159,9 @@
   <data name="AppPage" xml:space="preserve">
     <value>Страница проекта</value>
   </data>
+  <data name="AppSettingsLabel" xml:space="preserve">
+    <value>Просмотр</value>
+  </data>
   <data name="AvailabilityLabel" xml:space="preserve">
     <value>Оповещать, если ресурс недоступен</value>
   </data>
@@ -232,12 +235,6 @@
   <data name="EarlierMessage" xml:space="preserve">
     <value> Ранее </value>
   </data>
-  <data name="EFTAccepted" xml:space="preserve">
-    <value>Токен принят. Если он окажется некорректным, вызов функционала окажется неуспешным, а это поле после перезагрузки приложения появится вновь</value>
-  </data>
-  <data name="EFTLabel" xml:space="preserve">
-    <value>Токен расширенного функционала:</value>
-  </data>
   <data name="EmailsAreUnavailable" xml:space="preserve">
     <value>Почтовый агент отсутствует на этом устройстве</value>
   </data>
@@ -271,6 +268,9 @@
   <data name="IndicateOnlyUrgentLabel" xml:space="preserve">
     <value>Индикация только срочных уведомлений</value>
   </data>
+  <data name="KeepScreenOnLabel" xml:space="preserve">
+    <value>Запретить переход в спящий режим, пока приложение открыто</value>
+  </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Язык интерфейса:</value>
   </data>
@@ -296,7 +296,7 @@
     <value>Журнал</value>
   </data>
   <data name="LogSettingsLabel" xml:space="preserve">
-    <value>Настройки журнала:</value>
+    <value>Главный журнал</value>
   </data>
   <data name="LogUpdatedMessage" xml:space="preserve">
     <value>Обновлено: </value>
@@ -354,7 +354,7 @@
     <value>Мастер оповещений</value>
   </data>
   <data name="NotWizardLabel" xml:space="preserve">
-    <value>Создание новых оповещений:</value>
+    <value>Новые оповещения</value>
   </data>
   <data name="OccFieldLabel" xml:space="preserve">
     <value>Вхождение &lt;b&gt;№{0:D}&lt;/b&gt;</value>
@@ -370,7 +370,7 @@
 • Чтобы отклонить их, закройте приложение</value>
   </data>
   <data name="ReadModeLabel" xml:space="preserve">
-    <value>Режим чтения</value>
+    <value>Тёмная тема для основного журнала</value>
   </data>
   <data name="RemoveOption" xml:space="preserve">
     <value>Удалить из журнала</value>
@@ -421,7 +421,7 @@
     <value>Выберите шаблон:</value>
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
-    <value>Фоновая служба:</value>
+    <value>Фоновая служба</value>
   </data>
   <data name="SettingsPage" xml:space="preserve">
     <value>Настройки приложения</value>
@@ -480,6 +480,7 @@
 Приложение создаёт два канала оповещений:
 • для срочных и смешанных (которые требуют индикации звуком или вибрацией);
 • для несрочных (которые можно оставить без индикации).
+
 Разделение по каналам определяется настройками «Только срочные уведомления» и «Порог»</value>
   </data>
   <data name="Tip04_1" xml:space="preserve">
@@ -516,6 +517,9 @@
   </data>
   <data name="Tip04_23" xml:space="preserve">
     <value>Этот переключатель позволяет отключить индикацию для несрочных оповещений. Если он неактивен, все оповещения обрабатываются как смешанные (имеют индикацию)</value>
+  </data>
+  <data name="Tip04_25" xml:space="preserve">
+    <value>Этот переключатель позволяет экрану оставаться активным, пока Вы читаете тексты уведомлений (т. е. пока приложение открыто)</value>
   </data>
   <data name="Tip04_3" xml:space="preserve">
     <value>Эта кнопка позволяет добавить новое уведомление с настройками, представленными выше</value>

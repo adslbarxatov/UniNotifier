@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Views;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -56,6 +57,9 @@ namespace RD_AAOW.Droid
 				StartService (mainService);
 
 			// Запуск
+			if (AndroidSupport.KeepScreenOn)
+				this.Window.AddFlags (WindowManagerFlags.KeepScreenOn);
+
 			LoadApplication (new App ());
 			}
 
@@ -255,12 +259,7 @@ namespace RD_AAOW.Droid
 // Формирование сообщения
 notMessage:
 			notBuilder.SetContentText (msg);
-
-			/*if (AndroidSupport.IsForegroundAvailable)
-				notBuilder.SetNumber ((int)NotificationsSupport.NewItems);*/
-
 			notTextStyle.BigText (msg);
-
 			Android.App.Notification notification = notBuilder.Build ();
 
 			// Отображение (с дублированием для срочных)
@@ -298,9 +297,6 @@ notMessage:
 				defaultChannelID = ProgramDescription.AssemblyMainName.ToLower () + "_default";
 				defaultChannel = new NotificationChannel (defaultChannelID,
 					ProgramDescription.AssemblyVisibleName + " / Non-urgent", NotificationImportance.High);
-
-				/*defaultChannel.SetShowBadge (true);
-				urgentChannel.SetShowBadge (true);*/
 
 				// Настройка
 				urgentChannel.Description = Localization.GetText ("UrgentChannel", Localization.CurrentLanguage);

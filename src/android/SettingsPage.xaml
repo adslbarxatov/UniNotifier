@@ -15,7 +15,18 @@
 				<Button x:Name="NotWizardButton" HorizontalOptions="Center" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-					WidthRequest="200" Color="#606060" Margin="12" />
+					WidthRequest="200" Color="#505050" Margin="12" />
+
+				<!-- Настройки основного приложения -->
+				<Label x:Name="AppSettingsLabel" />
+
+				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="KeepScreenOnSwitch" VerticalOptions="Center" />
+					<Label x:Name="KeepScreenOnLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="200" Color="#505050" Margin="12" />
 
 				<!-- Настройки службы -->
 				<Label x:Name="ServiceSettingsLabel" />
@@ -47,7 +58,7 @@
 
 				<!-- Настройки журнала -->
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-					WidthRequest="200" Color="#606060" Margin="12" />
+					WidthRequest="200" Color="#505050" Margin="12" />
 
 				<Label x:Name="LogSettingsLabel" />
 
