@@ -1,4 +1,5 @@
-_Changes for v 5.4_:
+_Changes for v 5.4.1_:
+- User guide has been updated;
 - `Android`: user interface has been updated;
 - `Android`: added the ability to keep the screen on while app is opened;
 - `Android`: adjusted the presentation of the main log;
