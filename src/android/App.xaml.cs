@@ -100,43 +100,44 @@ namespace RD_AAOW
 			#region Настройки службы
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "ServiceSettingsLabel",
-				Localization.GetText ("ServiceSettingsLabel", al), AndroidSupport.LabelTypes.Header);
+				Localization.GetText ("ServiceSettingsLabel", al), AndroidSupport.LabelTypes.HeaderLeft);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartLabel",
-				Localization.GetText ("AllowStartLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("AllowStartLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			allowStart = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowStartSwitch",
 				false, solutionFieldBackColor, AllowStart_Toggled, AndroidSupport.AllowServiceToStart);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "NotWizardLabel",
-				Localization.GetText ("NotWizardLabel", al), AndroidSupport.LabelTypes.Header);
+				Localization.GetText ("NotWizardLabel", al), AndroidSupport.LabelTypes.HeaderLeft);
 			notWizardButton = AndroidSupport.ApplyButtonSettings (settingsPage, "NotWizardButton",
 				Localization.GetText ("NotWizardButton", al), solutionFieldBackColor, StartNotificationsWizard, false);
 
 			allowSoundLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowSoundLabel",
-				Localization.GetText ("AllowSoundLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("AllowSoundLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			allowSoundSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowSoundSwitch",
 				false, solutionFieldBackColor, AllowSound_Toggled, NotificationsSupport.AllowSound);
 
 			allowLightLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowLightLabel",
-				Localization.GetText ("AllowLightLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("AllowLightLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			allowLightSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowLightSwitch",
 				false, solutionFieldBackColor, AllowLight_Toggled, NotificationsSupport.AllowLight);
 
 			allowVibroLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowVibroLabel",
-				Localization.GetText ("AllowVibroLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("AllowVibroLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			allowVibroSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowVibroSwitch",
 				false, solutionFieldBackColor, AllowVibro_Toggled, NotificationsSupport.AllowVibro);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "IndicateOnlyUrgentLabel",
-				Localization.GetText ("IndicateOnlyUrgentLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("IndicateOnlyUrgentLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			indicateOnlyUrgentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "IndicateOnlyUrgentSwitch",
-				false, solutionFieldBackColor, IndicateOnlyUrgent_Toggled, NotificationsSupport.IndicateOnlyUrgentNotifications);
+				false, solutionFieldBackColor, IndicateOnlyUrgent_Toggled, 
+				NotificationsSupport.IndicateOnlyUrgentNotifications);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "AppSettingsLabel",
-				Localization.GetText ("AppSettingsLabel", al), AndroidSupport.LabelTypes.Header);
+				Localization.GetText ("AppSettingsLabel", al), AndroidSupport.LabelTypes.HeaderLeft);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "KeepScreenOnLabel",
-				Localization.GetText ("KeepScreenOnLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("KeepScreenOnLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			keepScreenOnSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "KeepScreenOnSwitch",
 				false, solutionFieldBackColor, KeepScreenOnSwitch_Toggled, AndroidSupport.KeepScreenOn);
 
@@ -145,10 +146,10 @@ namespace RD_AAOW
 				AndroidSupport.AreNotificationsConfigurable;
 
 			gmjSourceLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "GMJSourceLabel",
-				Localization.GetText ("GMJSourceLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("GMJSourceLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			gmjSourceButton = AndroidSupport.ApplyButtonSettings (settingsPage, "GMJSource",
 				GMJ.SourceName, solutionFieldBackColor, SetGMJSource_Clicked, false);
-			gmjSourceButton.IsVisible = gmjSourceLabel.IsVisible = ((al == SupportedLanguages.ru_ru));
+			gmjSourceButton.IsVisible = gmjSourceLabel.IsVisible = false;//(al == SupportedLanguages.ru_ru);
 
 			#endregion
 
@@ -158,28 +159,28 @@ namespace RD_AAOW
 				"", solutionFieldBackColor, SelectNotification, false);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "NameFieldLabel",
-				Localization.GetText ("NameFieldLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("NameFieldLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			nameField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "NameField", solutionFieldBackColor,
 				Keyboard.Text, Notification.MaxBeginningEndingLength, "", null, true);
 			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder", al);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "LinkFieldLabel",
-				Localization.GetText ("LinkFieldLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("LinkFieldLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			linkFieldButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "LinkFieldButton",
 				AndroidSupport.ButtonsDefaultNames.Select, solutionFieldBackColor, SpecifyNotificationLink);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "BeginningFieldLabel",
-				Localization.GetText ("BeginningFieldLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("BeginningFieldLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			beginningField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "BeginningField",
 				solutionFieldBackColor, Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "EndingFieldLabel",
-				Localization.GetText ("EndingFieldLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("EndingFieldLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			endingField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "EndingField", solutionFieldBackColor,
 				Keyboard.Url, Notification.MaxBeginningEndingLength, "", null, true);
 
 			occFieldLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "OccFieldLabel", "",
-				AndroidSupport.LabelTypes.Default);
+				AndroidSupport.LabelTypes.DefaultLeft);
 			occFieldLabel.TextType = TextType.Html;
 
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccIncButton",
@@ -189,7 +190,7 @@ namespace RD_AAOW
 			currentOcc = 1;
 
 			requestStepFieldLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "RequestStepFieldLabel",
-				"", AndroidSupport.LabelTypes.Default);
+				"", AndroidSupport.LabelTypes.DefaultLeft);
 			requestStepFieldLabel.TextType = TextType.Html;
 
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "RequestStepIncButton",
@@ -201,18 +202,18 @@ namespace RD_AAOW
 			currentFreq = NotificationsSet.DefaultUpdatingFrequency;
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "EnabledLabel",
-				Localization.GetText ("EnabledLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("EnabledLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			enabledSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "EnabledSwitch",
 				false, solutionFieldBackColor, null, false);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "AvailabilityLabel",
-				Localization.GetText ("AvailabilityLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("AvailabilityLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			notifyIfUnavailableSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "AvailabilitySwitch",
 				false, solutionFieldBackColor, null, false);
 
 			// Новые
 			comparatorLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "ComparatorLabel",
-				Localization.GetText ("ComparatorLabelOff", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("ComparatorLabelOff", al), AndroidSupport.LabelTypes.DefaultLeft);
 			comparatorSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "ComparatorSwitch",
 				false, solutionFieldBackColor, ComparatorSwitch_Toggled, false);
 			comparatorTypeButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorType",
@@ -228,7 +229,7 @@ namespace RD_AAOW
 				AndroidSupport.ButtonsDefaultNames.Create, solutionFieldBackColor, ComparatorValueChanged);
 
 			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "IgnoreMisfitsLabel",
-				Localization.GetText ("IgnoreMisfitsLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("IgnoreMisfitsLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			ignoreMisfitsSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "IgnoreMisfitsSwitch",
 				false, solutionFieldBackColor, null, false);
 
@@ -236,13 +237,13 @@ namespace RD_AAOW
 			statusBarGrid = (Grid)logPage.FindByName ("StatusBarGrid");
 
 			rightAlignmentLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "RightAlignmentLabel",
-				Localization.GetText ("RightAlignmentLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("RightAlignmentLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			rightAlignmentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "RightAlignmentSwitch",
 				false, solutionFieldBackColor, RightAlignmentSwitch_Toggled, NotificationsSupport.LogButtonsOnTheRightSide);
 			rightAlignmentLabel.IsVisible = rightAlignmentSwitch.IsVisible = (al == SupportedLanguages.ru_ru);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "NewsAtTheEndLabel",
-				Localization.GetText ("NewsAtTheEndLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("NewsAtTheEndLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			newsAtTheEndSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "NewsAtTheEndSwitch",
 				false, solutionFieldBackColor, NewsAtTheEndSwitch_Toggled, NotificationsSupport.LogNewsItemsAtTheEnd);
 
@@ -293,11 +294,11 @@ namespace RD_AAOW
 			AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector", Localization.LanguagesNames[(int)al],
 				aboutFieldBackColor, SelectLanguage_Clicked, false);
 			AndroidSupport.ApplyLabelSettings (aboutPage, "LanguageLabel",
-				Localization.GetText ("LanguageLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("LanguageLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 
 			if (al == SupportedLanguages.ru_ru)
 				AndroidSupport.ApplyLabelSettings (aboutPage, "Alert", RDGenerics.RuAlertMessage,
-					AndroidSupport.LabelTypes.Default);
+					AndroidSupport.LabelTypes.DefaultLeft);
 
 			#endregion
 
@@ -327,7 +328,6 @@ namespace RD_AAOW
 			getGMJButton.FontSize = ((al == SupportedLanguages.ru_ru) ? allNewsButton.FontSize - 2 :
 				allNewsButton.FontSize);
 
-			/*statusBar = (Label)logPage.FindByName ("HeaderLabel");*/
 			statusBar = AndroidSupport.ApplyButtonSettings (logPage, "StatusBar", " ",
 				logFieldBackColor, ScrollLog_Click, false);
 			statusBar.FontSize = 15;
@@ -337,11 +337,11 @@ namespace RD_AAOW
 			#region Прочие настройки
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "LogSettingsLabel",
-				Localization.GetText ("LogSettingsLabel", al), AndroidSupport.LabelTypes.Header);
+				Localization.GetText ("LogSettingsLabel", al), AndroidSupport.LabelTypes.HeaderLeft);
 
 			// Режим чтения
 			AndroidSupport.ApplyLabelSettings (settingsPage, "ReadModeLabel",
-				Localization.GetText ("ReadModeLabel", al), AndroidSupport.LabelTypes.Default);
+				Localization.GetText ("ReadModeLabel", al), AndroidSupport.LabelTypes.DefaultLeft);
 			readModeSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "ReadModeSwitch",
 				false, solutionFieldBackColor, ReadModeSwitch_Toggled, NotificationsSupport.LogReadingMode);
 
@@ -349,7 +349,7 @@ namespace RD_AAOW
 
 			// Размер шрифта
 			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "FontSizeFieldLabel",
-				"", AndroidSupport.LabelTypes.Default);
+				"", AndroidSupport.LabelTypes.DefaultLeft);
 			fontSizeFieldLabel.TextType = TextType.Html;
 
 			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeIncButton",

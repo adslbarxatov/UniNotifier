@@ -127,11 +127,11 @@
     <value>Delete selected notification?</value>
   </data>
   <data name="HelpText" xml:space="preserve">
-    <value>This utility provides ability to receive notifications about changes in state of monitored web pages (in other words – about updates and news) in form of system messages.
+    <value>This app provides the ability to be notified when the status of user-specified websites changes. In other words, about their updates, which will be presented in the form of a text log. Only what the user has specified is loaded – all other objects (including ads) are ignored.
 
-The context menu invoked by right-clicking on the application icon in system tray allows you to manage and build notifications, view them in main window, as well as request information about the application and go to monitored pages.
-
-In addition, the utility automatically requests new records with specified update rate and, if available, displays the appropriate notifications</value>
+- The settings section allows you to manage and design notifications.
+- The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
+- A static service notification will inform you about the presence of unread news received in the background</value>
   </data>
   <data name="KeywordNotSpecified" xml:space="preserve">
     <value>Search keyword is missing in “Beginning” field</value>
@@ -163,7 +163,7 @@ In addition, the utility automatically requests new records with specified updat
     <value>Notification with the same name already added</value>
   </data>
   <data name="SearchFailure" xml:space="preserve">
-    <value>Link to webpage is incorrect or keyword is not found on this page</value>
+    <value>Link to a webpage is incorrect or keyword is not found on this page</value>
   </data>
   <data name="SettingsForm_BAdd" xml:space="preserve">
     <value>&amp;Add new</value>
@@ -202,9 +202,9 @@ In addition, the utility automatically requests new records with specified updat
     <value>Occurrence number:</value>
   </data>
   <data name="Tip_00" xml:space="preserve">
-    <value>Welcome to UniNotifier! Here you can configure the news service and notifications themselves. Some buttons and fields contain useful tips that will be shown once.
+    <value>Welcome touNot, the web resources supervisor service! Here you can configure the service and notifications. Some buttons and fields contain useful tips that will be shown once.
 
-Detailed instructions for setting up the service are available on YouTube button in app info window)</value>
+Detailed instructions for setting up the service are available on YouTube (“User manual” button in the app info window)</value>
   </data>
   <data name="Tip_01" xml:space="preserve">
     <value>This button allows you to apply changes performed on the right side of window to the currently selected notification</value>
@@ -246,7 +246,7 @@ Detailed instructions for setting up the service are available on YouTube button
     <value>Notifications wizard</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
-    <value>It looks like this site is not supported in UniNotifier. Try using a different keyword</value>
+    <value>It looks like this site is not supported. Try using a different keyword</value>
   </data>
   <data name="WizardSearch1" xml:space="preserve">
     <value>Detecting markers...</value>
@@ -257,14 +257,14 @@ Detailed instructions for setting up the service are available on YouTube button
   <data name="WizardStep1" xml:space="preserve">
     <value>Welcome to the notifications wizard!
 
-This function will help you to create a notification that UniNotifier can automatically poll.
+This function will help you to create a notification (“watchdog”) for web resource.
 
-First, enter a link (URL) to the site from which you want to receive notifications</value>
+First, enter the link (URL) of the website you want to watch</value>
   </data>
   <data name="WizardStep2" xml:space="preserve">
     <value>Now enter a keyword.
 
-This word (or phrase) should be present right now in that part of the site that will change over time, which will be the source of text for notifications. The ideal would be a phrase that is present now only in this area or is first encountered on the site in it. The case of letters doesn't matter</value>
+This word (or phrase) should be present right now in a part of the website you want to watch, and you expect it to change over time. The ideal would be a phrase that is present now only in this area or is first encountered on the website in it. The case of letters doesn’t matter</value>
   </data>
   <data name="WizardStep3" xml:space="preserve">
     <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we’ll try again</value>

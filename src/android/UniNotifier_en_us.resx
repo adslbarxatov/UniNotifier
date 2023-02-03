@@ -245,7 +245,7 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Ending:</value>
   </data>
   <data name="FindDisclaimer" xml:space="preserve">
-    <value>For using this function specify some keyword from needed site’s area in the “Beginning” field</value>
+    <value>For using this function specify some keyword from needed website’s area in the “Beginning” field</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Font size: &lt;b&gt;{0:D}&lt;/b&gt;</value>
@@ -460,14 +460,16 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Create new notification:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Welcome to UniNotifier!
+    <value>Welcome to uNot, the web resources supervisor service!
 
-• On this page you can configure the notifications.
-• Swipe it to the right to set up parameters of the news service</value>
+• On this page you can configure existing notifications.
+
+• Swipe this screen to the right to set up parameters of the service and add new web resources to watch</value>
   </data>
   <data name="Tip02" xml:space="preserve">
     <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left and select the user guide.
-• The main notifications log is available on the first page of application. It will be opened on every further start of UniNotifier</value>
+
+• The main notifications log is available on the first page of the application. It will be opened on every further start</value>
   </data>
   <data name="Tip03_1" xml:space="preserve">
     <value>Warning! Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get notifications</value>
@@ -475,7 +477,7 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="Tip03_2" xml:space="preserve">
     <value>.
 
-Also, your device requires manual permission for sounds, lights and vibration for notifications. Select them in the system settings if necessary (when the background service is enabled – otherwise the settings will be unavailable).
+Also, your device requires manual permission for sounds, lights and vibration for notifications. Select them in the system settings if necessary (when the background service is enabled – otherwise settings will be unavailable).
 
 The application creates two notification channels:
 • for urgent and mixed (which require sound or vibration indication);
@@ -487,7 +489,7 @@ The channeling is determined by the “Urgent notifications only” and “Thres
     <value>This button allows you to apply changes performed below to the currently selected notification</value>
   </data>
   <data name="Tip04_10" xml:space="preserve">
-    <value>This option allows you to open the source of selected notification in browser</value>
+    <value>This option allows you to open the source of the selected notification in browser</value>
   </data>
   <data name="Tip04_11" xml:space="preserve">
     <value>This button allows you to select notification for configuring</value>
@@ -496,10 +498,10 @@ The channeling is determined by the “Urgent notifications only” and “Thres
     <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. This allows you to quickly call the app when necessary (via a pinned notification) and see the quantity of unread news</value>
   </data>
   <data name="Tip04_15" xml:space="preserve">
-    <value>In some cases, the needed part of web page is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of page) should be displayed</value>
+    <value>In some cases, the needed part of webpage is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of the page) should be displayed</value>
   </data>
   <data name="Tip04_18" xml:space="preserve">
-    <value>All operations with texts of notifications are available through the clicking on them right in the main log</value>
+    <value>All operations with texts of notifications are available through the clicking on them in the main log</value>
   </data>
   <data name="Tip04_2" xml:space="preserve">
     <value>This button allows you to share settings of notifications</value>
@@ -507,7 +509,7 @@ The channeling is determined by the “Urgent notifications only” and “Thres
   <data name="Tip04_20" xml:space="preserve">
     <value>This function allows you to set a numerical threshold. It will be compared with the first number in every obtained text using the specified comparison method. If the new text matches the condition, app will display a special warning.
 
-It is also possible to display a notification only if this condition is met</value>
+It is also possible to display the notification only if this condition is met</value>
   </data>
   <data name="Tip04_21" xml:space="preserve">
     <value>The update rate is now configurable for each notification separately. Check it before running the background request</value>
@@ -551,7 +553,7 @@ Please note that app adds links to information sources to notifications you shar
     <value>This device has no web browser</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
-    <value>It looks like this site is not supported in UniNotifier. Try using a different keyword</value>
+    <value>It looks like this website is not supported. Try using a different keyword</value>
   </data>
   <data name="WizardSearch1" xml:space="preserve">
     <value>Detecting markers...</value>
@@ -562,14 +564,14 @@ Please note that app adds links to information sources to notifications you shar
   <data name="WizardStep1" xml:space="preserve">
     <value>Welcome to the notifications wizard!
 
-This function will help you to create a notification that UniNotifier can automatically poll.
+This function will help you to create a notification (“watchdog”) for web resource.
 
-First, enter a link (URL) to the site from which you want to receive notifications</value>
+First, enter the link (URL) of the website you want to watch</value>
   </data>
   <data name="WizardStep2" xml:space="preserve">
     <value>Now enter a keyword.
 
-This word (or phrase) should be present right now in that part of the site that will change over time, which will be the source of text for notifications. The ideal would be a phrase that is present now only in this area or is first encountered on the site in it. The case of letters doesn’t matter</value>
+This word (or phrase) should be present right now in a part of the website you want to watch, and you expect it to change over time. The ideal would be a phrase that is present now only in this area or is first encountered on the website in it. The case of letters doesn’t matter</value>
   </data>
   <data name="WizardStep3" xml:space="preserve">
     <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we’ll try again</value>
