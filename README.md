@@ -8,7 +8,7 @@ uNot (UniNotifier) – служба наблюдения за состояние
 
 
 
-# Tablepedia notifier v 4.7
+# Tablepedia notifier v 4.7.2
 
 
 TPNotifier, the [Tablepedia.com](http://tablepedia.com) notifications service
