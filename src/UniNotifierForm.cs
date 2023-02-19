@@ -16,7 +16,7 @@ namespace RD_AAOW
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
-		private SupportedLanguages al = Localization.CurrentLanguage;
+		/*private SupportedLanguages al = Localization.CurrentLanguage;*/
 		private CultureInfo ci;
 		private bool callWindowOnUrgents = false;
 		private int notForIndication = -1;
@@ -101,15 +101,15 @@ namespace RD_AAOW
 
 			ni.ContextMenu = new ContextMenu ();
 
-			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption02", al), ShowSettings));
-			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption03", al), AboutService));
-			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption04", al), CloseService));
+			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption02"), ShowSettings));
+			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption03"), AboutService));
+			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption04"), CloseService));
 
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
 
 			if (!File.Exists (startupLink))
-				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05", al),
+				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05"),
 					AddToStartup));
 			}
 
@@ -147,7 +147,7 @@ namespace RD_AAOW
 			{
 			try
 				{
-				if (al == SupportedLanguages.ru_ru)
+				if (Localization.IsCurrentLanguageRuRu)
 					ci = new CultureInfo ("ru-ru");
 				else
 					ci = new CultureInfo ("en-us");
@@ -275,7 +275,7 @@ namespace RD_AAOW
 
 				// Добавление и форматирование
 				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (), "\r\n"));
-				
+
 				/*int left = MainText.Text.LastIndexOf ("\r\n- ");
 				int right;
 				if (left >= 0)
@@ -445,17 +445,14 @@ namespace RD_AAOW
 				}
 #endif
 
-			al = Localization.CurrentLanguage;
+			/*al = Localization.CurrentLanguage;*/
 			ResetCulture ();
 
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" +
-					(i + 2).ToString ("D02"), al);
+					(i + 2).ToString ("D02"));
 
 			// Перезапуск
-			/*bool complete = (MessageBox.Shw (Localization.GetText ("RecallAllNews", al),
-				ProgramDescription.AssemblyVisibleName, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-				MessageBoxDefaultButton.Button2) == DialogResult.Yes);*/
 			bool complete = (RDGenerics.LocalizedMessageBox (RDMessageTypes.Question, "RecallAllNews",
 				Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) ==
 				RDMessageButtons.ButtonOne);

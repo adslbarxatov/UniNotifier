@@ -10,7 +10,7 @@ namespace RD_AAOW
 		{
 		// Переменные и константы
 		private NotificationsSet notifications;
-		private SupportedLanguages al = Localization.CurrentLanguage;
+		/*private SupportedLanguages al = Localization.CurrentLanguage;*/
 		private uint updatingFrequencyStep;
 		private OpenFileDialog ofd;
 		private SaveFileDialog sfd;
@@ -45,7 +45,7 @@ namespace RD_AAOW
 			LanguageCombo.Items.AddRange (Localization.LanguagesNames);
 			try
 				{
-				LanguageCombo.SelectedIndex = (int)al;
+				LanguageCombo.SelectedIndex = (int)Localization.CurrentLanguage;
 				}
 			catch
 				{
@@ -260,10 +260,10 @@ namespace RD_AAOW
 		private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)
 			{
 			// Сохранение
-			al = Localization.CurrentLanguage = (SupportedLanguages)LanguageCombo.SelectedIndex;
+			Localization.CurrentLanguage = (SupportedLanguages)LanguageCombo.SelectedIndex;
 
 			// Локализация
-			Localization.SetControlsText (this, al);
+			Localization.SetControlsText (this);
 			}
 
 		// Подсказка по полю Occurence
@@ -279,14 +279,12 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ShareSettings);
 
 			// Выбор варианта выгрузки
-			/*switch (MessageBox.Shw (Localization.GetText ("ShareVariant", al), ProgramDescription.AssemblyVisibleName,
-				MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))*/
-			switch (RDGenerics.MessageBox (RDMessageTypes.Question, Localization.GetText ("ShareVariant", al),
-				Localization.GetText ("ShareFile", al), Localization.GetText ("ShareClipboard", al),
+			switch (RDGenerics.MessageBox (RDMessageTypes.Question, Localization.GetText ("ShareVariant"),
+				Localization.GetText ("ShareFile"), Localization.GetText ("ShareClipboard"),
 				Localization.GetDefaultButtonName (Localization.DefaultButtons.Cancel)))
 				{
 				// Сохранение в файл
-				case RDMessageButtons.ButtonOne: /*DialogResult.Yes:*/
+				case RDMessageButtons.ButtonOne:
 					// Запрос пути
 					sfd.FileName = NotificationsSet.SettingsFileName;
 					if (sfd.ShowDialog () != DialogResult.OK)
@@ -295,13 +293,10 @@ namespace RD_AAOW
 					// Сохранение
 					if (!notifications.SaveSettingsToFile (sfd.FileName))
 						RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "ShareFailure");
-					/*MessageBox.Shw (Localization.GetText ("ShareFailure", al), 
-						ProgramDescription.AssemblyVisibleName,
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
 					break;
 
 				// Копирование
-				case RDMessageButtons.ButtonTwo: /*DialogResult.No:*/
+				case RDMessageButtons.ButtonTwo:
 					try
 						{
 						Clipboard.SetText (NameText.Text +
@@ -321,7 +316,7 @@ namespace RD_AAOW
 		private void NotWizard_Click (object sender, EventArgs e)
 			{
 			// Запрос
-			WizardForm wf = new WizardForm (notifications, al, updatingFrequencyStep, (uint)FrequencyCombo.Items.Count);
+			WizardForm wf = new WizardForm (notifications, updatingFrequencyStep, (uint)FrequencyCombo.Items.Count);
 
 			// Обновление
 			if (wf.Cancelled)
@@ -335,11 +330,6 @@ namespace RD_AAOW
 				if (ofd.ShowDialog () != DialogResult.OK)
 					return;
 
-				/*if (MessageBox.Shw (Localization.GetText ("LoadingWarning", al),
-					ProgramDescription.AssemblyVisibleName,
-					MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) !=
-					DialogResult.Yes)
-					return;*/
 				if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingWarning",
 					Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) !=
 					RDMessageButtons.ButtonOne)
@@ -347,9 +337,6 @@ namespace RD_AAOW
 
 				if (!notifications.ReadSettingsFromFile (ofd.FileName))
 					{
-					/*MessageBox.Shw (Localization.GetText ("LoadingFailure", al), 
-						ProgramDescription.AssemblyVisibleName,
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
 					RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingFailure");
 					return;
 					}
