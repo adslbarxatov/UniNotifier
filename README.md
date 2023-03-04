@@ -1,5 +1,5 @@
-# UniNotifier v 5.4.7
-> PCC: 0004E5D75E54FC64
+# UniNotifier v 6.0
+> PCC: 0004E5CD6368ED3E
 
 
 uNot (UniNotifier), the web resources supervisor service

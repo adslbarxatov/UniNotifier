@@ -16,7 +16,6 @@ namespace RD_AAOW
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
-		/*private SupportedLanguages al = Localization.CurrentLanguage;*/
 		private CultureInfo ci;
 		private bool callWindowOnUrgents = false;
 		private int notForIndication = -1;
@@ -76,11 +75,6 @@ namespace RD_AAOW
 			RDGenerics.LoadWindowDimensions (this);
 			try
 				{
-				/*this.Left = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[0]));
-				this.Top = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[1]));
-				this.Width = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[2]));
-				this.Height = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[3]));*/
-
 				this.ReadMode.Checked = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[4]));
 				callWindowOnUrgents = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[5]));
 				this.FontSizeField.Value = decimal.Parse (RDGenerics.GetAppSettingsValue (regParameters[6]));
@@ -276,19 +270,6 @@ namespace RD_AAOW
 				// Добавление и форматирование
 				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (), "\r\n"));
 
-				/*int left = MainText.Text.LastIndexOf ("\r\n- ");
-				int right;
-				if (left >= 0)
-					{
-					right = MainText.Text.IndexOf (" -\r\n", left);
-					if (right >= 0)
-						{
-						MainText.Select (left, right - left);
-						MainText.SelectedText.ForeColor = Color.FromArgb (255, 0, 0);
-						MainText.DeselectAll ();
-						}
-					}*/
-
 				// Отображение всплывающего сообщения
 				if (!this.Visible)
 					{
@@ -445,7 +426,6 @@ namespace RD_AAOW
 				}
 #endif
 
-			/*al = Localization.CurrentLanguage;*/
 			ResetCulture ();
 
 			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
@@ -515,10 +495,6 @@ namespace RD_AAOW
 		// Сохранение размера формы
 		private void UniNotifierForm_ResizeEnd (object sender, EventArgs e)
 			{
-			/*RDGenerics.SetAppSettingsValue (regParameters[0], this.Left.ToString ());
-			RDGenerics.SetAppSettingsValue (regParameters[1], this.Top.ToString ());
-			RDGenerics.SetAppSettingsValue (regParameters[2], this.Width.ToString ());
-			RDGenerics.SetAppSettingsValue (regParameters[3], this.Height.ToString ());*/
 			RDGenerics.SaveWindowDimensions (this);
 			}
 

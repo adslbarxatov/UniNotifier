@@ -120,9 +120,6 @@
   <data name="AboutPage" xml:space="preserve">
     <value>О приложении</value>
   </data>
-  <data name="AcceptButton" xml:space="preserve">
-    <value>Принять</value>
-  </data>
   <data name="ActionIsUnsupported" xml:space="preserve">
     <value>Действие не поддерживается для этого типа оповещений</value>
   </data>
@@ -134,9 +131,6 @@
   </data>
   <data name="AlarmSettingsLabel" xml:space="preserve">
     <value>Разрешить:</value>
-  </data>
-  <data name="AllNewsButton" xml:space="preserve">
-    <value>ВСЕ</value>
   </data>
   <data name="AllNewsRequest" xml:space="preserve">
     <value>Эта опция последовательно опросит все оповещения. Это может занять какое-то время. Продолжить?</value>
@@ -171,23 +165,17 @@
   <data name="BackgroundRequestOn" xml:space="preserve">
     <value>Шаг фонового опроса, минут: &lt;b&gt;{0:D}&lt;/b&gt;</value>
   </data>
-  <data name="BeginningFieldLabel" xml:space="preserve">
-    <value>Начало:</value>
+  <data name="BeginningFieldMessage" xml:space="preserve">
+    <value>Признак начала текста оповещения</value>
   </data>
-  <data name="CancelButton" xml:space="preserve">
-    <value>Отмена</value>
+  <data name="BeginningFieldPlaceholder" xml:space="preserve">
+    <value>(разметка HTML)</value>
+  </data>
+  <data name="CenterButtonLabel" xml:space="preserve">
+    <value>Функция центральной кнопки</value>
   </data>
   <data name="CommunitySelect" xml:space="preserve">
     <value>Выберите сообщество:</value>
-  </data>
-  <data name="CommunityTG" xml:space="preserve">
-    <value>FDL в Telegram</value>
-  </data>
-  <data name="CommunityVK" xml:space="preserve">
-    <value>FDL на VK.com</value>
-  </data>
-  <data name="CommunityWelcome" xml:space="preserve">
-    <value>Приветственная страница</value>
   </data>
   <data name="ComparatorLabel" xml:space="preserve">
     <value>Проверять первое число в тексте и создавать срочное извещение, если значение</value>
@@ -217,9 +205,6 @@
 
 Например: {CITY} на Reykjavik, {CURRENCY} на ZWL</value>
   </data>
-  <data name="DeclineButton" xml:space="preserve">
-    <value>Читать</value>
-  </data>
   <data name="DefaultChannel" xml:space="preserve">
     <value>Несрочные (которые должны быть тихими)</value>
   </data>
@@ -232,17 +217,11 @@
   <data name="DisableOption" xml:space="preserve">
     <value>Отключить уведомление</value>
   </data>
-  <data name="EarlierMessage" xml:space="preserve">
-    <value> Ранее </value>
-  </data>
-  <data name="EmailsAreUnavailable" xml:space="preserve">
-    <value>Почтовый агент отсутствует на этом устройстве</value>
-  </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Активно</value>
   </data>
-  <data name="EndingFieldLabel" xml:space="preserve">
-    <value>Конец:</value>
+  <data name="EndingFieldMessage" xml:space="preserve">
+    <value>Признак конца текста оповещения</value>
   </data>
   <data name="FindDisclaimer" xml:space="preserve">
     <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
@@ -250,14 +229,8 @@
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Размер шрифта: &lt;b&gt;{0:D}&lt;/b&gt;</value>
   </data>
-  <data name="GMJButton" xml:space="preserve">
-    <value>GMJ</value>
-  </data>
   <data name="GMJRequestFailed" xml:space="preserve">
     <value>Grammar must joy не вернула сообщение. Проверьте интернет-соединение</value>
-  </data>
-  <data name="GMJSourceLabel" xml:space="preserve">
-    <value>Специальная кнопка:</value>
   </data>
   <data name="GoToOption" xml:space="preserve">
     <value>Перейти к источнику</value>
@@ -278,7 +251,10 @@
     <value>Служба оповещений находится в режиме ожидания. Нажмите на это сообщение, чтобы перейти к журналу</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Ссылка:</value>
+    <value>Ссылка и разметка:</value>
+  </data>
+  <data name="LinkFieldMessage" xml:space="preserve">
+    <value>URL источника оповещений</value>
   </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
@@ -323,9 +299,6 @@
   <data name="NewsAtTheEndLabel" xml:space="preserve">
     <value>Добавлять новости в конец журнала</value>
   </data>
-  <data name="NextButton" xml:space="preserve">
-    <value>OK</value>
-  </data>
   <data name="NextNewsButton" xml:space="preserve">
     <value>Новость</value>
   </data>
@@ -362,13 +335,6 @@
   <data name="OtherOption" xml:space="preserve">
     <value>Ещё...</value>
   </data>
-  <data name="PolicyMessage" xml:space="preserve">
-    <value>Перед началом работы с этим инструментом Вы должны принять Политику разработки приложений и Пользовательское соглашение. Хотите открыть их тексты в браузере?
-
-• Нажмите «Принять», если Вы уже ознакомились и полностью приняли их;
-• Нажмите «Читать», если хотите открыть их в браузере;
-• Чтобы отклонить их, закройте приложение</value>
-  </data>
   <data name="ReadModeLabel" xml:space="preserve">
     <value>Тёмная тема для основного журнала</value>
   </data>
@@ -393,9 +359,6 @@
   <data name="RestartApp" xml:space="preserve">
     <value>Перезапустите приложение</value>
   </data>
-  <data name="RetryButton" xml:space="preserve">
-    <value>Повторить</value>
-  </data>
   <data name="RightAlignmentLabel" xml:space="preserve">
     <value>Специальная кнопка справа</value>
   </data>
@@ -405,9 +368,6 @@
   <data name="SelectComparatorType" xml:space="preserve">
     <value>Выберите способ сравнения:</value>
   </data>
-  <data name="SelectGMJSource" xml:space="preserve">
-    <value>Выберите источник для специальной кнопки</value>
-  </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Выберите язык:</value>
   </data>
@@ -416,6 +376,9 @@
   </data>
   <data name="SelectOption" xml:space="preserve">
     <value>Выберите действие:</value>
+  </data>
+  <data name="SelectSpecialFunction" xml:space="preserve">
+    <value>Выберите функцию</value>
   </data>
   <data name="SelectTemplate" xml:space="preserve">
     <value>Выберите шаблон:</value>
@@ -447,6 +410,18 @@
   <data name="SharingSuccess" xml:space="preserve">
     <value>Файл настроек сохранён в папку Downloads</value>
   </data>
+  <data name="SpecialFunction_AllNews" xml:space="preserve">
+    <value>Опросить все оповещения</value>
+  </data>
+  <data name="SpecialFunction_Get" xml:space="preserve">
+    <value>Получить запись из </value>
+  </data>
+  <data name="SpecialFunction_None" xml:space="preserve">
+    <value>(без функции)</value>
+  </data>
+  <data name="SpecialFunction_Scroll" xml:space="preserve">
+    <value>Прокрутить журнал к последнему оповещению</value>
+  </data>
   <data name="TemplateClipboard" xml:space="preserve">
     <value>Из буфера обмена</value>
   </data>
@@ -460,24 +435,22 @@
     <value>Создание нового оповещения:</value>
   </data>
   <data name="Tip01" xml:space="preserve">
-    <value>Добро пожаловать в uNot – службу наблюдения за состоянием веб-ресурсов!
+    <value>Добро пожаловать в uNot – службу наблюдения за веб-ресурсами!
 
 • На этой странице Вы можете настраивать созданные ранее уведомления.
 
 • Смахните этот экран вправо, чтобы задать параметры службы и добавить новые ресурсы для наблюдения</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>• Подробная инструкция по настройке службы доступна на YouTube. Смахните этот экран влево и выберите руководство пользователя.
+    <value>• Подробная инструкция по настройке службы доступна на YouTube. Смахните этот экран влево и выберите «руководство пользователя» для её просмотра.
 
-• Главный журнал уведомлений доступен на первой странице приложения. Он будет открываться при каждом следующем вызове</value>
+• Главный журнал уведомлений доступен на первой странице приложения. Он будет открываться при каждом следующем вызове приложения</value>
   </data>
   <data name="Tip03_1" xml:space="preserve">
     <value>Внимание! Некоторые устройства требуют ручного разрешения на доступ в интернет (например, если активен режим экономии интернет-трафика). Проверьте его, если уведомления не будут работать</value>
   </data>
   <data name="Tip03_2" xml:space="preserve">
-    <value>.
-
-Также ваше устройство требует ручного разрешения звуков, света и вибрации для уведомлений. При необходимости выберите их в настройках системы (при включённой фоновой службе – иначе настройки будут недоступны).
+    <value>Также ваше устройство требует ручного разрешения звуков, света и вибрации для уведомлений. При необходимости выберите их в настройках системы (при включённой фоновой службе – иначе настройки будут недоступны).
 
 Приложение создаёт два канала оповещений:
 • для срочных и смешанных (которые требуют индикации звуком или вибрацией);
@@ -548,9 +521,6 @@
   </data>
   <data name="UrgentChannel" xml:space="preserve">
     <value>Срочные и смешанные (где индикация обязательна)</value>
-  </data>
-  <data name="WebIsUnavailable" xml:space="preserve">
-    <value>Веб-браузер отсутствует на этом устройстве</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
     <value>Похоже, этот сайт не поддерживается. Попробуйте использовать другое ключевое слово</value>

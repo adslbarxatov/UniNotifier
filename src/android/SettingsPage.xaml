@@ -11,7 +11,6 @@
 
 				<!-- Мастер оповещений -->
 				<Label x:Name="NotWizardLabel" />
-
 				<Button x:Name="NotWizardButton" HorizontalOptions="Center" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
@@ -81,15 +80,16 @@
 					<Label x:Name="NewsAtTheEndLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+				<!--<StackLayout Orientation="Horizontal">
 					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
 					<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
+				</StackLayout>-->
 
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label x:Name="GMJSourceLabel" VerticalTextAlignment="Center"/>
-					<Button x:Name="GMJSource" />
-				</StackLayout>
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="200" Color="#505050" Margin="12" />
+
+				<Label x:Name="CenterButtonLabel" />
+				<Button x:Name="CenterButtonFunction" HorizontalOptions="Center" />
 
 				<Label />
 

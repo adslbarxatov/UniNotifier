@@ -10,7 +10,6 @@ namespace RD_AAOW
 		{
 		// Переменные и константы
 		private NotificationsSet notifications;
-		/*private SupportedLanguages al = Localization.CurrentLanguage;*/
 		private uint updatingFrequencyStep;
 		private OpenFileDialog ofd;
 		private SaveFileDialog sfd;
@@ -34,7 +33,8 @@ namespace RD_AAOW
 
 			ofd = new OpenFileDialog ();
 			sfd = new SaveFileDialog ();
-			ofd.Filter = sfd.Filter = ProgramDescription.AssemblyMainName + " settings files|" + NotificationsSet.SettingsFileName;
+			ofd.Filter = sfd.Filter = ProgramDescription.AssemblyMainName + " settings files|" +
+				NotificationsSet.SettingsFileName;
 			ofd.Title = sfd.Title = ProgramDescription.AssemblyVisibleName;
 			ofd.CheckFileExists = ofd.CheckPathExists = true;
 			sfd.OverwritePrompt = true;
@@ -176,8 +176,6 @@ namespace RD_AAOW
 
 			if (!ni.IsInited)
 				{
-				/*MessageBox.Shw (Localization.GetText ("NotEnoughDataMessage", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
 				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "NotEnoughDataMessage");
 				return;
 				}
@@ -189,8 +187,6 @@ namespace RD_AAOW
 			int idx = notifications.Notifications.IndexOf (ni);
 			if ((idx >= 0) && (idx != ItemNumber))
 				{
-				/*MessageBox.Shw (Localization.GetText ("NotMatchingNames", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
 				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "NotMatchingNames");
 				return;
 				}
@@ -210,8 +206,6 @@ namespace RD_AAOW
 				}
 			else
 				{
-				/*MessageBox.Shw (Localization.GetText ("UpdateLineNotSpecified", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
 				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "UpdateLineNotSpecified");
 				return;
 				}
@@ -228,15 +222,10 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.DeleteButton);
 			if (NotificationsList.SelectedIndex < 0)
 				{
-				/*MessageBox.Shw (Localization.GetText ("DeleteLineNotSpecified", al),
-					ProgramDescription.AssemblyVisibleName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);*/
 				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "DeleteLineNotSpecified");
 				return;
 				}
 
-			/*if (MessageBox.Shw (Localization.GetText ("DeleteMessage", al), ProgramDescription.AssemblyVisibleName,
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
-				return;*/
 			if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "DeleteMessage",
 				Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) ==
 				RDMessageButtons.ButtonTwo)

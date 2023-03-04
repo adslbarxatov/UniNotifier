@@ -77,7 +77,7 @@
 					<Button x:Name="LinkFieldButton" VerticalOptions="Center" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+				<!--<StackLayout Orientation="Horizontal">
 					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="BeginningField" VerticalOptions="Center" />
 				</StackLayout>
@@ -85,7 +85,7 @@
 				<StackLayout Orientation="Horizontal">
 					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="EndingField" VerticalOptions="Center" />
-				</StackLayout>
+				</StackLayout>-->
 
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="OccFieldLabel" VerticalOptions="Center" />

@@ -120,9 +120,6 @@
   <data name="AboutPage" xml:space="preserve">
     <value>About the application</value>
   </data>
-  <data name="AcceptButton" xml:space="preserve">
-    <value>Accept</value>
-  </data>
   <data name="ActionIsUnsupported" xml:space="preserve">
     <value>Action is unsupported for this type of notifications</value>
   </data>
@@ -134,9 +131,6 @@
   </data>
   <data name="AlarmSettingsLabel" xml:space="preserve">
     <value>Allow:</value>
-  </data>
-  <data name="AllNewsButton" xml:space="preserve">
-    <value>ALL</value>
   </data>
   <data name="AllNewsRequest" xml:space="preserve">
     <value>This option will sequentially poll all notifications. It may take some time. Continue?</value>
@@ -171,23 +165,17 @@
   <data name="BackgroundRequestOn" xml:space="preserve">
     <value>Background request step: &lt;b&gt;{0:D}&lt;/b&gt; minutes</value>
   </data>
-  <data name="BeginningFieldLabel" xml:space="preserve">
-    <value>Beginning:</value>
+  <data name="BeginningFieldMessage" xml:space="preserve">
+    <value>Sign of beginning of notification text</value>
   </data>
-  <data name="CancelButton" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="BeginningFieldPlaceholder" xml:space="preserve">
+    <value>(HTML markup)</value>
+  </data>
+  <data name="CenterButtonLabel" xml:space="preserve">
+    <value>Function of the middle button</value>
   </data>
   <data name="CommunitySelect" xml:space="preserve">
     <value>Select community:</value>
-  </data>
-  <data name="CommunityTG" xml:space="preserve">
-    <value>FDL in Telegram</value>
-  </data>
-  <data name="CommunityVK" xml:space="preserve">
-    <value>FDL on VK.com</value>
-  </data>
-  <data name="CommunityWelcome" xml:space="preserve">
-    <value>Welcome page</value>
   </data>
   <data name="ComparatorLabel" xml:space="preserve">
     <value>Check the first number in text and make urgent alert when value is</value>
@@ -217,9 +205,6 @@
 
 For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   </data>
-  <data name="DeclineButton" xml:space="preserve">
-    <value>Read</value>
-  </data>
   <data name="DefaultChannel" xml:space="preserve">
     <value>Non-urgent (that must be silenced)</value>
   </data>
@@ -232,29 +217,17 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="DisableOption" xml:space="preserve">
     <value>Disable the notification</value>
   </data>
-  <data name="EarlierMessage" xml:space="preserve">
-    <value> Earlier </value>
-  </data>
-  <data name="EmailsAreUnavailable" xml:space="preserve">
-    <value>This device has no mail agent</value>
-  </data>
   <data name="EnabledLabel" xml:space="preserve">
     <value>Active</value>
   </data>
-  <data name="EndingFieldLabel" xml:space="preserve">
-    <value>Ending:</value>
+  <data name="EndingFieldMessage" xml:space="preserve">
+    <value>Sign of ending of notification text</value>
   </data>
   <data name="FindDisclaimer" xml:space="preserve">
     <value>For using this function specify some keyword from needed website’s area in the “Beginning” field</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Font size: &lt;b&gt;{0:D}&lt;/b&gt;</value>
-  </data>
-  <data name="GMJButton" xml:space="preserve">
-    <value>GMJ</value>
-  </data>
-  <data name="GMJSourceLabel" xml:space="preserve">
-    <value>Special button:</value>
   </data>
   <data name="GoToOption" xml:space="preserve">
     <value>Go to the source</value>
@@ -275,7 +248,10 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Notification service is in standby mode. Click on this message to go to the main log</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Link:</value>
+    <value>Link and markup:</value>
+  </data>
+  <data name="LinkFieldMessage" xml:space="preserve">
+    <value>Notifications source URL</value>
   </data>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
@@ -320,9 +296,6 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="NewsAtTheEndLabel" xml:space="preserve">
     <value>Add news at the end of main log</value>
   </data>
-  <data name="NextButton" xml:space="preserve">
-    <value>OK</value>
-  </data>
   <data name="NextNewsButton" xml:space="preserve">
     <value>Next item</value>
   </data>
@@ -359,13 +332,6 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="OtherOption" xml:space="preserve">
     <value>More...</value>
   </data>
-  <data name="PolicyMessage" xml:space="preserve">
-    <value>Before you can start using this tool, you must accept Application development policy and EULA. Do you want to open them in browser?
-
-• Click “Accept” if you are already familiar and fully accepted them;
-• Click “Read” if you want to open them in browser;
-• To decline them, close the application</value>
-  </data>
   <data name="ReadModeLabel" xml:space="preserve">
     <value>Night theme for the main log</value>
   </data>
@@ -390,9 +356,6 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="RestartApp" xml:space="preserve">
     <value>Restart the application</value>
   </data>
-  <data name="RetryButton" xml:space="preserve">
-    <value>Retry</value>
-  </data>
   <data name="RightAlignmentLabel" xml:space="preserve">
     <value>Right buttons</value>
   </data>
@@ -402,9 +365,6 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="SelectComparatorType" xml:space="preserve">
     <value>Select comparison type:</value>
   </data>
-  <data name="SelectGMJSource" xml:space="preserve">
-    <value>Select source for the special button</value>
-  </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select language:</value>
   </data>
@@ -413,6 +373,9 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   </data>
   <data name="SelectOption" xml:space="preserve">
     <value>Select option:</value>
+  </data>
+  <data name="SelectSpecialFunction" xml:space="preserve">
+    <value>Select function</value>
   </data>
   <data name="SelectTemplate" xml:space="preserve">
     <value>Select template:</value>
@@ -444,6 +407,18 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="SharingSuccess" xml:space="preserve">
     <value>Settings file has been saved into Downloads directory</value>
   </data>
+  <data name="SpecialFunction_AllNews" xml:space="preserve">
+    <value>Poll all notifications</value>
+  </data>
+  <data name="SpecialFunction_Get" xml:space="preserve">
+    <value>Get record from </value>
+  </data>
+  <data name="SpecialFunction_None" xml:space="preserve">
+    <value>(no function)</value>
+  </data>
+  <data name="SpecialFunction_Scroll" xml:space="preserve">
+    <value>Scroll the log to the latest notification</value>
+  </data>
   <data name="SpecialNotificationsSwitch" xml:space="preserve">
     <value>Enable special notifications</value>
   </data>
@@ -467,17 +442,15 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
 • Swipe this screen to the right to set up parameters of the service and add new web resources to watch</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left and select the user guide.
+    <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left and select the user guide for watching it.
 
-• The main notifications log is available on the first page of the application. It will be opened on every further start</value>
+• The main notifications log is available on the first page of the application. It will be opened on every further start of the app</value>
   </data>
   <data name="Tip03_1" xml:space="preserve">
     <value>Warning! Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get notifications</value>
   </data>
   <data name="Tip03_2" xml:space="preserve">
-    <value>.
-
-Also, your device requires manual permission for sounds, lights and vibration for notifications. Select them in the system settings if necessary (when the background service is enabled – otherwise settings will be unavailable).
+    <value>Also, your device requires manual permission for sounds, lights and vibration for notifications. Select them in the system settings if necessary (when the background service is enabled – otherwise settings will be unavailable).
 
 The application creates two notification channels:
 • for urgent and mixed (which require sound or vibration indication);
@@ -548,9 +521,6 @@ Please note that app adds links to information sources to notifications you shar
   </data>
   <data name="UrgentChannel" xml:space="preserve">
     <value>Urgent and mixed (when indication is required)</value>
-  </data>
-  <data name="WebIsUnavailable" xml:space="preserve">
-    <value>This device has no web browser</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
     <value>It looks like this website is not supported. Try using a different keyword</value>

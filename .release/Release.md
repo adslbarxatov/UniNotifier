@@ -1,8 +1,9 @@
-_Changes for v 5.4.7_:
+_Changes for v 6.0_:
+- `Android`: interface of the main log has been rebuilt: it now has only one static button;
+- `Android`: settings interface now able to set the function for this static button;
+- `Android`: notifications settings interface now has single button for specifying the URL and the beginning / ending markup for the notification;
+- Some other adjustments applied to all interfaces;
+- Adjusted some internal methods of notifications polling;
+- Fixed some help tips;
 - Updated the HypeHelp mechanics;
-- Help tips have been updated;
-- User guide has been updated;
-- `Android`: user interface has been updated;
-- `Android`: added the ability to keep the screen on while app is opened;
-- `Android`: adjusted the presentation of the main log;
-- `Android`: added the scroll button for the main log (placed under the status bar)
+- User guide has been updated

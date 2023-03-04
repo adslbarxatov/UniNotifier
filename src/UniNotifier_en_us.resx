@@ -129,9 +129,9 @@
   <data name="HelpText" xml:space="preserve">
     <value>This app provides the ability to be notified when the status of user-specified websites changes. In other words, about their updates, which will be presented in the form of a text log. Only what the user has specified is loaded – all other objects (including ads) are ignored.
 
-- The settings section allows you to manage and design notifications.
-- The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
-- A static service notification will inform you about the presence of unread news received in the background</value>
+• The settings section allows you to manage and design notifications.
+• The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
+• A static service notification will inform you about the presence of unread news received in the background</value>
   </data>
   <data name="KeywordNotSpecified" xml:space="preserve">
     <value>Search keyword is missing in “Beginning” field</value>
@@ -274,15 +274,6 @@ This word (or phrase) should be present right now in a part of the website you w
   </data>
   <data name="WizardStep5" xml:space="preserve">
     <value>It’s ready! Now specify the name of notification to be displayed in the main log</value>
-  </data>
-  <data name="CancelButton" xml:space="preserve">
-    <value>&amp;Cancel</value>
-  </data>
-  <data name="NextButton" xml:space="preserve">
-    <value>&amp;Next</value>
-  </data>
-  <data name="RetryButton" xml:space="preserve">
-    <value>&amp;Retry</value>
   </data>
   <data name="NotificationsWizard" xml:space="preserve">
     <value>Using &amp;wizard</value>
