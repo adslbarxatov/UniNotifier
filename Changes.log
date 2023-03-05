@@ -1,5 +1,11 @@
 uNot: changes log
 
+Version 6.0.6:
+• Android: fixed missing splitter in the main log;
+• Android: removed some redundant code;
+• Android: upgraded the interface of single notification settings;
+• Fixed some other minor bugs
+
 Version 6.0:
 • Android: interface of the main log has been rebuilt: it now has only one static button;
 • Android: settings interface now able to set the function for this static button;
