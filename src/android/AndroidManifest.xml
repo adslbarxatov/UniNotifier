@@ -2,7 +2,7 @@
 <!-- uninotifier.huawei -->
 <!-- uninotifier.xiaomi -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-	android:installLocation="internalOnly" android:versionCode="600601" android:versionName="6.0">
+	android:installLocation="internalOnly" android:versionCode="600603" android:versionName="6.0.7">
 
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="33" />
 

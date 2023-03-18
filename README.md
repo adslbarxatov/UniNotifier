@@ -1,5 +1,5 @@
-# UniNotifier v 6.0
-> PCC: 0004E5CD6368ED3E
+# UniNotifier v 6.0.7
+> PCC: 0004E5D7E9ABCE80
 
 
 uNot (UniNotifier), the web resources supervisor service
@@ -8,7 +8,7 @@ uNot (UniNotifier) – служба наблюдения за состояние
 
 
 
-# Tablepedia notifier v 4.7.2
+# Tablepedia notifier v 4.8.6
 
 
 TPNotifier, the [Tablepedia.com](http://tablepedia.com) notifications service

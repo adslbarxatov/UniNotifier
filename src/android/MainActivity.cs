@@ -203,8 +203,8 @@ namespace RD_AAOW.Droid
 			NotificationsSupport.BackgroundRequestInProgress = true;
 			nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStepMinutes);
 
-			uint newItems = NotificationsSupport.NewItems;
-			List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.MasterLog);
+			/*uint newItems = NotificationsSupport.NewItems;*/
+			List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.GetMasterLog (false));
 
 			// Извлечение новых записей
 			AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
@@ -220,13 +220,14 @@ namespace RD_AAOW.Droid
 					else
 						masterLog.Insert (0, new MainLogItem (newText));
 
-					newItems++;
+					/*newItems++;*/
+					NotificationsSupport.NewItems++;
 					haveNews = true;
 					}
 
 			// Сохранение с обрезкой журнала
-			NotificationsSupport.MasterLog = masterLog;
-			NotificationsSupport.NewItems = newItems;
+			NotificationsSupport.SetMasterLog (masterLog);
+			/*NotificationsSupport.NewItems = newItems;*/
 
 			// Отсечка на случай пересечения с запуском основного приложения или при отсутствии изменений
 			if (AndroidSupport.AppIsRunning || !haveNews)

@@ -15,26 +15,26 @@
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#505050" Margin="9" />
 
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Label x:Name="LanguageLabel" VerticalOptions="Center" />
-					<Button x:Name="LanguageSelector" />
-				</StackLayout>
+				<Label x:Name="ManualsLabel" />
 
 				<Button x:Name="ManualPage" HorizontalOptions="Center" />
-
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-					<Button x:Name="AppPage" HorizontalOptions="Center" />
-					<Button x:Name="ADPPage" HorizontalOptions="Center" />
-				</StackLayout>
-				<Button x:Name="DevPage" HorizontalOptions="Center" />
+				<Button x:Name="AppPage" HorizontalOptions="Center" />
+				<Button x:Name="ADPPage" HorizontalOptions="Center" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#505050" Margin="9" />
 
-				<Label x:Name="Alert" HorizontalOptions="Center" />
+				<Label x:Name="HelpLabel" />
+
+				<Button x:Name="DevPage" HorizontalOptions="Center" />
 				<Button x:Name="CommunityPage" HorizontalOptions="Center" />
 
-				<Label />
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="200" Color="#505050" Margin="9" />
+
+				<Label x:Name="LanguageLabel" />
+
+				<Button x:Name="LanguageSelector" HorizontalOptions="Center" />
 
 			</StackLayout>
 		</ScrollView>

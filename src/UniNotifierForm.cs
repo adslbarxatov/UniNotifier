@@ -406,15 +406,17 @@ namespace RD_AAOW
 			MainTimer.Enabled = false;
 
 			// Настройка
-			SettingsForm sf = new SettingsForm (ns,
-				(uint)MainTimer.Interval * NotificationsSet.MaxNotifications / 60000, callWindowOnUrgents);
+			SettingsForm sf = new SettingsForm (ns, (uint)MainTimer.Interval *
+				NotificationsSet.MaxNotifications / 60000, callWindowOnUrgents);
 
 			// Запоминание настроек
 			callWindowOnUrgents = sf.CallWindowOnUrgents;
 			RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());
+			sf.Dispose ();
 
 			// Обновление настроек
 			ReloadNotificationsList ();
+			ns.HasUrgentNotifications = false;
 
 #if NIND
 			// Обеспечение перезаугркзи индикатора

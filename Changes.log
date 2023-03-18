@@ -1,6 +1,6 @@
 uNot: changes log
 
-Version 6.0.6:
+Version 6.0.7:
 • Android: fixed missing splitter in the main log;
 • Android: removed some redundant code;
 • Android: upgraded the interface of single notification settings;

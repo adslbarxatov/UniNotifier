@@ -62,6 +62,11 @@
 				<Label x:Name="LogSettingsLabel" />
 
 				<StackLayout Orientation="Horizontal">
+					<Switch x:Name="NewsAtTheEndSwitch" VerticalOptions="Center" />
+					<Label x:Name="NewsAtTheEndLabel" VerticalTextAlignment="Center" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="ReadModeSwitch" VerticalOptions="Center" />
 					<Label x:Name="ReadModeLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
@@ -72,18 +77,6 @@
 					<Button x:Name="FontSizeIncButton" HorizontalOptions="Start" />
 					<Button x:Name="FontSizeDecButton" HorizontalOptions="Start" />
 				</StackLayout>
-
-				<Label />
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="NewsAtTheEndSwitch" VerticalOptions="Center" />
-					<Label x:Name="NewsAtTheEndLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<!--<StackLayout Orientation="Horizontal">
-					<Switch x:Name="RightAlignmentSwitch" VerticalOptions="Center" />
-					<Label x:Name="RightAlignmentLabel" VerticalTextAlignment="Center" />
-				</StackLayout>-->
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#505050" Margin="12" />

@@ -16,7 +16,7 @@ namespace RD_AAOW
 		private List<string[]> templatesElements = new List<string[]> ();
 		private const string externalTemplatesSubkey = "ExternalTemplates";
 		private const string externalTemplatesVersionSubkey = "ExternalTemplatesVersion";
-		private const string listLink = RDGenerics.AssemblyGitLink + ProgramDescription.AssemblyMainName +
+		private const string listLink = RDGenerics.DefaultGitLink + ProgramDescription.AssemblyMainName +
 			"/blob/master/TemplatesList.md";
 		private char[] fileTemplateSplitter = new char[] { '\t' };
 

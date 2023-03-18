@@ -235,6 +235,9 @@
   <data name="GoToOption" xml:space="preserve">
     <value>Перейти к источнику</value>
   </data>
+  <data name="HelpLabel" xml:space="preserve">
+    <value>Помощь и поддержка</value>
+  </data>
   <data name="IgnoreMisfitsLabel" xml:space="preserve">
     <value>Не показывать несоответствующие тексты</value>
   </data>
@@ -245,13 +248,14 @@
     <value>Запретить переход в спящий режим, пока приложение открыто</value>
   </data>
   <data name="LanguageLabel" xml:space="preserve">
-    <value>Язык интерфейса:</value>
+    <value>Язык интерфейса</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Служба оповещений находится в режиме ожидания. Нажмите на это сообщение, чтобы перейти к журналу</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Ссылка и разметка:</value>
+    <value>Ссылка и
+разметка:</value>
   </data>
   <data name="LinkFieldMessage" xml:space="preserve">
     <value>URL источника оповещений</value>
@@ -282,6 +286,9 @@
   </data>
   <data name="ManualPage" xml:space="preserve">
     <value>Руководство пользователя</value>
+  </data>
+  <data name="ManualsLabel" xml:space="preserve">
+    <value>Справочные материалы</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Название:</value>
@@ -368,6 +375,9 @@
   <data name="SelectComparatorType" xml:space="preserve">
     <value>Выберите способ сравнения:</value>
   </data>
+  <data name="SelectionLabel" xml:space="preserve">
+    <value>Уведомление для настройки</value>
+  </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Выберите язык:</value>
   </data>
@@ -385,6 +395,9 @@
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Фоновая служба</value>
+  </data>
+  <data name="SettingsLabel" xml:space="preserve">
+    <value>Параметры уведомления</value>
   </data>
   <data name="SettingsPage" xml:space="preserve">
     <value>Настройки приложения</value>
@@ -544,10 +557,10 @@
 Это слово (или фраза) должно присутствовать прямо сейчас в той части сайта, за которой Вы хотите наблюдать и от которой ожидаете изменений с течением времени. Идеальной будет фраза, присутствующая сейчас только в этой области либо впервые встречается на сайте именно в ней. Регистр букв значения не имеет</value>
   </data>
   <data name="WizardStep3" xml:space="preserve">
-    <value>По указанным настройкам получен текст, приведённый ниже. Если он соответствует Вашим ожиданиям, нажмите ОК для добавления оповещения. В противном случае нажмите Повторить, и мы попробуем ещё раз</value>
+    <value>По указанным настройкам получен текст, приведённый ниже. Если он соответствует Вашим ожиданиям, нажмите «Далее» для добавления оповещения. В противном случае нажмите «Повторить», и мы попробуем ещё раз</value>
   </data>
   <data name="WizardStep4" xml:space="preserve">
-    <value>По указанным настройкам получен текст, приведённый ниже. Если он соответствует Вашим ожиданиям, нажмите ОК для добавления оповещения. В противном случае отмените действие и попробуйте другое ключевое слово</value>
+    <value>По указанным настройкам получен текст, приведённый ниже. Если он соответствует Вашим ожиданиям, нажмите «Далее» для добавления оповещения. В противном случае отмените действие и попробуйте другое ключевое слово</value>
   </data>
   <data name="WizardStep5" xml:space="preserve">
     <value>Готово! Осталось указать название оповещения для отображения в журнале</value>

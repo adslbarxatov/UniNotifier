@@ -232,6 +232,9 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="GoToOption" xml:space="preserve">
     <value>Go to the source</value>
   </data>
+  <data name="HelpLabel" xml:space="preserve">
+    <value>Help and support</value>
+  </data>
   <data name="IgnoreMisfitsLabel" xml:space="preserve">
     <value>Don’t show inconsistent texts</value>
   </data>
@@ -242,13 +245,14 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Keep the screen on while app is opened</value>
   </data>
   <data name="LanguageLabel" xml:space="preserve">
-    <value>Interface language:</value>
+    <value>Interface language</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service is in standby mode. Click on this message to go to the main log</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
-    <value>Link and markup:</value>
+    <value>Link and
+markup:</value>
   </data>
   <data name="LinkFieldMessage" xml:space="preserve">
     <value>Notifications source URL</value>
@@ -279,6 +283,9 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   </data>
   <data name="ManualPage" xml:space="preserve">
     <value>User manual</value>
+  </data>
+  <data name="ManualsLabel" xml:space="preserve">
+    <value>Reference materials</value>
   </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Name:</value>
@@ -365,6 +372,9 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="SelectComparatorType" xml:space="preserve">
     <value>Select comparison type:</value>
   </data>
+  <data name="SelectionLabel" xml:space="preserve">
+    <value>Notification for customization</value>
+  </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select language:</value>
   </data>
@@ -382,6 +392,9 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   </data>
   <data name="ServiceSettingsLabel" xml:space="preserve">
     <value>Background service</value>
+  </data>
+  <data name="SettingsLabel" xml:space="preserve">
+    <value>Notification settings</value>
   </data>
   <data name="SettingsPage" xml:space="preserve">
     <value>Application settings</value>
@@ -544,10 +557,10 @@ First, enter the link (URL) of the website you want to watch</value>
 This word (or phrase) should be present right now in a part of the website you want to watch, and you expect it to change over time. The ideal would be a phrase that is present now only in this area or is first encountered on the website in it. The case of letters doesn’t matter</value>
   </data>
   <data name="WizardStep3" xml:space="preserve">
-    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, click Retry and we’ll try again</value>
+    <value>For the specified settings, the text below is received. If it meets your expectations, click “Next” to add the notification. Otherwise, click “Retry” and we’ll try again</value>
   </data>
   <data name="WizardStep4" xml:space="preserve">
-    <value>For the specified settings, the text below is received. If it meets your expectations, click OK to add the notification. Otherwise, cancel the action and try a different keyword</value>
+    <value>For the specified settings, the text below is received. If it meets your expectations, click “Next” to add the notification. Otherwise, cancel the action and try a different keyword</value>
   </data>
   <data name="WizardStep5" xml:space="preserve">
     <value>It’s ready! Now specify the name of notification to be displayed in the main log</value>

@@ -130,8 +130,8 @@
     <value>This app provides the ability to be notified when the status of user-specified websites changes. In other words, about their updates, which will be presented in the form of a text log. Only what the user has specified is loaded – all other objects (including ads) are ignored.
 
 • The settings section allows you to manage and design notifications.
-• The main log provides a view of news, access to their webpages from which they were received, and the ability to share them.
-• A static service notification will inform you about the presence of unread news received in the background</value>
+• The main log provides a view of changes, access to source webpages from which they were received, and the ability to share them.
+• A static service notification will inform you about the presence of new changes received in the background</value>
   </data>
   <data name="KeywordNotSpecified" xml:space="preserve">
     <value>Search keyword is missing in “Beginning” field</value>

@@ -6,23 +6,24 @@
 	<StackLayout >
 		<Label x:Name="HeaderLabel" />
 
-		<!-- Управление оповещениями -->
-		<StackLayout Orientation="Horizontal" Margin="3">
-			<Button x:Name="SelectedNotification" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-			<Button x:Name="ApplyButton" VerticalOptions="Center" />
-			<Label Text=" " />
-
-			<Button x:Name="ShareTemplateButton" VerticalOptions="Center" />
-			<Button x:Name="DeleteButton" VerticalOptions="Center" HorizontalOptions="End" />
-		</StackLayout>
-
-		<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-			WidthRequest="200" Color="#505050" Margin="9" />
-
-		<!-- Управление отдельным оповещением -->
 		<ScrollView>
 			<StackLayout>
 
+				<!-- Управление оповещениями -->
+				<Label x:Name="SelectionLabel" />
+				<StackLayout Orientation="Horizontal" Margin="3">
+					<Button x:Name="SelectedNotification" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+					<Label Text=" " />
+
+					<Button x:Name="ShareTemplateButton" VerticalOptions="Center" />
+					<Button x:Name="DeleteButton" VerticalOptions="Center" HorizontalOptions="End" />
+				</StackLayout>
+
+				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="200" Color="#505050" Margin="6" />
+
+				<!-- Управление отдельным оповещением -->
+				<Label x:Name="SettingsLabel" />
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="NameFieldLabel" VerticalOptions="Center" />
 					<Editor x:Name="NameField" VerticalOptions="Center" />
@@ -75,21 +76,9 @@
 				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
 					<Button x:Name="LinkFieldButton" VerticalOptions="Center" />
-				</StackLayout>
+					<Label Text=" " />
 
-				<!--<StackLayout Orientation="Horizontal">
-					<Label x:Name="BeginningFieldLabel" VerticalOptions="Center" />
-					<Editor x:Name="BeginningField" VerticalOptions="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Label x:Name="EndingFieldLabel" VerticalOptions="Center" />
-					<Editor x:Name="EndingField" VerticalOptions="Center" />
-				</StackLayout>-->
-
-				<StackLayout Orientation="Horizontal" Margin="3">
 					<Label x:Name="OccFieldLabel" VerticalOptions="Center" />
-
 					<Button x:Name="OccIncButton" VerticalOptions="Center" />
 					<Button x:Name="OccDecButton" VerticalOptions="Center" />
 				</StackLayout>
@@ -98,6 +87,9 @@
 
 			</StackLayout>
 		</ScrollView>
+
+		<!-- Фиксированная кнопка сохранения -->
+		<Button x:Name="ApplyButton" VerticalOptions="Center" />
 
 	</StackLayout>
 </ContentPage>
