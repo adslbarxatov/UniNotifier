@@ -4,7 +4,7 @@
 ---
 
 uNot (UniNotifier), the web resources supervisor service.
-Подробное описание приложения теперь доступно на [отдельной странице](https://adslbarxatov.github.io/UniNotifier)
+A detailed description of the app is now available on [its own page](https://adslbarxatov.github.io/UniNotifier)
 
 ---
 
