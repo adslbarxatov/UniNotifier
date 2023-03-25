@@ -1,4 +1,5 @@
 # uNot: the home page
+> **ƒ** &nbsp;RD AAOW FDL; 25.03.2023; 21:01
 
 ---
 
@@ -12,7 +13,7 @@ What does it offer?
 - The *main log* provides a view of changes, access to source webpages from which they were received, and the ability to share them.
 - A *static service notification* will inform you about the presence of new changes received in the background.
 
-More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk)
+More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk).
 
 ---
 
@@ -28,6 +29,8 @@ More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk)
 
 Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/seFfQkfL6Sk).
 
-Инофрмация о проекте ***Grammar must joy*** теперь доступна на [отдельной странице](https://adslbarxatov.github.io/UniNotifier/GMJ).
+---
 
-Инофрмация о проекте ***Tablepedia notifier*** также располагается на [своей странице](https://adslbarxatov.github.io/UniNotifier/TPNot).
+Информация о проекте ***Grammar must joy*** теперь доступна на [отдельной странице](https://adslbarxatov.github.io/UniNotifier/GMJ).
+
+Информация о проекте ***Tablepedia notifier*** также располагается на [собственной странице](https://adslbarxatov.github.io/UniNotifier/TPNot).
