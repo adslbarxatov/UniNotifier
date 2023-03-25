@@ -1,39 +1,15 @@
 # UniNotifier v 6.0.7
 > PCC: 0004E5D7E9ABCE80
 
+---
 
-uNot (UniNotifier), the web resources supervisor service
+uNot (UniNotifier), the web resources supervisor service.
+Подробное описание приложения теперь доступно на [отдельной странице](https://adslbarxatov.github.io/UniNotifier)
 
-uNot (UniNotifier) – служба наблюдения за состоянием веб-ресурсов
+---
 
-
-
-# Tablepedia notifier v 4.8.6
-
-
-TPNotifier, the [Tablepedia.com](http://tablepedia.com) notifications service
-
-TPNotifier – служба оповещений для [Tablepedia.com](http://tablepedia.com)
-
-
-
-## Description
-
-This app provides the ability to be notified when the status of user-specified websites changes. In other words, about their updates, which will be presented in the form of a text log. Only what the user has specified is loaded – all other objects (including ads) are ignored.
-
-- The settings section allows you to manage and design notifications.
-- The main log provides a view of changes, access to source webpages from which they were received, and the ability to share them.
-- A static service notification will inform you about the presence of new changes received in the background
-
-#
-
-## Описание
-
-Это приложение предоставляет возможность получать уведомления об изменении состояния указанных пользователем веб-сайтов. Другими словами, об их обновлениях, которые будут представлены в виде текстового журнала. Загружается только то, что указал пользователь – все остальные объекты (включая рекламу) игнорируются.
-
-- Раздел настроек позволяет управлять уведомлениями и конструировать их.
-- Главный журнал обеспечивает просмотр изменений, переход на исходные веб-страницы, с которых они были получены, и возможность ими поделиться.
-- Закреплённое служебное оповещение будет сообщать о наличии непрочитанных изменений, полученных в фоновом режиме
+uNot (UniNotifier) – служба наблюдения за состоянием веб-ресурсов.
+Подробное описание приложения теперь доступно на [отдельной странице](https://adslbarxatov.github.io/UniNotifier)
 
 &nbsp;
 
@@ -55,10 +31,6 @@ Interface languages / языки интерфейса: ru_ru, en_us.
 - Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 5.0 или новее. Языки интерфейса: ru_ru, en_us;
 - Приложение доступно в [AppGallery](https://url.cloud.huawei.com/kOns67WJJ6?shareTo=qrcode).
 - Приложение также доступно в [GetApps](https://global.app.mi.com/details?id=uninotifier.xiaomi).
-
-#
-
-- Для [Tablepedia notifier](https://play.google.com/store/apps/details?id=com.RD_AAOW.TablepediaNotifier) также требуется ОС версии 5.0 или новее. Язык интерфейса: ru_ru.
 
 &nbsp;
 
