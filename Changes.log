@@ -1,5 +1,8 @@
 uNot: changes log
 
+ToDo:
+- Replace the log button with the semaphore
+
 Version 6.0.7:
 • Android: fixed missing splitter in the main log;
 • Android: removed some redundant code;
