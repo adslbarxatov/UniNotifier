@@ -227,7 +227,7 @@ namespace RD_AAOW
 				}
 
 			if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "DeleteMessage",
-				Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) ==
+				LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) ==
 				RDMessageButtons.ButtonTwo)
 				return;
 
@@ -253,6 +253,8 @@ namespace RD_AAOW
 
 			// Локализация
 			Localization.SetControlsText (this);
+			BDelete.Text = Localization.GetDefaultText (LzDefaultTextValues.Button_Delete);
+			BUpdate.Text = Localization.GetDefaultText (LzDefaultTextValues.Button_Update);
 			}
 
 		// Подсказка по полю Occurence
@@ -270,7 +272,7 @@ namespace RD_AAOW
 			// Выбор варианта выгрузки
 			switch (RDGenerics.MessageBox (RDMessageTypes.Question, Localization.GetText ("ShareVariant"),
 				Localization.GetText ("ShareFile"), Localization.GetText ("ShareClipboard"),
-				Localization.GetDefaultButtonName (Localization.DefaultButtons.Cancel)))
+				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel)))
 				{
 				// Сохранение в файл
 				case RDMessageButtons.ButtonOne:
@@ -320,7 +322,7 @@ namespace RD_AAOW
 					return;
 
 				if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingWarning",
-					Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) !=
+					LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) !=
 					RDMessageButtons.ButtonOne)
 					return;
 

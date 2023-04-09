@@ -1,7 +1,27 @@
 uNot: changes log
 
-ToDo:
-- Replace the log button with the semaphore
+Version 6.1:
+• The button under the main log now has a semaphore on it: its color will show the state
+  of the button and the state of background operations;
+• Some tips and captions have been replaced or updated;
+• Added the ability to change the font size for the entire interface (available on the last
+  app page);
+• The text tips processing code has been refactored, some methods have been unified
+  and simplified;
+• Removed some redundant code;
+• TPNot: исправлен дефект, вызывавший сбой приложения при попытке изменить размер шрифта
+  при пустом журнале
+
+TPNot todo:
+1. Добавить в настройки опцию выбора между "листанием по страницам" и "листанием по постам". 
+2. Добавить функцию поиска постов по номеру, дате или буквосочетанию. В результате, если пользователь ввёл в поиск
+   буквосочетание "0012", то на экране видит пост 0129, а их всего 10 штук. При листании вправо пользователь
+   долистывает до 0120, если в настройках "листание по постам". Если в настройках "листание по страницам",
+   то пользователь может просмотреть эти 10 постов при листании сверху вниз. 
+3. Добавить функцию сохранения поста в виде трёх элементов буфера обмена: 
+   - текст до "См. также"; 
+   - картинка; 
+   - ссылка после основного текста.
 
 Version 6.0.7:
 • Android: fixed missing splitter in the main log;

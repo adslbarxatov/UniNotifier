@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutPage" xml:space="preserve">
-    <value>About the application</value>
-  </data>
   <data name="ActionIsUnsupported" xml:space="preserve">
     <value>Action is unsupported for this type of notifications</value>
   </data>
   <data name="AddAsNewMessage" xml:space="preserve">
     <value>Added new notification: </value>
-  </data>
-  <data name="ADPPage" xml:space="preserve">
-    <value>Policy and EULA</value>
   </data>
   <data name="AlarmSettingsLabel" xml:space="preserve">
     <value>Allow:</value>
@@ -150,9 +144,6 @@
   <data name="ApplyMessage" xml:space="preserve">
     <value>Notification updated: </value>
   </data>
-  <data name="AppPage" xml:space="preserve">
-    <value>App webpage</value>
-  </data>
   <data name="AppSettingsLabel" xml:space="preserve">
     <value>Viewer</value>
   </data>
@@ -172,7 +163,7 @@
     <value>(HTML markup)</value>
   </data>
   <data name="CenterButtonLabel" xml:space="preserve">
-    <value>Function of the middle button</value>
+    <value>Function of the button under the log</value>
   </data>
   <data name="CommunitySelect" xml:space="preserve">
     <value>Select community:</value>
@@ -211,9 +202,6 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="DeleteMessage" xml:space="preserve">
     <value>Remove the selected notification?</value>
   </data>
-  <data name="DevPage" xml:space="preserve">
-    <value>Ask the developer</value>
-  </data>
   <data name="DisableOption" xml:space="preserve">
     <value>Disable the notification</value>
   </data>
@@ -227,13 +215,10 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>For using this function specify some keyword from needed website’s area in the “Beginning” field</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
-    <value>Font size: &lt;b&gt;{0:D}&lt;/b&gt;</value>
+    <value>Font size of the main log: &lt;b&gt;{0:D}&lt;/b&gt;</value>
   </data>
   <data name="GoToOption" xml:space="preserve">
     <value>Go to the source</value>
-  </data>
-  <data name="HelpLabel" xml:space="preserve">
-    <value>Help and support</value>
   </data>
   <data name="IgnoreMisfitsLabel" xml:space="preserve">
     <value>Don’t show inconsistent texts</value>
@@ -243,9 +228,6 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   </data>
   <data name="KeepScreenOnLabel" xml:space="preserve">
     <value>Keep the screen on while app is opened</value>
-  </data>
-  <data name="LanguageLabel" xml:space="preserve">
-    <value>Interface language</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service is in standby mode. Click on this message to go to the main log</value>
@@ -281,12 +263,6 @@ markup:</value>
   <data name="MainLogPlaceholder" xml:space="preserve">
     <value>(no notifications yet)</value>
   </data>
-  <data name="ManualPage" xml:space="preserve">
-    <value>User manual</value>
-  </data>
-  <data name="ManualsLabel" xml:space="preserve">
-    <value>Reference materials</value>
-  </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Name:</value>
   </data>
@@ -294,17 +270,14 @@ markup:</value>
     <value>(name)</value>
   </data>
   <data name="NewItemsMessage" xml:space="preserve">
-    <value>New notifications: {0:D}. Click this message to read them</value>
+    <value>New records: {0:D}. Click this message to watch them</value>
   </data>
   <data name="NewItemsUrgentMessage" xml:space="preserve">
     <value>WARNING! URGENT NOTIFICATIONS RECEIVED!
 </value>
   </data>
   <data name="NewsAtTheEndLabel" xml:space="preserve">
-    <value>Add news at the end of main log</value>
-  </data>
-  <data name="NextNewsButton" xml:space="preserve">
-    <value>Next item</value>
+    <value>Add new records to the end of main log</value>
   </data>
   <data name="NoTemplateInClipboard" xml:space="preserve">
     <value>No compatible notification templates found in the clipboard. Copy template string to clipboard and try again</value>
@@ -349,22 +322,13 @@ markup:</value>
     <value>Request again</value>
   </data>
   <data name="RequestAllStarted" xml:space="preserve">
-    <value>Requesting all news...</value>
+    <value>Polling all notifications...</value>
   </data>
   <data name="RequestCompleted" xml:space="preserve">
-    <value>All available news received</value>
-  </data>
-  <data name="RequestFailed" xml:space="preserve">
-    <value>News not found. Try again for checking next 5 notifications</value>
+    <value>All available changes received</value>
   </data>
   <data name="RequestStarted" xml:space="preserve">
-    <value>Requesting news item...</value>
-  </data>
-  <data name="RestartApp" xml:space="preserve">
-    <value>Restart the application</value>
-  </data>
-  <data name="RightAlignmentLabel" xml:space="preserve">
-    <value>Right buttons</value>
+    <value>Requesting item...</value>
   </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Link to webpage is incorrect or keyword is not found on this page</value>
@@ -418,16 +382,13 @@ markup:</value>
     <value>Failed to create notifications settings file. Make sure you have permission to access the storage</value>
   </data>
   <data name="SharingSuccess" xml:space="preserve">
-    <value>Settings file has been saved into Downloads directory</value>
+    <value>Settings file has been saved into “Downloads” directory</value>
   </data>
   <data name="SpecialFunction_AllNews" xml:space="preserve">
     <value>Poll all notifications</value>
   </data>
   <data name="SpecialFunction_Get" xml:space="preserve">
     <value>Get record from </value>
-  </data>
-  <data name="SpecialFunction_None" xml:space="preserve">
-    <value>(no function)</value>
   </data>
   <data name="SpecialFunction_Scroll" xml:space="preserve">
     <value>Scroll the log to the latest notification</value>
@@ -481,7 +442,7 @@ The channeling is determined by the “Urgent notifications only” and “Thres
     <value>This button allows you to select notification for configuring</value>
   </data>
   <data name="Tip04_13" xml:space="preserve">
-    <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. This allows you to quickly call the app when necessary (via a pinned notification) and see the quantity of unread news</value>
+    <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. This allows you to quickly call the app when necessary (via a pinned notification) and see the quantity of unread records in the main log</value>
   </data>
   <data name="Tip04_15" xml:space="preserve">
     <value>In some cases, the needed part of webpage is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of the page) should be displayed</value>
@@ -501,7 +462,7 @@ It is also possible to display the notification only if this condition is met</v
     <value>The update rate is now configurable for each notification separately. Check it before running the background request</value>
   </data>
   <data name="Tip04_22" xml:space="preserve">
-    <value>These switches allow you to specify which methods of indication the app should use when there is unread news. You can also disable indication for non-urgent notifications</value>
+    <value>These switches allow you to specify which methods of indication the app should use when there is unread items. You can also disable indication for non-urgent notifications</value>
   </data>
   <data name="Tip04_23" xml:space="preserve">
     <value>This switch allows you to turn off the indication for non-urgent notifications. If it is inactive, all news are processed as mixed (have an indication)</value>
@@ -536,7 +497,9 @@ Please note that app adds links to information sources to notifications you shar
     <value>Urgent and mixed (when indication is required)</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
-    <value>It looks like this website is not supported. Try using a different keyword</value>
+    <value>Unable to determine suitable markup.
+
+Refine the site URL or try a different keyword</value>
   </data>
   <data name="WizardSearch1" xml:space="preserve">
     <value>Detecting markers...</value>

@@ -1,8 +1,9 @@
-_Changes for v 6.0.7_:
-- `Android`: fixed missing splitter in the main log;
-- `Android`: removed some redundant code;
+_Changes for v 6.1_:
+- The button under the main log now has a semaphore on it: its color will show the state of the button and the state of background operations;
+- Some tips and captions have been replaced or updated;
+- Added the ability to change the font size for the entire interface (available on the last app page);
+- The text tips processing code has been refactored, some methods have been unified and simplified;
+- Removed some redundant code;
+- `TPNot`: исправлен дефект, вызывавший сбой приложения при попытке изменить размер шрифта при пустом журнале;
 - `Android`: upgraded the interface of single notification settings;
-- Fixed some other minor bugs;
-- `Android`: interface of the main log has been rebuilt: it now has only one static button;
-- `Android`: settings interface now able to set the function for this static button;
-- `Android`: notifications settings interface now has single button for specifying the URL and the beginning / ending markup for the notification
+- `Android`: interface of the main log has been rebuilt: it now has only one static button

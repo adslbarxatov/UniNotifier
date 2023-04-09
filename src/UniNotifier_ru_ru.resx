@@ -142,12 +142,6 @@
   <data name="MainMenuOption02" xml:space="preserve">
     <value>&amp;Настройки оповещений</value>
   </data>
-  <data name="MainMenuOption03" xml:space="preserve">
-    <value>&amp;О приложении</value>
-  </data>
-  <data name="MainMenuOption04" xml:space="preserve">
-    <value>&amp;Завершить</value>
-  </data>
   <data name="MainMenuOption05" xml:space="preserve">
     <value>&amp;Добавить в автозапуск</value>
   </data>
@@ -167,12 +161,6 @@
   </data>
   <data name="SettingsForm_BAdd" xml:space="preserve">
     <value>&amp;Добавить новое</value>
-  </data>
-  <data name="SettingsForm_BDelete" xml:space="preserve">
-    <value>&amp;Удалить</value>
-  </data>
-  <data name="SettingsForm_BUpdate" xml:space="preserve">
-    <value>&amp;Обновить</value>
   </data>
   <data name="SettingsForm_Label01" xml:space="preserve">
     <value>Название:</value>
@@ -327,7 +315,7 @@
     <value>Сообщать, если ресурс недоступен</value>
   </data>
   <data name="RecallAllNews" xml:space="preserve">
-    <value>Перезапросить все новости для проверки настроек?</value>
+    <value>Опросить заново все оповещения для проверки настроек?</value>
   </data>
   <data name="ShareVariant" xml:space="preserve">
     <value>Как Вы хотите поделиться настроенными уведомлениями?

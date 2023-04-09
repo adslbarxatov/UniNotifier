@@ -66,7 +66,7 @@ namespace RD_AAOW
 			ReloadNotificationsList ();
 			ResetCulture ();
 #if TGB
-			GetGMJ.Visible = (al == SupportedLanguages.ru_ru);
+			GetGMJ.Visible = Localization.IsCurrentLanguageRuRu;
 #else
 			GetGMJ.Visible = false;
 #endif
@@ -96,8 +96,10 @@ namespace RD_AAOW
 			ni.ContextMenu = new ContextMenu ();
 
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption02"), ShowSettings));
-			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption03"), AboutService));
-			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption04"), CloseService));
+			ni.ContextMenu.MenuItems.Add (new MenuItem (
+				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout), AboutService));
+			ni.ContextMenu.MenuItems.Add (new MenuItem (
+				Localization.GetDefaultText (LzDefaultTextValues.Button_Exit), CloseService));
 
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
@@ -430,13 +432,20 @@ namespace RD_AAOW
 
 			ResetCulture ();
 
-			for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
+			/*for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
 				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" +
-					(i + 2).ToString ("D02"));
+					(i + 2).ToString ("D02"));*/
+			ni.ContextMenu.MenuItems[0].Text = Localization.GetText ("MainMenuOption02");
+			ni.ContextMenu.MenuItems[1].Text =
+				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout);
+			ni.ContextMenu.MenuItems[2].Text =
+				Localization.GetDefaultText (LzDefaultTextValues.Button_Exit);
+			if (ni.ContextMenu.MenuItems.Count > 3)
+				ni.ContextMenu.MenuItems[3].Text = Localization.GetText ("MainMenuOption05");
 
 			// Перезапуск
 			bool complete = (RDGenerics.LocalizedMessageBox (RDMessageTypes.Question, "RecallAllNews",
-				Localization.DefaultButtons.YesNoFocus, Localization.DefaultButtons.No) ==
+				LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) ==
 				RDMessageButtons.ButtonOne);
 
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально

@@ -140,13 +140,7 @@
     <value>&amp;Full view</value>
   </data>
   <data name="MainMenuOption02" xml:space="preserve">
-    <value>&amp;Settings</value>
-  </data>
-  <data name="MainMenuOption03" xml:space="preserve">
-    <value>&amp;About the app</value>
-  </data>
-  <data name="MainMenuOption04" xml:space="preserve">
-    <value>&amp;Quit</value>
+    <value>&amp;Notifications settings</value>
   </data>
   <data name="MainMenuOption05" xml:space="preserve">
     <value>A&amp;dd to startup</value>
@@ -167,12 +161,6 @@
   </data>
   <data name="SettingsForm_BAdd" xml:space="preserve">
     <value>&amp;Add new</value>
-  </data>
-  <data name="SettingsForm_BDelete" xml:space="preserve">
-    <value>&amp;Delete</value>
-  </data>
-  <data name="SettingsForm_BUpdate" xml:space="preserve">
-    <value>&amp;Update</value>
   </data>
   <data name="SettingsForm_Label01" xml:space="preserve">
     <value>Name:</value>
@@ -305,7 +293,7 @@ It is also possible to display a notification only if this condition is met</val
     <value>Notify if the source is unavailable</value>
   </data>
   <data name="RecallAllNews" xml:space="preserve">
-    <value>Re-request all news to check settings?</value>
+    <value>Re-request all notifications to check settings?</value>
   </data>
   <data name="ShareVariant" xml:space="preserve">
     <value>How do you want to share configured notifications?

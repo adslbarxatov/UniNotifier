@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutPage" xml:space="preserve">
-    <value>О приложении</value>
-  </data>
   <data name="ActionIsUnsupported" xml:space="preserve">
     <value>Действие не поддерживается для этого типа оповещений</value>
   </data>
   <data name="AddAsNewMessage" xml:space="preserve">
     <value>Добавлено новое оповещение: </value>
-  </data>
-  <data name="ADPPage" xml:space="preserve">
-    <value>Политика и EULA</value>
   </data>
   <data name="AlarmSettingsLabel" xml:space="preserve">
     <value>Разрешить:</value>
@@ -150,9 +144,6 @@
   <data name="ApplyMessage" xml:space="preserve">
     <value>Обновлено оповещение: </value>
   </data>
-  <data name="AppPage" xml:space="preserve">
-    <value>Страница проекта</value>
-  </data>
   <data name="AppSettingsLabel" xml:space="preserve">
     <value>Просмотр</value>
   </data>
@@ -172,7 +163,7 @@
     <value>(разметка HTML)</value>
   </data>
   <data name="CenterButtonLabel" xml:space="preserve">
-    <value>Функция центральной кнопки</value>
+    <value>Функция кнопки под журналом</value>
   </data>
   <data name="CommunitySelect" xml:space="preserve">
     <value>Выберите сообщество:</value>
@@ -211,9 +202,6 @@
   <data name="DeleteMessage" xml:space="preserve">
     <value>Удалить выбранное оповещение?</value>
   </data>
-  <data name="DevPage" xml:space="preserve">
-    <value>Спросить разработчика</value>
-  </data>
   <data name="DisableOption" xml:space="preserve">
     <value>Отключить уведомление</value>
   </data>
@@ -227,16 +215,13 @@
     <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
-    <value>Размер шрифта: &lt;b&gt;{0:D}&lt;/b&gt;</value>
+    <value>Размер шрифта в журнале: &lt;b&gt;{0:D}&lt;/b&gt;</value>
   </data>
   <data name="GMJRequestFailed" xml:space="preserve">
     <value>Grammar must joy не вернула сообщение. Проверьте интернет-соединение</value>
   </data>
   <data name="GoToOption" xml:space="preserve">
     <value>Перейти к источнику</value>
-  </data>
-  <data name="HelpLabel" xml:space="preserve">
-    <value>Помощь и поддержка</value>
   </data>
   <data name="IgnoreMisfitsLabel" xml:space="preserve">
     <value>Не показывать несоответствующие тексты</value>
@@ -246,9 +231,6 @@
   </data>
   <data name="KeepScreenOnLabel" xml:space="preserve">
     <value>Запретить переход в спящий режим, пока приложение открыто</value>
-  </data>
-  <data name="LanguageLabel" xml:space="preserve">
-    <value>Язык интерфейса</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Служба оповещений находится в режиме ожидания. Нажмите на это сообщение, чтобы перейти к журналу</value>
@@ -284,12 +266,6 @@
   <data name="MainLogPlaceholder" xml:space="preserve">
     <value>(уведомлений пока нет)</value>
   </data>
-  <data name="ManualPage" xml:space="preserve">
-    <value>Руководство пользователя</value>
-  </data>
-  <data name="ManualsLabel" xml:space="preserve">
-    <value>Справочные материалы</value>
-  </data>
   <data name="NameFieldLabel" xml:space="preserve">
     <value>Название:</value>
   </data>
@@ -297,17 +273,14 @@
     <value>(название)</value>
   </data>
   <data name="NewItemsMessage" xml:space="preserve">
-    <value>Новых оповещений: {0:D}. Нажмите это сообщение, чтобы прочитать их</value>
+    <value>Новых записей: {0:D}. Нажмите это сообщение, чтобы прочитать их</value>
   </data>
   <data name="NewItemsUrgentMessage" xml:space="preserve">
     <value>ВНИМАНИЕ! ЕСТЬ СРОЧНЫЕ ОПОВЕЩЕНИЯ!
 </value>
   </data>
   <data name="NewsAtTheEndLabel" xml:space="preserve">
-    <value>Добавлять новости в конец журнала</value>
-  </data>
-  <data name="NextNewsButton" xml:space="preserve">
-    <value>Новость</value>
+    <value>Добавлять новые записи в конец журнала</value>
   </data>
   <data name="NoTemplateInClipboard" xml:space="preserve">
     <value>В буфере обмена не найдено совместимых шаблонов уведомлений. Скопируйте строку шаблона в буфер и повторите попытку</value>
@@ -352,22 +325,13 @@
     <value>Опросить ещё раз</value>
   </data>
   <data name="RequestAllStarted" xml:space="preserve">
-    <value>Запрос всех новостей...</value>
+    <value>Опрос всех оповещений...</value>
   </data>
   <data name="RequestCompleted" xml:space="preserve">
-    <value>Получены все доступные новости</value>
-  </data>
-  <data name="RequestFailed" xml:space="preserve">
-    <value>Новости не обнаружены. Попробуйте ещё раз для опроса следующих 5 оповещений</value>
+    <value>Получены все доступные изменения</value>
   </data>
   <data name="RequestStarted" xml:space="preserve">
-    <value>Запрос новости...</value>
-  </data>
-  <data name="RestartApp" xml:space="preserve">
-    <value>Перезапустите приложение</value>
-  </data>
-  <data name="RightAlignmentLabel" xml:space="preserve">
-    <value>Специальная кнопка справа</value>
+    <value>Запрос элемента...</value>
   </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается</value>
@@ -421,16 +385,13 @@
     <value>Не удалось создать файл настроек оповещений. Убедитесь в наличии разрешения на доступ к хранилищу</value>
   </data>
   <data name="SharingSuccess" xml:space="preserve">
-    <value>Файл настроек сохранён в папку Downloads</value>
+    <value>Файл настроек сохранён в папку «Downloads»</value>
   </data>
   <data name="SpecialFunction_AllNews" xml:space="preserve">
     <value>Опросить все оповещения</value>
   </data>
   <data name="SpecialFunction_Get" xml:space="preserve">
     <value>Получить запись из </value>
-  </data>
-  <data name="SpecialFunction_None" xml:space="preserve">
-    <value>(без функции)</value>
   </data>
   <data name="SpecialFunction_Scroll" xml:space="preserve">
     <value>Прокрутить журнал к последнему оповещению</value>
@@ -481,7 +442,7 @@
     <value>Эта кнопка позволяет выбрать уведомление для настройки</value>
   </data>
   <data name="Tip04_13" xml:space="preserve">
-    <value>Если этот флажок включён, фоновая служба останется активной, когда приложение будет закрыто или свёрнуто. Это позволяет быстрее вызывать приложение при необходимости (через закреплённое оповещение), а также видеть число непрочитанных новостей</value>
+    <value>Если этот флажок включён, фоновая служба останется активной, когда приложение будет закрыто или свёрнуто. Это позволяет быстрее вызывать приложение при необходимости (через закреплённое оповещение), а также видеть число непрочитанных записей в журнале</value>
   </data>
   <data name="Tip04_15" xml:space="preserve">
     <value>В некоторых случаях нужный участок веб-страницы оказывается на ней не первым, который ограничен заданными маркерами. Это поле позволяет указать, какое именно вхождение целевого участка (от начала страницы) следует отображать</value>
@@ -501,7 +462,7 @@
     <value>Частота обновления теперь настраивается для каждого уведомления отдельно. Проверьте её перед запуском фонового опроса</value>
   </data>
   <data name="Tip04_22" xml:space="preserve">
-    <value>Эти переключатели позволяют указать, какие способы индикации следует использовать приложению при появлении непрочитанных новостей</value>
+    <value>Эти переключатели позволяют указать, какие способы индикации следует использовать приложению при появлении непрочитанных элементов</value>
   </data>
   <data name="Tip04_23" xml:space="preserve">
     <value>Этот переключатель позволяет отключить индикацию для несрочных оповещений. Если он неактивен, все оповещения обрабатываются как смешанные (имеют индикацию)</value>
@@ -536,7 +497,9 @@
     <value>Срочные и смешанные (где индикация обязательна)</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
-    <value>Похоже, этот сайт не поддерживается. Попробуйте использовать другое ключевое слово</value>
+    <value>Не удаётся определить подходящую разметку.
+
+Уточните URL сайта или попробуйте использовать другое ключевое слово</value>
   </data>
   <data name="WizardSearch1" xml:space="preserve">
     <value>Определяем маркеры...</value>
