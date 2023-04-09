@@ -4,7 +4,7 @@ Version 6.1:
 • The button under the main log now has a semaphore on it: its color will show the state
   of the button and the state of background operations;
 • Some tips and captions have been replaced or updated;
-• Added the ability to change the font size for the entire interface (available on the last
+• Android: added the ability to change the font size for the entire interface (available on the last
   app page);
 • The text tips processing code has been refactored, some methods have been unified
   and simplified;
