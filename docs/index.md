@@ -1,5 +1,5 @@
 # uNot: the home page
-> **ƒ** &nbsp;RD AAOW FDL; 25.03.2023; 21:01
+> **ƒ** &nbsp;RD AAOW FDL; 11.04.2023; 2:19
 
 ---
 
@@ -13,7 +13,7 @@ What does it offer?
 - The *main log* provides a view of changes, access to source webpages from which they were received, and the ability to share them.
 - A *static service notification* will inform you about the presence of new changes received in the background.
 
-More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk).
+You can download this app [here](https://adslbarxatov.github.io/DPArray#unot-uninotifier). More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk).
 
 ---
 
@@ -27,7 +27,7 @@ More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk).
 - *Главный журнал* обеспечивает просмотр изменений, переход на исходные веб-страницы, с которых они были получены, и возможность ими поделиться.
 - *Закреплённое служебное оповещение* будет сообщать о наличии непрочитанных изменений, полученных в фоновом режиме
 
-Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/seFfQkfL6Sk).
+Вы можете загрузить это приложение [здесь](https://adslbarxatov.github.io/DPArray/ru#unot-uninotifier). Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/seFfQkfL6Sk).
 
 ---
 

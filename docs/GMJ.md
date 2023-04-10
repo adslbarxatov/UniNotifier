@@ -1,5 +1,5 @@
 # Проект GMJ: общие сведения
-> **ƒ** &nbsp;RD AAOW FDL; 25.03.2023; 21:07
+> **ƒ** &nbsp;RD AAOW FDL; 11.04.2023; 2:19
 
 ---
 
@@ -8,6 +8,7 @@
 - [Описание проекта](#section-1)
 - [Концепция сообщества](#section-2)
 - [Начало работы](#section-3)
+- [Ссылки для загрузки](https://adslbarxatov.github.io/DPArray/ru#unot-uninotifier)
 
 ---
 
