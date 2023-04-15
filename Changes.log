@@ -1,5 +1,9 @@
 uNot: changes log
 
+ToDo:
+- Button for saving an empty sound for non-emergency notifications;
+- GMJ skipping counter
+
 Version 6.1:
 • The button under the main log now has a semaphore on it: its color will show the state
   of the button and the state of background operations;
