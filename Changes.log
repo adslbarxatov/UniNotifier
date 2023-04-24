@@ -4,11 +4,13 @@ ToDo:
 - Button for saving an empty sound for non-emergency notifications;
 - GMJ skipping counter
 
-Version 6.2 (preparing):
-• 
+Version 6.1.2:
+• App about form has been upgraded;
+• Links list for HypeHelp has been updated;
+• Fixed the updates downloader behavior in some rare conditions
 
 Version 6.1:
-• The button under the main log now has a semaphore on it: its color will show the state
+• Android: the button under the main log now has a semaphore on it: its color will show the state
   of the button and the state of background operations;
 • Some tips and captions have been replaced or updated;
 • Android: added the ability to change the font size for the entire interface (available on the last

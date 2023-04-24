@@ -1,9 +1,9 @@
-_Changes for v 6.1_:
-- The button under the main log now has a semaphore on it: its color will show the state of the button and the state of background operations;
+_Changes for v 6.1.2_:
+- App about form has been upgraded;
+- Links list for HypeHelp has been updated;
+- Fixed the updates downloader behavior in some rare conditions;
+- `Android`: the button under the main log now has a semaphore on it: its color will show the state of the button and the state of background operations;
 - Some tips and captions have been replaced or updated;
-- Added the ability to change the font size for the entire interface (available on the last app page);
+- `Android`: added the ability to change the font size for the entire interface (available on the last app page);
 - The text tips processing code has been refactored, some methods have been unified and simplified;
-- Removed some redundant code;
-- `TPNot`: ®·Ø‡†¢´•≠ §•‰•™‚, ¢ÎßÎ¢†¢Ë®© ·°Æ© Ø‡®´Æ¶•≠®Ô Ø‡® ØÆØÎ‚™• ®ß¨•≠®‚Ï ‡†ß¨•‡ Ë‡®‰‚† Ø‡® Ø„·‚Æ¨ ¶„‡≠†´•;
-- `Android`: upgraded the interface of single notification settings;
-- `Android`: interface of the main log has been rebuilt: it now has only one static button
+- `TPNot`: –∏—Å–ø—Ä–∞–≤–ª–µ–Ω –¥–µ—Ñ–µ–∫—Ç, –≤—ã–∑—ã–≤–∞–≤—à–∏–π —Å–±–æ–π –ø—Ä–∏–ª–æ–∂–µ–Ω–∏—è –ø—Ä–∏ –ø–æ–ø—ã—Ç–∫–µ –∏–∑–º–µ–Ω–∏—Ç—å —Ä–∞–∑–º–µ—Ä —à—Ä–∏—Ñ—Ç–∞ –ø—Ä–∏ –ø—É—Å—Ç–æ–º –∂—É—Ä–Ω–∞–ª–µ

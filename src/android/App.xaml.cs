@@ -82,17 +82,23 @@ namespace RD_AAOW
 		#region Переменные страниц
 
 		private ContentPage settingsPage, notSettingsPage, aboutPage, logPage;
+
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel,
 			aboutFontSizeField;
+
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, nightModeSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
 			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch, newsAtTheEndSwitch,
 			keepScreenOnSwitch;
+
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton,
 			notWizardButton, comparatorTypeButton, comparatorIncButton,
-			comparatorLongButton, comparatorDecButton, centerButtonFunction, linkFieldButton, centerButton;
+			comparatorLongButton, comparatorDecButton, centerButtonFunction, linkFieldButton,
+			centerButton, languageButton;
+
 		private Editor nameField, comparatorValueField;
+
 		private Xamarin.Forms.ListView mainLog;
 
 		#endregion
@@ -327,7 +333,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettings (aboutPage, "LanguageLabel",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_InterfaceLanguage),
 				ASLabelTypes.DefaultLeft);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector",
+			languageButton = AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector",
 				Localization.LanguagesNames[(int)Localization.CurrentLanguage],
 				aboutFieldBackColor, SelectLanguage_Clicked, false);
 
@@ -1527,13 +1533,15 @@ namespace RD_AAOW
 			// Запрос
 			if (languages.Count < 1)
 				languages = new List<string> (Localization.LanguagesNames);
-			int res = await AndroidSupport.ShowList (Localization.GetText ("SelectLanguage"),
+			int res = await AndroidSupport.ShowList (
+				Localization.GetDefaultText (LzDefaultTextValues.Message_LanguageSelectionShort),
 				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), languages);
 
 			// Сохранение
 			if (res >= 0)
 				{
 				Localization.CurrentLanguage = (SupportedLanguages)res;
+				languageButton.Text = languages[res];
 				/*Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RestartApp"),
 					ToastLength.Long).Show ();*/
 				}
@@ -1575,7 +1583,8 @@ namespace RD_AAOW
 			if (communities.Count < 1)
 				communities = new List<string> (RDGenerics.CommunitiesNames);
 
-			int res = await AndroidSupport.ShowList (Localization.GetText ("CommunitySelect"),
+			int res = await AndroidSupport.ShowList (
+				Localization.GetDefaultText (LzDefaultTextValues.Message_CommunitySelection),
 				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), communities);
 			if (res < 0)
 				return;

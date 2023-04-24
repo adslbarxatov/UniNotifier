@@ -23,7 +23,7 @@ namespace RD_AAOW
 				return;
 
 			// Проверка запуска единственной копии
-			if (!RDGenerics.IsThisInstanceUnique (Localization.IsCurrentLanguageRuRu))
+			if (!RDGenerics.IsAppInstanceUnique (true))
 				return;
 
 			// Отображение справки и запроса на принятие Политики

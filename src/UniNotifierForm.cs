@@ -432,9 +432,6 @@ namespace RD_AAOW
 
 			ResetCulture ();
 
-			/*for (int i = 0; i < ni.ContextMenu.MenuItems.Count; i++)
-				ni.ContextMenu.MenuItems[i].Text = Localization.GetText ("MainMenuOption" +
-					(i + 2).ToString ("D02"));*/
 			ni.ContextMenu.MenuItems[0].Text = Localization.GetText ("MainMenuOption02");
 			ni.ContextMenu.MenuItems[1].Text =
 				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout);
