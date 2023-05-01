@@ -319,4 +319,7 @@ It is also possible to display a notification only if this condition is met</val
   <data name="ShareFile" xml:space="preserve">
     <value>To &amp;file</value>
   </data>
+  <data name="undfile" xml:space="preserve">
+    <value>Settings exchange file for uNot service</value>
+  </data>
 </root>

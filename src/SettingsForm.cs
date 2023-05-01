@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace RD_AAOW
@@ -33,7 +35,7 @@ namespace RD_AAOW
 
 			ofd = new OpenFileDialog ();
 			sfd = new SaveFileDialog ();
-			ofd.Filter = sfd.Filter = ProgramDescription.AssemblyMainName + " settings files|" +
+			ofd.Filter = sfd.Filter = Localization.GetText (NotificationsSet.SettingsFileExtension + "file") + "|" +
 				NotificationsSet.SettingsFileName;
 			ofd.Title = sfd.Title = ProgramDescription.AssemblyVisibleName;
 			ofd.CheckFileExists = ofd.CheckPathExists = true;
@@ -282,8 +284,15 @@ namespace RD_AAOW
 						return;
 
 					// Сохранение
-					if (!notifications.SaveSettingsToFile (sfd.FileName))
+					string settings = notifications.GetSettingsList ();
+					try
+						{
+						File.WriteAllBytes (sfd.FileName, Encoding.Unicode.GetBytes (settings));
+						}
+					catch
+						{
 						RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "ShareFailure");
+						}
 					break;
 
 				// Копирование
@@ -326,11 +335,17 @@ namespace RD_AAOW
 					RDMessageButtons.ButtonOne)
 					return;
 
-				if (!notifications.ReadSettingsFromFile (ofd.FileName))
+				string settings;
+				try
+					{
+					settings = File.ReadAllText (ofd.FileName, Encoding.Unicode);
+					}
+				catch
 					{
 					RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingFailure");
 					return;
 					}
+				notifications.SetSettingsList (settings);
 
 				// Загрузка оповещений в список
 				UpdateButtons ();

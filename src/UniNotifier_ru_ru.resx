@@ -341,4 +341,7 @@
   <data name="ShareFile" xml:space="preserve">
     <value>В &amp;файл</value>
   </data>
+  <data name="undfile" xml:space="preserve">
+    <value>Файл обмена настройками службы uNot</value>
+  </data>
 </root>

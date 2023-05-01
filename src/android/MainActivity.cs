@@ -177,7 +177,7 @@ namespace RD_AAOW.Droid
 				if (newItemsShown)
 					{
 					newItemsShown = false;
-					msg = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
+					msg = Localization.GetText ("LaunchMessage");
 					if (AndroidSupport.IsForegroundAvailable)
 						notBuilder.SetChannelId (defaultChannelID);
 					notBuilder.SetColor (defaultColor);
@@ -203,7 +203,6 @@ namespace RD_AAOW.Droid
 			NotificationsSupport.BackgroundRequestInProgress = true;
 			nextRequest = DateTime.Now.AddMinutes (NotificationsSupport.BackgroundRequestStepMinutes);
 
-			/*uint newItems = NotificationsSupport.NewItems;*/
 			List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.GetMasterLog (false));
 
 			// Извлечение новых записей
@@ -220,14 +219,12 @@ namespace RD_AAOW.Droid
 					else
 						masterLog.Insert (0, new MainLogItem (newText));
 
-					/*newItems++;*/
 					NotificationsSupport.NewItems++;
 					haveNews = true;
 					}
 
 			// Сохранение с обрезкой журнала
 			NotificationsSupport.SetMasterLog (masterLog);
-			/*NotificationsSupport.NewItems = newItems;*/
 
 			// Отсечка на случай пересечения с запуском основного приложения или при отсутствии изменений
 			if (AndroidSupport.AppIsRunning || !haveNews)
@@ -238,9 +235,9 @@ namespace RD_AAOW.Droid
 
 			// Оповещение пользователя
 			msg = (ProgramDescription.NSet.HasUrgentNotifications ?
-				Localization.GetText ("NewItemsUrgentMessage", Localization.CurrentLanguage) : "") +
+				Localization.GetText ("NewItemsUrgentMessage") : "") +
 
-				string.Format (Localization.GetText ("NewItemsMessage", Localization.CurrentLanguage),
+				string.Format (Localization.GetText ("NewItemsMessage"),
 				NotificationsSupport.NewItems);
 			newItemsShown = true;
 
@@ -300,9 +297,10 @@ notMessage:
 					ProgramDescription.AssemblyVisibleName + " / Non-urgent", NotificationImportance.High);
 
 				// Настройка
-				urgentChannel.Description = Localization.GetText ("UrgentChannel", Localization.CurrentLanguage);
-				defaultChannel.Description = Localization.GetText ("DefaultChannel", Localization.CurrentLanguage);
-				urgentChannel.LockscreenVisibility = defaultChannel.LockscreenVisibility = NotificationVisibility.Private;
+				urgentChannel.Description = Localization.GetText ("UrgentChannel");
+				defaultChannel.Description = Localization.GetText ("DefaultChannel");
+				urgentChannel.LockscreenVisibility = defaultChannel.LockscreenVisibility =
+					NotificationVisibility.Private;
 
 				// Создание
 				notManager.CreateNotificationChannel (urgentChannel);
@@ -316,7 +314,7 @@ notMessage:
 			notBuilder.SetCategory ("msg");         // Категория "сообщение"
 			notBuilder.SetColor (defaultColor);     // Оттенок заголовков оповещений
 
-			string launchMessage = Localization.GetText ("LaunchMessage", Localization.CurrentLanguage);
+			string launchMessage = Localization.GetText ("LaunchMessage");
 			notBuilder.SetContentText (launchMessage);
 			notBuilder.SetContentTitle (ProgramDescription.AssemblyVisibleName);
 			notBuilder.SetTicker (ProgramDescription.AssemblyVisibleName);

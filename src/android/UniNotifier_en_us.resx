@@ -242,12 +242,6 @@ markup:</value>
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
   </data>
-  <data name="LoadingFailure" xml:space="preserve">
-    <value>Failed to load notifications settings file: it’s damaged or unsupported</value>
-  </data>
-  <data name="LoadingSuccess" xml:space="preserve">
-    <value>Loading completed successfully</value>
-  </data>
   <data name="LoadingWarning" xml:space="preserve">
     <value>WARNING: this option will overwrite all existing settings. Continue?</value>
   </data>
@@ -330,6 +324,10 @@ markup:</value>
   <data name="RequestStarted" xml:space="preserve">
     <value>Requesting item...</value>
   </data>
+  <data name="SaveQuietSound" xml:space="preserve">
+    <value>Create and save a quiet audio file
+(for non-urgent notifications)</value>
+  </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Link to webpage is incorrect or keyword is not found on this page</value>
   </data>
@@ -377,12 +375,6 @@ markup:</value>
   </data>
   <data name="ShareVariantSelect" xml:space="preserve">
     <value>Select sharing variant:</value>
-  </data>
-  <data name="SharingFailure" xml:space="preserve">
-    <value>Failed to create notifications settings file. Make sure you have permission to access the storage</value>
-  </data>
-  <data name="SharingSuccess" xml:space="preserve">
-    <value>Settings file has been saved into “Downloads” directory</value>
   </data>
   <data name="SpecialFunction_AllNews" xml:space="preserve">
     <value>Poll all notifications</value>

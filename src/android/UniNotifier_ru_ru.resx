@@ -245,12 +245,6 @@
   <data name="LinkFieldPlaceholder" xml:space="preserve">
     <value>(URL)</value>
   </data>
-  <data name="LoadingFailure" xml:space="preserve">
-    <value>Не удалось загрузить файл настроек уведомлений: он повреждён или не поддерживается</value>
-  </data>
-  <data name="LoadingSuccess" xml:space="preserve">
-    <value>Загрузка успешно завершена</value>
-  </data>
   <data name="LoadingWarning" xml:space="preserve">
     <value>ВНИМАНИЕ: эта опция перезапишет все существующие настройки. Продолжить?</value>
   </data>
@@ -333,6 +327,10 @@
   <data name="RequestStarted" xml:space="preserve">
     <value>Запрос элемента...</value>
   </data>
+  <data name="SaveQuietSound" xml:space="preserve">
+    <value>Создать и сохранить тихий аудиофайл
+(для несрочных уведомлений)</value>
+  </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается</value>
   </data>
@@ -380,12 +378,6 @@
   </data>
   <data name="ShareVariantSelect" xml:space="preserve">
     <value>Выберите вариант:</value>
-  </data>
-  <data name="SharingFailure" xml:space="preserve">
-    <value>Не удалось создать файл настроек оповещений. Убедитесь в наличии разрешения на доступ к хранилищу</value>
-  </data>
-  <data name="SharingSuccess" xml:space="preserve">
-    <value>Файл настроек сохранён в папку «Downloads»</value>
   </data>
   <data name="SpecialFunction_AllNews" xml:space="preserve">
     <value>Опросить все оповещения</value>

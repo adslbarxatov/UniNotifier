@@ -1,13 +1,16 @@
 uNot: changes log
 
-ToDo:
-- Button for saving an empty sound for non-emergency notifications;
-- GMJ skipping counter
+Version 6.2:
+• Android: GMJ service now supports permanently skipping deleted records (it won’t call them after
+  it detects they are missing);
+• Android: app now able to generate an empty (silent) audio file that can be used to mute non-urgent
+  notifications;
+• Exchangeable settings file .uns (UTF8) has been replaced with new format .und (Unicode)
 
 Version 6.1.2:
-• App about form has been upgraded;
-• Links list for HypeHelp has been updated;
-• Fixed the updates downloader behavior in some rare conditions
+• Windows: “app about” window has been upgraded;
+• Windows: links list for HypeHelp has been updated;
+• Windows: fixed the updates downloader behavior in some rare conditions
 
 Version 6.1:
 • Android: the button under the main log now has a semaphore on it: its color will show the state
