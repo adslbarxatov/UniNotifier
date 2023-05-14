@@ -1,4 +1,4 @@
-_Changes for v 6.3_:
+_Changes for v 6.3_: 
 - XPUN control conditions have been updated;
 - `Android`: fixed a bug when app skips the log update if app is minimized but is not closed;
 - `Android`: updated the maintenance mode behavior;
