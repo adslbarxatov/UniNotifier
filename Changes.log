@@ -1,5 +1,10 @@
 uNot: changes log
 
+Version 6.3:
+• XPUN control conditions have been updated;
+• Android: fixed a bug when app skips the log update if app is minimized but is not closed;
+• Android: updated the maintenance mode behavior
+
 Version 6.2:
 • Android: GMJ service now supports permanently skipping deleted records (it won’t call them after
   it detects they are missing);

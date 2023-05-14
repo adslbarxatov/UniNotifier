@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 #if DEBUG
 [assembly: Application (Debuggable = true)]
@@ -44,8 +45,8 @@ namespace RD_AAOW.Droid
 
 			// Инициализация и запуск
 			base.OnCreate (savedInstanceState);
-			global::Xamarin.Forms.Forms.Init (this, savedInstanceState);
-			global::Xamarin.Essentials.Platform.Init (this, savedInstanceState);
+			Forms.Init (this, savedInstanceState);
+			Platform.Init (this, savedInstanceState);
 
 			// Запуск независимо от разрешения
 			Intent mainService = new Intent (this, typeof (MainService));
