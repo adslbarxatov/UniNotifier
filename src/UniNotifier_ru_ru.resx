@@ -344,4 +344,13 @@
   <data name="undfile" xml:space="preserve">
     <value>Файл обмена настройками службы uNot</value>
   </data>
+  <data name="ComparatorTypes" xml:space="preserve">
+    <value>&gt; (больше, чем)
+≥ (больше либо равно)
+&lt; (меньше, чем)
+≤ (меньше либо равно)
+= (равно)
+≠ (не равно)
+∈ (содержит)</value>
+  </data>
 </root>

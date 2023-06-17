@@ -322,4 +322,13 @@ It is also possible to display a notification only if this condition is met</val
   <data name="undfile" xml:space="preserve">
     <value>Settings exchange file for uNot service</value>
   </data>
+  <data name="ComparatorTypes" xml:space="preserve">
+    <value>&gt; (greater than)
+≥ (greater than or equal to)
+&lt; (less than)
+≤ (less than or equal to)
+= (equal to)
+≠ (not equal to)
+∈ (contains)</value>
+  </data>
 </root>

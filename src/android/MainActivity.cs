@@ -61,7 +61,11 @@ namespace RD_AAOW.Droid
 			if (AndroidSupport.KeepScreenOn)
 				this.Window.AddFlags (WindowManagerFlags.KeepScreenOn);
 
-			LoadApplication (new App ());
+#if HUAWEI
+			LoadApplication (new App (true));
+#else
+			LoadApplication (new App (false));
+#endif
 			}
 
 		/// <summary>

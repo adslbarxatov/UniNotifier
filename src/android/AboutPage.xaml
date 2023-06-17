@@ -15,7 +15,7 @@
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#505050" Margin="9" />
 
-				<Label x:Name="ManualsLabel" />
+				<!--<Label x:Name="ManualsLabel" />
 
 				<Button x:Name="ManualPage" HorizontalOptions="Center" />
 				<Button x:Name="AppPage" HorizontalOptions="Center" />
@@ -27,7 +27,10 @@
 				<Label x:Name="HelpLabel" />
 
 				<Button x:Name="DevPage" HorizontalOptions="Center" />
-				<Button x:Name="CommunityPage" HorizontalOptions="Center" />
+				<Button x:Name="CommunityPage" HorizontalOptions="Center" />-->
+
+				<Button x:Name="ManualsButton" HorizontalOptions="Center" />
+				<Button x:Name="HelpButton" HorizontalOptions="Center" />
 
 				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#505050" Margin="9" />

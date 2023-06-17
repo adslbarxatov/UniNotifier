@@ -9,23 +9,21 @@
 
 		<ListView x:Name="MainLog" HorizontalOptions="Fill" />
 
-		<Button x:Name="CenterButton" />
-
-		<!--<Grid x:Name="StatusBarGrid">
+		<Grid ColumnSpacing="0">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="50" />
+				<RowDefinition />
 			</Grid.RowDefinitions>
-
+			
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="50" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="50" />
+				<ColumnDefinition Width="80" />
+				<ColumnDefinition />
+				<ColumnDefinition Width="80" />
 			</Grid.ColumnDefinitions>
 
-			<Button Grid.Row="0" Grid.Column="0" x:Name="GetGMJ" VerticalOptions="Center" />
-			<Button Grid.Row="0" Grid.Column="1" x:Name="StatusBar" HorizontalOptions="Center" VerticalOptions="Center"/>
-			<Button Grid.Row="0" Grid.Column="2" x:Name="AllNewsButton" VerticalOptions="Center" />
-		</Grid>-->
+			<Button x:Name="ScrollUp" VerticalOptions="Center" HorizontalOptions="Center" />
+			<Button x:Name="CenterButton" VerticalOptions="Center" HorizontalOptions="Center" />
+			<Button x:Name="ScrollDown" VerticalOptions="Center" HorizontalOptions="Center" />
+		</Grid>
 
 	</StackLayout>
 </ContentPage>

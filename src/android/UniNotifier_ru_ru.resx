@@ -180,7 +180,8 @@
 &lt; (меньше, чем)
 ≤ (меньше либо равно)
 = (равно)
-≠ (не равно)</value>
+≠ (не равно)
+∈ (содержит)</value>
   </data>
   <data name="CopyMessage" xml:space="preserve">
     <value>Скопировано в буфер обмена</value>
@@ -385,8 +386,8 @@
   <data name="SpecialFunction_Get" xml:space="preserve">
     <value>Получить запись из </value>
   </data>
-  <data name="SpecialFunction_Scroll" xml:space="preserve">
-    <value>Прокрутить журнал к последнему оповещению</value>
+  <data name="SpecialFunction_Nothing" xml:space="preserve">
+    <value>Нет функции</value>
   </data>
   <data name="TemplateClipboard" xml:space="preserve">
     <value>Из буфера обмена</value>

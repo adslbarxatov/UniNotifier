@@ -180,7 +180,8 @@
 &lt; (less than)
 ≤ (less than or equal to)
 = (equal to)
-≠ (not equal to)</value>
+≠ (not equal to)
+∈ (contains)</value>
   </data>
   <data name="CopyMessage" xml:space="preserve">
     <value>Copied to clipboard</value>
@@ -382,8 +383,8 @@ markup:</value>
   <data name="SpecialFunction_Get" xml:space="preserve">
     <value>Get record from </value>
   </data>
-  <data name="SpecialFunction_Scroll" xml:space="preserve">
-    <value>Scroll the log to the latest notification</value>
+  <data name="SpecialFunction_Nothing" xml:space="preserve">
+    <value>Do nothing</value>
   </data>
   <data name="SpecialNotificationsSwitch" xml:space="preserve">
     <value>Enable special notifications</value>

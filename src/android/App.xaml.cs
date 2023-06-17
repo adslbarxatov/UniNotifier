@@ -54,8 +54,10 @@ namespace RD_AAOW
 		private List<string> wizardMenuItems = new List<string> ();
 		private List<string> specialOptions = new List<string> ();
 		private List<string> templatesMenuItems = new List<string> ();
-		private List<string> communities = new List<string> ();
+		/*private List<string> communities = new List<string> ();*/
 		private List<string> languages = new List<string> ();
+		private List<string> referenceItems = new List<string> ();
+		private List<string> helpItems = new List<string> ();
 
 		// Текущее настраиваемое уведомление
 		private int currentNotification = 0;
@@ -95,7 +97,8 @@ namespace RD_AAOW
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton,
 			notWizardButton, comparatorTypeButton, comparatorIncButton,
 			comparatorLongButton, comparatorDecButton, centerButtonFunction, linkFieldButton,
-			centerButton, languageButton, maintenance_ResetFreeSet, maintenance_GetRemovedSet;
+			centerButton, languageButton, maintenance_ResetFreeSet, maintenance_GetRemovedSet,
+			scrollUpButton, scrollDownButton;
 
 		private Editor nameField, comparatorValueField;
 
@@ -108,7 +111,7 @@ namespace RD_AAOW
 		/// <summary>
 		/// Конструктор. Точка входа приложения
 		/// </summary>
-		public App ()
+		public App (bool Huawei)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -299,17 +302,24 @@ namespace RD_AAOW
 			aboutLabel = AndroidSupport.ApplyLabelSettings (aboutPage, "AboutLabel",
 				RDGenerics.AppAboutLabelText, ASLabelTypes.AppAbout);
 
-			AndroidSupport.ApplyLabelSettings (aboutPage, "ManualsLabel",
+			/*AndroidSupport.ApplyLabelSettings (aboutPage, "ManualsLabel",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_ReferenceMaterials),
 				ASLabelTypes.HeaderLeft);
 			AndroidSupport.ApplyLabelSettings (aboutPage, "HelpLabel",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_HelpSupport),
-				ASLabelTypes.HeaderLeft);
+				ASLabelTypes.HeaderLeft);*/
+
+			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualsButton",
+				Localization.GetDefaultText (LzDefaultTextValues.Control_ReferenceMaterials),
+				aboutFieldBackColor, ReferenceButton_Click, false);
+			AndroidSupport.ApplyButtonSettings (aboutPage, "HelpButton",
+				Localization.GetDefaultText (LzDefaultTextValues.Control_HelpSupport),
+				aboutFieldBackColor, HelpButton_Click, false);
 			AndroidSupport.ApplyLabelSettings (aboutPage, "GenericSettingsLabel",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_GenericSettings),
 				ASLabelTypes.HeaderLeft);
 
-			AndroidSupport.ApplyButtonSettings (aboutPage, "AppPage",
+			/*AndroidSupport.ApplyButtonSettings (aboutPage, "AppPage",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_ProjectWebpage),
 				aboutFieldBackColor, AppButton_Clicked, false);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualPage",
@@ -318,11 +328,12 @@ namespace RD_AAOW
 			AndroidSupport.ApplyButtonSettings (aboutPage, "ADPPage",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_PolicyEULA),
 				aboutFieldBackColor, ADPButton_Clicked, false);
+
 			AndroidSupport.ApplyButtonSettings (aboutPage, "DevPage",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_AskDeveloper),
 				aboutFieldBackColor, DevButton_Clicked, false);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage", RDGenerics.AssemblyCompany,
-				aboutFieldBackColor, CommunityButton_Clicked, false);
+				aboutFieldBackColor, CommunityButton_Clicked, false);*/
 
 			UpdateNotButtons ();
 
@@ -361,11 +372,17 @@ namespace RD_AAOW
 			mainLog.SelectionMode = ListViewSelectionMode.None;
 			mainLog.SeparatorVisibility = SeparatorVisibility.None;
 			mainLog.ItemAppearing += MainLog_ItemAppearing;
+			((CarouselPage)MainPage).CurrentPageChanged += CurrentPageChanged;  // Пробуем исправить сброс прокрутки
 
 			centerButton = AndroidSupport.ApplyButtonSettings (logPage, "CenterButton", " ",
 				logFieldBackColor, CenterButton_Click, false);
 			centerButton.Margin = centerButton.Padding = new Thickness (0);
 			centerButton.FontSize += 6;
+
+			scrollUpButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollUp", ASButtonDefaultTypes.Up,
+				logFieldBackColor, ScrollUpButton_Click);
+			scrollDownButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollDown", ASButtonDefaultTypes.Down,
+				logFieldBackColor, ScrollDownButton_Click);
 
 			// Режим чтения
 			AndroidSupport.ApplyLabelSettings (settingsPage, "ReadModeLabel",
@@ -425,7 +442,14 @@ namespace RD_AAOW
 			FinishBackgroundRequest ();
 
 			// Принятие соглашений
-			ShowStartupTips ();
+			ShowStartupTips (Huawei);
+			}
+
+		// Исправление для сброса текущей позиции журнала
+		private async void CurrentPageChanged (object sender, EventArgs e)
+			{
+			needsScroll = true;
+			await ScrollMainLog (newsAtTheEndSwitch.IsToggled, -1);
 			}
 
 		// Цикл обратной связи для загрузки текущего журнала, если фоновая служба не успела завершить работу
@@ -467,10 +491,10 @@ namespace RD_AAOW
 			}
 
 		// Метод отображает подсказки при первом запуске
-		private async void ShowStartupTips ()
+		private async void ShowStartupTips (bool Huawei)
 			{
 			// Контроль XPUN
-			while (!Localization.IsXPUNClassAcceptable)
+			while (!Huawei && !Localization.IsXPUNClassAcceptable)
 				await AndroidSupport.ShowMessage (Localization.GetDefaultText (LzDefaultTextValues.Message_XPUNE),
 					"   ");
 
@@ -482,7 +506,8 @@ namespace RD_AAOW
 					Localization.GetDefaultText (LzDefaultTextValues.Button_Accept),
 					Localization.GetDefaultText (LzDefaultTextValues.Button_Read)))
 					{
-					ADPButton_Clicked (null, null);
+					/*ADPButton_Clicked (null, null);*/
+					await CallHelpMaterials (2);
 					}
 
 				NotificationsSupport.SetTipState (NSTipTypes.PolicyTip);
@@ -648,31 +673,38 @@ namespace RD_AAOW
 		// Промотка журнала к нужной позиции
 		private async void MainLog_ItemAppearing (object sender, ItemVisibilityEventArgs e)
 			{
+			await ScrollMainLog (newsAtTheEndSwitch.IsToggled, e.ItemIndex);
+			}
+
+		private async Task<bool> ScrollMainLog (bool ToTheEnd, int VisibleItem)
+			{
 			// Контроль
 			if (masterLog == null)
-				return;
+				return false;
 
 			if ((masterLog.Count < 1) || !needsScroll)
-				return;
+				return false;
 
 			// Искусственная задержка
 			await Task.Delay (100);
 
 			// Промотка с повторением до достижения нужного участка
-			if (newsAtTheEndSwitch.IsToggled)
+			if (ToTheEnd)
 				{
-				if (e.ItemIndex > masterLog.Count - 3)
+				if ((VisibleItem < 0) || (VisibleItem > masterLog.Count - 3))
 					needsScroll = false;
 
 				mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, false);
 				}
 			else
 				{
-				if (e.ItemIndex < 2)
+				if ((VisibleItem < 0) || (VisibleItem < 2))
 					needsScroll = false;
 
 				mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, false);
 				}
+
+			return true;
 			}
 
 		// Обновление формы кнопки журнала
@@ -698,7 +730,8 @@ namespace RD_AAOW
 				}
 			else
 				{
-				if (dark)
+				centerButton.Text = "   ";
+				/*if (dark)
 					centerButton.TextColor = logMasterBackColor;
 				else
 					centerButton.TextColor = logReadModeColor;
@@ -706,7 +739,7 @@ namespace RD_AAOW
 				if (newsAtTheEndSwitch.IsToggled)
 					centerButton.Text = "▼▼▼";
 				else
-					centerButton.Text = "▲▲▲";
+					centerButton.Text = "▲▲▲";*/
 				}
 			}
 
@@ -967,7 +1000,7 @@ namespace RD_AAOW
 				}
 			}
 
-		// Ручная прокрутка журнала
+		// Действия средней кнопки журнала
 		private void CenterButton_Click (object sender, EventArgs e)
 			{
 			if (!centerButtonEnabled)
@@ -979,15 +1012,15 @@ namespace RD_AAOW
 
 			switch (NotificationsSupport.SpecialFunctionNumber)
 				{
-				// Прокрутка
+				// Без действия
 				case 0:
-					if (masterLog.Count < 1)
+					/*if (masterLog.Count < 1)
 						return;
 
 					if (newsAtTheEndSwitch.IsToggled)
 						mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, false);
 					else
-						mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, false);
+						mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, false);*/
 					break;
 
 				// Опрос всех новостей
@@ -1044,6 +1077,19 @@ namespace RD_AAOW
 				await ShowTips (NSTipTypes.MainLogClickMenuTip);
 			}
 
+		// Ручная прокрутка
+		private async void ScrollUpButton_Click (object sender, EventArgs e)
+			{
+			needsScroll = true;
+			await ScrollMainLog (false, -1);
+			}
+
+		private async void ScrollDownButton_Click (object sender, EventArgs e)
+			{
+			needsScroll = true;
+			await ScrollMainLog (true, -1);
+			}
+
 		#endregion
 
 		#region Основные настройки
@@ -1052,8 +1098,10 @@ namespace RD_AAOW
 		private void MaintenanceMode (uint Index)
 			{
 			// Защита
+			if (maintenance_GetRemovedSet == null)
+				return; // При запуске приложения
 			if (maintenance_GetRemovedSet.IsVisible)
-				return;
+				return; // Когда режим уже активен
 
 			// Контроль порядка нажатий
 			if ((maintenanceOpeningIndex == Index) || (maintenanceOpeningIndex == Index + 4))
@@ -1355,7 +1403,8 @@ namespace RD_AAOW
 				cfg.WatchAreaEndingSign = delim[1];
 				cfg.UpdatingFrequency = 1;
 				cfg.ComparisonType = NotComparatorTypes.Disabled;
-				cfg.ComparisonValue = 0.0;
+				/*cfg.ComparisonValue = 0.0;*/
+				cfg.ComparisonString = "";
 				cfg.IgnoreComparisonMisfits = cfg.NotifyWhenUnavailable = false;
 
 				Notification not = new Notification (cfg);
@@ -1456,13 +1505,17 @@ namespace RD_AAOW
 
 			if (nightModeSwitch.IsToggled)
 				{
-				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor = logReadModeColor;
-				NotificationsSupport.LogFontColor = logMasterBackColor;
+				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor =
+					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor = logReadModeColor;
+				NotificationsSupport.LogFontColor = scrollUpButton.TextColor =
+					scrollDownButton.TextColor = logMasterBackColor;
 				}
 			else
 				{
-				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor = logMasterBackColor;
-				NotificationsSupport.LogFontColor = logReadModeColor;
+				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor =
+					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor = logMasterBackColor;
+				NotificationsSupport.LogFontColor = scrollUpButton.TextColor =
+					scrollDownButton.TextColor = logReadModeColor;
 				}
 
 			// Принудительное обновление (только не при старте)
@@ -1513,7 +1566,7 @@ namespace RD_AAOW
 			// Список опций
 			if (specialOptions.Count < 1)
 				{
-				specialOptions.Add (Localization.GetText ("SpecialFunction_Scroll"));
+				specialOptions.Add (Localization.GetText ("SpecialFunction_Nothing"));
 				specialOptions.Add (Localization.GetText ("SpecialFunction_AllNews"));
 
 				string[] sources = GMJ.SourceNames;
@@ -1533,8 +1586,7 @@ namespace RD_AAOW
 				return;
 
 			NotificationsSupport.SpecialFunctionNumber = (uint)res;
-			NotificationsSupport.SpecialFunctionName = centerButtonFunction.Text = specialOptions[res];
-
+			NotificationsSupport.SpecialFunctionName = /*centerButtonFunction.Text =*/ specialOptions[res];
 			UpdateLogButton (false, false);
 
 			if (res > 1)
@@ -1542,8 +1594,11 @@ namespace RD_AAOW
 			}
 
 		// Обслуживание - сброс списка доступных записей
-		private void Maintenance_ResetFreeSet_Clicked (object sender, EventArgs e)
+		private async void Maintenance_ResetFreeSet_Clicked (object sender, EventArgs e)
 			{
+			if (!await AndroidSupport.ShowMessage ("Сбросить список просмотренных записей?", "Да", "Нет"))
+				return;
+
 			GMJ.ResetFreeSet ();
 			UpdateMaintenanceLabel ();
 			}
@@ -1590,6 +1645,132 @@ namespace RD_AAOW
 				}
 			}
 
+		// Вызов справочных материалов
+		private async void ReferenceButton_Click (object sender, EventArgs e)
+			{
+			await CallHelpMaterials (0);
+			}
+
+		private async void HelpButton_Click (object sender, EventArgs e)
+			{
+			await CallHelpMaterials (1);
+			}
+
+		private async Task<bool> CallHelpMaterials (uint MaterialsSet)
+			{
+			// Заполнение списков
+			if (referenceItems.Count < 1)
+				{
+				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_ProjectWebpage));
+				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_UserManual));
+				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_PolicyEULA));
+				}
+
+			if (helpItems.Count < 1)
+				{
+				helpItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_AskDeveloper));
+				helpItems.AddRange (RDGenerics.CommunitiesNames);
+				}
+
+			// Выбор варианта
+			int res;
+			switch (MaterialsSet)
+				{
+				// Ссылки проекта
+				case 0:
+				default:
+					res = await AndroidSupport.ShowList (Localization.GetDefaultText (LzDefaultTextValues.Control_ReferenceMaterials),
+						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), referenceItems);
+					break;
+
+				// Ссылки Лаборатории
+				case 1:
+					res = await AndroidSupport.ShowList (Localization.GetDefaultText (LzDefaultTextValues.Control_HelpSupport),
+						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), helpItems);
+					break;
+
+				// Специальный вызов для Политики
+				case 2:
+					res = 2;
+					break;
+				}
+
+			if (res < 0)
+				return false;
+			else if (MaterialsSet == 1)
+				res += 10;
+
+			// Обнаружение ссылки
+			string url = "";
+			switch (res)
+				{
+				// Страница проекта
+				case 0:
+					url = RDGenerics.DefaultGitLink + ProgramDescription.AssemblyMainName;
+					break;
+
+				// Руководство
+				case 1:
+					url = ProgramDescription.AssemblyVideoLink;
+					break;
+
+				// Политика
+				case 2:
+					url = RDGenerics.ADPLink;
+					break;
+
+				case 10:
+					// Оставляем url пустым
+					break;
+
+				// Ссылки Лаборатории
+				case 11:
+				case 12:
+				case 13:
+					url = RDGenerics.GetCommunityLink ((uint)res - 11);
+					break;
+				}
+
+			// Запуск
+			if (string.IsNullOrWhiteSpace (url))
+				{
+				try
+					{
+					EmailMessage message = new EmailMessage
+						{
+						Subject = RDGenerics.LabMailCaption,
+						Body = "",
+						To = new List<string> () { RDGenerics.LabMailLink }
+						};
+					await Email.ComposeAsync (message);
+					}
+				catch
+					{
+					Toast.MakeText (Android.App.Application.Context,
+						Localization.GetDefaultText (LzDefaultTextValues.Message_EMailsNotAvailable),
+						ToastLength.Long).Show ();
+					}
+				}
+
+			else
+				{
+				try
+					{
+					await Launcher.OpenAsync (url);
+					}
+				catch
+					{
+					Toast.MakeText (Android.App.Application.Context,
+						Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
+						ToastLength.Long).Show ();
+					}
+				}
+
+			// Успешно
+			return true;
+			}
+
+		/*
 		// Страница проекта
 		private async void AppButton_Clicked (object sender, EventArgs e)
 			{
@@ -1620,6 +1801,23 @@ namespace RD_AAOW
 				}
 			}
 
+		// Страница политики и EULA
+		private async void ADPButton_Clicked (object sender, EventArgs e)
+			{
+			try
+				{
+				await Launcher.OpenAsync (RDGenerics.ADPLink);
+				}
+			catch
+				{
+				Toast.MakeText (Android.App.Application.Context,
+					Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
+					ToastLength.Long).Show ();
+				}
+			}
+		*/
+
+		/*
 		// Страница лаборатории
 		private async void CommunityButton_Clicked (object sender, EventArgs e)
 			{
@@ -1649,21 +1847,6 @@ namespace RD_AAOW
 			}
 
 		// Страница политики и EULA
-		private async void ADPButton_Clicked (object sender, EventArgs e)
-			{
-			try
-				{
-				await Launcher.OpenAsync (RDGenerics.ADPLink);
-				}
-			catch
-				{
-				Toast.MakeText (Android.App.Application.Context,
-					Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-					ToastLength.Long).Show ();
-				}
-			}
-
-		// Страница политики и EULA
 		private async void DevButton_Clicked (object sender, EventArgs e)
 			{
 			try
@@ -1683,6 +1866,7 @@ namespace RD_AAOW
 					ToastLength.Long).Show ();
 				}
 			}
+		*/
 
 		// Изменение размера шрифта интерфейса
 		private void FontSizeButton_Clicked (object sender, EventArgs e)
@@ -1879,12 +2063,12 @@ namespace RD_AAOW
 		private async Task<bool> UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
-			double comparatorValue = 0.0;
+			/*double comparatorValue = 0.0;
 			try
 				{
 				comparatorValue = double.Parse (comparatorValueField.Text);
 				}
-			catch { }
+			catch { }*/
 
 			NotConfiguration cfg;
 			cfg.NotificationName = nameField.Text;
@@ -1894,7 +2078,8 @@ namespace RD_AAOW
 			cfg.UpdatingFrequency = currentFreq;
 			cfg.OccurrenceNumber = currentOcc;
 			cfg.ComparisonType = comparatorSwitch.IsToggled ? comparatorType : NotComparatorTypes.Disabled;
-			cfg.ComparisonValue = comparatorValue;
+			/*cfg.ComparisonValue = comparatorValue;*/
+			cfg.ComparisonString = comparatorValueField.Text;
 			cfg.IgnoreComparisonMisfits = ignoreMisfitsSwitch.IsToggled;
 			cfg.NotifyWhenUnavailable = notifyIfUnavailableSwitch.IsToggled;
 
@@ -1927,13 +2112,9 @@ namespace RD_AAOW
 
 			// Добавление
 			if (ItemNumber < 0)
-				{
 				ProgramDescription.NSet.Notifications.Add (ni);
-				}
 			else if (ItemNumber < ProgramDescription.NSet.Notifications.Count)
-				{
 				ProgramDescription.NSet.Notifications[ItemNumber] = ni;
-				}
 
 			// Обновление контролов
 			UpdateNotButtons ();

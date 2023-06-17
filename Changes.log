@@ -1,9 +1,10 @@
 uNot: changes log
 
-ToDo:
-- При сохранении настроек оповещений журнал не возвращается к месту прокрутки
-- Свернуть меню О программе;
-- Вернуть кнопки промотки (опционально)
+Version 6.4:
+• Implemented the “contains” comparison mode for urgent notifications; the comparator value is text now;
+• Android: fixed reset of the scroll position in the main log on doing thing at settings pages;
+• Android: re-implemented manual scroll buttons for the main log;
+• Android: upgraded the “app about” interface
 
 Version 6.3:
 • XPUN control conditions have been updated;

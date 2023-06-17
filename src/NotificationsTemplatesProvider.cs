@@ -186,11 +186,11 @@ namespace RD_AAOW
 			{
 			// Запрос списка пакетов
 #if ANDROID
-			string html = await NotificationsSupport.GetHTML (listLink);
+			string html = await RDGenerics.GetHTML (listLink);
 			if (html == "")
 				return false;
 #else
-			string html = AboutForm.GetHTML (listLink);
+			string html = RDGenerics.GetHTML (listLink);
 			if (html == "")
 				{
 				if (e != null)
