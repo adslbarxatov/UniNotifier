@@ -1,8 +1,9 @@
 uNot: changes log
 
 Version 6.4.2:
-• Added UTF32 encoding
-• The interface was adapted to Windows 10, incorrect window borders were fixed
+• Added UTF32 encoding;
+• Windows: the interface was adapted to Windows 10, incorrect window borders were fixed;
+• Windows: the comparator value now can be changed with [Up] and [Down] keys
 
 Version 6.4:
 • Implemented the “contains” comparison mode for urgent notifications; the comparator value is text now;
