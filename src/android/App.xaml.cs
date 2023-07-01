@@ -127,7 +127,8 @@ namespace RD_AAOW
 			char[] ctSplitter = new char[] { '\n' };
 			comparatorTypes = new List<string> (Localization.GetText ("ComparatorTypes").Split (ctSplitter));
 
-			// Общая конструкция страниц приложения
+			#region Общая конструкция страниц приложения
+
 			MainPage = new MasterPage ();
 
 			settingsPage = AndroidSupport.ApplyPageSettings (MainPage, "SettingsPage",
@@ -139,6 +140,8 @@ namespace RD_AAOW
 			logPage = AndroidSupport.ApplyPageSettings (MainPage, "LogPage",
 				Localization.GetText ("LogPage"), logMasterBackColor);
 			AndroidSupport.SetMainPage (MainPage);
+
+			#endregion
 
 			int tab = 0;
 			if (!NotificationsSupport.GetTipState (NSTipTypes.PolicyTip))
@@ -263,7 +266,7 @@ namespace RD_AAOW
 				" ", notSettingsFieldBackColor, ComparatorTypeChanged, true);
 
 			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue",
-				notSettingsFieldBackColor, Keyboard.Numeric, 10, "0", null, true);
+				notSettingsFieldBackColor, Keyboard.Default, 10, "0", null, true);
 			comparatorIncButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorValueIncButton",
 				ASButtonDefaultTypes.Increase, notSettingsFieldBackColor, ComparatorValueChanged);
 			comparatorDecButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorValueDecButton",
@@ -381,8 +384,11 @@ namespace RD_AAOW
 
 			scrollUpButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollUp", ASButtonDefaultTypes.Up,
 				logFieldBackColor, ScrollUpButton_Click);
+			scrollUpButton.Margin = scrollUpButton.Padding = new Thickness (0);
+
 			scrollDownButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollDown", ASButtonDefaultTypes.Down,
 				logFieldBackColor, ScrollDownButton_Click);
+			scrollDownButton.Margin = scrollDownButton.Padding = new Thickness (0);
 
 			// Режим чтения
 			AndroidSupport.ApplyLabelSettings (settingsPage, "ReadModeLabel",
@@ -448,6 +454,9 @@ namespace RD_AAOW
 		// Исправление для сброса текущей позиции журнала
 		private async void CurrentPageChanged (object sender, EventArgs e)
 			{
+			if (((CarouselPage)MainPage).Children.IndexOf (((CarouselPage)MainPage).CurrentPage) != 0)
+				return;
+
 			needsScroll = true;
 			await ScrollMainLog (newsAtTheEndSwitch.IsToggled, -1);
 			}
@@ -1507,16 +1516,15 @@ namespace RD_AAOW
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor =
 					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor = logReadModeColor;
-				NotificationsSupport.LogFontColor = scrollUpButton.TextColor =
-					scrollDownButton.TextColor = logMasterBackColor;
+				NotificationsSupport.LogFontColor = logMasterBackColor;
 				}
 			else
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor =
 					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor = logMasterBackColor;
-				NotificationsSupport.LogFontColor = scrollUpButton.TextColor =
-					scrollDownButton.TextColor = logReadModeColor;
+				NotificationsSupport.LogFontColor = logReadModeColor;
 				}
+			scrollUpButton.TextColor = scrollDownButton.TextColor = NotificationView.CurrentAntiBackColor;
 
 			// Принудительное обновление (только не при старте)
 			if (e != null)
@@ -1586,7 +1594,7 @@ namespace RD_AAOW
 				return;
 
 			NotificationsSupport.SpecialFunctionNumber = (uint)res;
-			NotificationsSupport.SpecialFunctionName = /*centerButtonFunction.Text =*/ specialOptions[res];
+			NotificationsSupport.SpecialFunctionName = centerButtonFunction.Text = specialOptions[res];
 			UpdateLogButton (false, false);
 
 			if (res > 1)
@@ -1933,7 +1941,8 @@ namespace RD_AAOW
 					ComparatorTypeChanged (null, null);
 					}
 
-				comparatorValueField.Text = ProgramDescription.NSet.Notifications[res].ComparisonValue.ToString ();
+				/*comparatorValueField.Text = ProgramDescription.NSet.Notifications[res].ComparisonValue.ToString ();*/
+				comparatorValueField.Text = ProgramDescription.NSet.Notifications[res].ComparisonString;
 				ignoreMisfitsSwitch.IsToggled = ProgramDescription.NSet.Notifications[res].IgnoreComparisonMisfits;
 				}
 

@@ -13,16 +13,16 @@
 			<Grid.RowDefinitions>
 				<RowDefinition />
 			</Grid.RowDefinitions>
-			
+
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="80" />
+				<ColumnDefinition Width="70" />
 				<ColumnDefinition />
-				<ColumnDefinition Width="80" />
+				<ColumnDefinition Width="70" />
 			</Grid.ColumnDefinitions>
 
-			<Button x:Name="ScrollUp" VerticalOptions="Center" HorizontalOptions="Center" />
-			<Button x:Name="CenterButton" VerticalOptions="Center" HorizontalOptions="Center" />
-			<Button x:Name="ScrollDown" VerticalOptions="Center" HorizontalOptions="Center" />
+			<Button x:Name="ScrollUp" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="0" />
+			<Button x:Name="CenterButton" VerticalOptions="Center" HorizontalOptions="Fill" Grid.Column="1" />
+			<Button x:Name="ScrollDown" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="2" />
 		</Grid>
 
 	</StackLayout>

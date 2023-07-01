@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace RD_AAOW
@@ -297,7 +296,8 @@ namespace RD_AAOW
 					string settings = notifications.GetSettingsList ();
 					try
 						{
-						File.WriteAllBytes (sfd.FileName, Encoding.Unicode.GetBytes (settings));
+						File.WriteAllBytes (sfd.FileName,
+							RDGenerics.GetEncoding (SupportedEncodings.Unicode16).GetBytes (settings));
 						}
 					catch
 						{
@@ -348,7 +348,8 @@ namespace RD_AAOW
 				string settings;
 				try
 					{
-					settings = File.ReadAllText (ofd.FileName, Encoding.Unicode);
+					settings = File.ReadAllText (ofd.FileName,
+						RDGenerics.GetEncoding (SupportedEncodings.Unicode16));
 					}
 				catch
 					{
@@ -395,6 +396,31 @@ namespace RD_AAOW
 				ProgramDescription.ShowTips (ProgramDescription.TipTypes.Threshold);
 
 			ComparatorType.Enabled = ComparatorValue.Enabled = MisfitsFlag.Enabled = ComparatorFlag.Checked;
+			}
+
+		// Изменение значения компаратора
+		private void ComparatorValue_KeyDown (object sender, KeyEventArgs e)
+			{
+			switch (e.KeyCode)
+				{
+				case Keys.Up:
+				case Keys.Down:
+					double v = 0.0;
+					try
+						{
+						v = double.Parse (ComparatorValue.Text.Replace (',', '.'),
+							Localization.GetCulture (SupportedLanguages.en_us));
+						}
+					catch { }
+
+					if (e.KeyCode == Keys.Up)
+						v += 1.0;
+					else
+						v -= 1.0;
+
+					ComparatorValue.Text = v.ToString (Localization.GetCulture (SupportedLanguages.en_us));
+					break;
+				}
 			}
 
 		// Изменение состояния «включено»

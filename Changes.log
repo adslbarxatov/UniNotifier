@@ -1,5 +1,9 @@
 uNot: changes log
 
+Version 6.4.2:
+• Added UTF32 encoding
+• The interface was adapted to Windows 10, incorrect window borders were fixed
+
 Version 6.4:
 • Implemented the “contains” comparison mode for urgent notifications; the comparator value is text now;
 • Android: fixed reset of the scroll position in the main log on doing thing at settings pages;

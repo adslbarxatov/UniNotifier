@@ -16,7 +16,7 @@ namespace RD_AAOW
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
-		private CultureInfo ci;
+		/*private CultureInfo ci;*/
 		private bool callWindowOnUrgents = false;
 		private int notForIndication = -1;
 		private bool indicatorHasBeenUsed = false;
@@ -64,7 +64,7 @@ namespace RD_AAOW
 			MainText.Font = new Font ("Calibri", 13);
 
 			ReloadNotificationsList ();
-			ResetCulture ();
+			/*ResetCulture ();*/
 #if TGB
 			GetGMJ.Visible = Localization.IsCurrentLanguageRuRu;
 #else
@@ -112,6 +112,7 @@ namespace RD_AAOW
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
 			{
 			// Скрытие окна настроек
+			UniNotifierForm_Resize (null, null);
 			this.Hide ();
 
 			// Запуск
@@ -138,6 +139,7 @@ namespace RD_AAOW
 				}
 			}
 
+		/*
 		// Установка текущей культуры представления даты
 		private void ResetCulture ()
 			{
@@ -153,6 +155,7 @@ namespace RD_AAOW
 				ci = CultureInfo.InstalledUICulture;
 				}
 			}
+		*/
 
 		// Завершение работы службы
 		private void CloseService (object sender, EventArgs e)
@@ -265,6 +268,7 @@ namespace RD_AAOW
 				if (DateTime.Today > ProgramDescription.LastNotStamp)
 					{
 					ProgramDescription.LastNotStamp = DateTime.Today;
+					CultureInfo ci = Localization.GetCulture (Localization.CurrentLanguage);
 					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
 						" ---\r\n\r\n");
 					}
@@ -430,7 +434,7 @@ namespace RD_AAOW
 				}
 #endif
 
-			ResetCulture ();
+			/*ResetCulture ();*/
 
 			ni.ContextMenu.MenuItems[0].Text = Localization.GetText ("MainMenuOption02");
 			ni.ContextMenu.MenuItems[1].Text =
@@ -491,12 +495,11 @@ namespace RD_AAOW
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
 			{
-			MainText.Width = this.Width - 30;
-			MainText.Height = this.Height - 80;
+			MainText.Width = this.Width - 40;
+			MainText.Height = this.Height - 90;
 
-			BClose.Top = BGo.Top = RunIndicator.Top = ReadMode.Top = GetGMJ.Top = this.Height - 60;
+			BClose.Top = BGo.Top = RunIndicator.Top = ReadMode.Top = GetGMJ.Top = this.Height - 73;
 			NamesCombo.Top = BClose.Top + 2;
-
 			FontSizeField.Top = BGo.Top + 3;
 			}
 

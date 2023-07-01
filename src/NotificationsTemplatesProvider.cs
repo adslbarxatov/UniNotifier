@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RD_AAOW
@@ -44,7 +43,7 @@ namespace RD_AAOW
 			if (FullyInitializeTemplates)
 				TemplatesListLoader ();
 #endif
-			string buf = Encoding.UTF8.GetString (s);
+			string buf = RDGenerics.GetEncoding (SupportedEncodings.UTF8).GetString (s);
 
 			// Получение загруженных шаблонов
 			string buf2 = RDGenerics.GetAppSettingsValue (externalTemplatesSubkey);
