@@ -1,5 +1,8 @@
 uNot: changes log
 
+ToDo:
+- Подгрузка фрагментов для длинных постов GMJ
+
 Version 6.4.2:
 • Added UTF32 encoding;
 • Windows: the interface was adapted to Windows 10, incorrect window borders were fixed;
