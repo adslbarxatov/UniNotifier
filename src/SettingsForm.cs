@@ -128,7 +128,6 @@ namespace RD_AAOW
 			OccurrenceField.Value = notifications.Notifications[i].OccurrenceNumber;
 
 			ComparatorFlag.Checked = (notifications.Notifications[i].ComparisonType != NotComparatorTypes.Disabled);
-			/*ComparatorValue.Value = (decimal)notifications.Notifications[i].ComparisonValue;*/
 			ComparatorValue.Text = notifications.Notifications[i].ComparisonString;
 			MisfitsFlag.Checked = notifications.Notifications[i].IgnoreComparisonMisfits;
 			CheckAvailability.Checked = notifications.Notifications[i].NotifyIfSourceIsUnavailable;
@@ -167,7 +166,6 @@ namespace RD_AAOW
 			cfg.OccurrenceNumber = (uint)OccurrenceField.Value;
 			cfg.ComparisonType = ComparatorFlag.Checked ? (NotComparatorTypes)ComparatorType.SelectedIndex :
 				NotComparatorTypes.Disabled;
-			/*cfg.ComparisonValue = (double)ComparatorValue.Value;*/
 			cfg.ComparisonString = ComparatorValue.Text;
 			cfg.IgnoreComparisonMisfits = MisfitsFlag.Checked;
 			cfg.NotifyWhenUnavailable = CheckAvailability.Checked;
@@ -380,7 +378,6 @@ namespace RD_AAOW
 
 			// Пока не будем использовать
 			ComparatorFlag.Checked = false;
-			/*ComparatorValue.Value = 0;*/
 			ComparatorValue.Text = "";
 			MisfitsFlag.Checked = false;
 			CheckAvailability.Checked = false;

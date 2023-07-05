@@ -1,7 +1,8 @@
 uNot: changes log
 
-ToDo:
-- Подгрузка фрагментов для длинных постов GMJ
+Version 6.4.3:
+• Adjusted the template of startup notifications;
+• GMJ: long texts are not partially available in the interface
 
 Version 6.4.2:
 • Added UTF32 encoding;

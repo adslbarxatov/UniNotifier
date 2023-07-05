@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -16,7 +15,6 @@ namespace RD_AAOW
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
-		/*private CultureInfo ci;*/
 		private bool callWindowOnUrgents = false;
 		private int notForIndication = -1;
 		private bool indicatorHasBeenUsed = false;
@@ -64,7 +62,7 @@ namespace RD_AAOW
 			MainText.Font = new Font ("Calibri", 13);
 
 			ReloadNotificationsList ();
-			/*ResetCulture ();*/
+
 #if TGB
 			GetGMJ.Visible = Localization.IsCurrentLanguageRuRu;
 #else
@@ -138,24 +136,6 @@ namespace RD_AAOW
 				NamesCombo.Enabled = BGo.Enabled = RunIndicator.Enabled = false;
 				}
 			}
-
-		/*
-		// Установка текущей культуры представления даты
-		private void ResetCulture ()
-			{
-			try
-				{
-				if (Localization.IsCurrentLanguageRuRu)
-					ci = new CultureInfo ("ru-ru");
-				else
-					ci = new CultureInfo ("en-us");
-				}
-			catch
-				{
-				ci = CultureInfo.InstalledUICulture;
-				}
-			}
-		*/
 
 		// Завершение работы службы
 		private void CloseService (object sender, EventArgs e)
@@ -268,7 +248,7 @@ namespace RD_AAOW
 				if (DateTime.Today > ProgramDescription.LastNotStamp)
 					{
 					ProgramDescription.LastNotStamp = DateTime.Today;
-					CultureInfo ci = Localization.GetCulture (Localization.CurrentLanguage);
+					System.Globalization.CultureInfo ci = Localization.GetCulture (Localization.CurrentLanguage);
 					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
 						" ---\r\n\r\n");
 					}
@@ -433,8 +413,6 @@ namespace RD_AAOW
 				indicatorHasBeenUsed = false;
 				}
 #endif
-
-			/*ResetCulture ();*/
 
 			ni.ContextMenu.MenuItems[0].Text = Localization.GetText ("MainMenuOption02");
 			ni.ContextMenu.MenuItems[1].Text =

@@ -54,7 +54,6 @@ namespace RD_AAOW
 		private List<string> wizardMenuItems = new List<string> ();
 		private List<string> specialOptions = new List<string> ();
 		private List<string> templatesMenuItems = new List<string> ();
-		/*private List<string> communities = new List<string> ();*/
 		private List<string> languages = new List<string> ();
 		private List<string> referenceItems = new List<string> ();
 		private List<string> helpItems = new List<string> ();
@@ -305,13 +304,6 @@ namespace RD_AAOW
 			aboutLabel = AndroidSupport.ApplyLabelSettings (aboutPage, "AboutLabel",
 				RDGenerics.AppAboutLabelText, ASLabelTypes.AppAbout);
 
-			/*AndroidSupport.ApplyLabelSettings (aboutPage, "ManualsLabel",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_ReferenceMaterials),
-				ASLabelTypes.HeaderLeft);
-			AndroidSupport.ApplyLabelSettings (aboutPage, "HelpLabel",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_HelpSupport),
-				ASLabelTypes.HeaderLeft);*/
-
 			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualsButton",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_ReferenceMaterials),
 				aboutFieldBackColor, ReferenceButton_Click, false);
@@ -321,22 +313,6 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettings (aboutPage, "GenericSettingsLabel",
 				Localization.GetDefaultText (LzDefaultTextValues.Control_GenericSettings),
 				ASLabelTypes.HeaderLeft);
-
-			/*AndroidSupport.ApplyButtonSettings (aboutPage, "AppPage",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_ProjectWebpage),
-				aboutFieldBackColor, AppButton_Clicked, false);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualPage",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_UserManual),
-				aboutFieldBackColor, ManualButton_Clicked, false);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "ADPPage",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_PolicyEULA),
-				aboutFieldBackColor, ADPButton_Clicked, false);
-
-			AndroidSupport.ApplyButtonSettings (aboutPage, "DevPage",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_AskDeveloper),
-				aboutFieldBackColor, DevButton_Clicked, false);
-			AndroidSupport.ApplyButtonSettings (aboutPage, "CommunityPage", RDGenerics.AssemblyCompany,
-				aboutFieldBackColor, CommunityButton_Clicked, false);*/
 
 			UpdateNotButtons ();
 
@@ -503,9 +479,7 @@ namespace RD_AAOW
 		private async void ShowStartupTips (bool Huawei)
 			{
 			// Контроль XPUN
-			while (!Huawei && !Localization.IsXPUNClassAcceptable)
-				await AndroidSupport.ShowMessage (Localization.GetDefaultText (LzDefaultTextValues.Message_XPUNE),
-					"   ");
+			await AndroidSupport.XPUNLoop (Huawei);
 
 			// Требование принятия Политики
 			if (!NotificationsSupport.GetTipState (NSTipTypes.PolicyTip))
@@ -515,7 +489,6 @@ namespace RD_AAOW
 					Localization.GetDefaultText (LzDefaultTextValues.Button_Accept),
 					Localization.GetDefaultText (LzDefaultTextValues.Button_Read)))
 					{
-					/*ADPButton_Clicked (null, null);*/
 					await CallHelpMaterials (2);
 					}
 
@@ -740,15 +713,6 @@ namespace RD_AAOW
 			else
 				{
 				centerButton.Text = "   ";
-				/*if (dark)
-					centerButton.TextColor = logMasterBackColor;
-				else
-					centerButton.TextColor = logReadModeColor;
-
-				if (newsAtTheEndSwitch.IsToggled)
-					centerButton.Text = "▼▼▼";
-				else
-					centerButton.Text = "▲▲▲";*/
 				}
 			}
 
@@ -1023,13 +987,6 @@ namespace RD_AAOW
 				{
 				// Без действия
 				case 0:
-					/*if (masterLog.Count < 1)
-						return;
-
-					if (newsAtTheEndSwitch.IsToggled)
-						mainLog.ScrollTo (masterLog[masterLog.Count - 1], ScrollToPosition.MakeVisible, false);
-					else
-						mainLog.ScrollTo (masterLog[0], ScrollToPosition.MakeVisible, false);*/
 					break;
 
 				// Опрос всех новостей
@@ -1412,7 +1369,6 @@ namespace RD_AAOW
 				cfg.WatchAreaEndingSign = delim[1];
 				cfg.UpdatingFrequency = 1;
 				cfg.ComparisonType = NotComparatorTypes.Disabled;
-				/*cfg.ComparisonValue = 0.0;*/
 				cfg.ComparisonString = "";
 				cfg.IgnoreComparisonMisfits = cfg.NotifyWhenUnavailable = false;
 
@@ -1778,104 +1734,6 @@ namespace RD_AAOW
 			return true;
 			}
 
-		/*
-		// Страница проекта
-		private async void AppButton_Clicked (object sender, EventArgs e)
-			{
-			try
-				{
-				await Launcher.OpenAsync (RDGenerics.DefaultGitLink + ProgramDescription.AssemblyMainName);
-				}
-			catch
-				{
-				Toast.MakeText (Android.App.Application.Context,
-					Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-					ToastLength.Long).Show ();
-				}
-			}
-
-		// Страница видеоруководства
-		private async void ManualButton_Clicked (object sender, EventArgs e)
-			{
-			try
-				{
-				await Launcher.OpenAsync (ProgramDescription.AssemblyVideoLink);
-				}
-			catch
-				{
-				Toast.MakeText (Android.App.Application.Context,
-					Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-					ToastLength.Long).Show ();
-				}
-			}
-
-		// Страница политики и EULA
-		private async void ADPButton_Clicked (object sender, EventArgs e)
-			{
-			try
-				{
-				await Launcher.OpenAsync (RDGenerics.ADPLink);
-				}
-			catch
-				{
-				Toast.MakeText (Android.App.Application.Context,
-					Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-					ToastLength.Long).Show ();
-				}
-			}
-		*/
-
-		/*
-		// Страница лаборатории
-		private async void CommunityButton_Clicked (object sender, EventArgs e)
-			{
-			if (communities.Count < 1)
-				communities = new List<string> (RDGenerics.CommunitiesNames);
-
-			int res = await AndroidSupport.ShowList (
-				Localization.GetDefaultText (LzDefaultTextValues.Message_CommunitySelection),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), communities);
-			if (res < 0)
-				return;
-
-			string link = RDGenerics.GetCommunityLink ((uint)res);
-			if (string.IsNullOrWhiteSpace (link))
-				return;
-
-			try
-				{
-				await Launcher.OpenAsync (link);
-				}
-			catch
-				{
-				Toast.MakeText (Android.App.Application.Context,
-					Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-					ToastLength.Long).Show ();
-				}
-			}
-
-		// Страница политики и EULA
-		private async void DevButton_Clicked (object sender, EventArgs e)
-			{
-			try
-				{
-				EmailMessage message = new EmailMessage
-					{
-					Subject = RDGenerics.LabMailCaption,
-					Body = "",
-					To = new List<string> () { RDGenerics.LabMailLink }
-					};
-				await Email.ComposeAsync (message);
-				}
-			catch
-				{
-				Toast.MakeText (Android.App.Application.Context,
-					Localization.GetDefaultText (LzDefaultTextValues.Message_EMailsNotAvailable),
-					ToastLength.Long).Show ();
-				}
-			}
-		*/
-
 		// Изменение размера шрифта интерфейса
 		private void FontSizeButton_Clicked (object sender, EventArgs e)
 			{
@@ -1941,7 +1799,6 @@ namespace RD_AAOW
 					ComparatorTypeChanged (null, null);
 					}
 
-				/*comparatorValueField.Text = ProgramDescription.NSet.Notifications[res].ComparisonValue.ToString ();*/
 				comparatorValueField.Text = ProgramDescription.NSet.Notifications[res].ComparisonString;
 				ignoreMisfitsSwitch.IsToggled = ProgramDescription.NSet.Notifications[res].IgnoreComparisonMisfits;
 				}
@@ -2072,13 +1929,6 @@ namespace RD_AAOW
 		private async Task<bool> UpdateItem (int ItemNumber)
 			{
 			// Инициализация оповещения
-			/*double comparatorValue = 0.0;
-			try
-				{
-				comparatorValue = double.Parse (comparatorValueField.Text);
-				}
-			catch { }*/
-
 			NotConfiguration cfg;
 			cfg.NotificationName = nameField.Text;
 			cfg.SourceLink = linkField;
@@ -2087,7 +1937,6 @@ namespace RD_AAOW
 			cfg.UpdatingFrequency = currentFreq;
 			cfg.OccurrenceNumber = currentOcc;
 			cfg.ComparisonType = comparatorSwitch.IsToggled ? comparatorType : NotComparatorTypes.Disabled;
-			/*cfg.ComparisonValue = comparatorValue;*/
 			cfg.ComparisonString = comparatorValueField.Text;
 			cfg.IgnoreComparisonMisfits = ignoreMisfitsSwitch.IsToggled;
 			cfg.NotifyWhenUnavailable = notifyIfUnavailableSwitch.IsToggled;
