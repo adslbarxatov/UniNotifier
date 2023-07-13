@@ -423,7 +423,7 @@ namespace RD_AAOW
 				ni.ContextMenu.MenuItems[3].Text = Localization.GetText ("MainMenuOption05");
 
 			// Перезапуск
-			bool complete = (RDGenerics.LocalizedMessageBox (RDMessageTypes.Question, "RecallAllNews",
+			bool complete = (RDGenerics.LocalizedMessageBox (RDMessageTypes.Question_Center, "RecallAllNews",
 				LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) ==
 				RDMessageButtons.ButtonOne);
 

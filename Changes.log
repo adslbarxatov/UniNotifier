@@ -1,5 +1,8 @@
 uNot: changes log
 
+Version 6.4.4:
+• Updated the interface of message boxes
+
 Version 6.4.3:
 • Adjusted the templates of startup notifications;
 • GMJ: long texts are now partially available in the interface

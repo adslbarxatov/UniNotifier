@@ -121,10 +121,10 @@
     <value>Remember to replace items enclosed in curly braces with what you want</value>
   </data>
   <data name="DeleteLineNotSpecified" xml:space="preserve">
-    <value>Notification for deleting not selected</value>
+    <value>Notification for deleting is not selected</value>
   </data>
   <data name="DeleteMessage" xml:space="preserve">
-    <value>Delete selected notification?</value>
+    <value>Delete the selected notification?</value>
   </data>
   <data name="HelpText" xml:space="preserve">
     <value>This app provides the ability to be notified when the status of user-specified websites changes. In other words, about their updates, which will be presented in the form of a text log. Only what the user has specified is loaded – all other objects (including ads) are ignored.
@@ -181,7 +181,7 @@
     <value>Template:</value>
   </data>
   <data name="UpdateLineNotSpecified" xml:space="preserve">
-    <value>Notification for updating not selected</value>
+    <value>Notification for updating is not selected</value>
   </data>
   <data name="UpdateMessage" xml:space="preserve">
     <value>Update selected notification?</value>

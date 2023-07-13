@@ -174,7 +174,7 @@ namespace RD_AAOW
 
 			if (!ni.IsInited)
 				{
-				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "NotEnoughDataMessage");
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "NotEnoughDataMessage");
 				return;
 				}
 
@@ -185,7 +185,7 @@ namespace RD_AAOW
 			int idx = notifications.Notifications.IndexOf (ni);
 			if ((idx >= 0) && (idx != ItemNumber))
 				{
-				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "NotMatchingNames");
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "NotMatchingNames");
 				return;
 				}
 
@@ -204,7 +204,7 @@ namespace RD_AAOW
 				}
 			else
 				{
-				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "UpdateLineNotSpecified");
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "UpdateLineNotSpecified");
 				return;
 				}
 
@@ -220,11 +220,11 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.DeleteButton);
 			if (NotificationsList.SelectedIndex < 0)
 				{
-				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "DeleteLineNotSpecified");
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "DeleteLineNotSpecified");
 				return;
 				}
 
-			if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "DeleteMessage",
+			if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "DeleteMessage",
 				LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) ==
 				RDMessageButtons.ButtonTwo)
 				return;
@@ -279,7 +279,7 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ShareSettings);
 
 			// Выбор варианта выгрузки
-			switch (RDGenerics.MessageBox (RDMessageTypes.Question, Localization.GetText ("ShareVariant"),
+			switch (RDGenerics.MessageBox (RDMessageTypes.Question_Left, Localization.GetText ("ShareVariant"),
 				Localization.GetText ("ShareFile"), Localization.GetText ("ShareClipboard"),
 				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel)))
 				{
@@ -299,7 +299,7 @@ namespace RD_AAOW
 						}
 					catch
 						{
-						RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "ShareFailure");
+						RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "ShareFailure");
 						}
 					break;
 
@@ -338,7 +338,7 @@ namespace RD_AAOW
 				if (ofd.ShowDialog () != DialogResult.OK)
 					return;
 
-				if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingWarning",
+				if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "LoadingWarning",
 					LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) !=
 					RDMessageButtons.ButtonOne)
 					return;
@@ -351,7 +351,7 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning, "LoadingFailure");
+					RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "LoadingFailure");
 					return;
 					}
 				notifications.SetSettingsList (settings);
