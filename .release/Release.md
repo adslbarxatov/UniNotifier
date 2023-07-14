@@ -1,4 +1,5 @@
-_Changes for v 6.4.4_:
+_Changes for v 6.4.5_:
+- Rewritten settings operator: it should fix problems with requiring administrator rights;
 - Updated the interface of message boxes;
 - Adjusted the template of startup notifications;
 - `GMJ`: long texts are not partially available in the interface;

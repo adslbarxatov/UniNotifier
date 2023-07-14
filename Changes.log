@@ -1,5 +1,8 @@
 uNot: changes log
 
+Version 6.4.5:
+• Rewritten settings operator: it should fix problems with requiring administrator rights
+
 Version 6.4.4:
 • Updated the interface of message boxes
 
