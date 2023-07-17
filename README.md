@@ -9,7 +9,7 @@ A detailed description of the app is now available on [its own page](https://ads
 ---
 
 uNot (UniNotifier) – служба наблюдения за состоянием веб-ресурсов.
-Подробное описание приложения теперь доступно на [отдельной странице](https://adslbarxatov.github.io/UniNotifier)
+Подробное описание приложения теперь доступно на [отдельной странице](https://adslbarxatov.github.io/UniNotifier/ru)
 
 &nbsp;
 
