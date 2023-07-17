@@ -1,16 +1,19 @@
 # Проект GMJ: общие сведения
-> **ƒ** &nbsp;RD AAOW FDL; 27.04.2023; 0:50
+> **ƒ** &nbsp;RD AAOW FDL; 17.07.2023; 16:04
 
----
+&nbsp;
+
+
 
 ### Содержание страницы:
 
 - [Описание проекта](#section-1)
 - [Концепция сообщества](#section-2)
 - [Начало работы](#section-3)
+- [Домашняя страница](https://adslbarxatov.github.io/UniNotifier/ru)
 - [Ссылки для загрузки](https://adslbarxatov.github.io/DPArray/ru#unot-uninotifier)
 
----
+&nbsp;
 
 
 
