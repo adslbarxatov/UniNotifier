@@ -301,12 +301,6 @@ It is also possible to display a notification only if this condition is met</val
 • Click “To file” to save all settings to the file;
 • Click “To clipboard” to send settings of the current notification to the clipboard</value>
   </data>
-  <data name="ShareFailure" xml:space="preserve">
-    <value>Failed to create notifications settings file. Try choosing a different location</value>
-  </data>
-  <data name="LoadingFailure" xml:space="preserve">
-    <value>Failed to load notifications settings file: it’s damaged or unsupported</value>
-  </data>
   <data name="LoadingWarning" xml:space="preserve">
     <value>WARNING: this option will overwrite all existing settings. Continue?</value>
   </data>

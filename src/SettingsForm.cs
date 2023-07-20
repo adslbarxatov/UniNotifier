@@ -299,7 +299,9 @@ namespace RD_AAOW
 						}
 					catch
 						{
-						RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "ShareFailure");
+						RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, /*ShareFailure"*/
+							Localization.GetFileProcessingMessage (sfd.FileName,
+							LzFileProcessingMessageTypes.Save_Failure));
 						}
 					break;
 
@@ -351,7 +353,9 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "LoadingFailure");
+					RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, /*LoadingFailure"*/
+						Localization.GetFileProcessingMessage (ofd.FileName,
+						LzFileProcessingMessageTypes.Load_Failure));
 					return;
 					}
 				notifications.SetSettingsList (settings);

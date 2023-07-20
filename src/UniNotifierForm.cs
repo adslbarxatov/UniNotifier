@@ -35,8 +35,8 @@ namespace RD_AAOW
 
 		private NotificationsSet ns = new NotificationsSet (true);
 
-		private string startupLink = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup) + "\\" +
-			ProgramDescription.AssemblyMainName + ".lnk";
+		/*private string startupLink = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup) + "\\" +
+			ProgramDescription.AssemblyMainName + ".lnk";*/
 
 		private List<string> texts = new List<string> ();
 		private List<int> notNumbers = new List<int> ();
@@ -60,14 +60,16 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 			MainText.Font = new Font ("Calibri", 13);
+			if (!RDGenerics.IsRegistryAccessible)
+				this.Text += Localization.GetDefaultText (LzDefaultTextValues.Message_LimitedFunctionality);
 
 			ReloadNotificationsList ();
 
-#if TGB
+			/*#if TGB*/
 			GetGMJ.Visible = Localization.IsCurrentLanguageRuRu;
-#else
-			GetGMJ.Visible = false;
-#endif
+			/*#else
+						GetGMJ.Visible = false;
+			#endif*/
 
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
@@ -94,6 +96,8 @@ namespace RD_AAOW
 			ni.ContextMenu = new ContextMenu ();
 
 			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption02"), ShowSettings));
+			ni.ContextMenu.MenuItems[0].Enabled = RDGenerics.IsRegistryAccessible;
+
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
 				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout), AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
@@ -102,7 +106,7 @@ namespace RD_AAOW
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
 
-			if (!File.Exists (startupLink))
+			if (!File.Exists (/*startupLink*/RDGenerics.AutorunLinkPath))
 				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05"),
 					AddToStartup));
 			}
@@ -186,10 +190,12 @@ namespace RD_AAOW
 		private void AddToStartup (object sender, EventArgs e)
 			{
 			// Попытка создания
-			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath, ProgramDescription.AssemblyMainName, "");
+			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath,
+				ProgramDescription.AssemblyMainName, "");
 
 			// Контроль
-			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled = !File.Exists (startupLink);
+			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled =
+				!File.Exists (/*startupLink*/ RDGenerics.AutorunLinkPath);
 			}
 
 #if TG
@@ -490,16 +496,20 @@ namespace RD_AAOW
 		// Запрос сообщения от GMJ
 		private void GetGMJ_Click (object sender, EventArgs e)
 			{
-#if TGB
+			/*#if TGB*/
 			GetGMJ.Enabled = false;
 			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
 				texts.Add (s);
 			else
-				texts.Add ("Новый список сформирован"); //("GMJ не вернула сообщение. Проверьте интернет-соединение");
-			notNumbers.Add (0);
+#if TGB
+				texts.Add ("Новый список сформирован");
+#else
+				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
 #endif
+			notNumbers.Add (0);
+			/*#endif*/
 			}
 
 		// Изменение размера шрифта

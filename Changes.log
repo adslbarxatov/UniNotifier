@@ -1,10 +1,18 @@
 uNot: changes log
 
+Version 6.5:
+• Windows: implemented the access rights checker: it will test the availability of the Windows registry
+  and the application placement for writing and notify user about possible problems;
+• Updated the storage method of text tips;
+• Windows: GMJ снова доступна, начиная с этой версии программы;
+• GMJ: встроен полноценный файл-фильтр удалённых (отсутствующих) записей: теперь на их запросы
+  время тратиться не будет на протяжении всего цикла жизни приложения
+
 Version 6.4.5:
-• Rewritten settings operator: it should fix problems with requiring administrator rights
+• Windows: rewritten the settings operator: it should fix problems with requiring administrator rights
 
 Version 6.4.4:
-• Updated the interface of message boxes
+• Windows: updated the interface of message boxes
 
 Version 6.4.3:
 • Adjusted the templates of startup notifications;
