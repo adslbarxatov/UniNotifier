@@ -1,5 +1,8 @@
 uNot: changes log
 
+ToDo:
+- Controllable placement of the settings window
+
 Version 6.5:
 • Windows: implemented the access rights checker: it will test the availability of the Windows registry
   and the application placement for writing and notify user about possible problems;
