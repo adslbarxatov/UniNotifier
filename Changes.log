@@ -1,7 +1,9 @@
 uNot: changes log
 
-ToDo:
-- Controllable placement of the settings window
+Version 6.5.5:
+• Windows: the placement of the settings window is now saveable;
+• Windows: the comparator value now can be changed using mouse wheel;
+• GMJ: the skip list has been updated; maintenance options have been removed
 
 Version 6.5:
 • Windows: implemented the access rights checker: it will test the availability of the Windows registry

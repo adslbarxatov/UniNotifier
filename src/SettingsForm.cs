@@ -32,6 +32,8 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 
+			RDGenerics.LoadWindowDimensions (this);
+
 			ofd = new OpenFileDialog ();
 			sfd = new SaveFileDialog ();
 			ofd.Filter = sfd.Filter = Localization.GetText (NotificationsSet.SettingsFileExtension + "file") + "|" +
@@ -62,6 +64,8 @@ namespace RD_AAOW
 			OccurrenceField.Maximum = Notification.MaxOccurrenceNumber;
 
 			NameText.MaxLength = BeginningText.MaxLength = EndingText.MaxLength = Notification.MaxBeginningEndingLength;
+
+			ComparatorValue.MouseWheel += ComparatorValue_MouseWheel;
 
 			// Загрузка оповещений в список
 			UpdateButtons ();
@@ -99,13 +103,19 @@ namespace RD_AAOW
 		// Закрытие окна просмотра
 		private void BClose_Click (object sender, EventArgs e)
 			{
-			// Сохранение оповещений
+			this.Close ();
+			}
+
+		private void SettingsForm_FormClosing (object sender, FormClosingEventArgs e)
+			{
+			// Сохранение настроек
 			notifications.SaveNotifications ();
 			callWindowOnUrgents = WindowCallFlag.Checked;
 
+			RDGenerics.SaveWindowDimensions (this);
+
 			// Закрытие окна
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ServiceLaunchTip);
-			this.Close ();
 			}
 
 		// Загрузка значений в поля
@@ -406,22 +416,35 @@ namespace RD_AAOW
 				{
 				case Keys.Up:
 				case Keys.Down:
-					double v = 0.0;
-					try
-						{
-						v = double.Parse (ComparatorValue.Text.Replace (',', '.'),
-							Localization.GetCulture (SupportedLanguages.en_us));
-						}
-					catch { }
-
-					if (e.KeyCode == Keys.Up)
-						v += 1.0;
-					else
-						v -= 1.0;
-
-					ComparatorValue.Text = v.ToString (Localization.GetCulture (SupportedLanguages.en_us));
+					UpdateComparatorValue (e.KeyCode == Keys.Up);
 					break;
 				}
+			}
+
+		private void ComparatorValue_MouseWheel (object sender, MouseEventArgs e)
+			{
+			if (e.Delta > 0)
+				UpdateComparatorValue (true);
+			else if (e.Delta < 0)
+				UpdateComparatorValue (false);
+			}
+
+		private void UpdateComparatorValue (bool Increase)
+			{
+			double v = 0.0;
+			try
+				{
+				v = double.Parse (ComparatorValue.Text.Replace (',', '.'),
+					Localization.GetCulture (SupportedLanguages.en_us));
+				}
+			catch { }
+
+			if (Increase)
+				v += 1.0;
+			else
+				v -= 1.0;
+
+			ComparatorValue.Text = v.ToString (Localization.GetCulture (SupportedLanguages.en_us));
 			}
 
 		// Изменение состояния «включено»
