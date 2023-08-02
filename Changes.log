@@ -1,5 +1,10 @@
 uNot: changes log
 
+Version 6.6:
+• Android: Xamarin support libraries have been upgraded to AndroidX architecture;
+• Updated the settings file format: now it fully corresponds Unicode requirements;
+• Cumulative updates applied
+
 Version 6.5.5:
 • Windows: the placement of the settings window is now saveable;
 • Windows: the comparator value now can be changed using mouse wheel;

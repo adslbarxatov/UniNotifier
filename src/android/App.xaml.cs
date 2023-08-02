@@ -1,5 +1,4 @@
-﻿using Android.Widget;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,7 +85,7 @@ namespace RD_AAOW
 
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel,
-			aboutFontSizeField, maintenance_GMJStatus;
+			aboutFontSizeField/*, maintenance_GMJStatus*/;
 
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, nightModeSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
@@ -96,7 +95,7 @@ namespace RD_AAOW
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton,
 			notWizardButton, comparatorTypeButton, comparatorIncButton,
 			comparatorLongButton, comparatorDecButton, centerButtonFunction, linkFieldButton,
-			centerButton, languageButton, maintenance_ResetFreeSet, maintenance_GetRemovedSet,
+			centerButton, languageButton/*, maintenance_ResetFreeSet, maintenance_GetRemovedSet*/,
 			scrollUpButton, scrollDownButton;
 
 		private Editor nameField, comparatorValueField;
@@ -404,7 +403,7 @@ namespace RD_AAOW
 				Localization.GetText ("SaveQuietSound"), settingsFieldBackColor,
 				SaveQuietSound_Clicked, false);
 
-			// Maintenance section
+			/* Maintenance section
 			maintenance_GMJStatus = AndroidSupport.ApplyLabelSettings (settingsPage, "Maintenance_GMJStatus",
 				"(выполните запрос к службе GMJ для обновления статуса)", ASLabelTypes.DefaultCenter);
 			maintenance_ResetFreeSet = AndroidSupport.ApplyButtonSettings (settingsPage, "Maintenance_ResetFreeSet",
@@ -416,7 +415,7 @@ namespace RD_AAOW
 
 			maintenance_GMJStatus.IsVisible = maintenance_ResetFreeSet.IsVisible =
 				maintenance_GetRemovedSet.IsVisible =
-				!string.IsNullOrWhiteSpace (RDGenerics.GetAppSettingsValue ("MaintenanceMode"));
+				!string.IsNullOrWhiteSpace (RDGenerics.GetAppSettingsValue ("MaintenanceMode"));*/
 
 			#endregion
 
@@ -616,8 +615,9 @@ namespace RD_AAOW
 
 			// Блокировка
 			SetLogState (false);
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestAllStarted"),
-				ToastLength.Long).Show ();
+			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestAllStarted"),
+				ToastLength.Long).Show ();*/
+			AndroidSupport.ShowBalloon (Localization.GetText ("RequestAllStarted"), true);
 
 			// Запрос
 			AndroidSupport.StopRequested = false;       // Разблокировка метода GetHTML
@@ -638,8 +638,9 @@ namespace RD_AAOW
 
 			// Разблокировка
 			SetLogState (true);
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted"),
-				ToastLength.Long).Show ();
+			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted"),
+				ToastLength.Long).Show ();*/
+			AndroidSupport.ShowBalloon (Localization.GetText ("RequestCompleted"), true);
 
 			if (!NotificationsSupport.GetTipState (NSTipTypes.MainLogClickMenuTip))
 				await ShowTips (NSTipTypes.MainLogClickMenuTip);
@@ -847,9 +848,11 @@ namespace RD_AAOW
 						}
 					catch
 						{
-						Toast.MakeText (Android.App.Application.Context,
+						/*To ast.MakeText (Android.App.Application.Context,
 							Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-							ToastLength.Long).Show ();
+							ToastLength.Long).Show ();*/
+						AndroidSupport.ShowBalloon
+							(Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable), true);
 						}
 					break;
 
@@ -870,8 +873,10 @@ namespace RD_AAOW
 						{
 						await Clipboard.SetTextAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" +
 							notLink).Replace ("\r", ""));
-						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("CopyMessage"),
-							ToastLength.Short).Show ();
+						/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("CopyMessage"),
+							ToastLength.Short).Show ();*/
+						AndroidSupport.ShowBalloon (Localization.GetText ("CopyMessage"), false);
+
 						}
 					catch { }
 					break;
@@ -880,8 +885,9 @@ namespace RD_AAOW
 				case 3:
 					// Блокировка
 					SetLogState (false);
-					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted"),
-						ToastLength.Long).Show ();
+					/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted"),
+						ToastLength.Long).Show ();*/
+					AndroidSupport.ShowBalloon (Localization.GetText ("RequestStarted"), true);
 
 					// Запрос
 					AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
@@ -899,8 +905,9 @@ namespace RD_AAOW
 
 					// Разблокировка
 					SetLogState (true);
-					Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted"),
-						ToastLength.Long).Show ();
+					/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted"),
+						ToastLength.Long).Show ();*/
+					AndroidSupport.ShowBalloon (Localization.GetText ("RequestCompleted"), true);
 					break;
 
 				// Настройка оповещения
@@ -978,8 +985,9 @@ namespace RD_AAOW
 			{
 			if (!centerButtonEnabled)
 				{
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("BackgroundRequestInProgress"),
-					ToastLength.Long).Show ();
+				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("BackgroundRequestInProgress"),
+					ToastLength.Long).Show ();*/
+				AndroidSupport.ShowBalloon (Localization.GetText ("BackgroundRequestInProgress"), true);
 				return;
 				}
 
@@ -1005,8 +1013,9 @@ namespace RD_AAOW
 			{
 			// Блокировка на время опроса
 			SetLogState (false);
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted"),
-				ToastLength.Short).Show ();
+			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted"),
+				ToastLength.Short).Show ();*/
+			AndroidSupport.ShowBalloon (Localization.GetText ("RequestStarted"), false);
 
 			// Запуск и разбор
 			AndroidSupport.StopRequested = false; // Разблокировка метода GetHTML
@@ -1022,12 +1031,14 @@ namespace RD_AAOW
 
 			if (newText == "")
 				{
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed"),
-					ToastLength.Long).Show ();
+				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed"),
+					ToastLength.Long).Show ();*/
+				AndroidSupport.ShowBalloon (Localization.GetText ("GMJRequestFailed"), true);
 				}
 			else if (newText.Contains (GMJ.SourceNoReturnPattern))
 				{
-				Toast.MakeText (Android.App.Application.Context, newText, ToastLength.Long).Show ();
+				/*To ast.MakeText (Android.App.Application.Context, newText, ToastLength.Long).Show ();*/
+				AndroidSupport.ShowBalloon (newText, true);
 				}
 			else
 				{
@@ -1037,7 +1048,7 @@ namespace RD_AAOW
 				}
 
 			// Разблокировка
-			UpdateMaintenanceLabel ();
+			/*UpdateMaintenanceLabel ();*/
 			SetLogState (true);
 			if (!NotificationsSupport.GetTipState (NSTipTypes.MainLogClickMenuTip))
 				await ShowTips (NSTipTypes.MainLogClickMenuTip);
@@ -1060,7 +1071,7 @@ namespace RD_AAOW
 
 		#region Основные настройки
 
-		// Режим обслуживания
+		/* Режим обслуживания
 		private void MaintenanceMode (uint Index)
 			{
 			// Защита
@@ -1083,12 +1094,13 @@ namespace RD_AAOW
 				RDGenerics.SetAppSettingsValue ("MaintenanceMode", "1");
 				}
 			}
+		*/
 
 		// Включение / выключение фиксации экрана (m)
 		private async void KeepScreenOnSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
-			// Открытие режима обслуживания
-			MaintenanceMode (0);
+			/* Открытие режима обслуживания
+			MaintenanceMode (0);*/
 
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NSTipTypes.KeepScreenOnTip))
@@ -1100,8 +1112,8 @@ namespace RD_AAOW
 		// Индикация только срочных уведомлений (m)
 		private async void IndicateOnlyUrgent_Toggled (object sender, ToggledEventArgs e)
 			{
-			// Открытие режима обслуживания
-			MaintenanceMode (3);
+			/* Открытие режима обслуживания
+			MaintenanceMode (3);*/
 
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NSTipTypes.OnlyUrgent))
@@ -1113,8 +1125,8 @@ namespace RD_AAOW
 		// Включение / выключение добавления новостей с конца журнала (m)
 		private void NewsAtTheEndSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
-			// Открытие режима обслуживания
-			MaintenanceMode (2);
+			/* Открытие режима обслуживания
+			MaintenanceMode (2);*/
 
 			// Обновление журнала
 			if (e != null)
@@ -1166,8 +1178,9 @@ namespace RD_AAOW
 					// Обновление списка шаблонов
 					if (!NotificationsSupport.TemplatesForCurrentSessionAreUpdated)
 						{
-						Toast.MakeText (Android.App.Application.Context, Localization.GetText ("UpdatingTemplates"),
-							ToastLength.Long).Show ();
+						/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("UpdatingTemplates"),
+							ToastLength.Long).Show ();*/
+						AndroidSupport.ShowBalloon (Localization.GetText ("UpdatingTemplates"), true);
 
 						await Task.Run<bool> (ProgramDescription.NSet.UpdateNotificationsTemplates);
 						NotificationsSupport.TemplatesForCurrentSessionAreUpdated = true;
@@ -1289,7 +1302,7 @@ namespace RD_AAOW
 						Localization.GetDefaultText (LzDefaultTextValues.Button_No)))
 						return;
 
-					string settings = await AndroidSupport.LoadFromFile ();
+					string settings = await AndroidSupport.LoadFromFile (SupportedEncodings.Unicode16);
 					ProgramDescription.NSet.SetSettingsList (settings);
 
 					// Сброс состояния
@@ -1312,8 +1325,9 @@ namespace RD_AAOW
 				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
 				SelectNotification (null, null);
 
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage") +
-					nameField.Text, ToastLength.Short).Show ();
+				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage") +
+					nameField.Text, ToastLength.Short).Show ();*/
+				AndroidSupport.ShowBalloon (Localization.GetText ("AddAsNewMessage"), false);
 				}
 
 			// Переход к дополнительным опциям
@@ -1347,8 +1361,9 @@ namespace RD_AAOW
 				return false;
 
 			// Запуск
-			Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch1"),
-				ToastLength.Long).Show ();
+			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch1"),
+				ToastLength.Long).Show ();*/
+			AndroidSupport.ShowBalloon (Localization.GetText ("WizardSearch1"), true);
 
 			string[] delim = await Notification.FindDelimiters (cfg.SourceLink, keyword);
 			if (delim == null)
@@ -1361,8 +1376,9 @@ namespace RD_AAOW
 			// Попытка запроса
 			for (cfg.OccurrenceNumber = 1; cfg.OccurrenceNumber <= 3; cfg.OccurrenceNumber++)
 				{
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch2"),
-					ToastLength.Long).Show ();
+				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch2"),
+					ToastLength.Long).Show ();*/
+				AndroidSupport.ShowBalloon (Localization.GetText ("WizardSearch2"), true);
 
 				cfg.NotificationName = "Test";
 				cfg.WatchAreaBeginningSign = delim[0];
@@ -1496,8 +1512,8 @@ namespace RD_AAOW
 		// Изменение размера шрифта лога (m)
 		private void FontSizeChanged (object sender, EventArgs e)
 			{
-			// Открытие режима обслуживания
-			MaintenanceMode (1);
+			/* Открытие режима обслуживания
+			MaintenanceMode (1);*/
 
 			uint fontSize = NotificationsSupport.LogFontSize;
 
@@ -1557,7 +1573,7 @@ namespace RD_AAOW
 				GMJ.SourceNumber = (uint)(res - 2);
 			}
 
-		// Обслуживание - сброс списка доступных записей
+		/* Обслуживание - сброс списка доступных записей
 		private async void Maintenance_ResetFreeSet_Clicked (object sender, EventArgs e)
 			{
 			if (!await AndroidSupport.ShowMessage ("Сбросить список просмотренных записей?", "Да", "Нет"))
@@ -1573,6 +1589,7 @@ namespace RD_AAOW
 			await AndroidSupport.SaveToFile ("RemovedGMJItems." + NotificationsSet.SettingsFileExtension,
 				GMJ.RemovedSet);
 			}
+		*/
 
 		// Метод сохраняет тихий звук
 		private async void SaveQuietSound_Clicked (object sender, EventArgs e)
@@ -1580,12 +1597,13 @@ namespace RD_AAOW
 			await AndroidSupport.SaveToFile ("Silence.mp3", RD_AAOW.Properties.Resources.MuteSound);
 			}
 
-		// Метод обновляет статус-бар зоны обслуживания
+		/* Метод обновляет статус-бар зоны обслуживания
 		private void UpdateMaintenanceLabel ()
 			{
 			maintenance_GMJStatus.Text = "Ожидают запроса: " + GMJ.FreeRecords.ToString () +
 				"; изъяты из набора: " + GMJ.RemovedRecords.ToString ();
 			}
+		*/
 
 		#endregion
 
@@ -1710,9 +1728,11 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					Toast.MakeText (Android.App.Application.Context,
+					/*To ast.MakeText (Android.App.Application.Context,
 						Localization.GetDefaultText (LzDefaultTextValues.Message_EMailsNotAvailable),
-						ToastLength.Long).Show ();
+						ToastLength.Long).Show ();*/
+					AndroidSupport.ShowBalloon
+						(Localization.GetDefaultText (LzDefaultTextValues.Message_EMailsNotAvailable), true);
 					}
 				}
 
@@ -1724,9 +1744,11 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					Toast.MakeText (Android.App.Application.Context,
+					/*To ast.MakeText (Android.App.Application.Context,
 						Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-						ToastLength.Long).Show ();
+						ToastLength.Long).Show ();*/
+					AndroidSupport.ShowBalloon
+						(Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable), true);
 					}
 				}
 
@@ -1920,8 +1942,9 @@ namespace RD_AAOW
 				{
 				selectedNotification.Text = GetShortNotificationName (nameField.Text);
 
-				Toast.MakeText (Android.App.Application.Context, Localization.GetText ("ApplyMessage") +
-					nameField.Text, ToastLength.Short).Show ();
+				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("ApplyMessage") +
+					nameField.Text, ToastLength.Short).Show ();*/
+				AndroidSupport.ShowBalloon (Localization.GetText ("ApplyMessage"), false);
 				}
 			}
 
@@ -2027,7 +2050,7 @@ namespace RD_AAOW
 
 				case 1:
 					await AndroidSupport.SaveToFile (NotificationsSet.SettingsFileName,
-						ProgramDescription.NSet.GetSettingsList ());
+						ProgramDescription.NSet.GetSettingsList (), SupportedEncodings.Unicode16);
 					break;
 				}
 			}

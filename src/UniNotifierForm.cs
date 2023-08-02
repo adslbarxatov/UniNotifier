@@ -16,9 +16,6 @@ namespace RD_AAOW
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
 		private bool callWindowOnUrgents = false;
-		private int notForIndication = -1;
-		private bool indicatorHasBeenUsed = false;
-
 		private bool allowExit = false;
 		private string[] regParameters = new string[] {
 			"Left",
@@ -28,25 +25,14 @@ namespace RD_AAOW
 			"Read",
 			"CallOnUrgents",
 			"FontSize",
-			"NotForInd",
-			"TGCount",
-			"TGTimeStamp"
 			};
 
 		private NotificationsSet ns = new NotificationsSet (true);
-
-		/*private string startupLink = Environment.GetFolderPath (Environment.SpecialFolder.CommonStartup) + "\\" +
-			ProgramDescription.AssemblyMainName + ".lnk";*/
-
 		private List<string> texts = new List<string> ();
 		private List<int> notNumbers = new List<int> ();
 
-#if TG
-		private uint currentTGCount = 0;
-		private DateTime currentTGTimeStamp = new DateTime (2021, 1, 1, 0, 0, 0);
-		private uint currentTGOffset = 0;
-		private const uint TGTimerOffset = 117 + 240; // 19,5 минут + 40 минут
-		private const uint TGMessagesPerDay = 3;
+#if TGT
+		private uint tgtCounter = 0;
 #endif
 
 		/// <summary>
@@ -64,12 +50,11 @@ namespace RD_AAOW
 				this.Text += Localization.GetDefaultText (LzDefaultTextValues.Message_LimitedFunctionality);
 
 			ReloadNotificationsList ();
-
-			/*#if TGB*/
+#if TGT
+			GetGMJ.Visible = false;
+#else
 			GetGMJ.Visible = Localization.IsCurrentLanguageRuRu;
-			/*#else
-						GetGMJ.Visible = false;
-			#endif*/
+#endif
 
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
@@ -78,13 +63,6 @@ namespace RD_AAOW
 				this.ReadMode.Checked = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[4]));
 				callWindowOnUrgents = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[5]));
 				this.FontSizeField.Value = decimal.Parse (RDGenerics.GetAppSettingsValue (regParameters[6]));
-
-				notForIndication = int.Parse (RDGenerics.GetAppSettingsValue (regParameters[7]));
-
-#if TG
-				currentTGCount = uint.Parse (RDGenerics.GetAppSettingsValue (regParameters[8]));
-				currentTGTimeStamp = DateTime.Parse (RDGenerics.GetAppSettingsValue (regParameters[9]));
-#endif
 				}
 			catch { }
 
@@ -106,7 +84,7 @@ namespace RD_AAOW
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
 
-			if (!File.Exists (/*startupLink*/RDGenerics.AutorunLinkPath))
+			if (!File.Exists (RDGenerics.AutorunLinkPath))
 				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05"),
 					AddToStartup));
 			}
@@ -132,12 +110,12 @@ namespace RD_AAOW
 
 			if (NamesCombo.Items.Count > 0)
 				{
-				NamesCombo.Enabled = BGo.Enabled = RunIndicator.Enabled = true;
+				NamesCombo.Enabled = BGo.Enabled = true;
 				NamesCombo.SelectedIndex = 0;
 				}
 			else
 				{
-				NamesCombo.Enabled = BGo.Enabled = RunIndicator.Enabled = false;
+				NamesCombo.Enabled = BGo.Enabled = false;
 				}
 			}
 
@@ -150,17 +128,6 @@ namespace RD_AAOW
 
 		private void UniNotifierForm_FormClosing (object sender, FormClosingEventArgs e)
 			{
-#if NIND
-			// Сохранение выбранного оповещения для индикации
-			if (nind != null)
-				{
-				if (nind.Visible)
-					RDGenerics.SetAppSettingsValue (regParameters[7], notForIndication.ToString ());
-				else
-					RDGenerics.SetAppSettingsValue (regParameters[7], "-1");
-				}
-#endif
-
 			// Остановка службы
 			if (allowExit)
 				{
@@ -195,52 +162,40 @@ namespace RD_AAOW
 
 			// Контроль
 			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled =
-				!File.Exists (/*startupLink*/ RDGenerics.AutorunLinkPath);
+				!File.Exists (RDGenerics.AutorunLinkPath);
 			}
 
-#if TG
-		private string[][] webReplacements = new string[][] {
-			new string[] { "%", "%25" },
-
-			new string[] { "\t", "%20" },
-			new string[] { " ", "%20" },
-			new string[] { "\n", "%0A" },
-			new string[] { "\r", "" },
-
-			new string[] { "!", "%21" },
-			new string[] { "\"", "%22" },
-			new string[] { "&", "%26" },
-			new string[] { "'", "%27" },
-			new string[] { "(", "%28" },
-			new string[] { ")", "%29" },
-			new string[] { "*", "%2A" },
-			new string[] { ",", "%2C" },
-			new string[] { "-", "%2D" },
-			new string[] { ".", "%2E" },
-			new string[] { "/", "%2F" },
-			new string[] { ":", "%3A" },
-			new string[] { ";", "%3B" },
-			new string[] { "<", "%3C" },
-			new string[] { "=", "%3D" },
-			new string[] { ">", "%3E" },
-			new string[] { "?", "%3F" },
-			new string[] { "\\", "%5C" },
-			new string[] { "_", "%5F" },
-
-			new string[] { "%20%0A", "%0A" },
-			};
+		// Итерация таймера обновления
+#if TGT
+		private bool tgtInProgress = false;
 #endif
 
-		// Итерация таймера обновления
 		private void MainTimer_Tick (object sender, EventArgs e)
 			{
 			// Переменные
 			int spl;
 			string hdr, txt;
 
+#if TGT
+			if (tgtInProgress)
+				return;
+#endif
+
 			// Запуск запроса
 			HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null, false, false);
 			hwe.Dispose ();
+
+#if TGT
+			// Раз в 16 минут (1000 * 60 * 16)
+			if (++tgtCounter * MainTimer.Interval >= 960000)
+				{
+				tgtInProgress = true;
+				tgtCounter = 0;
+
+				GetGMJ_Click (null, null);
+				tgtInProgress = false;
+				}
+#endif
 
 			// Обновление очереди отображения
 			if (texts.Count > 0)
@@ -250,17 +205,20 @@ namespace RD_AAOW
 					(MainText.Text.Length > texts[0].Length))   // Бывает и так
 					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
-					MainText.AppendText ("\r\n\r\n");
+					MainText.AppendText (Localization.RNRN);
 				if (DateTime.Today > ProgramDescription.LastNotStamp)
 					{
 					ProgramDescription.LastNotStamp = DateTime.Today;
-					System.Globalization.CultureInfo ci = Localization.GetCulture (Localization.CurrentLanguage);
-					MainText.AppendText ("\r\n--- " + DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
-						" ---\r\n\r\n");
+
+					var ci = Localization.GetCulture (Localization.CurrentLanguage);
+					MainText.AppendText (Localization.RN + "--- " +
+						DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
+						" ---" + Localization.RNRN);
 					}
 
 				// Добавление и форматирование
-				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (), "\r\n"));
+				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (),
+					Localization.RN));
 
 				// Отображение всплывающего сообщения
 				if (!this.Visible)
@@ -283,66 +241,11 @@ namespace RD_AAOW
 				// Обновление прочих полей
 				NamesCombo.SelectedIndex = notNumbers[0];
 
-				// Вызов индикатора (один раз)
-				if (!indicatorHasBeenUsed && (NamesCombo.SelectedIndex == notForIndication))
-					{
-					RunIndicator_Click (null, null);
-					indicatorHasBeenUsed = true;
-					}
-
 				texts.RemoveAt (0);
 				notNumbers.RemoveAt (0);
 
 				GetGMJ.Enabled = true;
 				}
-#if TG
-			else if (currentTGOffset++ >= TGTimerOffset)
-				{
-				// Контроль состояния переменных
-				currentTGOffset = 0;
-				if (currentTGTimeStamp != DateTime.Today)
-					{
-					currentTGTimeStamp = DateTime.Today;
-					RDGenerics.SetAppSettingsValue (regParameters[9], currentTGTimeStamp.ToString ());
-					currentTGCount = 0;
-					}
-
-				if (currentTGCount >= TGMessagesPerDay)
-					return;
-
-				// Запрос сообщения
-				string s = GMJ.GetRandomGMJ ();
-				if (s == "")
-					{
-					texts.Add ("Сбой ретрансляции. Проверьте соединение с интернетом");
-					notNumbers.Add (0);
-					return;
-					}
-
-				if (s.Contains ("joy не вернула сообщение"))
-					{
-					StreamWriter SW = File.AppendText (RDGenerics.AppStartupPath + "TG.log");
-					SW.Write (s + "\r\n\r\n");
-					SW.Close ();
-
-					texts.Add ("При ретрансляции найдено проблемное сообщение. Проверьте лог приложения");
-					notNumbers.Add (0);
-					return;
-					}
-
-				// Ретрансляция
-				s = NotificationsSet.HeaderBeginning + s.Substring (s.IndexOf (NotificationsSet.HeaderMiddle) +
-					NotificationsSet.HeaderMiddle.Length);
-				for (int i = 0; i < webReplacements.Length; i++)
-					s = s.Replace (webReplacements[i][0], webReplacements[i][1]);
-
-				AboutForm.GetHTML (ProgramDescription.TGTokenLine + s);
-
-				// Сохранение состояния
-				currentTGCount++;
-				RDGenerics.SetAppSettingsValue (regParameters[8], currentTGCount.ToString ());
-				}
-#endif
 
 			// Срочные оповещения
 			if (ns.HasUrgentNotifications && callWindowOnUrgents)
@@ -482,7 +385,7 @@ namespace RD_AAOW
 			MainText.Width = this.Width - 40;
 			MainText.Height = this.Height - 90;
 
-			BClose.Top = BGo.Top = RunIndicator.Top = ReadMode.Top = GetGMJ.Top = this.Height - 73;
+			BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 73;
 			NamesCombo.Top = BClose.Top + 2;
 			FontSizeField.Top = BGo.Top + 3;
 			}
@@ -496,7 +399,6 @@ namespace RD_AAOW
 		// Запрос сообщения от GMJ
 		private void GetGMJ_Click (object sender, EventArgs e)
 			{
-			/*#if TGB*/
 			GetGMJ.Enabled = false;
 			string s = GMJ.GetRandomGMJ ();
 
@@ -509,7 +411,6 @@ namespace RD_AAOW
 				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
 #endif
 			notNumbers.Add (0);
-			/*#endif*/
 			}
 
 		// Изменение размера шрифта
@@ -518,25 +419,5 @@ namespace RD_AAOW
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
 			RDGenerics.SetAppSettingsValue (regParameters[6], this.FontSizeField.Value.ToString ());
 			}
-
-		// Отображение индикатора
-		private void RunIndicator_Click (object sender, EventArgs e)
-			{
-#if NIND
-			if (nind != null)
-				{
-				if (nind.Visible)
-					return;
-
-				nind.Dispose ();
-				}
-
-			notForIndication = NamesCombo.SelectedIndex;
-			nind = new NotIndicator (ns.Notifications[notForIndication]);
-#endif
-			}
-#if NIND
-		private NotIndicator nind;
-#endif
 		}
 	}

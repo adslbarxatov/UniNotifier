@@ -86,13 +86,13 @@
 				<Label x:Name="CenterButtonLabel" />
 				<Button x:Name="CenterButtonFunction" HorizontalOptions="Center" />
 
-				<!-- Maintenance section -->
+				<!-- Maintenance section
 
 				<Label x:Name="Maintenance_GMJStatus" HorizontalOptions="Center" />
 				<Button x:Name="Maintenance_ResetFreeSet" HorizontalOptions="Center" />
 				<Button x:Name="Maintenance_GetRemovedSet" HorizontalOptions="Center" />
 
-				<!-- -->
+				-->
 
 				<Label />
 

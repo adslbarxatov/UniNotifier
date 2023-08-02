@@ -1,8 +1,8 @@
-_Changes for v 6.5.5_:
+_Changes for v 6.6_:
+- `Android`: Xamarin support libraries have been upgraded to AndroidX architecture;
+- Updated the settings file format: now it fully corresponds Unicode requirements;
+- Cumulative updates applied;
 - `Windows`: the placement of the settings window is now saveable;
 - `Windows`: the comparator value now can be changed using mouse wheel;
 - `GMJ`: the skip list has been updated; maintenance options have been removed;
-- `Windows`: implemented the access rights checker: it will test the availability of the Windows registry and the application placement for writing and notify user about possible problems;
-- Updated the storage method of text tips;
-- `Windows`: GMJ is now available again;
-- `Windows`: rewritten settings operator: it should fix problems with requiring administrator rights
+- `Windows`: implemented the access rights checker: it will test the availability of the Windows registry and the application placement for writing and notify user about possible problems
