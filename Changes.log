@@ -3,6 +3,10 @@ uNot: changes log
 ToDo:
 - Add &mdash; character
 
+Version 2.3.5:
+• Fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations;
+• Added new substitutions for some characters
+
 Version 6.6:
 • Android: Xamarin support libraries have been upgraded to AndroidX architecture;
 • Updated the settings file format: now it fully corresponds Unicode requirements;
