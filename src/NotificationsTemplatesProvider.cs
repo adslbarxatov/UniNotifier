@@ -238,7 +238,7 @@ namespace RD_AAOW
 
 				for (int i = 0; i < 4; i++)
 					tmp += (values[i] + fileTemplateSplitter[0].ToString ());
-				tmp += (values[4] + "\n");
+				tmp += (values[4] + Localization.RN);
 				}
 
 			// Запись

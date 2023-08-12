@@ -1,7 +1,8 @@
-_Changes for v 6.6_:
+_Changes for v 6.6.2_:
+- Fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations;
+- Added new substitutions for some characters;
 - `Android`: Xamarin support libraries have been upgraded to AndroidX architecture;
 - Updated the settings file format: now it fully corresponds Unicode requirements;
-- Cumulative updates applied;
 - `Windows`: the placement of the settings window is now saveable;
 - `Windows`: the comparator value now can be changed using mouse wheel;
 - `GMJ`: the skip list has been updated; maintenance options have been removed;

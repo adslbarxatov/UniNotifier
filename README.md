@@ -1,5 +1,5 @@
-# UniNotifier v 6.6
-> PCC: 00055BB50658AAAF
+# UniNotifier v 6.6.2
+> PCC: 00055DB71BA4348F
 
 ---
 
@@ -17,20 +17,11 @@ uNot (UniNotifier) – служба наблюдения за состояние
 
 ## Requirements / Требования
 
-- Windows 7 or newer / или новее;
-- [Microsoft .NET Framework 4.8](https://go.microsoft.com/fwlink/?linkid=2088631).
+- Windows 7 or newer;
+- [Microsoft .NET Framework 4.8](https://go.microsoft.com/fwlink/?linkid=2088631);
+- Android version requires OS 5.0 or newer.
 
 Interface languages / языки интерфейса: ru_ru, en_us.
-
-#
-
-- [Android version](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) requires OS 5.0 or newer. Interface languages: ru_ru, en_us;
-- App is available in [AppGallery](https://url.cloud.huawei.com/kOns67WJJ6?shareTo=qrcode).
-- App is also available in [GetApps](https://global.app.mi.com/details?id=uninotifier.xiaomi).
-
-- Для [Android-версии](https://play.google.com/store/apps/details?id=com.RD_AAOW.UniNotifier) требуется ОС версии 5.0 или новее. Языки интерфейса: ru_ru, en_us;
-- Приложение доступно в [AppGallery](https://url.cloud.huawei.com/kOns67WJJ6?shareTo=qrcode).
-- Приложение также доступно в [GetApps](https://global.app.mi.com/details?id=uninotifier.xiaomi).
 
 &nbsp;
 

@@ -20,9 +20,7 @@ Tablepedia notifier – приложение для просмотра и коп
 
 &nbsp;
 
-&mdash;
 
-&ndash;
 
 ### Требования
 
