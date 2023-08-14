@@ -615,8 +615,6 @@ namespace RD_AAOW
 
 			// Блокировка
 			SetLogState (false);
-			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestAllStarted"),
-				ToastLength.Long).Show ();*/
 			AndroidSupport.ShowBalloon (Localization.GetText ("RequestAllStarted"), true);
 
 			// Запрос
@@ -638,8 +636,6 @@ namespace RD_AAOW
 
 			// Разблокировка
 			SetLogState (true);
-			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted"),
-				ToastLength.Long).Show ();*/
 			AndroidSupport.ShowBalloon (Localization.GetText ("RequestCompleted"), true);
 
 			if (!NotificationsSupport.GetTipState (NSTipTypes.MainLogClickMenuTip))
@@ -848,9 +844,6 @@ namespace RD_AAOW
 						}
 					catch
 						{
-						/*To ast.MakeText (Android.App.Application.Context,
-							Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-							ToastLength.Long).Show ();*/
 						AndroidSupport.ShowBalloon
 							(Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable), true);
 						}
@@ -862,8 +855,8 @@ namespace RD_AAOW
 					if (!NotificationsSupport.GetTipState (NSTipTypes.ShareButton))
 						await ShowTips (NSTipTypes.ShareButton);
 
-					await Share.RequestAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" +
-						notLink).Replace ("\r", ""), ProgramDescription.AssemblyVisibleName);
+					await Share.RequestAsync ((notItem.Header + Localization.RNRN + notItem.Text +
+						Localization.RNRN + notLink).Replace ("\r", ""), ProgramDescription.AssemblyVisibleName);
 					break;
 
 				// Скопировать в буфер обмена
@@ -871,10 +864,8 @@ namespace RD_AAOW
 				case 12:
 					try
 						{
-						await Clipboard.SetTextAsync ((notItem.Header + "\n\n" + notItem.Text + "\n\n" +
-							notLink).Replace ("\r", ""));
-						/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("CopyMessage"),
-							ToastLength.Short).Show ();*/
+						await Clipboard.SetTextAsync ((notItem.Header + Localization.RNRN + notItem.Text +
+							Localization.RNRN + notLink).Replace ("\r", ""));
 						AndroidSupport.ShowBalloon (Localization.GetText ("CopyMessage"), false);
 
 						}
@@ -885,8 +876,6 @@ namespace RD_AAOW
 				case 3:
 					// Блокировка
 					SetLogState (false);
-					/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted"),
-						ToastLength.Long).Show ();*/
 					AndroidSupport.ShowBalloon (Localization.GetText ("RequestStarted"), true);
 
 					// Запрос
@@ -905,8 +894,6 @@ namespace RD_AAOW
 
 					// Разблокировка
 					SetLogState (true);
-					/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestCompleted"),
-						ToastLength.Long).Show ();*/
 					AndroidSupport.ShowBalloon (Localization.GetText ("RequestCompleted"), true);
 					break;
 
@@ -985,8 +972,6 @@ namespace RD_AAOW
 			{
 			if (!centerButtonEnabled)
 				{
-				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("BackgroundRequestInProgress"),
-					ToastLength.Long).Show ();*/
 				AndroidSupport.ShowBalloon (Localization.GetText ("BackgroundRequestInProgress"), true);
 				return;
 				}
@@ -1013,8 +998,6 @@ namespace RD_AAOW
 			{
 			// Блокировка на время опроса
 			SetLogState (false);
-			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("RequestStarted"),
-				ToastLength.Short).Show ();*/
 			AndroidSupport.ShowBalloon (Localization.GetText ("RequestStarted"), false);
 
 			// Запуск и разбор
@@ -1031,13 +1014,10 @@ namespace RD_AAOW
 
 			if (newText == "")
 				{
-				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("GMJRequestFailed"),
-					ToastLength.Long).Show ();*/
 				AndroidSupport.ShowBalloon (Localization.GetText ("GMJRequestFailed"), true);
 				}
 			else if (newText.Contains (GMJ.SourceNoReturnPattern))
 				{
-				/*To ast.MakeText (Android.App.Application.Context, newText, ToastLength.Long).Show ();*/
 				AndroidSupport.ShowBalloon (newText, true);
 				}
 			else
@@ -1178,8 +1158,6 @@ namespace RD_AAOW
 					// Обновление списка шаблонов
 					if (!NotificationsSupport.TemplatesForCurrentSessionAreUpdated)
 						{
-						/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("UpdatingTemplates"),
-							ToastLength.Long).Show ();*/
 						AndroidSupport.ShowBalloon (Localization.GetText ("UpdatingTemplates"), true);
 
 						await Task.Run<bool> (ProgramDescription.NSet.UpdateNotificationsTemplates);
@@ -1325,9 +1303,7 @@ namespace RD_AAOW
 				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
 				SelectNotification (null, null);
 
-				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("AddAsNewMessage") +
-					nameField.Text, ToastLength.Short).Show ();*/
-				AndroidSupport.ShowBalloon (Localization.GetText ("AddAsNewMessage"), false);
+				AndroidSupport.ShowBalloon (Localization.GetText ("AddAsNewMessage") + nameField.Text, false);
 				}
 
 			// Переход к дополнительным опциям
@@ -1361,8 +1337,6 @@ namespace RD_AAOW
 				return false;
 
 			// Запуск
-			/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch1"),
-				ToastLength.Long).Show ();*/
 			AndroidSupport.ShowBalloon (Localization.GetText ("WizardSearch1"), true);
 
 			string[] delim = await Notification.FindDelimiters (cfg.SourceLink, keyword);
@@ -1376,8 +1350,6 @@ namespace RD_AAOW
 			// Попытка запроса
 			for (cfg.OccurrenceNumber = 1; cfg.OccurrenceNumber <= 3; cfg.OccurrenceNumber++)
 				{
-				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("WizardSearch2"),
-					ToastLength.Long).Show ();*/
 				AndroidSupport.ShowBalloon (Localization.GetText ("WizardSearch2"), true);
 
 				cfg.NotificationName = "Test";
@@ -1403,7 +1375,8 @@ namespace RD_AAOW
 
 				bool notLastStep = (cfg.OccurrenceNumber < 3);
 				if (await AndroidSupport.ShowMessage (Localization.GetText (notLastStep ?
-					"WizardStep3" : "WizardStep4") + "\n\n" + "~".PadRight (10, '~') + "\n\n" + text,
+					"WizardStep3" : "WizardStep4") + Localization.RNRN + "~".PadRight (10, '~') +
+					Localization.RNRN + text,
 					Localization.GetDefaultText (LzDefaultTextValues.Button_Next),
 					Localization.GetDefaultText (notLastStep ?
 					LzDefaultTextValues.Button_Retry : LzDefaultTextValues.Button_Cancel)))
@@ -1645,6 +1618,7 @@ namespace RD_AAOW
 				{
 				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_ProjectWebpage));
 				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_UserManual));
+				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_UserVideomanual));
 				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_PolicyEULA));
 				}
 
@@ -1693,11 +1667,16 @@ namespace RD_AAOW
 
 				// Руководство
 				case 1:
-					url = ProgramDescription.AssemblyVideoLink;
+					url = RDGenerics.AssemblyGitPageLink;
+					break;
+
+				// Видеоруководство
+				case 2:
+					url = ProgramDescription.AssemblyReferenceMaterials[0];
 					break;
 
 				// Политика
-				case 2:
+				case 3:
 					url = RDGenerics.ADPLink;
 					break;
 
@@ -1728,9 +1707,6 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					/*To ast.MakeText (Android.App.Application.Context,
-						Localization.GetDefaultText (LzDefaultTextValues.Message_EMailsNotAvailable),
-						ToastLength.Long).Show ();*/
 					AndroidSupport.ShowBalloon
 						(Localization.GetDefaultText (LzDefaultTextValues.Message_EMailsNotAvailable), true);
 					}
@@ -1744,9 +1720,6 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					/*To ast.MakeText (Android.App.Application.Context,
-						Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable),
-						ToastLength.Long).Show ();*/
 					AndroidSupport.ShowBalloon
 						(Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable), true);
 					}
@@ -1941,10 +1914,7 @@ namespace RD_AAOW
 			if (await UpdateItem (currentNotification))
 				{
 				selectedNotification.Text = GetShortNotificationName (nameField.Text);
-
-				/*To ast.MakeText (Android.App.Application.Context, Localization.GetText ("ApplyMessage") +
-					nameField.Text, ToastLength.Short).Show ();*/
-				AndroidSupport.ShowBalloon (Localization.GetText ("ApplyMessage"), false);
+				AndroidSupport.ShowBalloon (Localization.GetText ("ApplyMessage") + nameField.Text, false);
 				}
 			}
 
