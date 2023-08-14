@@ -5,7 +5,7 @@ Version 6.6.5:
 • Android: fixed some missing text tips
 
 Version 6.6.2:
-• Fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations;
+• Windows: fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations;
 • Added new substitutions for some characters
 
 Version 6.6:
