@@ -1,4 +1,5 @@
-_Changes for v 6.6.5_:
+_Changes for v 6.6.6_:
+- `GMJ`: скорректирован алгоритм заполнения списка доступных записей;
 - Added the obvious URLs for videoguide and for text guide;
 - `Android`: fixed some missing text tips;
 - Fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations;

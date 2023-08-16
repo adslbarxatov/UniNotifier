@@ -301,17 +301,14 @@ namespace RD_AAOW
 						return;
 
 					// Сохранение
-					/*string settings = notifications.GetSettingsList ();*/
 					try
 						{
-						/*File.WriteAllBytes (sfd.FileName,
-							RDGenerics.GetEncoding (SupportedEncodings.Unicode16).GetBytes (settings));*/
 						File.WriteAllText (sfd.FileName, notifications.GetSettingsList (),
 							RDGenerics.GetEncoding (SupportedEncodings.Unicode16));
 						}
 					catch
 						{
-						RDGenerics.MessageBox (RDMessageTypes.Warning_Center, /*ShareFailure"*/
+						RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
 							Localization.GetFileProcessingMessage (sfd.FileName,
 							LzFileProcessingMessageTypes.Save_Failure));
 						}
@@ -365,7 +362,7 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					RDGenerics.MessageBox (RDMessageTypes.Warning_Center, /*LoadingFailure"*/
+					RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
 						Localization.GetFileProcessingMessage (ofd.FileName,
 						LzFileProcessingMessageTypes.Load_Failure));
 					return;
