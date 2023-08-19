@@ -1,7 +1,8 @@
 uNot: changes log
 
-Version 6.6.6:
-• GMJ: скорректирован алгоритм заполнения списка доступных записей
+Version 6.6.6.6:
+• GMJ: скорректирован алгоритм заполнения списка доступных записей;
+• Android: fixed missing URL for initial Policy acception
 
 Version 6.6.5:
 • Added the obvious URLs for videoguide and for text guide;
