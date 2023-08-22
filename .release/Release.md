@@ -1,12 +1,11 @@
-_Changes for v 6.6.6_:
-- `GMJ`: ᪮�४�஢�� ������ ���������� ᯨ᪠ ����㯭�� ����ᥩ;
+_Changes for v 6.6.6.6_:
+- `GMJ`: скорректированы абзацные отступы в соглашении пользователя;
+- `Android`: fixed missing URL for initial Policy acception;
+- `GMJ`: скорректирован алгоритм заполнения списка доступных записей;
 - Added the obvious URLs for videoguide and for text guide;
-- `Android`: fixed some missing text tips;
 - Fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations;
-- Added new substitutions for some characters;
 - `Android`: Xamarin support libraries have been upgraded to AndroidX architecture;
 - Updated the settings file format: now it fully corresponds Unicode requirements;
 - `Windows`: the placement of the settings window is now saveable;
 - `Windows`: the comparator value now can be changed using mouse wheel;
-- `GMJ`: the skip list has been updated; maintenance options have been removed;
 - `Windows`: implemented the access rights checker: it will test the availability of the Windows registry and the application placement for writing and notify user about possible problems

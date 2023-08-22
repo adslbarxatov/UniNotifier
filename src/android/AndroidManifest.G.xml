@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-	android:installLocation="internalOnly" android:versionCode="600625" android:versionName="6.6.6">
+	android:installLocation="internalOnly" android:versionCode="600627" android:versionName="6.6.6.6">
 
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="33" />
 

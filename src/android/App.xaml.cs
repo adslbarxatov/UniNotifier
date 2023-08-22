@@ -53,9 +53,7 @@ namespace RD_AAOW
 		private List<string> wizardMenuItems = new List<string> ();
 		private List<string> specialOptions = new List<string> ();
 		private List<string> templatesMenuItems = new List<string> ();
-		private List<string> languages = new List<string> ();
-		private List<string> referenceItems = new List<string> ();
-		private List<string> helpItems = new List<string> ();
+		/*private List<string> languages = new List<string> ();*/
 
 		// Текущее настраиваемое уведомление
 		private int currentNotification = 0;
@@ -85,7 +83,7 @@ namespace RD_AAOW
 
 		private Label aboutLabel, occFieldLabel, fontSizeFieldLabel, requestStepFieldLabel,
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel,
-			aboutFontSizeField/*, maintenance_GMJStatus*/;
+			aboutFontSizeField;
 
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, nightModeSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
@@ -95,8 +93,7 @@ namespace RD_AAOW
 		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton,
 			notWizardButton, comparatorTypeButton, comparatorIncButton,
 			comparatorLongButton, comparatorDecButton, centerButtonFunction, linkFieldButton,
-			centerButton, languageButton/*, maintenance_ResetFreeSet, maintenance_GetRemovedSet*/,
-			scrollUpButton, scrollDownButton;
+			centerButton, languageButton, scrollUpButton, scrollDownButton;
 
 		private Editor nameField, comparatorValueField;
 
@@ -403,20 +400,6 @@ namespace RD_AAOW
 				Localization.GetText ("SaveQuietSound"), settingsFieldBackColor,
 				SaveQuietSound_Clicked, false);
 
-			/* Maintenance section
-			maintenance_GMJStatus = AndroidSupport.ApplyLabelSettings (settingsPage, "Maintenance_GMJStatus",
-				"(выполните запрос к службе GMJ для обновления статуса)", ASLabelTypes.DefaultCenter);
-			maintenance_ResetFreeSet = AndroidSupport.ApplyButtonSettings (settingsPage, "Maintenance_ResetFreeSet",
-				"Сбросить список доступных записей GMJ", settingsFieldBackColor,
-				Maintenance_ResetFreeSet_Clicked, false);
-			maintenance_GetRemovedSet = AndroidSupport.ApplyButtonSettings (settingsPage, "Maintenance_GetRemovedSet",
-				"Получить удалённые записи GMJ", settingsFieldBackColor,
-				Maintenance_SaveRemovedSet_Clicked, false);
-
-			maintenance_GMJStatus.IsVisible = maintenance_ResetFreeSet.IsVisible =
-				maintenance_GetRemovedSet.IsVisible =
-				!string.IsNullOrWhiteSpace (RDGenerics.GetAppSettingsValue ("MaintenanceMode"));*/
-
 			#endregion
 
 			// Запуск цикла обратной связи (без ожидания)
@@ -483,14 +466,7 @@ namespace RD_AAOW
 			// Требование принятия Политики
 			if (!NotificationsSupport.GetTipState (NSTipTypes.PolicyTip))
 				{
-				while (!await AndroidSupport.ShowMessage (
-					Localization.GetDefaultText (LzDefaultTextValues.Message_PolicyAcception),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Accept),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Read)))
-					{
-					await CallHelpMaterials (2);
-					}
-
+				await AndroidSupport.PolicyLoop ();
 				NotificationsSupport.SetTipState (NSTipTypes.PolicyTip);
 				}
 
@@ -1028,7 +1004,6 @@ namespace RD_AAOW
 				}
 
 			// Разблокировка
-			/*UpdateMaintenanceLabel ();*/
 			SetLogState (true);
 			if (!NotificationsSupport.GetTipState (NSTipTypes.MainLogClickMenuTip))
 				await ShowTips (NSTipTypes.MainLogClickMenuTip);
@@ -1051,37 +1026,9 @@ namespace RD_AAOW
 
 		#region Основные настройки
 
-		/* Режим обслуживания
-		private void MaintenanceMode (uint Index)
-			{
-			// Защита
-			if (maintenance_GetRemovedSet == null)
-				return; // При запуске приложения
-			if (maintenance_GetRemovedSet.IsVisible)
-				return; // Когда режим уже активен
-
-			// Контроль порядка нажатий
-			if ((maintenanceOpeningIndex == Index) || (maintenanceOpeningIndex == Index + 4))
-				maintenanceOpeningIndex++;
-			else
-				maintenanceOpeningIndex = 0;
-
-			// Открытие
-			if (maintenanceOpeningIndex == 8)
-				{
-				maintenance_GMJStatus.IsVisible = maintenance_ResetFreeSet.IsVisible =
-					maintenance_GetRemovedSet.IsVisible = true;
-				RDGenerics.SetAppSettingsValue ("MaintenanceMode", "1");
-				}
-			}
-		*/
-
-		// Включение / выключение фиксации экрана (m)
+		// Включение / выключение фиксации экрана
 		private async void KeepScreenOnSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
-			/* Открытие режима обслуживания
-			MaintenanceMode (0);*/
-
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NSTipTypes.KeepScreenOnTip))
 				await ShowTips (NSTipTypes.KeepScreenOnTip);
@@ -1089,12 +1036,9 @@ namespace RD_AAOW
 			AndroidSupport.KeepScreenOn = keepScreenOnSwitch.IsToggled;
 			}
 
-		// Индикация только срочных уведомлений (m)
+		// Индикация только срочных уведомлений
 		private async void IndicateOnlyUrgent_Toggled (object sender, ToggledEventArgs e)
 			{
-			/* Открытие режима обслуживания
-			MaintenanceMode (3);*/
-
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NSTipTypes.OnlyUrgent))
 				await ShowTips (NSTipTypes.OnlyUrgent);
@@ -1102,12 +1046,9 @@ namespace RD_AAOW
 			NotificationsSupport.IndicateOnlyUrgentNotifications = indicateOnlyUrgentSwitch.IsToggled;
 			}
 
-		// Включение / выключение добавления новостей с конца журнала (m)
+		// Включение / выключение добавления новостей с конца журнала
 		private void NewsAtTheEndSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
-			/* Открытие режима обслуживания
-			MaintenanceMode (2);*/
-
 			// Обновление журнала
 			if (e != null)
 				NotificationsSupport.LogNewsItemsAtTheEnd = newsAtTheEndSwitch.IsToggled;
@@ -1482,12 +1423,9 @@ namespace RD_AAOW
 			UpdateLogButton (false, false);
 			}
 
-		// Изменение размера шрифта лога (m)
+		// Изменение размера шрифта лога
 		private void FontSizeChanged (object sender, EventArgs e)
 			{
-			/* Открытие режима обслуживания
-			MaintenanceMode (1);*/
-
 			uint fontSize = NotificationsSupport.LogFontSize;
 
 			if (e != null)
@@ -1546,37 +1484,11 @@ namespace RD_AAOW
 				GMJ.SourceNumber = (uint)(res - 2);
 			}
 
-		/* Обслуживание - сброс списка доступных записей
-		private async void Maintenance_ResetFreeSet_Clicked (object sender, EventArgs e)
-			{
-			if (!await AndroidSupport.ShowMessage ("Сбросить список просмотренных записей?", "Да", "Нет"))
-				return;
-
-			GMJ.ResetFreeSet ();
-			UpdateMaintenanceLabel ();
-			}
-
-		// Обслуживание - выгрузка удалённых записей
-		private async void Maintenance_SaveRemovedSet_Clicked (object sender, EventArgs e)
-			{
-			await AndroidSupport.SaveToFile ("RemovedGMJItems." + NotificationsSet.SettingsFileExtension,
-				GMJ.RemovedSet);
-			}
-		*/
-
 		// Метод сохраняет тихий звук
 		private async void SaveQuietSound_Clicked (object sender, EventArgs e)
 			{
 			await AndroidSupport.SaveToFile ("Silence.mp3", RD_AAOW.Properties.Resources.MuteSound);
 			}
-
-		/* Метод обновляет статус-бар зоны обслуживания
-		private void UpdateMaintenanceLabel ()
-			{
-			maintenance_GMJStatus.Text = "Ожидают запроса: " + GMJ.FreeRecords.ToString () +
-				"; изъяты из набора: " + GMJ.RemovedRecords.ToString ();
-			}
-		*/
 
 		#endregion
 
@@ -1585,7 +1497,7 @@ namespace RD_AAOW
 		// Выбор языка приложения
 		private async void SelectLanguage_Clicked (object sender, EventArgs e)
 			{
-			// Запрос
+			/* Запрос
 			if (languages.Count < 1)
 				languages = new List<string> (Localization.LanguagesNames);
 			int res = await AndroidSupport.ShowList (
@@ -1598,135 +1510,19 @@ namespace RD_AAOW
 				Localization.CurrentLanguage = (SupportedLanguages)res;
 				languageButton.Text = languages[res];
 				}
+			*/
+			languageButton.Text = await AndroidSupport.CallLanguageSelector ();
 			}
 
 		// Вызов справочных материалов
 		private async void ReferenceButton_Click (object sender, EventArgs e)
 			{
-			await CallHelpMaterials (0);
+			await AndroidSupport.CallHelpMaterials (0);
 			}
 
 		private async void HelpButton_Click (object sender, EventArgs e)
 			{
-			await CallHelpMaterials (1);
-			}
-
-		private async Task<bool> CallHelpMaterials (uint MaterialsSet)
-			{
-			// Заполнение списков
-			if (referenceItems.Count < 1)
-				{
-				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_ProjectWebpage));
-				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_UserManual));
-				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_UserVideomanual));
-				referenceItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_PolicyEULA));
-				}
-
-			if (helpItems.Count < 1)
-				{
-				helpItems.Add (Localization.GetDefaultText (LzDefaultTextValues.Control_AskDeveloper));
-				helpItems.AddRange (RDGenerics.CommunitiesNames);
-				}
-
-			// Выбор варианта
-			int res;
-			switch (MaterialsSet)
-				{
-				// Ссылки проекта
-				case 0:
-				default:
-					res = await AndroidSupport.ShowList (Localization.GetDefaultText (LzDefaultTextValues.Control_ReferenceMaterials),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), referenceItems);
-					break;
-
-				// Ссылки Лаборатории
-				case 1:
-					res = await AndroidSupport.ShowList (Localization.GetDefaultText (LzDefaultTextValues.Control_HelpSupport),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), helpItems);
-					break;
-
-				// Специальный вызов для Политики
-				case 2:
-					res = 2;
-					break;
-				}
-
-			if (res < 0)
-				return false;
-			else if (MaterialsSet == 1)
-				res += 10;
-
-			// Обнаружение ссылки
-			string url = "";
-			switch (res)
-				{
-				// Страница проекта
-				case 0:
-					url = RDGenerics.DefaultGitLink + ProgramDescription.AssemblyMainName;
-					break;
-
-				// Руководство
-				case 1:
-					url = RDGenerics.AssemblyGitPageLink;
-					break;
-
-				// Видеоруководство
-				case 2:
-					url = RDGenerics.StaticYTLink + ProgramDescription.AssemblyReferenceMaterials[0];
-					break;
-
-				// Политика
-				case 3:
-					url = RDGenerics.ADPLink;
-					break;
-
-				case 10:
-					// Оставляем url пустым
-					break;
-
-				// Ссылки Лаборатории
-				case 11:
-				case 12:
-				case 13:
-					url = RDGenerics.GetCommunityLink ((uint)res - 11);
-					break;
-				}
-
-			// Запуск
-			if (string.IsNullOrWhiteSpace (url))
-				{
-				try
-					{
-					EmailMessage message = new EmailMessage
-						{
-						Subject = RDGenerics.LabMailCaption,
-						Body = "",
-						To = new List<string> () { RDGenerics.LabMailLink }
-						};
-					await Email.ComposeAsync (message);
-					}
-				catch
-					{
-					AndroidSupport.ShowBalloon
-						(Localization.GetDefaultText (LzDefaultTextValues.Message_EMailsNotAvailable), true);
-					}
-				}
-
-			else
-				{
-				try
-					{
-					await Launcher.OpenAsync (url);
-					}
-				catch
-					{
-					AndroidSupport.ShowBalloon
-						(Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable), true);
-					}
-				}
-
-			// Успешно
-			return true;
+			await AndroidSupport.CallHelpMaterials (1);
 			}
 
 		// Изменение размера шрифта интерфейса

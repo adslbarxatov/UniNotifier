@@ -2,6 +2,7 @@ uNot: changes log
 
 Version 6.6.6.6:
 • GMJ: скорректирован алгоритм заполнения списка доступных записей;
+• GMJ: скорректированы абзацные отступы в соглашении пользователя;
 • Android: fixed missing URL for initial Policy acception
 
 Version 6.6.5:
