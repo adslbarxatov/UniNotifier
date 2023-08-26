@@ -1,4 +1,4 @@
-_Changes for v 6.6.8_:
+_Changes for v 6.6.8_: 
 - `Windows`: for the user added short messages about the events of adding, updating and deleting notifications;
 - `GMJ`: skip lists have been updated;
 - `Android`: fixed incorrect e-mail in “Ask the developer” function;
