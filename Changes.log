@@ -1,5 +1,11 @@
 uNot: changes log
 
+Version 6.6.8:
+• Windows: for the user added short messages about the events of adding, updating
+  and deleting notifications;
+• GMJ: обновлён список пропускаемых записей;
+• Android: fixed incorrect e-mail in “Ask the developer” function
+
 Version 6.6.6.6:
 • GMJ: скорректирован алгоритм заполнения списка доступных записей;
 • GMJ: скорректированы абзацные отступы в соглашении пользователя;

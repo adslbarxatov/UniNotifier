@@ -14,6 +14,7 @@ namespace RD_AAOW
 		private uint updatingFrequencyStep;
 		private OpenFileDialog ofd;
 		private SaveFileDialog sfd;
+		private const uint messagesTimeout = 1000;
 
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
@@ -221,6 +222,10 @@ namespace RD_AAOW
 			// Переключение на новую позицию в случае добавления
 			if (ItemNumber < 0)
 				NotificationsList.SelectedIndex = NotificationsList.Items.Count - 1;
+
+			RDGenerics.MessageBox (RDMessageTypes.Success_Center,
+				Localization.GetText (ItemNumber < 0 ? "NotAddedMessage" : "NotUpdatedMessage") + ni.Name,
+				messagesTimeout);
 			}
 
 		// Удаление оповещения
@@ -243,6 +248,7 @@ namespace RD_AAOW
 			int index = NotificationsList.SelectedIndex;
 			notifications.Notifications.RemoveAt (index);
 			NotificationsList.Items.RemoveAt (index);
+			RDGenerics.LocalizedMessageBox (RDMessageTypes.Success_Center, "NotRemovedMessage", messagesTimeout);
 
 			// Переключение
 			if (NotificationsList.Items.Count > 0)

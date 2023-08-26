@@ -53,7 +53,6 @@ namespace RD_AAOW
 		private List<string> wizardMenuItems = new List<string> ();
 		private List<string> specialOptions = new List<string> ();
 		private List<string> templatesMenuItems = new List<string> ();
-		/*private List<string> languages = new List<string> ();*/
 
 		// Текущее настраиваемое уведомление
 		private int currentNotification = 0;
@@ -1497,32 +1496,18 @@ namespace RD_AAOW
 		// Выбор языка приложения
 		private async void SelectLanguage_Clicked (object sender, EventArgs e)
 			{
-			/* Запрос
-			if (languages.Count < 1)
-				languages = new List<string> (Localization.LanguagesNames);
-			int res = await AndroidSupport.ShowList (
-				Localization.GetDefaultText (LzDefaultTextValues.Message_LanguageSelectionShort),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), languages);
-
-			// Сохранение
-			if (res >= 0)
-				{
-				Localization.CurrentLanguage = (SupportedLanguages)res;
-				languageButton.Text = languages[res];
-				}
-			*/
 			languageButton.Text = await AndroidSupport.CallLanguageSelector ();
 			}
 
 		// Вызов справочных материалов
 		private async void ReferenceButton_Click (object sender, EventArgs e)
 			{
-			await AndroidSupport.CallHelpMaterials (0);
+			await AndroidSupport.CallHelpMaterials (HelpMaterialsSets.ReferenceMaterials);
 			}
 
 		private async void HelpButton_Click (object sender, EventArgs e)
 			{
-			await AndroidSupport.CallHelpMaterials (1);
+			await AndroidSupport.CallHelpMaterials (HelpMaterialsSets.HelpAndSupport);
 			}
 
 		// Изменение размера шрифта интерфейса

@@ -347,4 +347,15 @@
 ≠ (не равно)
 ∈ (содержит)</value>
   </data>
+  <data name="NotAddedMessage" xml:space="preserve">
+    <value>Добавлено оповещение:
+</value>
+  </data>
+  <data name="NotRemovedMessage" xml:space="preserve">
+    <value>Оповещение удалено</value>
+  </data>
+  <data name="NotUpdatedMessage" xml:space="preserve">
+    <value>Обновлено оповещение:
+</value>
+  </data>
 </root>

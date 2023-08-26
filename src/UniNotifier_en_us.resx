@@ -325,4 +325,15 @@ It is also possible to display a notification only if this condition is met</val
 ≠ (not equal to)
 ∈ (contains)</value>
   </data>
+  <data name="NotAddedMessage" xml:space="preserve">
+    <value>Notification has been added:
+</value>
+  </data>
+  <data name="NotRemovedMessage" xml:space="preserve">
+    <value>Notification has been removed</value>
+  </data>
+  <data name="NotUpdatedMessage" xml:space="preserve">
+    <value>Notification has been updated:
+</value>
+  </data>
 </root>
