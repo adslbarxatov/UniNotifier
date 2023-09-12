@@ -23,21 +23,22 @@ to collect some conclusions about what the ideal joke or anecdote could be. The 
 in the process of filling the community, we successfully created and tested a mechanism that
 still exists as a button in the uNot application. How does it work?
 
-- First, the VK community was created, which was filled manually from various sources. Text entries,
-usually not exceeding a thousand characters in length, were used as content. They were published either
+- First, the VK community was created, which was filled manually from various sources. *Text entries*,
+usually *not exceeding a thousand characters in length*, were used as content. They were published either
 immediately or delayed (but this is not particularly important). During active seeding, participating
 in this community made sense; nowadays, publications in it occur much less frequently, which is why
 it is more of an auxiliary nature.
 
 - Then a channel appeared on Telegram, since relaying directly from VK was greatly complicated by its developers.
-In addition, this “distillation” made it possible to carry out high-quality filtration of the content.
-In the process, a template file even appeared with the serial numbers of all “live” records, which was
-temporarily used in the application to speed up work.
+In addition, this “distillation” made it possible to *carry out high-quality filtration of the content*.
+In the process, a *template file appeared with the serial numbers of all “live” records*, which is
+used in the application to speed up work (it excludes requests for non-existing records).
 
-- Finally, the GMJ query function has been added to the application. It allows you to periodically update
-the range of available entries, randomly select one of them and display it in the news log. In this case,
-the selected entry is crossed out from the list of available ones, which eliminates repetitions. The list
-is reset when the end of the range is reached.
+- Finally, the *GMJ query function* has been added to the application. It allows you to *periodically update
+the range of available entries, randomly select one of them* and display it in the news log. In this case,
+the *selected entry is crossed out from the list of available ones*, which eliminates repetitions. The list
+is reset when the end of the range is reached. Therefore, *the entire archive of posts
+rotates continuously, remaining fully accessible to the user*.
 
 In this form, this mechanism has been working properly for more than three years. It can potentially
 be applied to any content with certain ***critical characteristics***:
