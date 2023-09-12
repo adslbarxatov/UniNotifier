@@ -24,4 +24,9 @@ What does it offer?
 - The *main log* provides a view of changes, access to source webpages from which they were received, and the ability to share them.
 - A *static service notification* will inform you about the presence of new changes received in the background.
 
-More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk)
+---
+
+More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk).
+
+The description for the data processing concept used in ***Grammar must joy*** project you can also find
+[on its own page](https://adslbarxatov.github.io/UniNotifier/GMJ_en).
