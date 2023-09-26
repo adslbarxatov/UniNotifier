@@ -336,4 +336,7 @@ It is also possible to display a notification only if this condition is met</val
     <value>Notification has been updated:
 </value>
   </data>
+  <data name="MainMenuOption06" xml:space="preserve">
+    <value>&amp;Remove from startup</value>
+  </data>
 </root>

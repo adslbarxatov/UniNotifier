@@ -1,9 +1,7 @@
-_Changes for v 6.7_:
+_Changes for v 6.7.2_:
+- App now able to disable its autostart on OS boot;
+- App will now hide the mail log when you run the URL;
+- `GMJ`: updated the skip list;
 - New identity has been applied;
 - Added the obvious URLs for videoguide and for text guide;
-- `Windows`: for the user added short messages about the events of adding, updating and deleting notifications;
-- `Android`: fixed incorrect E-mail in “Ask the developer” function;
-- `Android`: fixed missing URL for initial Policy acception;
-- `GMJ`: обновлён список пропускаемых записей;
-- `GMJ`: скорректированы абзацные отступы в соглашении пользователя;
-- `GMJ`: скорректирован алгоритм заполнения списка доступных записей
+- `Windows`: for the user added short messages about the events of adding, updating and deleting notifications

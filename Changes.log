@@ -1,5 +1,10 @@
 uNot: changes log
 
+Version 6.7.2:
+• App now able to disable its autostart on OS boot;
+• App will now hide the mail log when you run the URL;
+• GMJ: updated the skip list
+
 Version 6.7:
 • New identity has been applied
 

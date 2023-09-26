@@ -80,6 +80,7 @@ namespace RD_AAOW
 				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout), AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
 				Localization.GetDefaultText (LzDefaultTextValues.Button_Exit), CloseService));
+			ni.ContextMenu.MenuItems.Add ("-");
 
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
@@ -87,6 +88,9 @@ namespace RD_AAOW
 			if (!File.Exists (RDGenerics.AutorunLinkPath))
 				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05"),
 					AddToStartup));
+			else
+				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption06"),
+					RemoveFromStartup));
 			}
 
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
@@ -153,7 +157,7 @@ namespace RD_AAOW
 			RDGenerics.ShowAbout (false);
 			}
 
-		// Добавление в автозапуск
+		// Добавление / удаление в автозапуске
 		private void AddToStartup (object sender, EventArgs e)
 			{
 			// Попытка создания
@@ -163,6 +167,16 @@ namespace RD_AAOW
 			// Контроль
 			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled =
 				!File.Exists (RDGenerics.AutorunLinkPath);
+			}
+
+		private void RemoveFromStartup (object sender, EventArgs e)
+			{
+			// Попытка создания
+			WindowsShortcut.DeleteStartupShortcut (ProgramDescription.AssemblyMainName);
+
+			// Контроль
+			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled =
+				File.Exists (RDGenerics.AutorunLinkPath);
 			}
 
 		// Итерация таймера обновления
@@ -186,8 +200,8 @@ namespace RD_AAOW
 			hwe.Dispose ();
 
 #if TGT
-			// Раз в 16 минут (1000 * 60 * 16)
-			if (++tgtCounter * MainTimer.Interval >= 960000)
+			// Раз в 13 минут (1000 * 60 * 13)
+			if (++tgtCounter * MainTimer.Interval >= 780000)
 				{
 				tgtInProgress = true;
 				tgtCounter = 0;
@@ -347,6 +361,7 @@ namespace RD_AAOW
 			try
 				{
 				Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
+				this.Close ();
 				}
 			catch { }
 			}

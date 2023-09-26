@@ -358,4 +358,7 @@
     <value>Обновлено оповещение:
 </value>
   </data>
+  <data name="MainMenuOption06" xml:space="preserve">
+    <value>&amp;Убрать из автозапуска</value>
+  </data>
 </root>
