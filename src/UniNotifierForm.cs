@@ -30,6 +30,7 @@ namespace RD_AAOW
 		private NotificationsSet ns = new NotificationsSet (true);
 		private List<string> texts = new List<string> ();
 		private List<int> notNumbers = new List<int> ();
+		private bool hideWindow;
 
 #if TGT
 		private uint tgtCounter = 0;
@@ -38,7 +39,7 @@ namespace RD_AAOW
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
 		/// </summary>
-		public UniNotifierForm ()
+		public UniNotifierForm (bool HideWindow)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -48,6 +49,7 @@ namespace RD_AAOW
 			MainText.Font = new Font ("Calibri", 13);
 			if (!RDGenerics.IsRegistryAccessible)
 				this.Text += Localization.GetDefaultText (LzDefaultTextValues.Message_LimitedFunctionality);
+			hideWindow = HideWindow;
 
 			ReloadNotificationsList ();
 #if TGT
@@ -80,24 +82,25 @@ namespace RD_AAOW
 				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout), AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
 				Localization.GetDefaultText (LzDefaultTextValues.Button_Exit), CloseService));
-			ni.ContextMenu.MenuItems.Add ("-");
+			/*ni.ContextMenu.MenuItems.Add ("-");*/
 
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
 
-			if (!File.Exists (RDGenerics.AutorunLinkPath))
+			/*if (!File.Exists (RDGenerics.AutorunLinkPath))
 				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05"),
 					AddToStartup));
 			else
 				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption06"),
-					RemoveFromStartup));
+					RemoveFromStartup));*/
 			}
 
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
 			{
 			// Скрытие окна настроек
 			UniNotifierForm_Resize (null, null);
-			this.Hide ();
+			if (hideWindow)
+				this.Hide ();
 
 			// Запуск
 			MainTimer.Interval = (int)ProgramDescription.MasterFrameLength * 4;
@@ -157,7 +160,7 @@ namespace RD_AAOW
 			RDGenerics.ShowAbout (false);
 			}
 
-		// Добавление / удаление в автозапуске
+		/* Добавление / удаление в автозапуске
 		private void AddToStartup (object sender, EventArgs e)
 			{
 			// Попытка создания
@@ -177,7 +180,7 @@ namespace RD_AAOW
 			// Контроль
 			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled =
 				File.Exists (RDGenerics.AutorunLinkPath);
-			}
+			}*/
 
 		// Итерация таймера обновления
 #if TGT

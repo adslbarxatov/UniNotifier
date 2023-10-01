@@ -12,7 +12,7 @@ namespace RD_AAOW
 		/// Главная точка входа для приложения
 		/// </summary>
 		[STAThread]
-		public static void Main ()
+		public static void Main (string[] args)
 			{
 			// Инициализация
 			Application.EnableVisualStyles ();
@@ -33,7 +33,7 @@ namespace RD_AAOW
 				ProgramDescription.RegisterAppExtensions ();
 
 			// Запуск
-			Application.Run (new UniNotifierForm ());
+			Application.Run (new UniNotifierForm ((args.Length > 0) && (args[0] == "-h")));
 			}
 		}
 	}
