@@ -1,12 +1,15 @@
-# UniNotifier v 6.7.5
-> PCC: 0005B8EED0EEA21C
+# UniNotifier
 
-
+## Description
 
 uNot (UniNotifier), the web resources supervisor service.
 A detailed description of the app is now available on [its own page](https://adslbarxatov.github.io/UniNotifier)
 
----
+&nbsp;
+
+
+
+## Описание
 
 uNot (UniNotifier) – служба наблюдения за состоянием веб-ресурсов.
 Подробное описание приложения теперь доступно на [отдельной странице](https://adslbarxatov.github.io/UniNotifier/ru)
