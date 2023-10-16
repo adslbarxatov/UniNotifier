@@ -82,17 +82,9 @@ namespace RD_AAOW
 				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout), AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
 				Localization.GetDefaultText (LzDefaultTextValues.Button_Exit), CloseService));
-			/*ni.ContextMenu.MenuItems.Add ("-");*/
 
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
-
-			/*if (!File.Exists (RDGenerics.AutorunLinkPath))
-				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption05"),
-					AddToStartup));
-			else
-				ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption06"),
-					RemoveFromStartup));*/
 			}
 
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
@@ -159,28 +151,6 @@ namespace RD_AAOW
 			{
 			RDGenerics.ShowAbout (false);
 			}
-
-		/* Добавление / удаление в автозапуске
-		private void AddToStartup (object sender, EventArgs e)
-			{
-			// Попытка создания
-			WindowsShortcut.CreateStartupShortcut (Application.ExecutablePath,
-				ProgramDescription.AssemblyMainName, "");
-
-			// Контроль
-			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled =
-				!File.Exists (RDGenerics.AutorunLinkPath);
-			}
-
-		private void RemoveFromStartup (object sender, EventArgs e)
-			{
-			// Попытка создания
-			WindowsShortcut.DeleteStartupShortcut (ProgramDescription.AssemblyMainName);
-
-			// Контроль
-			ni.ContextMenu.MenuItems[ni.ContextMenu.MenuItems.Count - 1].Enabled =
-				File.Exists (RDGenerics.AutorunLinkPath);
-			}*/
 
 		// Итерация таймера обновления
 #if TGT

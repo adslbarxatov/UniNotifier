@@ -1,4 +1,5 @@
-_Changes for v 6.7.5_:
+_Changes for v 6.7.6_:
+- Completed the process of version control unification;
 - `Windows`: adding (and deleting) to autorun has been moved to the app deployment / update procedure;
 - `Windows`: updates and fixes have been applied to the update polling mechanism, as well as to other auxiliary functions;
 - `Windows`: the main window will now automatically minimize to tray when calling an app from startup;

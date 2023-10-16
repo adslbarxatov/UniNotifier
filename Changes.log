@@ -1,5 +1,8 @@
 uNot: changes log
 
+Version 6.7.6:
+• Completed the process of version control unification
+
 Version 6.7.5:
 • Windows: adding (and deleting) to autorun has been moved to the app deployment / update procedure;
 • Windows: updates and fixes have been applied to the update polling mechanism, as well as to other auxiliary functions;
