@@ -192,7 +192,8 @@ namespace RD_AAOW
 					(MainText.Text.Length > texts[0].Length))   // Бывает и так
 					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
-					MainText.AppendText (Localization.RNRN);
+					MainText.AppendText (Localization.RNRN + Localization.RN);
+
 				if (DateTime.Today > ProgramDescription.LastNotStamp)
 					{
 					ProgramDescription.LastNotStamp = DateTime.Today;

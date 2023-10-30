@@ -1,7 +1,9 @@
 uNot: changes log
 
-Version 6.7.6:
-• Completed the process of version control unification
+Version 6.7.7:
+• Completed the process of version control unification;
+• Android: Xamarin support packages have been updated;
+• GMJ: skip list has been updated
 
 Version 6.7.5:
 • Windows: adding (and deleting) to autorun has been moved to the app deployment / update procedure;
