@@ -173,8 +173,8 @@ namespace RD_AAOW
 			hwe.Dispose ();
 
 #if TGT
-			// Раз в 13 минут (1000 * 60 * 13)
-			if (++tgtCounter * MainTimer.Interval >= 780000)
+			// Раз в 19 минут (1000 * 60 * 19)
+			if (++tgtCounter * MainTimer.Interval >= 1140000)
 				{
 				tgtInProgress = true;
 				tgtCounter = 0;

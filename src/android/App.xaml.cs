@@ -332,6 +332,11 @@ namespace RD_AAOW
 			aboutFontSizeField = AndroidSupport.ApplyLabelSettings (aboutPage, "FontSizeField",
 				" ", ASLabelTypes.DefaultCenter);
 
+			AndroidSupport.ApplyLabelSettings (aboutPage, "HelpTextLabel",
+				RDGenerics.GetEncoding (SupportedEncodings.UTF8).
+				GetString ((byte[])RD_AAOW.Properties.Resources.ResourceManager.
+				GetObject (Localization.GetHelpFilePath ())), ASLabelTypes.SmallLeft);
+
 			FontSizeButton_Clicked (null, null);
 
 			#endregion

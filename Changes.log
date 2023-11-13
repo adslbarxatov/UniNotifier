@@ -1,5 +1,9 @@
 uNot: changes log
 
+Version 6.7.9:
+• Added a new version of offline help;
+• Android: Xamarin support packages have been updated
+
 Version 6.7.7:
 • Completed the process of version control unification;
 • Android: Xamarin support packages have been updated;
