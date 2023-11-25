@@ -505,12 +505,12 @@ namespace RD_AAOW
 				NotificationsSupport.SetTipState (NSTipTypes.FrequencyTip);
 				}
 
-			if (AndroidSupport.AllowFontSizeTip)
+			/*if (AndroidSupport.AllowFontSizeTip)
 				{
 				await AndroidSupport.ShowMessage (
 					Localization.GetDefaultText (LzDefaultTextValues.Message_FontSizeAvailable),
 					Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
-				}
+				}*/
 			}
 
 		// Метод отображает остальные подсказки

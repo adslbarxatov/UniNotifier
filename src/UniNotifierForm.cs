@@ -173,8 +173,8 @@ namespace RD_AAOW
 			hwe.Dispose ();
 
 #if TGT
-			// Раз в 19 минут (1000 * 60 * 19)
-			if (++tgtCounter * MainTimer.Interval >= 1140000)
+			// Раз в 13 минут (1000 * 60 * 13)
+			if (++tgtCounter * MainTimer.Interval >= 780000)
 				{
 				tgtInProgress = true;
 				tgtCounter = 0;
@@ -374,9 +374,9 @@ namespace RD_AAOW
 			MainText.Width = this.Width - 40;
 			MainText.Height = this.Height - 90;
 
-			BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 73;
-			NamesCombo.Top = BClose.Top + 2;
-			FontSizeField.Top = BGo.Top + 3;
+			BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 71;
+			NamesCombo.Top = BClose.Top + 1;
+			FontSizeField.Top = BClose.Top + 2;
 			}
 
 		// Сохранение размера формы
