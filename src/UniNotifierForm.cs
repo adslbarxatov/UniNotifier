@@ -400,6 +400,11 @@ namespace RD_AAOW
 				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
 #endif
 			notNumbers.Add (0);
+
+#if TGT
+			if (s.Contains (GMJ.SourceNoReturnPattern))
+				ns.HasUrgentNotifications = true;
+#endif
 			}
 
 		// Изменение размера шрифта
