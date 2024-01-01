@@ -1,5 +1,11 @@
 uNot: changes log
 
+ToDo:
+- If you want the notification non-dismissable by the user, pass true into the setOngoing() method when you create your notification using Notification.Builder
+- The service has opted out of the behavior change by passing FOREGROUND_SERVICE_IMMEDIATE into setForegroundServiceBehavior() when setting up the notification
+- android:foregroundServiceType="camera|microphone"
+- Starting the service from onResume is not allowed anymore
+
 Version 6.8:
 • New identity has been applied;
 • GMJ skip list has been updated
