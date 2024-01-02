@@ -1,10 +1,16 @@
 uNot: changes log
 
 ToDo:
-- If you want the notification non-dismissable by the user, pass true into the setOngoing() method when you create your notification using Notification.Builder
-- The service has opted out of the behavior change by passing FOREGROUND_SERVICE_IMMEDIATE into setForegroundServiceBehavior() when setting up the notification
-- android:foregroundServiceType="camera|microphone"
-- Starting the service from onResume is not allowed anymore
+- Add a tip for the previous change
+
+Version 6.8.1:
+• Android: some recommendations have been applied for setting up the locked notifications
+  in Android S and newer;
+• Android: in OS versions starting from 12, minimizing an app when the service is disabled
+  (without closing it) and then returning focus to it results in an error. This user action
+  is treated by the app as a need to restart the background service. But in Android S and newer
+  such launch is prohibited. Now minimizing the app while the background service is unchecked
+  will disable it until the app is restarted (on the specified OS versions)
 
 Version 6.8:
 • New identity has been applied;
