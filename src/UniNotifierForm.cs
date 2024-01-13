@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace RD_AAOW
@@ -48,14 +47,14 @@ namespace RD_AAOW
 			this.CancelButton = BClose;
 			MainText.Font = new Font ("Calibri", 13);
 			if (!RDGenerics.IsRegistryAccessible)
-				this.Text += Localization.GetDefaultText (LzDefaultTextValues.Message_LimitedFunctionality);
+				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
 			hideWindow = HideWindow;
 
 			ReloadNotificationsList ();
 #if TGT
 			GetGMJ.Visible = false;
 #else
-			GetGMJ.Visible = Localization.IsCurrentLanguageRuRu;
+			GetGMJ.Visible = RDLocale.IsCurrentLanguageRuRu;
 #endif
 
 			// Получение настроек
@@ -75,13 +74,13 @@ namespace RD_AAOW
 
 			ni.ContextMenu = new ContextMenu ();
 
-			ni.ContextMenu.MenuItems.Add (new MenuItem (Localization.GetText ("MainMenuOption02"), ShowSettings));
+			ni.ContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("MainMenuOption02"), ShowSettings));
 			ni.ContextMenu.MenuItems[0].Enabled = RDGenerics.IsRegistryAccessible;
 
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
-				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout), AboutService));
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout), AboutService));
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Exit), CloseService));
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit), CloseService));
 
 			ni.MouseDown += ShowHideFullText;
 			ni.ContextMenu.MenuItems[2].DefaultItem = true;
@@ -169,8 +168,9 @@ namespace RD_AAOW
 #endif
 
 			// Запуск запроса
-			HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null, false, false);
-			hwe.Dispose ();
+			/*HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null, false, false);
+			hwe.Dispose ();*/
+			RDGenerics.RunWork (DoUpdate, null, null, RDRunWorkFlags.DontSuspendExecution);
 
 #if TGT
 			// Раз в 13 минут (1000 * 60 * 13)
@@ -192,21 +192,21 @@ namespace RD_AAOW
 					(MainText.Text.Length > texts[0].Length))   // Бывает и так
 					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
-					MainText.AppendText (Localization.RNRN + Localization.RN);
+					MainText.AppendText (RDLocale.RNRN + RDLocale.RN);
 
 				if (DateTime.Today > ProgramDescription.LastNotStamp)
 					{
 					ProgramDescription.LastNotStamp = DateTime.Today;
 
-					var ci = Localization.GetCulture (Localization.CurrentLanguage);
-					MainText.AppendText (Localization.RN + "--- " +
+					var ci = RDLocale.GetCulture (RDLocale.CurrentLanguage);
+					MainText.AppendText (RDLocale.RN + "--- " +
 						DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
-						" ---" + Localization.RNRN);
+						" ---" + RDLocale.RNRN);
 					}
 
 				// Добавление и форматирование
 				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (),
-					Localization.RN));
+					RDLocale.RN));
 
 				// Отображение всплывающего сообщения
 				if (!this.Visible)
@@ -311,17 +311,17 @@ namespace RD_AAOW
 				}
 #endif
 
-			ni.ContextMenu.MenuItems[0].Text = Localization.GetText ("MainMenuOption02");
+			ni.ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
 			ni.ContextMenu.MenuItems[1].Text =
-				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout);
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
 			ni.ContextMenu.MenuItems[2].Text =
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Exit);
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
 			if (ni.ContextMenu.MenuItems.Count > 3)
-				ni.ContextMenu.MenuItems[3].Text = Localization.GetText ("MainMenuOption05");
+				ni.ContextMenu.MenuItems[3].Text = RDLocale.GetText ("MainMenuOption05");
 
 			// Перезапуск
 			bool complete = (RDGenerics.LocalizedMessageBox (RDMessageTypes.Question_Center, "RecallAllNews",
-				LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) ==
+				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
 				RDMessageButtons.ButtonOne);
 
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально

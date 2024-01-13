@@ -138,6 +138,9 @@
   <data name="AllowStartLabel" xml:space="preserve">
     <value>Keep service active after exit</value>
   </data>
+  <data name="AllowStartTip" xml:space="preserve">
+    <value>If pinned notification of {0:S} is not at the top of the screen, this option will require a restart of the app</value>
+  </data>
   <data name="AllowVibroLabel" xml:space="preserve">
     <value>Vibration</value>
   </data>

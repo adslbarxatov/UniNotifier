@@ -138,6 +138,9 @@
   <data name="AllowStartLabel" xml:space="preserve">
     <value>Оставить службу активной после выхода</value>
   </data>
+  <data name="AllowStartTip" xml:space="preserve">
+    <value>Если закреплённое оповещение {0:S} отсутствует в верхней части экрана, эта опция потребует перезапуска приложения</value>
+  </data>
   <data name="AllowVibroLabel" xml:space="preserve">
     <value>Вибрация</value>
   </data>

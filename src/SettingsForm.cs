@@ -37,7 +37,7 @@ namespace RD_AAOW
 
 			ofd = new OpenFileDialog ();
 			sfd = new SaveFileDialog ();
-			ofd.Filter = sfd.Filter = Localization.GetText (NotificationsSet.SettingsFileExtension + "file") + "|" +
+			ofd.Filter = sfd.Filter = RDLocale.GetText (NotificationsSet.SettingsFileExtension + "file") + "|" +
 				NotificationsSet.SettingsFileName;
 			ofd.Title = sfd.Title = ProgramDescription.AssemblyVisibleName;
 			ofd.CheckFileExists = ofd.CheckPathExists = true;
@@ -46,10 +46,10 @@ namespace RD_AAOW
 			ofd.RestoreDirectory = sfd.RestoreDirectory = true;
 			ofd.ShowHelp = ofd.ShowReadOnly = sfd.ShowHelp = false;
 
-			LanguageCombo.Items.AddRange (Localization.LanguagesNames);
+			LanguageCombo.Items.AddRange (RDLocale.LanguagesNames);
 			try
 				{
-				LanguageCombo.SelectedIndex = (int)Localization.CurrentLanguage;
+				LanguageCombo.SelectedIndex = (int)RDLocale.CurrentLanguage;
 				}
 			catch
 				{
@@ -224,7 +224,7 @@ namespace RD_AAOW
 				NotificationsList.SelectedIndex = NotificationsList.Items.Count - 1;
 
 			RDGenerics.MessageBox (RDMessageTypes.Success_Center,
-				Localization.GetText (ItemNumber < 0 ? "NotAddedMessage" : "NotUpdatedMessage") + ni.Name,
+				RDLocale.GetText (ItemNumber < 0 ? "NotAddedMessage" : "NotUpdatedMessage") + ni.Name,
 				messagesTimeout);
 			}
 
@@ -240,7 +240,7 @@ namespace RD_AAOW
 				}
 
 			if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "DeleteMessage",
-				LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) ==
+				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
 				RDMessageButtons.ButtonTwo)
 				return;
 
@@ -263,18 +263,18 @@ namespace RD_AAOW
 		private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)
 			{
 			// Сохранение
-			Localization.CurrentLanguage = (SupportedLanguages)LanguageCombo.SelectedIndex;
+			RDLocale.CurrentLanguage = (RDLanguages)LanguageCombo.SelectedIndex;
 
 			// Локализация
-			Localization.SetControlsText (this);
-			BDelete.Text = Localization.GetDefaultText (LzDefaultTextValues.Button_Delete);
-			BUpdate.Text = Localization.GetDefaultText (LzDefaultTextValues.Button_Update);
+			RDLocale.SetControlsText (this);
+			BDelete.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Delete);
+			BUpdate.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Update);
 
 			int idx = ComparatorType.SelectedIndex;
 			char[] ctSplitter = new char[] { '\n' };
 
 			ComparatorType.Items.Clear ();
-			ComparatorType.Items.AddRange (Localization.GetText ("ComparatorTypes").Split (ctSplitter));
+			ComparatorType.Items.AddRange (RDLocale.GetText ("ComparatorTypes").Split (ctSplitter));
 
 			if (idx >= 0)
 				ComparatorType.SelectedIndex = idx;
@@ -295,9 +295,9 @@ namespace RD_AAOW
 			ProgramDescription.ShowTips (ProgramDescription.TipTypes.ShareSettings);
 
 			// Выбор варианта выгрузки
-			switch (RDGenerics.MessageBox (RDMessageTypes.Question_Left, Localization.GetText ("ShareVariant"),
-				Localization.GetText ("ShareFile"), Localization.GetText ("ShareClipboard"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel)))
+			switch (RDGenerics.MessageBox (RDMessageTypes.Question_Left, RDLocale.GetText ("ShareVariant"),
+				RDLocale.GetText ("ShareFile"), RDLocale.GetText ("ShareClipboard"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel)))
 				{
 				// Сохранение в файл
 				case RDMessageButtons.ButtonOne:
@@ -310,13 +310,13 @@ namespace RD_AAOW
 					try
 						{
 						File.WriteAllText (sfd.FileName, notifications.GetSettingsList (),
-							RDGenerics.GetEncoding (SupportedEncodings.Unicode16));
+							RDGenerics.GetEncoding (RDEncodings.Unicode16));
 						}
 					catch
 						{
 						RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
-							Localization.GetFileProcessingMessage (sfd.FileName,
-							LzFileProcessingMessageTypes.Save_Failure));
+							RDLocale.GetFileProcessingMessage (sfd.FileName,
+							RDL_FP_Messages.Save_Failure));
 						}
 					break;
 
@@ -356,7 +356,7 @@ namespace RD_AAOW
 					return;
 
 				if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "LoadingWarning",
-					LzDefaultTextValues.Button_YesNoFocus, LzDefaultTextValues.Button_No) !=
+					RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) !=
 					RDMessageButtons.ButtonOne)
 					return;
 
@@ -364,13 +364,13 @@ namespace RD_AAOW
 				try
 					{
 					settings = File.ReadAllText (ofd.FileName,
-						RDGenerics.GetEncoding (SupportedEncodings.Unicode16));
+						RDGenerics.GetEncoding (RDEncodings.Unicode16));
 					}
 				catch
 					{
 					RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
-						Localization.GetFileProcessingMessage (ofd.FileName,
-						LzFileProcessingMessageTypes.Load_Failure));
+						RDLocale.GetFileProcessingMessage (ofd.FileName,
+						RDL_FP_Messages.Load_Failure));
 					return;
 					}
 				notifications.SetSettingsList (settings);
@@ -440,7 +440,7 @@ namespace RD_AAOW
 			try
 				{
 				v = double.Parse (ComparatorValue.Text.Replace (',', '.'),
-					Localization.GetCulture (SupportedLanguages.en_us));
+					RDLocale.GetCulture (RDLanguages.en_us));
 				}
 			catch { }
 
@@ -449,7 +449,7 @@ namespace RD_AAOW
 			else
 				v -= 1.0;
 
-			ComparatorValue.Text = v.ToString (Localization.GetCulture (SupportedLanguages.en_us));
+			ComparatorValue.Text = v.ToString (RDLocale.GetCulture (RDLanguages.en_us));
 			}
 
 		// Изменение состояния «включено»

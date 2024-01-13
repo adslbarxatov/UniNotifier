@@ -35,15 +35,17 @@ namespace RD_AAOW
 #if !ANDROID
 			byte[] s = Properties.GMJNotifier.Templates;
 			if (FullyInitializeTemplates)
-				{
-				HardWorkExecutor hwe = new HardWorkExecutor (TemplatesListLoader, null, null, false, false);
-				}
+				RDGenerics.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
+
+			/*{
+			HardWorkExecutor hwe = new HardWorkExecutor (TemplatesListLoader, null, null, false, false);
+			}*/
 #else
 			byte[] s = Properties.Resources.Templates;
 			if (FullyInitializeTemplates)
 				TemplatesListLoader ();
 #endif
-			string buf = RDGenerics.GetEncoding (SupportedEncodings.UTF8).GetString (s);
+			string buf = RDGenerics.GetEncoding (RDEncodings.UTF8).GetString (s);
 
 			// Получение загруженных шаблонов
 			string buf2 = RDGenerics.GetAppSettingsValue (externalTemplatesSubkey);
@@ -238,7 +240,7 @@ namespace RD_AAOW
 
 				for (int i = 0; i < 4; i++)
 					tmp += (values[i] + fileTemplateSplitter[0].ToString ());
-				tmp += (values[4] + Localization.RN);
+				tmp += (values[4] + RDLocale.RN);
 				}
 
 			// Запись

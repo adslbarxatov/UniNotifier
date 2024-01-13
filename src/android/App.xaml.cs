@@ -24,7 +24,7 @@ namespace RD_AAOW
 		private const string semaphoreOn = "●";
 		private const string semaphoreOff = "○";
 
-		private uint maintenanceOpeningIndex = 0;
+		/*private uint maintenanceOpeningIndex = 0;*/
 
 		// Методы сравнения для уведомлений, текущий метод и направление приращения порога
 		private List<string> comparatorTypes;
@@ -119,20 +119,20 @@ namespace RD_AAOW
 
 			// Список типов компараторов
 			char[] ctSplitter = new char[] { '\n' };
-			comparatorTypes = new List<string> (Localization.GetText ("ComparatorTypes").Split (ctSplitter));
+			comparatorTypes = new List<string> (RDLocale.GetText ("ComparatorTypes").Split (ctSplitter));
 
 			#region Общая конструкция страниц приложения
 
 			MainPage = new MasterPage ();
 
 			settingsPage = AndroidSupport.ApplyPageSettings (MainPage, "SettingsPage",
-				Localization.GetText ("SettingsPage"), settingsMasterBackColor);
+				RDLocale.GetText ("SettingsPage"), settingsMasterBackColor);
 			notSettingsPage = AndroidSupport.ApplyPageSettings (MainPage, "NotSettingsPage",
-				Localization.GetText ("NotSettingsPage"), notSettingsMasterBackColor);
+				RDLocale.GetText ("NotSettingsPage"), notSettingsMasterBackColor);
 			aboutPage = AndroidSupport.ApplyPageSettings (MainPage, "AboutPage",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_AppAbout), aboutMasterBackColor);
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout), aboutMasterBackColor);
 			logPage = AndroidSupport.ApplyPageSettings (MainPage, "LogPage",
-				Localization.GetText ("LogPage"), logMasterBackColor);
+				RDLocale.GetText ("LogPage"), logMasterBackColor);
 			AndroidSupport.SetMainPage (MainPage);
 
 			#endregion
@@ -145,44 +145,49 @@ namespace RD_AAOW
 			#region Настройки службы
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "ServiceSettingsLabel",
-				Localization.GetText ("ServiceSettingsLabel"), ASLabelTypes.HeaderLeft);
+				RDLocale.GetText ("ServiceSettingsLabel"), RDLabelTypes.HeaderLeft);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartLabel",
-				Localization.GetText ("AllowStartLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("AllowStartLabel"), RDLabelTypes.DefaultLeft);
 			allowStart = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowStartSwitch",
 				false, settingsFieldBackColor, AllowStart_Toggled, AndroidSupport.AllowServiceToStart);
 
+			if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
+				AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
+					string.Format (RDLocale.GetText ("AllowStartTip"), ProgramDescription.AssemblyMainName),
+					RDLabelTypes.Tip);
+
 			AndroidSupport.ApplyLabelSettings (settingsPage, "NotWizardLabel",
-				Localization.GetText ("NotWizardLabel"), ASLabelTypes.HeaderLeft);
+				RDLocale.GetText ("NotWizardLabel"), RDLabelTypes.HeaderLeft);
 			notWizardButton = AndroidSupport.ApplyButtonSettings (settingsPage, "NotWizardButton",
-				Localization.GetText ("NotWizardButton"), settingsFieldBackColor, StartNotificationsWizard, false);
+				RDLocale.GetText ("NotWizardButton"), settingsFieldBackColor, StartNotificationsWizard, false);
 
 			allowSoundLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowSoundLabel",
-				Localization.GetText ("AllowSoundLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("AllowSoundLabel"), RDLabelTypes.DefaultLeft);
 			allowSoundSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowSoundSwitch",
 				false, settingsFieldBackColor, AllowSound_Toggled, NotificationsSupport.AllowSound);
 
 			allowLightLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowLightLabel",
-				Localization.GetText ("AllowLightLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("AllowLightLabel"), RDLabelTypes.DefaultLeft);
 			allowLightSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowLightSwitch",
 				false, settingsFieldBackColor, AllowLight_Toggled, NotificationsSupport.AllowLight);
 
 			allowVibroLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowVibroLabel",
-				Localization.GetText ("AllowVibroLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("AllowVibroLabel"), RDLabelTypes.DefaultLeft);
 			allowVibroSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowVibroSwitch",
 				false, settingsFieldBackColor, AllowVibro_Toggled, NotificationsSupport.AllowVibro);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "IndicateOnlyUrgentLabel",
-				Localization.GetText ("IndicateOnlyUrgentLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("IndicateOnlyUrgentLabel"), RDLabelTypes.DefaultLeft);
 			indicateOnlyUrgentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "IndicateOnlyUrgentSwitch",
 				false, settingsFieldBackColor, IndicateOnlyUrgent_Toggled,
 				NotificationsSupport.IndicateOnlyUrgentNotifications);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "AppSettingsLabel",
-				Localization.GetText ("AppSettingsLabel"), ASLabelTypes.HeaderLeft);
+				RDLocale.GetText ("AppSettingsLabel"), RDLabelTypes.HeaderLeft);
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "KeepScreenOnLabel",
-				Localization.GetText ("KeepScreenOnLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("KeepScreenOnLabel"), RDLabelTypes.DefaultLeft);
 			keepScreenOnSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "KeepScreenOnSwitch",
 				false, settingsFieldBackColor, KeepScreenOnSwitch_Toggled, AndroidSupport.KeepScreenOn);
 
@@ -191,7 +196,7 @@ namespace RD_AAOW
 				AndroidSupport.AreNotificationsConfigurable;
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "CenterButtonLabel",
-				Localization.GetText ("CenterButtonLabel"), ASLabelTypes.HeaderLeft);
+				RDLocale.GetText ("CenterButtonLabel"), RDLabelTypes.HeaderLeft);
 			centerButtonFunction = AndroidSupport.ApplyButtonSettings (settingsPage, "CenterButtonFunction",
 				NotificationsSupport.SpecialFunctionName, settingsFieldBackColor,
 				SetSpecialFunction_Clicked, false);
@@ -201,59 +206,59 @@ namespace RD_AAOW
 			#region Настройки оповещений
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "SelectionLabel",
-				Localization.GetText ("SelectionLabel"), ASLabelTypes.HeaderLeft);
+				RDLocale.GetText ("SelectionLabel"), RDLabelTypes.HeaderLeft);
 			selectedNotification = AndroidSupport.ApplyButtonSettings (notSettingsPage, "SelectedNotification",
 				"", notSettingsFieldBackColor, SelectNotification, false);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "NameFieldLabel",
-				Localization.GetText ("NameFieldLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("NameFieldLabel"), RDLabelTypes.DefaultLeft);
 			nameField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "NameField", notSettingsFieldBackColor,
 				Keyboard.Text, Notification.MaxBeginningEndingLength, "", null, true);
-			nameField.Placeholder = Localization.GetText ("NameFieldPlaceholder");
+			nameField.Placeholder = RDLocale.GetText ("NameFieldPlaceholder");
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "SettingsLabel",
-				Localization.GetText ("SettingsLabel"), ASLabelTypes.HeaderLeft);
+				RDLocale.GetText ("SettingsLabel"), RDLabelTypes.HeaderLeft);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "LinkFieldLabel",
-				Localization.GetText ("LinkFieldLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("LinkFieldLabel"), RDLabelTypes.DefaultLeft);
 			linkFieldButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "LinkFieldButton",
-				ASButtonDefaultTypes.Select, notSettingsFieldBackColor, SpecifyNotificationLink);
+				RDDefaultButtons.Select, notSettingsFieldBackColor, SpecifyNotificationLink);
 
 			occFieldLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "OccFieldLabel", "",
-				ASLabelTypes.DefaultLeft);
+				RDLabelTypes.DefaultLeft);
 			occFieldLabel.TextType = TextType.Html;
 
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccIncButton",
-				ASButtonDefaultTypes.Increase, notSettingsFieldBackColor, OccurrenceChanged);
+				RDDefaultButtons.Increase, notSettingsFieldBackColor, OccurrenceChanged);
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "OccDecButton",
-				ASButtonDefaultTypes.Decrease, notSettingsFieldBackColor, OccurrenceChanged);
+				RDDefaultButtons.Decrease, notSettingsFieldBackColor, OccurrenceChanged);
 			currentOcc = 1;
 
 			requestStepFieldLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "RequestStepFieldLabel",
-				"", ASLabelTypes.DefaultLeft);
+				"", RDLabelTypes.DefaultLeft);
 			requestStepFieldLabel.TextType = TextType.Html;
 
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "RequestStepIncButton",
-				ASButtonDefaultTypes.Increase, notSettingsFieldBackColor, RequestStepChanged);
+				RDDefaultButtons.Increase, notSettingsFieldBackColor, RequestStepChanged);
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "RequestStepDecButton",
-				ASButtonDefaultTypes.Decrease, notSettingsFieldBackColor, RequestStepChanged);
+				RDDefaultButtons.Decrease, notSettingsFieldBackColor, RequestStepChanged);
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "RequestStepLongIncButton",
-				ASButtonDefaultTypes.Create, notSettingsFieldBackColor, RequestStepChanged);
+				RDDefaultButtons.Create, notSettingsFieldBackColor, RequestStepChanged);
 			currentFreq = NotificationsSet.DefaultUpdatingFrequency;
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "EnabledLabel",
-				Localization.GetText ("EnabledLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("EnabledLabel"), RDLabelTypes.DefaultLeft);
 			enabledSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "EnabledSwitch",
 				false, notSettingsFieldBackColor, null, false);
 
 			AndroidSupport.ApplyLabelSettings (notSettingsPage, "AvailabilityLabel",
-				Localization.GetText ("AvailabilityLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("AvailabilityLabel"), RDLabelTypes.DefaultLeft);
 			notifyIfUnavailableSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "AvailabilitySwitch",
 				false, notSettingsFieldBackColor, null, false);
 
 			// Новые
 			comparatorLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "ComparatorLabel",
-				Localization.GetText ("ComparatorLabelOff"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("ComparatorLabelOff"), RDLabelTypes.DefaultLeft);
 			comparatorSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "ComparatorSwitch",
 				false, notSettingsFieldBackColor, ComparatorSwitch_Toggled, false);
 			comparatorTypeButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorType",
@@ -262,14 +267,14 @@ namespace RD_AAOW
 			comparatorValueField = AndroidSupport.ApplyEditorSettings (notSettingsPage, "ComparatorValue",
 				notSettingsFieldBackColor, Keyboard.Default, 10, "0", null, true);
 			comparatorIncButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorValueIncButton",
-				ASButtonDefaultTypes.Increase, notSettingsFieldBackColor, ComparatorValueChanged);
+				RDDefaultButtons.Increase, notSettingsFieldBackColor, ComparatorValueChanged);
 			comparatorDecButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorValueDecButton",
-				ASButtonDefaultTypes.Decrease, notSettingsFieldBackColor, ComparatorValueChanged);
+				RDDefaultButtons.Decrease, notSettingsFieldBackColor, ComparatorValueChanged);
 			comparatorLongButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ComparatorValueLongButton",
-				ASButtonDefaultTypes.Create, notSettingsFieldBackColor, ComparatorValueChanged);
+				RDDefaultButtons.Create, notSettingsFieldBackColor, ComparatorValueChanged);
 
 			ignoreMisfitsLabel = AndroidSupport.ApplyLabelSettings (notSettingsPage, "IgnoreMisfitsLabel",
-				Localization.GetText ("IgnoreMisfitsLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("IgnoreMisfitsLabel"), RDLabelTypes.DefaultLeft);
 			ignoreMisfitsSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "IgnoreMisfitsSwitch",
 				false, notSettingsFieldBackColor, null, false);
 
@@ -283,59 +288,59 @@ namespace RD_AAOW
 			#region Управление оповещениями
 
 			applyButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "ApplyButton",
-				ASButtonDefaultTypes.Apply, notSettingsFieldBackColor, ApplyNotification);
+				RDDefaultButtons.Apply, notSettingsFieldBackColor, ApplyNotification);
 			applyButton.HorizontalOptions = LayoutOptions.Fill;
 
 			deleteButton = AndroidSupport.ApplyButtonSettings (notSettingsPage, "DeleteButton",
-				ASButtonDefaultTypes.Delete, notSettingsFieldBackColor, DeleteNotification);
+				RDDefaultButtons.Delete, notSettingsFieldBackColor, DeleteNotification);
 
 			AndroidSupport.ApplyButtonSettings (notSettingsPage, "ShareTemplateButton",
-				ASButtonDefaultTypes.Share, notSettingsFieldBackColor, ShareTemplate);
+				RDDefaultButtons.Share, notSettingsFieldBackColor, ShareTemplate);
 
 			#endregion
 
 			#region Страница "О программе"
 
 			aboutLabel = AndroidSupport.ApplyLabelSettings (aboutPage, "AboutLabel",
-				RDGenerics.AppAboutLabelText, ASLabelTypes.AppAbout);
+				RDGenerics.AppAboutLabelText, RDLabelTypes.AppAbout);
 
 			AndroidSupport.ApplyButtonSettings (aboutPage, "ManualsButton",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_ReferenceMaterials),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_ReferenceMaterials),
 				aboutFieldBackColor, ReferenceButton_Click, false);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "HelpButton",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_HelpSupport),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_HelpSupport),
 				aboutFieldBackColor, HelpButton_Click, false);
 			AndroidSupport.ApplyLabelSettings (aboutPage, "GenericSettingsLabel",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_GenericSettings),
-				ASLabelTypes.HeaderLeft);
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_GenericSettings),
+				RDLabelTypes.HeaderLeft);
 
 			UpdateNotButtons ();
 
 			AndroidSupport.ApplyLabelSettings (aboutPage, "RestartTipLabel",
-				Localization.GetDefaultText (LzDefaultTextValues.Message_RestartRequired),
-				ASLabelTypes.Tip);
+				RDLocale.GetDefaultText (RDLDefaultTexts.Message_RestartRequired),
+				RDLabelTypes.Tip);
 
 			AndroidSupport.ApplyLabelSettings (aboutPage, "LanguageLabel",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_InterfaceLanguage),
-				ASLabelTypes.DefaultLeft);
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage),
+				RDLabelTypes.DefaultLeft);
 			languageButton = AndroidSupport.ApplyButtonSettings (aboutPage, "LanguageSelector",
-				Localization.LanguagesNames[(int)Localization.CurrentLanguage],
+				RDLocale.LanguagesNames[(int)RDLocale.CurrentLanguage],
 				aboutFieldBackColor, SelectLanguage_Clicked, false);
 
 			AndroidSupport.ApplyLabelSettings (aboutPage, "FontSizeLabel",
-				Localization.GetDefaultText (LzDefaultTextValues.Control_InterfaceFontSize),
-				ASLabelTypes.DefaultLeft);
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceFontSize),
+				RDLabelTypes.DefaultLeft);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "FontSizeInc",
-				ASButtonDefaultTypes.Increase, aboutFieldBackColor, FontSizeButton_Clicked);
+				RDDefaultButtons.Increase, aboutFieldBackColor, FontSizeButton_Clicked);
 			AndroidSupport.ApplyButtonSettings (aboutPage, "FontSizeDec",
-				ASButtonDefaultTypes.Decrease, aboutFieldBackColor, FontSizeButton_Clicked);
+				RDDefaultButtons.Decrease, aboutFieldBackColor, FontSizeButton_Clicked);
 			aboutFontSizeField = AndroidSupport.ApplyLabelSettings (aboutPage, "FontSizeField",
-				" ", ASLabelTypes.DefaultCenter);
+				" ", RDLabelTypes.DefaultCenter);
 
 			AndroidSupport.ApplyLabelSettings (aboutPage, "HelpTextLabel",
-				RDGenerics.GetEncoding (SupportedEncodings.UTF8).
+				RDGenerics.GetEncoding (RDEncodings.UTF8).
 				GetString ((byte[])RD_AAOW.Properties.Resources.ResourceManager.
-				GetObject (Localization.GetHelpFilePath ())), ASLabelTypes.SmallLeft);
+				GetObject (RDLocale.GetHelpFilePath ())), RDLabelTypes.SmallLeft);
 
 			FontSizeButton_Clicked (null, null);
 
@@ -358,23 +363,23 @@ namespace RD_AAOW
 			centerButton.Margin = centerButton.Padding = new Thickness (0);
 			centerButton.FontSize += 6;
 
-			scrollUpButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollUp", ASButtonDefaultTypes.Up,
-				logFieldBackColor, ScrollUpButton_Click);
+			scrollUpButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollUp",
+				RDDefaultButtons.Up, logFieldBackColor, ScrollUpButton_Click);
 			scrollUpButton.Margin = scrollUpButton.Padding = new Thickness (0);
 
-			scrollDownButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollDown", ASButtonDefaultTypes.Down,
-				logFieldBackColor, ScrollDownButton_Click);
+			scrollDownButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollDown",
+				RDDefaultButtons.Down, logFieldBackColor, ScrollDownButton_Click);
 			scrollDownButton.Margin = scrollDownButton.Padding = new Thickness (0);
 
 			// Режим чтения
 			AndroidSupport.ApplyLabelSettings (settingsPage, "ReadModeLabel",
-				Localization.GetText ("ReadModeLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("ReadModeLabel"), RDLabelTypes.DefaultLeft);
 			nightModeSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "ReadModeSwitch",
 				false, settingsFieldBackColor, NightModeSwitch_Toggled, NotificationsSupport.LogReadingMode);
 
 			// Расположение новых записей в конце журнала
 			AndroidSupport.ApplyLabelSettings (settingsPage, "NewsAtTheEndLabel",
-				Localization.GetText ("NewsAtTheEndLabel"), ASLabelTypes.DefaultLeft);
+				RDLocale.GetText ("NewsAtTheEndLabel"), RDLabelTypes.DefaultLeft);
 			newsAtTheEndSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "NewsAtTheEndSwitch",
 				false, settingsFieldBackColor, NewsAtTheEndSwitch_Toggled, NotificationsSupport.LogNewsItemsAtTheEnd);
 
@@ -383,25 +388,25 @@ namespace RD_AAOW
 			#region Прочие настройки
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "LogSettingsLabel",
-				Localization.GetText ("LogSettingsLabel"), ASLabelTypes.HeaderLeft);
+				RDLocale.GetText ("LogSettingsLabel"), RDLabelTypes.HeaderLeft);
 
 			// Режим чтения
 			NightModeSwitch_Toggled (null, null);
 
 			// Размер шрифта
 			fontSizeFieldLabel = AndroidSupport.ApplyLabelSettings (settingsPage, "FontSizeFieldLabel",
-				"", ASLabelTypes.DefaultLeft);
+				"", RDLabelTypes.DefaultLeft);
 			fontSizeFieldLabel.TextType = TextType.Html;
 
 			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeIncButton",
-				ASButtonDefaultTypes.Increase, settingsFieldBackColor, FontSizeChanged);
+				RDDefaultButtons.Increase, settingsFieldBackColor, FontSizeChanged);
 			AndroidSupport.ApplyButtonSettings (settingsPage, "FontSizeDecButton",
-				ASButtonDefaultTypes.Decrease, settingsFieldBackColor, FontSizeChanged);
+				RDDefaultButtons.Decrease, settingsFieldBackColor, FontSizeChanged);
 
 			FontSizeChanged (null, null);
 
 			AndroidSupport.ApplyButtonSettings (settingsPage, "SaveQuietSound",
-				Localization.GetText ("SaveQuietSound"), settingsFieldBackColor,
+				RDLocale.GetText ("SaveQuietSound"), settingsFieldBackColor,
 				SaveQuietSound_Clicked, false);
 
 			#endregion
@@ -477,20 +482,20 @@ namespace RD_AAOW
 			// Подсказки
 			if (!NotificationsSupport.GetTipState (NSTipTypes.StartupTips))
 				{
-				await AndroidSupport.ShowMessage (Localization.GetText ("Tip01"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Next));
+				await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip01"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Next));
 
-				await AndroidSupport.ShowMessage (Localization.GetText ("Tip02"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Next));
+				await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip02"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Next));
 
-				await AndroidSupport.ShowMessage (Localization.GetText ("Tip03_1"),
+				await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip03_1"),
 					AndroidSupport.AreNotificationsConfigurable ?
-					Localization.GetDefaultText (LzDefaultTextValues.Button_OK) :
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Next));
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK) :
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Next));
 
 				if (!AndroidSupport.AreNotificationsConfigurable)
-					await AndroidSupport.ShowMessage (Localization.GetText ("Tip03_2"),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+					await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip03_2"),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 				NotificationsSupport.SetTipState (NSTipTypes.StartupTips);
 				NotificationsSupport.SetTipState (NSTipTypes.FrequencyTip);
@@ -499,8 +504,8 @@ namespace RD_AAOW
 			// Нежелательно дублировать
 			if (!NotificationsSupport.GetTipState (NSTipTypes.FrequencyTip))
 				{
-				await AndroidSupport.ShowMessage (Localization.GetText ("Tip04_21"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+				await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip04_21"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 				NotificationsSupport.SetTipState (NSTipTypes.FrequencyTip);
 				}
@@ -510,8 +515,8 @@ namespace RD_AAOW
 		private async Task<bool> ShowTips (NSTipTypes Type)
 			{
 			// Подсказки
-			await AndroidSupport.ShowMessage (Localization.GetText ("Tip04_" + ((int)Type).ToString ()),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+			await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip04_" + ((int)Type).ToString ()),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 			NotificationsSupport.SetTipState (Type);
 			return true;
@@ -581,14 +586,14 @@ namespace RD_AAOW
 		private async void AllNewsItems ()
 			{
 			// Проверка
-			if (!await AndroidSupport.ShowMessage (Localization.GetText ("AllNewsRequest"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Yes),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_No)))
+			if (!await AndroidSupport.ShowMessage (RDLocale.GetText ("AllNewsRequest"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Yes),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_No)))
 				return;
 
 			// Блокировка
 			SetLogState (false);
-			AndroidSupport.ShowBalloon (Localization.GetText ("RequestAllStarted"), true);
+			AndroidSupport.ShowBalloon (RDLocale.GetText ("RequestAllStarted"), true);
 
 			// Запрос
 			AndroidSupport.StopRequested = false;       // Разблокировка метода GetHTML
@@ -609,7 +614,7 @@ namespace RD_AAOW
 
 			// Разблокировка
 			SetLogState (true);
-			AndroidSupport.ShowBalloon (Localization.GetText ("RequestCompleted"), true);
+			AndroidSupport.ShowBalloon (RDLocale.GetText ("RequestCompleted"), true);
 
 			if (!NotificationsSupport.GetTipState (NSTipTypes.MainLogClickMenuTip))
 				await ShowTips (NSTipTypes.MainLogClickMenuTip);
@@ -728,30 +733,30 @@ namespace RD_AAOW
 			if (tapMenuItems.Count < 1)
 				{
 				tapMenuItems.Add (new List<string> {
-					"☍\t" + Localization.GetText ("ShareOption"),
-					"❏\t" + Localization.GetText ("CopyOption"),
-					Localization.GetText ("OtherOption")
+					"☍\t" + RDLocale.GetText ("ShareOption"),
+					"❏\t" + RDLocale.GetText ("CopyOption"),
+					RDLocale.GetText ("OtherOption")
 					});
 				tapMenuItems.Add (new List<string> {
-					"▷\t" + Localization.GetText ("GoToOption"),
-					"☍\t" + Localization.GetText ("ShareOption"),
-					"❏\t" + Localization.GetText ("CopyOption"),
-					Localization.GetText ("OtherOption")
+					"▷\t" + RDLocale.GetText ("GoToOption"),
+					"☍\t" + RDLocale.GetText ("ShareOption"),
+					"❏\t" + RDLocale.GetText ("CopyOption"),
+					RDLocale.GetText ("OtherOption")
 					});
 				tapMenuItems.Add (new List<string> {
-					"✕\t" + Localization.GetText ("RemoveOption")
+					"✕\t" + RDLocale.GetText ("RemoveOption")
 					});
 				tapMenuItems.Add (new List<string> {
-					"▷\t" + Localization.GetText ("GoToOption"),
-					"☍\t" + Localization.GetText ("ShareOption"),
-					"❏\t" + Localization.GetText ("CopyOption"),
-					"↺\t" + Localization.GetText ("RequestAgainOption"),
-					"✎\t" + Localization.GetText ("SetupOption"),
-					Localization.GetText ("OtherOption")
+					"▷\t" + RDLocale.GetText ("GoToOption"),
+					"☍\t" + RDLocale.GetText ("ShareOption"),
+					"❏\t" + RDLocale.GetText ("CopyOption"),
+					"↺\t" + RDLocale.GetText ("RequestAgainOption"),
+					"✎\t" + RDLocale.GetText ("SetupOption"),
+					RDLocale.GetText ("OtherOption")
 					});
 				tapMenuItems.Add (new List<string> {
-					"✕\t" + Localization.GetText ("RemoveOption"),
-					"✂\t" + Localization.GetText ("DisableOption")
+					"✕\t" + RDLocale.GetText ("RemoveOption"),
+					"✂\t" + RDLocale.GetText ("DisableOption")
 					});
 				}
 
@@ -759,8 +764,8 @@ namespace RD_AAOW
 			if ((notNumber < 0) || (notNumber >= ProgramDescription.NSet.Notifications.Count))
 				{
 				menuItem = (string.IsNullOrWhiteSpace (notLink) ? 0 : 1);
-				menuItem = await AndroidSupport.ShowList (Localization.GetText ("SelectOption"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel),
+				menuItem = await AndroidSupport.ShowList (RDLocale.GetText ("SelectOption"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel),
 					tapMenuItems[menuItem]);
 
 				if (menuItem < 0)
@@ -773,8 +778,8 @@ namespace RD_AAOW
 				// Контроль второго набора
 				if (variant > 12)
 					{
-					menuItem = await AndroidSupport.ShowList (Localization.GetText ("SelectOption"),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), tapMenuItems[2]);
+					menuItem = await AndroidSupport.ShowList (RDLocale.GetText ("SelectOption"),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), tapMenuItems[2]);
 					if (menuItem < 0)
 						return;
 
@@ -783,8 +788,8 @@ namespace RD_AAOW
 				}
 			else
 				{
-				menuItem = await AndroidSupport.ShowList (Localization.GetText ("SelectOption"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), tapMenuItems[3]);
+				menuItem = await AndroidSupport.ShowList (RDLocale.GetText ("SelectOption"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), tapMenuItems[3]);
 				if (menuItem < 0)
 					return;
 
@@ -793,8 +798,8 @@ namespace RD_AAOW
 				// Контроль второго набора
 				if (variant > 4)
 					{
-					menuItem = await AndroidSupport.ShowList (Localization.GetText ("SelectOption"),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), tapMenuItems[4]);
+					menuItem = await AndroidSupport.ShowList (RDLocale.GetText ("SelectOption"),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), tapMenuItems[4]);
 					if (menuItem < 0)
 						return;
 
@@ -818,7 +823,7 @@ namespace RD_AAOW
 					catch
 						{
 						AndroidSupport.ShowBalloon
-							(Localization.GetDefaultText (LzDefaultTextValues.Message_BrowserNotAvailable), true);
+							(RDLocale.GetDefaultText (RDLDefaultTexts.Message_BrowserNotAvailable), true);
 						}
 					break;
 
@@ -828,8 +833,8 @@ namespace RD_AAOW
 					if (!NotificationsSupport.GetTipState (NSTipTypes.ShareButton))
 						await ShowTips (NSTipTypes.ShareButton);
 
-					await Share.RequestAsync ((notItem.Header + Localization.RNRN + notItem.Text +
-						Localization.RNRN + notLink).Replace ("\r", ""), ProgramDescription.AssemblyVisibleName);
+					await Share.RequestAsync ((notItem.Header + RDLocale.RNRN + notItem.Text +
+						RDLocale.RNRN + notLink).Replace ("\r", ""), ProgramDescription.AssemblyVisibleName);
 					break;
 
 				// Скопировать в буфер обмена
@@ -837,9 +842,9 @@ namespace RD_AAOW
 				case 12:
 					try
 						{
-						await Clipboard.SetTextAsync ((notItem.Header + Localization.RNRN + notItem.Text +
-							Localization.RNRN + notLink).Replace ("\r", ""));
-						AndroidSupport.ShowBalloon (Localization.GetText ("CopyMessage"), false);
+						await Clipboard.SetTextAsync ((notItem.Header + RDLocale.RNRN + notItem.Text +
+							RDLocale.RNRN + notLink).Replace ("\r", ""));
+						AndroidSupport.ShowBalloon (RDLocale.GetText ("CopyMessage"), false);
 
 						}
 					catch { }
@@ -849,7 +854,7 @@ namespace RD_AAOW
 				case 3:
 					// Блокировка
 					SetLogState (false);
-					AndroidSupport.ShowBalloon (Localization.GetText ("RequestStarted"), true);
+					AndroidSupport.ShowBalloon (RDLocale.GetText ("RequestStarted"), true);
 
 					// Запрос
 					AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
@@ -867,7 +872,7 @@ namespace RD_AAOW
 
 					// Разблокировка
 					SetLogState (true);
-					AndroidSupport.ShowBalloon (Localization.GetText ("RequestCompleted"), true);
+					AndroidSupport.ShowBalloon (RDLocale.GetText ("RequestCompleted"), true);
 					break;
 
 				// Настройка оповещения
@@ -945,7 +950,7 @@ namespace RD_AAOW
 			{
 			if (!centerButtonEnabled)
 				{
-				AndroidSupport.ShowBalloon (Localization.GetText ("BackgroundRequestInProgress"), true);
+				AndroidSupport.ShowBalloon (RDLocale.GetText ("BackgroundRequestInProgress"), true);
 				return;
 				}
 
@@ -971,7 +976,7 @@ namespace RD_AAOW
 			{
 			// Блокировка на время опроса
 			SetLogState (false);
-			AndroidSupport.ShowBalloon (Localization.GetText ("RequestStarted"), false);
+			AndroidSupport.ShowBalloon (RDLocale.GetText ("RequestStarted"), false);
 
 			// Запуск и разбор
 			AndroidSupport.StopRequested = false; // Разблокировка метода GetHTML
@@ -987,7 +992,7 @@ namespace RD_AAOW
 
 			if (newText == "")
 				{
-				AndroidSupport.ShowBalloon (Localization.GetText ("GMJRequestFailed"), true);
+				AndroidSupport.ShowBalloon (RDLocale.GetText ("GMJRequestFailed"), true);
 				}
 			else if (newText.Contains (GMJ.SourceNoReturnPattern))
 				{
@@ -1063,16 +1068,16 @@ namespace RD_AAOW
 			if (wizardMenuItems.Count < 1)
 				{
 				wizardMenuItems = new List<string> {
-					Localization.GetText ("NotificationsWizard"),
-					Localization.GetText ("TemplateList"),
-					Localization.GetText ("CopyNotification"),
-					Localization.GetText ("TemplateClipboard"),
-					Localization.GetText ("TemplateFile"),
+					RDLocale.GetText ("NotificationsWizard"),
+					RDLocale.GetText ("TemplateList"),
+					RDLocale.GetText ("CopyNotification"),
+					RDLocale.GetText ("TemplateClipboard"),
+					RDLocale.GetText ("TemplateFile"),
 				};
 				}
 
-			int res = await AndroidSupport.ShowList (Localization.GetText ("TemplateSelect"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), wizardMenuItems);
+			int res = await AndroidSupport.ShowList (RDLocale.GetText ("TemplateSelect"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), wizardMenuItems);
 
 			// Обработка
 			switch (res)
@@ -1096,7 +1101,7 @@ namespace RD_AAOW
 					// Обновление списка шаблонов
 					if (!NotificationsSupport.TemplatesForCurrentSessionAreUpdated)
 						{
-						AndroidSupport.ShowBalloon (Localization.GetText ("UpdatingTemplates"), true);
+						AndroidSupport.ShowBalloon (RDLocale.GetText ("UpdatingTemplates"), true);
 
 						await Task.Run<bool> (ProgramDescription.NSet.UpdateNotificationsTemplates);
 						NotificationsSupport.TemplatesForCurrentSessionAreUpdated = true;
@@ -1110,8 +1115,8 @@ namespace RD_AAOW
 							templatesNames.Add (ProgramDescription.NSet.NotificationsTemplates.GetName (i));
 						}
 
-					res = await AndroidSupport.ShowList (Localization.GetText ("SelectTemplate"),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), templatesNames);
+					res = await AndroidSupport.ShowList (RDLocale.GetText ("SelectTemplate"),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), templatesNames);
 
 					// Установка результата
 					uint templateNumber = 0;
@@ -1127,8 +1132,8 @@ namespace RD_AAOW
 
 					// Проверка
 					if (ProgramDescription.NSet.NotificationsTemplates.IsTemplateIncomplete (templateNumber))
-						await AndroidSupport.ShowMessage (Localization.GetText ("CurlyTemplate"),
-							Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+						await AndroidSupport.ShowMessage (RDLocale.GetText ("CurlyTemplate"),
+							RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 					// Заполнение
 					nameField.Text = ProgramDescription.NSet.NotificationsTemplates.GetName (templateNumber);
@@ -1152,8 +1157,8 @@ namespace RD_AAOW
 
 					if ((text == null) || (text == ""))
 						{
-						await AndroidSupport.ShowMessage (Localization.GetText ("NoTemplateInClipboard"),
-							Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+						await AndroidSupport.ShowMessage (RDLocale.GetText ("NoTemplateInClipboard"),
+							RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 						notWizardButton.IsEnabled = true;
 						return;
 						}
@@ -1163,8 +1168,8 @@ namespace RD_AAOW
 						StringSplitOptions.RemoveEmptyEntries);
 					if (values.Length != 5)
 						{
-						await AndroidSupport.ShowMessage (Localization.GetText ("NoTemplateInClipboard"),
-							Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+						await AndroidSupport.ShowMessage (RDLocale.GetText ("NoTemplateInClipboard"),
+							RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 						notWizardButton.IsEnabled = true;
 						return;
 						}
@@ -1193,8 +1198,8 @@ namespace RD_AAOW
 					foreach (Notification element in ProgramDescription.NSet.Notifications)
 						list.Add (element.Name);
 
-					res = await AndroidSupport.ShowList (Localization.GetText ("SelectNotification"),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), list);
+					res = await AndroidSupport.ShowList (RDLocale.GetText ("SelectNotification"),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), list);
 
 					// Создание псевдокопии
 					if (res >= 0)
@@ -1213,12 +1218,12 @@ namespace RD_AAOW
 					// Чтение
 					notWizardButton.IsEnabled = true;
 
-					if (!await AndroidSupport.ShowMessage (Localization.GetText ("LoadingWarning"),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_Yes),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_No)))
+					if (!await AndroidSupport.ShowMessage (RDLocale.GetText ("LoadingWarning"),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_Yes),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_No)))
 						return;
 
-					string settings = await AndroidSupport.LoadFromFile (SupportedEncodings.Unicode16);
+					string settings = await AndroidSupport.LoadFromFile (RDEncodings.Unicode16);
 					ProgramDescription.NSet.SetSettingsList (settings);
 
 					// Сброс состояния
@@ -1241,7 +1246,7 @@ namespace RD_AAOW
 				currentNotification = ProgramDescription.NSet.Notifications.Count - 1;
 				SelectNotification (null, null);
 
-				AndroidSupport.ShowBalloon (Localization.GetText ("AddAsNewMessage") + nameField.Text, false);
+				AndroidSupport.ShowBalloon (RDLocale.GetText ("AddAsNewMessage") + nameField.Text, false);
 				}
 
 			// Переход к дополнительным опциям
@@ -1256,39 +1261,39 @@ namespace RD_AAOW
 			NotConfiguration cfg;
 
 			cfg.SourceLink = await AndroidSupport.ShowInput (ProgramDescription.AssemblyVisibleName,
-				Localization.GetText ("WizardStep1"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Next),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel),
-				Notification.MaxLinkLength, Keyboard.Url, "", Localization.GetText ("LinkFieldPlaceholder"));
+				RDLocale.GetText ("WizardStep1"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Next),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel),
+				Notification.MaxLinkLength, Keyboard.Url, "", RDLocale.GetText ("LinkFieldPlaceholder"));
 
 			if (string.IsNullOrWhiteSpace (cfg.SourceLink))
 				return false;
 
 			// Шаг запроса ключевого слова
 			string keyword = await AndroidSupport.ShowInput (ProgramDescription.AssemblyVisibleName,
-				Localization.GetText ("WizardStep2"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Next),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel),
+				RDLocale.GetText ("WizardStep2"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Next),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel),
 				Notification.MaxBeginningEndingLength, Keyboard.Default);
 
 			if (string.IsNullOrWhiteSpace (keyword))
 				return false;
 
 			// Запуск
-			AndroidSupport.ShowBalloon (Localization.GetText ("WizardSearch1"), true);
+			AndroidSupport.ShowBalloon (RDLocale.GetText ("WizardSearch1"), true);
 
 			string[] delim = await Notification.FindDelimiters (cfg.SourceLink, keyword);
 			if (delim == null)
 				{
-				await AndroidSupport.ShowMessage (Localization.GetText ("WizardFailure"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+				await AndroidSupport.ShowMessage (RDLocale.GetText ("WizardFailure"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 				return false;
 				}
 
 			// Попытка запроса
 			for (cfg.OccurrenceNumber = 1; cfg.OccurrenceNumber <= 3; cfg.OccurrenceNumber++)
 				{
-				AndroidSupport.ShowBalloon (Localization.GetText ("WizardSearch2"), true);
+				AndroidSupport.ShowBalloon (RDLocale.GetText ("WizardSearch2"), true);
 
 				cfg.NotificationName = "Test";
 				cfg.WatchAreaBeginningSign = delim[0];
@@ -1301,8 +1306,8 @@ namespace RD_AAOW
 				Notification not = new Notification (cfg);
 				if (!await not.Update ())
 					{
-					await AndroidSupport.ShowMessage (Localization.GetText ("WizardFailure"),
-						Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+					await AndroidSupport.ShowMessage (RDLocale.GetText ("WizardFailure"),
+						RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 					return false;
 					}
 
@@ -1312,12 +1317,12 @@ namespace RD_AAOW
 					text = text.Substring (0, 297) + "...";
 
 				bool notLastStep = (cfg.OccurrenceNumber < 3);
-				if (await AndroidSupport.ShowMessage (Localization.GetText (notLastStep ?
-					"WizardStep3" : "WizardStep4") + Localization.RNRN + "~".PadRight (10, '~') +
-					Localization.RNRN + text,
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Next),
-					Localization.GetDefaultText (notLastStep ?
-					LzDefaultTextValues.Button_Retry : LzDefaultTextValues.Button_Cancel)))
+				if (await AndroidSupport.ShowMessage (RDLocale.GetText (notLastStep ?
+					"WizardStep3" : "WizardStep4") + RDLocale.RNRN + "~".PadRight (10, '~') +
+					RDLocale.RNRN + text,
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Next),
+					RDLocale.GetDefaultText (notLastStep ?
+					RDLDefaultTexts.Button_Retry : RDLDefaultTexts.Button_Cancel)))
 					{
 					break;
 					}
@@ -1332,9 +1337,9 @@ namespace RD_AAOW
 
 			// Завершено, запрос названия
 			string name = await AndroidSupport.ShowInput (ProgramDescription.AssemblyVisibleName,
-				Localization.GetText ("WizardStep5"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_OK),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel),
+				RDLocale.GetText ("WizardStep5"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel),
 				Notification.MaxBeginningEndingLength, Keyboard.Text);
 
 			if (string.IsNullOrWhiteSpace (name))
@@ -1428,10 +1433,10 @@ namespace RD_AAOW
 			if (e != null)
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
-				if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Increase) &&
+				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase) &&
 					(fontSize < AndroidSupport.MaxFontSize))
 					fontSize++;
-				else if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Decrease) &&
+				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Decrease) &&
 					(fontSize > AndroidSupport.MinFontSize))
 					fontSize--;
 
@@ -1439,7 +1444,7 @@ namespace RD_AAOW
 				}
 
 			// Принудительное обновление
-			fontSizeFieldLabel.Text = string.Format (Localization.GetText ("FontSizeLabel"), fontSize.ToString ());
+			fontSizeFieldLabel.Text = string.Format (RDLocale.GetText ("FontSizeLabel"), fontSize.ToString ());
 
 			if (e != null)
 				{
@@ -1454,20 +1459,20 @@ namespace RD_AAOW
 			// Список опций
 			if (specialOptions.Count < 1)
 				{
-				specialOptions.Add (Localization.GetText ("SpecialFunction_Nothing"));
-				specialOptions.Add (Localization.GetText ("SpecialFunction_AllNews"));
+				specialOptions.Add (RDLocale.GetText ("SpecialFunction_Nothing"));
+				specialOptions.Add (RDLocale.GetText ("SpecialFunction_AllNews"));
 
 				string[] sources = GMJ.SourceNames;
-				if (Localization.IsCurrentLanguageRuRu)
+				if (RDLocale.IsCurrentLanguageRuRu)
 					{
 					for (int i = 0; i < sources.Length; i++)
-						specialOptions.Add (Localization.GetText ("SpecialFunction_Get") + sources[i]);
+						specialOptions.Add (RDLocale.GetText ("SpecialFunction_Get") + sources[i]);
 					}
 				}
 
 			// Запрос
-			int res = await AndroidSupport.ShowList (Localization.GetText ("SelectSpecialFunction"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), specialOptions);
+			int res = await AndroidSupport.ShowList (RDLocale.GetText ("SelectSpecialFunction"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), specialOptions);
 
 			// Сохранение
 			if (res < 0)
@@ -1500,12 +1505,12 @@ namespace RD_AAOW
 		// Вызов справочных материалов
 		private async void ReferenceButton_Click (object sender, EventArgs e)
 			{
-			await AndroidSupport.CallHelpMaterials (HelpMaterialsSets.ReferenceMaterials);
+			await AndroidSupport.CallHelpMaterials (RDHelpMaterials.ReferenceMaterials);
 			}
 
 		private async void HelpButton_Click (object sender, EventArgs e)
 			{
-			await AndroidSupport.CallHelpMaterials (HelpMaterialsSets.HelpAndSupport);
+			await AndroidSupport.CallHelpMaterials (RDHelpMaterials.HelpAndSupport);
 			}
 
 		// Изменение размера шрифта интерфейса
@@ -1514,9 +1519,9 @@ namespace RD_AAOW
 			if (sender != null)
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
-				if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Increase))
+				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase))
 					AndroidSupport.MasterFontSize += 0.5;
-				else if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Decrease))
+				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Decrease))
 					AndroidSupport.MasterFontSize -= 0.5;
 				}
 
@@ -1542,8 +1547,8 @@ namespace RD_AAOW
 
 			int res = currentNotification;
 			if (e != null)
-				res = await AndroidSupport.ShowList (Localization.GetText ("SelectNotification"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), list);
+				res = await AndroidSupport.ShowList (RDLocale.GetText ("SelectNotification"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), list);
 
 			// Установка результата
 			if ((e == null) || (res >= 0))
@@ -1603,15 +1608,15 @@ namespace RD_AAOW
 					await ShowTips (NSTipTypes.OccurenceTip);
 
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
-				if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Increase) &&
+				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase) &&
 					(currentOcc < Notification.MaxOccurrenceNumber))
 					currentOcc++;
-				else if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Decrease) &&
+				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Decrease) &&
 					(currentOcc > 1))
 					currentOcc--;
 				}
 
-			occFieldLabel.Text = string.Format (Localization.GetText ("OccFieldLabel"), currentOcc);
+			occFieldLabel.Text = string.Format (RDLocale.GetText ("OccFieldLabel"), currentOcc);
 			}
 
 		// Изменение значения частоты опроса
@@ -1621,21 +1626,21 @@ namespace RD_AAOW
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 
-				if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Increase) &&
+				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase) &&
 					(currentFreq < NotificationsSupport.MaxBackgroundRequestStep))
 					{
 					currentFreq++;
 					requestStepIncreased = true;
 					}
 
-				else if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Decrease) &&
+				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Decrease) &&
 					(currentFreq > 1))
 					{
 					currentFreq--;
 					requestStepIncreased = false;
 					}
 
-				else if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Create))
+				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Create))
 					{
 					if (requestStepIncreased)
 						{
@@ -1655,7 +1660,7 @@ namespace RD_AAOW
 				}
 
 			// Обновление
-			requestStepFieldLabel.Text = string.Format (Localization.GetText ("BackgroundRequestOn"),
+			requestStepFieldLabel.Text = string.Format (RDLocale.GetText ("BackgroundRequestOn"),
 				currentFreq * NotificationsSupport.BackgroundRequestStepMinutes);
 			}
 
@@ -1667,9 +1672,9 @@ namespace RD_AAOW
 				await ShowTips (NSTipTypes.DeleteButton);
 
 			// Контроль
-			if (!await AndroidSupport.ShowMessage (Localization.GetText ("DeleteMessage"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Yes),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_No)))
+			if (!await AndroidSupport.ShowMessage (RDLocale.GetText ("DeleteMessage"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Yes),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_No)))
 				return;
 
 			// Удаление и переход к другому оповещению
@@ -1693,7 +1698,7 @@ namespace RD_AAOW
 			if (await UpdateItem (currentNotification))
 				{
 				selectedNotification.Text = GetShortNotificationName (nameField.Text);
-				AndroidSupport.ShowBalloon (Localization.GetText ("ApplyMessage") + nameField.Text, false);
+				AndroidSupport.ShowBalloon (RDLocale.GetText ("ApplyMessage") + nameField.Text, false);
 				}
 			}
 
@@ -1717,8 +1722,8 @@ namespace RD_AAOW
 
 			if (!ni.IsInited)
 				{
-				await AndroidSupport.ShowMessage (Localization.GetText ("NotEnoughDataMessage"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+				await AndroidSupport.ShowMessage (RDLocale.GetText ("NotEnoughDataMessage"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 				nameField.Focus ();
 				return false;
@@ -1731,8 +1736,8 @@ namespace RD_AAOW
 			int idx = ProgramDescription.NSet.Notifications.IndexOf (ni);
 			if ((idx >= 0) && (idx != ItemNumber))
 				{
-				await AndroidSupport.ShowMessage (Localization.GetText ("NotMatchingNames"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_OK));
+				await AndroidSupport.ShowMessage (RDLocale.GetText ("NotMatchingNames"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 				nameField.Focus ();
 				return false;
@@ -1770,13 +1775,13 @@ namespace RD_AAOW
 			if (templatesMenuItems.Count < 1)
 				{
 				templatesMenuItems = new List<string> {
-					Localization.GetText ("ShareCurrent"),
-					Localization.GetText ("ShareAll")
+					RDLocale.GetText ("ShareCurrent"),
+					RDLocale.GetText ("ShareAll")
 				};
 				}
 
-			int res = await AndroidSupport.ShowList (Localization.GetText ("ShareVariantSelect"),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel),
+			int res = await AndroidSupport.ShowList (RDLocale.GetText ("ShareVariantSelect"),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel),
 				templatesMenuItems);
 
 			// Обработка
@@ -1799,7 +1804,7 @@ namespace RD_AAOW
 
 				case 1:
 					await AndroidSupport.SaveToFile (NotificationsSet.SettingsFileName,
-						ProgramDescription.NSet.GetSettingsList (), SupportedEncodings.Unicode16);
+						ProgramDescription.NSet.GetSettingsList (), RDEncodings.Unicode16);
 					break;
 				}
 			}
@@ -1808,30 +1813,30 @@ namespace RD_AAOW
 		private async void SpecifyNotificationLink (object sender, EventArgs e)
 			{
 			// Ссылка
-			string res = await AndroidSupport.ShowInput (Localization.GetText ("LinkFieldMessage"),
-				null, Localization.GetDefaultText (LzDefaultTextValues.Button_Apply),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Skip),
-				150, Keyboard.Url, linkField, Localization.GetText ("LinkFieldPlaceholder"));
+			string res = await AndroidSupport.ShowInput (RDLocale.GetText ("LinkFieldMessage"),
+				null, RDLocale.GetDefaultText (RDLDefaultTexts.Button_Apply),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Skip),
+				150, Keyboard.Url, linkField, RDLocale.GetText ("LinkFieldPlaceholder"));
 
 			if (!string.IsNullOrWhiteSpace (res))
 				linkField = res;
 
 			// Начало
-			res = await AndroidSupport.ShowInput (Localization.GetText ("BeginningFieldMessage"),
-				null, Localization.GetDefaultText (LzDefaultTextValues.Button_Apply),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Skip),
+			res = await AndroidSupport.ShowInput (RDLocale.GetText ("BeginningFieldMessage"),
+				null, RDLocale.GetDefaultText (RDLDefaultTexts.Button_Apply),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Skip),
 				Notification.MaxBeginningEndingLength, Keyboard.Url, beginningField,
-				Localization.GetText ("BeginningFieldPlaceholder"));
+				RDLocale.GetText ("BeginningFieldPlaceholder"));
 
 			if (!string.IsNullOrWhiteSpace (res))
 				beginningField = res;
 
 			// Конец
-			res = await AndroidSupport.ShowInput (Localization.GetText ("EndingFieldMessage"),
-				null, Localization.GetDefaultText (LzDefaultTextValues.Button_Apply),
-				Localization.GetDefaultText (LzDefaultTextValues.Button_Skip),
+			res = await AndroidSupport.ShowInput (RDLocale.GetText ("EndingFieldMessage"),
+				null, RDLocale.GetDefaultText (RDLDefaultTexts.Button_Apply),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Skip),
 				Notification.MaxBeginningEndingLength, Keyboard.Url, endingField,
-				Localization.GetText ("BeginningFieldPlaceholder"));
+				RDLocale.GetText ("BeginningFieldPlaceholder"));
 
 			if (!string.IsNullOrWhiteSpace (res))
 				endingField = res;
@@ -1848,8 +1853,8 @@ namespace RD_AAOW
 				ignoreMisfitsSwitch.IsVisible = comparatorIncButton.IsVisible = comparatorDecButton.IsVisible =
 				comparatorLongButton.IsVisible = comparatorSwitch.IsToggled;
 
-			comparatorLabel.Text = comparatorSwitch.IsToggled ? Localization.GetText ("ComparatorLabel") :
-				Localization.GetText ("ComparatorLabelOff");
+			comparatorLabel.Text = comparatorSwitch.IsToggled ? RDLocale.GetText ("ComparatorLabel") :
+				RDLocale.GetText ("ComparatorLabelOff");
 			}
 
 		// Выбор типа сравнения
@@ -1859,8 +1864,8 @@ namespace RD_AAOW
 			int res = (int)comparatorType;
 
 			if (e != null)
-				res = await AndroidSupport.ShowList (Localization.GetText ("SelectComparatorType"),
-					Localization.GetDefaultText (LzDefaultTextValues.Button_Cancel), comparatorTypes);
+				res = await AndroidSupport.ShowList (RDLocale.GetText ("SelectComparatorType"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), comparatorTypes);
 
 			// Установка результата
 			if ((e == null) || (res >= 0))
@@ -1884,19 +1889,19 @@ namespace RD_AAOW
 				{
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
 
-				if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Increase))
+				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase))
 					{
 					comparatorValue += 1.0;
 					comparatorValueIncreased = true;
 					}
 
-				else if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Decrease))
+				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Decrease))
 					{
 					comparatorValue -= 1.0;
 					comparatorValueIncreased = false;
 					}
 
-				else if (AndroidSupport.IsNameDefault (b.Text, ASButtonDefaultTypes.Create))
+				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Create))
 					{
 					if (comparatorValueIncreased)
 						comparatorValue += 5.0;

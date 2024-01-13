@@ -35,6 +35,8 @@
 					<Label x:Name="AllowStartLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
+				<Label x:Name="AllowStartTip" HorizontalOptions="Center" />
+
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="IndicateOnlyUrgentSwitch" VerticalOptions="Center" />
 					<Label x:Name="IndicateOnlyUrgentLabel" VerticalTextAlignment="Center" />

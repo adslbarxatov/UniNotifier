@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
@@ -31,6 +32,29 @@ namespace RD_AAOW.Droid
 		)]
 	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 		{
+		/// <summary>
+		/// Принудительная установка масштаба шрифта
+		/// </summary>
+		/// <param name="base">Существующий набор параметров</param>
+		protected override void AttachBaseContext (Context @base)
+			{
+			if (baseContextOverriden)
+				{
+				base.AttachBaseContext (@base);
+				return;
+				}
+
+			Configuration overrideConfiguration = new Configuration ();
+			overrideConfiguration = @base.Resources.Configuration;
+			overrideConfiguration.FontScale = 0.9f;
+
+			Context context = @base.CreateConfigurationContext (overrideConfiguration);
+			baseContextOverriden = true;
+
+			base.AttachBaseContext (context);
+			}
+		private bool baseContextOverriden = false;
+
 		/// <summary>
 		/// Обработчик события создания экземпляра
 		/// </summary>
@@ -90,6 +114,15 @@ namespace RD_AAOW.Droid
 			Intent mainService = new Intent (this, typeof (MainService));
 			AndroidSupport.StopRequested = false;
 
+			// Нет смысла запускать сервис, если он не был закрыт приложением.
+			// Также функция запуска foreground из свёрнутого состояния недоступна в Android 12 и новее
+			if (AndroidSupport.AllowServiceToStart || !AndroidSupport.IsForegroundStartableFromResumeEvent)
+				{
+				base.OnResume ();
+				return;
+				}
+
+			// Повторный запуск службы
 			if (AndroidSupport.IsForegroundAvailable)
 				StartForegroundService (mainService);
 			else
@@ -103,6 +136,7 @@ namespace RD_AAOW.Droid
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifier",
+		ForegroundServiceType = ForegroundService.TypeDataSync,
 		Label = "uNot",
 		Exported = true)]
 	public class MainService: global::Android.App.Service
@@ -182,7 +216,7 @@ namespace RD_AAOW.Droid
 				if (newItemsShown)
 					{
 					newItemsShown = false;
-					msg = Localization.GetText ("LaunchMessage");
+					msg = RDLocale.GetText ("LaunchMessage");
 					if (AndroidSupport.IsForegroundAvailable)
 						notBuilder.SetChannelId (defaultChannelID);
 					notBuilder.SetColor (defaultColor);
@@ -240,9 +274,9 @@ namespace RD_AAOW.Droid
 
 			// Оповещение пользователя
 			msg = (ProgramDescription.NSet.HasUrgentNotifications ?
-				Localization.GetText ("NewItemsUrgentMessage") : "") +
+				RDLocale.GetText ("NewItemsUrgentMessage") : "") +
 
-				string.Format (Localization.GetText ("NewItemsMessage"),
+				string.Format (RDLocale.GetText ("NewItemsMessage"),
 				NotificationsSupport.NewItems);
 			newItemsShown = true;
 
@@ -302,8 +336,8 @@ notMessage:
 					ProgramDescription.AssemblyVisibleName + " / Non-urgent", NotificationImportance.High);
 
 				// Настройка
-				urgentChannel.Description = Localization.GetText ("UrgentChannel");
-				defaultChannel.Description = Localization.GetText ("DefaultChannel");
+				urgentChannel.Description = RDLocale.GetText ("UrgentChannel");
+				defaultChannel.Description = RDLocale.GetText ("DefaultChannel");
 				urgentChannel.LockscreenVisibility = defaultChannel.LockscreenVisibility =
 					NotificationVisibility.Private;
 
@@ -316,10 +350,15 @@ notMessage:
 				}
 
 			// Инициализация сообщений
-			notBuilder.SetCategory ("msg");         // Категория "сообщение"
-			notBuilder.SetColor (defaultColor);     // Оттенок заголовков оповещений
+			notBuilder.SetCategory ("msg");     // Категория "сообщение"
+			notBuilder.SetColor (defaultColor); // Оттенок заголовков оповещений
+			notBuilder.SetOngoing (true);       // Android 13 и новее: не позволяет закрыть оповещение вручную
 
-			string launchMessage = Localization.GetText ("LaunchMessage");
+			// Android 12 и новее: требует немедленного отображения оповещения
+			if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
+				notBuilder.SetForegroundServiceBehavior (0x01);
+
+			string launchMessage = RDLocale.GetText ("LaunchMessage");
 			notBuilder.SetContentText (launchMessage);
 			notBuilder.SetContentTitle (ProgramDescription.AssemblyVisibleName);
 			notBuilder.SetTicker (ProgramDescription.AssemblyVisibleName);
@@ -351,9 +390,9 @@ notMessage:
 			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, PendingIntentFlags.Immutable);
 			notBuilder.SetContentIntent (masterPendingIntent);
 
-			// Стартовое сообщение
+			// Стартовое сообщение (с применением типа согласно рекомендациям для Android S)
 			Android.App.Notification notification = notBuilder.Build ();
-			StartForeground (notServiceID, notification);
+			StartForeground (notServiceID, notification, ForegroundService.TypeDataSync);
 
 			// Перенастройка для основного режима
 			if (!AndroidSupport.IsForegroundAvailable)

@@ -1,7 +1,10 @@
 uNot: changes log
 
-ToDo:
-- Add a tip for the previous change
+Version 6.8.3:
+• Android: the font size and scale are now independent from the system settings (old interface bug);
+• Core updates have been applied;
+• Android: Xamarin support packages have been updated;
+• GMJ: skiplist has been updated
 
 Version 6.8.1:
 • Android: some recommendations have been applied for setting up the locked notifications
