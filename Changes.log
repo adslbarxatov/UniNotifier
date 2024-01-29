@@ -1,5 +1,9 @@
 uNot: changes log
 
+Version 6.8.5:
+• App now can call localized guides and videomanuals;
+• App now has localized video guides
+
 Version 6.8.3:
 • Android: the font size and scale are now independent from the system settings (old interface bug);
 • Core updates have been applied;

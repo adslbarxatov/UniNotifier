@@ -168,8 +168,6 @@ namespace RD_AAOW
 #endif
 
 			// Запуск запроса
-			/*HardWorkExecutor hwe = new HardWorkExecutor (DoUpdate, null, null, false, false);
-			hwe.Dispose ();*/
 			RDGenerics.RunWork (DoUpdate, null, null, RDRunWorkFlags.DontSuspendExecution);
 
 #if TGT

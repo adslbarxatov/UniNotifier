@@ -37,9 +37,6 @@ namespace RD_AAOW
 			if (FullyInitializeTemplates)
 				RDGenerics.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
 
-			/*{
-			HardWorkExecutor hwe = new HardWorkExecutor (TemplatesListLoader, null, null, false, false);
-			}*/
 #else
 			byte[] s = Properties.Resources.Templates;
 			if (FullyInitializeTemplates)

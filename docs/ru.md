@@ -1,5 +1,5 @@
 # uNot: the home page
-> **ƒ** &nbsp;RD AAOW FDL; 1.11.2023; 0:40
+> **ƒ** &nbsp;RD AAOW FDL; 30.01.2024; 2:46
 
 &nbsp;
 
@@ -26,7 +26,7 @@
 
 ---
 
-Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/seFfQkfL6Sk).
+Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/gjs9K1EsFG8).
 
 Информация о дополнении ***Grammar must joy*** теперь также доступна на [отдельной странице](https://adslbarxatov.github.io/UniNotifier/GMJ).
 

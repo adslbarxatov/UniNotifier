@@ -315,8 +315,10 @@ namespace RD_AAOW
 					catch
 						{
 						RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
-							RDLocale.GetFileProcessingMessage (sfd.FileName,
-							RDL_FP_Messages.Save_Failure));
+							/*RDLocale.GetFileProcessingMessage (sfd.FileName,
+							RDL_FP_Messages.Save_Failure)*/
+							string.Format (RDLocale.GetDefaultText (RDLDefaultTexts.Message_SaveFailure_Fmt),
+							sfd.FileName));
 						}
 					break;
 
@@ -369,8 +371,10 @@ namespace RD_AAOW
 				catch
 					{
 					RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
-						RDLocale.GetFileProcessingMessage (ofd.FileName,
-						RDL_FP_Messages.Load_Failure));
+						/*RDLocale.GetFileProcessingMessage (ofd.FileName,
+						RDL_FP_Messages.Load_Failure)*/
+						string.Format (RDLocale.GetDefaultText (RDLDefaultTexts.Message_LoadFailure_Fmt),
+						ofd.FileName));
 					return;
 					}
 				notifications.SetSettingsList (settings);

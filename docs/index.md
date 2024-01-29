@@ -1,5 +1,5 @@
 # uNot: the home page
-> **ƒ** &nbsp;RD AAOW FDL; 1.11.2023; 0:45
+> **ƒ** &nbsp;RD AAOW FDL; 30.01.2024; 2:48
 
 &nbsp;
 
@@ -26,7 +26,7 @@ What does it offer?
 
 ---
 
-More info you can find in [this video guide](https://youtu.be/seFfQkfL6Sk).
+More info you can find in [this video guide](https://youtu.be/nOb4MbL-jlI).
 
 The description for the data processing concept used in ***Grammar must joy*** project you can also find
 [on its own page](https://adslbarxatov.github.io/UniNotifier/GMJ_en).
