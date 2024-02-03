@@ -1,5 +1,5 @@
 ```
-06.07.2023
+03.02.2024
 Telegram subscribers		https://t.me/s/{CHANNEL_NAME}								class="counter_value">			</div			1
 Telegram channel			https://t.me/s/{CHANNEL_NAME}								dir="auto"><b>					</div>			10
 Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		StretchedBox" data-reactid=		</div>			1
@@ -8,6 +8,7 @@ Yahoo finance				https://finance.yahoo.com/quote/{STOCK}/news?p={STOCK}		Stretch
 Курс доллара, Google		https://google.com/search?q=курс+доллара					AP7Wnd">						</div></div>	3
 Курс евро, КоммерсантЪ		https://kommersant.ru										 actual__fall">					</a>			2
 Курс евро, Google			https://google.com/search?q=курс+евро						AP7Wnd">						</div></div>	3
+Подписчики VK				https://vk.com/{ИМЯ_СООБЩЕСТВА}								redesigned-group-subscribers">	</				1
 Погода на Mail.ru			https://pogoda.mail.ru/prognoz/{ГОРОД}						property="og:title" content="	" />			1
 Российская газета			https://t.me/s/rgrunews										dir="auto"><b>					</div			10
 

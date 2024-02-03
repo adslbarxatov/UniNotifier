@@ -369,12 +369,13 @@ namespace RD_AAOW
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
 			{
-			MainText.Width = this.Width - 40;
-			MainText.Height = this.Height - 90;
+			MainText.Width = this.Width - 38;
+			MainText.Height = this.Height - 87;
 
-			BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 71;
+			/*BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 71;
 			NamesCombo.Top = BClose.Top + 1;
-			FontSizeField.Top = BClose.Top + 2;
+			FontSizeField.Top = BClose.Top + 2;*/
+			ButtonsPanel.Top = MainText.Top + MainText.Height - 1;
 			}
 
 		// Сохранение размера формы

@@ -1,5 +1,12 @@
 uNot: changes log
 
+Version 7.0:
+• The app can now work with many more sites than before. We have rebuilt the web request
+  method to enable it to work with the newest HTTP and security requirements;
+• Fixed some minor bugs;
+• Windows: the main log interface has been rebuilt;
+• GMJ: updated the skip list
+
 Version 6.8.5:
 • App now can call localized guides and videomanuals;
 • App now has localized video guides
