@@ -1,5 +1,8 @@
 uNot: changes log
 
+Version 7.0.2:
+• GMJ: skip list has been updated
+
 Version 7.0:
 • The app can now work with many more sites than before. We have rebuilt the web request
   method to enable it to work with the newest HTTP and security requirements;
