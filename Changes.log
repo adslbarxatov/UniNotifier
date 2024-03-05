@@ -1,5 +1,8 @@
 uNot: changes log
 
+ToDo:
+- Убрать tabstop из всех элементов управления в окне журнала, кроме поля текста
+
 Version 7.1:
 • Android: removed the misleading switch for urgent / mixed notifications. Now the urgent /
   non-urgent separation is permanent;
