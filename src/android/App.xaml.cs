@@ -85,7 +85,7 @@ namespace RD_AAOW
 			aboutFontSizeField;
 
 		private Xamarin.Forms.Switch allowStart, enabledSwitch, nightModeSwitch,
-			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, indicateOnlyUrgentSwitch,
+			allowSoundSwitch, allowLightSwitch, allowVibroSwitch, /*indicateOnlyUrgentSwitch,*/
 			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch, newsAtTheEndSwitch,
 			keepScreenOnSwitch;
 
@@ -177,11 +177,11 @@ namespace RD_AAOW
 			allowVibroSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowVibroSwitch",
 				false, settingsFieldBackColor, AllowVibro_Toggled, NotificationsSupport.AllowVibro);
 
-			AndroidSupport.ApplyLabelSettings (settingsPage, "IndicateOnlyUrgentLabel",
+			/*AndroidSupport.ApplyLabelSettings (settingsPage, "IndicateOnlyUrgentLabel",
 				RDLocale.GetText ("IndicateOnlyUrgentLabel"), RDLabelTypes.DefaultLeft);
 			indicateOnlyUrgentSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "IndicateOnlyUrgentSwitch",
 				false, settingsFieldBackColor, IndicateOnlyUrgent_Toggled,
-				NotificationsSupport.IndicateOnlyUrgentNotifications);
+				NotificationsSupport.IndicateOnlyUrgentNotifications);*/
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "AppSettingsLabel",
 				RDLocale.GetText ("AppSettingsLabel"), RDLabelTypes.HeaderLeft);
@@ -277,6 +277,9 @@ namespace RD_AAOW
 				RDLocale.GetText ("IgnoreMisfitsLabel"), RDLabelTypes.DefaultLeft);
 			ignoreMisfitsSwitch = AndroidSupport.ApplySwitchSettings (notSettingsPage, "IgnoreMisfitsSwitch",
 				false, notSettingsFieldBackColor, null, false);
+
+			AndroidSupport.ApplyLabelSettings (notSettingsPage, "UrgentTip",
+				RDLocale.GetText ("UrgentTip"), RDLabelTypes.Tip);
 
 			// Инициализация полей
 			ComparatorTypeChanged (null, null);
@@ -498,17 +501,17 @@ namespace RD_AAOW
 						RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 				NotificationsSupport.SetTipState (NSTipTypes.StartupTips);
-				NotificationsSupport.SetTipState (NSTipTypes.FrequencyTip);
+				/*NotificationsSupport.SetTipState (NSTipTypes.FrequencyTip);*/
 				}
 
-			// Нежелательно дублировать
+			/* Нежелательно дублировать
 			if (!NotificationsSupport.GetTipState (NSTipTypes.FrequencyTip))
 				{
 				await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip04_21"),
 					RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
 				NotificationsSupport.SetTipState (NSTipTypes.FrequencyTip);
-				}
+				}*/
 			}
 
 		// Метод отображает остальные подсказки
@@ -1038,7 +1041,7 @@ namespace RD_AAOW
 			AndroidSupport.KeepScreenOn = keepScreenOnSwitch.IsToggled;
 			}
 
-		// Индикация только срочных уведомлений
+		/* Индикация только срочных уведомлений
 		private async void IndicateOnlyUrgent_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
@@ -1046,7 +1049,7 @@ namespace RD_AAOW
 				await ShowTips (NSTipTypes.OnlyUrgent);
 
 			NotificationsSupport.IndicateOnlyUrgentNotifications = indicateOnlyUrgentSwitch.IsToggled;
-			}
+			}*/
 
 		// Включение / выключение добавления новостей с конца журнала
 		private void NewsAtTheEndSwitch_Toggled (object sender, ToggledEventArgs e)

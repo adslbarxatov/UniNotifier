@@ -42,12 +42,12 @@
 					<Label x:Name="IndicateOnlyUrgentLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
 
-				<Button x:Name="SaveQuietSound" HorizontalOptions="Center" />
-
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowSoundSwitch" VerticalOptions="Center" />
 					<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" />
 				</StackLayout>
+
+				<Button x:Name="SaveQuietSound" HorizontalOptions="Center" />
 
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowLightSwitch" VerticalOptions="Center" />
@@ -87,14 +87,6 @@
 
 				<Label x:Name="CenterButtonLabel" />
 				<Button x:Name="CenterButtonFunction" HorizontalOptions="Center" />
-
-				<!-- Maintenance section
-
-				<Label x:Name="Maintenance_GMJStatus" HorizontalOptions="Center" />
-				<Button x:Name="Maintenance_ResetFreeSet" HorizontalOptions="Center" />
-				<Button x:Name="Maintenance_GetRemovedSet" HorizontalOptions="Center" />
-
-				-->
 
 				<Label />
 

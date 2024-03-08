@@ -1,7 +1,8 @@
 uNot: changes log
 
-ToDo:
-- Убрать tabstop из всех элементов управления в окне журнала, кроме поля текста
+Version 7.1.1:
+• XPUN control has been updated;
+• Windows: some minor interface bugs have been fixed
 
 Version 7.1:
 • Android: removed the misleading switch for urgent / mixed notifications. Now the urgent /

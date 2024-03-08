@@ -372,9 +372,6 @@ namespace RD_AAOW
 			MainText.Width = this.Width - 38;
 			MainText.Height = this.Height - 87;
 
-			/*BClose.Top = BGo.Top = ReadMode.Top = GetGMJ.Top = this.Height - 71;
-			NamesCombo.Top = BClose.Top + 1;
-			FontSizeField.Top = BClose.Top + 2;*/
 			ButtonsPanel.Top = MainText.Top + MainText.Height - 1;
 			}
 
