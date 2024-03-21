@@ -1,5 +1,9 @@
 uNot: changes log
 
+Version 7.1.2:
+• Android: fixed some interface bugs;
+• GMJ: updated the skip list
+
 Version 7.1.1:
 • Update for XPUN has been applied;
 • Windows: some minor interface bugs have been fixed

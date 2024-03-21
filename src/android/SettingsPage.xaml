@@ -38,11 +38,6 @@
 				<Label x:Name="AllowStartTip" HorizontalOptions="Center" />
 
 				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="IndicateOnlyUrgentSwitch" VerticalOptions="Center" />
-					<Label x:Name="IndicateOnlyUrgentLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowSoundSwitch" VerticalOptions="Center" />
 					<Label x:Name="AllowSoundLabel" VerticalTextAlignment="Center" />
 				</StackLayout>

@@ -281,16 +281,15 @@ namespace RD_AAOW.Droid
 			newItemsShown = true;
 
 			// Подтягивание настроек из интерфейса
-			notBuilder.SetDefaults (/*NotificationsSupport.IndicateOnlyUrgentNotifications &&*/
-				!ProgramDescription.NSet.HasUrgentNotifications ? 0 :
+			notBuilder.SetDefaults (!ProgramDescription.NSet.HasUrgentNotifications ? 0 :
 
 				(int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
 				(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
 				(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));
 
 			if (AndroidSupport.IsForegroundAvailable)
-				notBuilder.SetChannelId (/*NotificationsSupport.IndicateOnlyUrgentNotifications &&*/
-					!ProgramDescription.NSet.HasUrgentNotifications ? defaultChannelID : urgentChannelID);
+				notBuilder.SetChannelId (!ProgramDescription.NSet.HasUrgentNotifications ?
+					defaultChannelID : urgentChannelID);
 			notBuilder.SetColor (ProgramDescription.NSet.HasUrgentNotifications ? urgentColor : defaultColor);
 
 // Формирование сообщения
@@ -368,18 +367,9 @@ notMessage:
 
 			// Настройка видимости для стартового сообщения
 			if (!AndroidSupport.IsForegroundAvailable)
-				{
-				/*notBuilder.SetDefaults (0);         // Для служебного сообщения
-				*/
 				notBuilder.SetPriority ((int)NotificationPriority.Default);
-				}
 			else
-				{
-				/*notBuilder.SetDefaults (NotificationsSupport.IndicateOnlyUrgentNotifications ? 0 :
-					(int)(NotificationDefaults.Sound | NotificationDefaults.Lights |
-					NotificationDefaults.Vibrate)); // Управляется из ОС, но должно быть включено*/
 				notBuilder.SetPriority ((int)NotificationPriority.High);
-				}
 
 			notBuilder.SetSmallIcon (Resource.Drawable.ic_not);
 			if (AndroidSupport.IsLargeIconRequired)
@@ -402,10 +392,6 @@ notMessage:
 			if (!AndroidSupport.IsForegroundAvailable)
 				{
 				notBuilder.SetDefaults (0);
-				/*notBuilder.SetDefaults (NotificationsSupport.IndicateOnlyUrgentNotifications ? 0 :
-					(int)(NotificationsSupport.AllowSound ? NotificationDefaults.Sound : 0) |
-					(int)(NotificationsSupport.AllowLight ? NotificationDefaults.Lights : 0) |
-					(int)(NotificationsSupport.AllowVibro ? NotificationDefaults.Vibrate : 0));*/
 				notBuilder.SetPriority ((int)NotificationPriority.Max);
 				}
 
