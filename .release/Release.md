@@ -1,6 +1,5 @@
-_Changes for v 7.1.2_:
-- `Android`: fixed some interface bugs;
+_Changes for v 7.1.3_:
+- Updated the HypeHelp links list;
 - `GMJ`: updated the skip list;
-- XPUN control has been updated;
-- `Windows`: some minor interface bugs have been fixed;
-- ***The app can now work with many more sites than before. We have rebuilt the web request method to enable it to work with the newest HTTP and security requirements***
+- `Android`: fixed some interface bugs;
+- XPUN control has been updated
