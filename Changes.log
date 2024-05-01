@@ -1,7 +1,9 @@
 uNot: changes log
 
-ToDo:
-- Форматирование в Android?
+Version 7.2:
+• Current updates have been applied;
+• Windows: fixed a possible crash when simultaneously opening the settings window and closing the service from the tray;
+• GMJ: updated the skip list
 
 Version 7.1.5:
 • Windows: updated HypeHelp and Updates checker mechanics: this should fix apps freezing immediately

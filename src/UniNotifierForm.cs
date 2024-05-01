@@ -46,7 +46,7 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 			MainText.Font = new Font ("Calibri", 13);
-			if (!RDGenerics.IsRegistryAccessible)
+			if (!RDGenerics.AppHasAccessRights (false, true))
 				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
 			hideWindow = HideWindow;
 
@@ -75,7 +75,7 @@ namespace RD_AAOW
 			ni.ContextMenu = new ContextMenu ();
 
 			ni.ContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("MainMenuOption02"), ShowSettings));
-			ni.ContextMenu.MenuItems[0].Enabled = RDGenerics.IsRegistryAccessible;
+			ni.ContextMenu.MenuItems[0].Enabled = RDGenerics.AppHasAccessRights (false, true);
 
 			ni.ContextMenu.MenuItems.Add (new MenuItem (
 				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout), AboutService));
@@ -295,19 +295,13 @@ namespace RD_AAOW
 			RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());
 			sf.Dispose ();
 
+			// Обработка случая закрытия основного окна из трея
+			if (allowExit)
+				return;
+
 			// Обновление настроек
 			ReloadNotificationsList ();
 			ns.HasUrgentNotifications = false;
-
-#if NIND
-			// Обеспечение перезаугркзи индикатора
-			if ((nind != null) && nind.Visible)
-				{
-				nind.Close ();
-				nind.Dispose ();
-				indicatorHasBeenUsed = false;
-				}
-#endif
 
 			ni.ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
 			ni.ContextMenu.MenuItems[1].Text =
