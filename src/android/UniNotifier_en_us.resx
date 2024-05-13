@@ -139,7 +139,10 @@
     <value>Keep service active after exit</value>
   </data>
   <data name="AllowStartTip" xml:space="preserve">
-    <value>If pinned notification of {0:S} is not at the top of the screen, this option will require a restart of the app</value>
+    <value>If the pinned notification {0:S} is not at the top of the screen, this option will require a restart of the application.
+
+In Android 12 and higher, there is no adequate implementation of going to the app when you click on a notification. Therefore, to return to the app, you’ll need to launch it again. The notification in this version of the OS only helps speed up its launch
+</value>
   </data>
   <data name="AllowVibroLabel" xml:space="preserve">
     <value>Vibration</value>
@@ -235,6 +238,9 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service is in supervision mode. Click on this message to go to the app’s log</value>
+  </data>
+  <data name="LaunchMessageA13" xml:space="preserve">
+    <value>Notification service is in supervision mode</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Link and
@@ -434,45 +440,45 @@ The application creates two notification channels:
 
 Don’t forget to set appropriate sounds for them</value>
   </data>
-  <data name="Tip04_1" xml:space="preserve">
+  <data name="Tip04_0004" xml:space="preserve">
     <value>This button allows you to apply changes performed below to the currently selected notification</value>
   </data>
-  <data name="Tip04_10" xml:space="preserve">
-    <value>This option allows you to open the source of the selected notification in browser</value>
-  </data>
-  <data name="Tip04_11" xml:space="preserve">
-    <value>This button allows you to select notification for configuring</value>
-  </data>
-  <data name="Tip04_13" xml:space="preserve">
-    <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. This allows you to quickly call it when necessary (via a pinned notification) and see the quantity of unread records in the main log</value>
-  </data>
-  <data name="Tip04_15" xml:space="preserve">
-    <value>In some cases, the needed part of webpage is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of the page) should be displayed</value>
-  </data>
-  <data name="Tip04_18" xml:space="preserve">
-    <value>All operations with texts of notifications are available through the clicking on them in the main log</value>
-  </data>
-  <data name="Tip04_2" xml:space="preserve">
+  <data name="Tip04_0008" xml:space="preserve">
     <value>This button allows you to share settings of notifications</value>
   </data>
-  <data name="Tip04_20" xml:space="preserve">
+  <data name="Tip04_0010" xml:space="preserve">
+    <value>This button allows you to remove selected notification</value>
+  </data>
+  <data name="Tip04_0020" xml:space="preserve">
+    <value>This option allows you to share the text of selected notification.
+
+Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
+  </data>
+  <data name="Tip04_0040" xml:space="preserve">
+    <value>This option allows you to open the source of the selected notification in browser</value>
+  </data>
+  <data name="Tip04_0080" xml:space="preserve">
+    <value>This button allows you to select notification for configuring</value>
+  </data>
+  <data name="Tip04_0100" xml:space="preserve">
+    <value>If this switch is enabled, the background service will remain active when the app is closed or minimized. This allows you to quickly call it when necessary (via a pinned notification) and see the quantity of unread records in the main log</value>
+  </data>
+  <data name="Tip04_0200" xml:space="preserve">
+    <value>In some cases, the needed part of webpage is not the first on it, which is limited by the specified markers. This field allows you to specify which occurrence of the target area (from the top of the page) should be displayed</value>
+  </data>
+  <data name="Tip04_0400" xml:space="preserve">
+    <value>All operations with texts of notifications are available through the clicking on them in the main log</value>
+  </data>
+  <data name="Tip04_0800" xml:space="preserve">
     <value>This function allows you to set a numerical threshold. It will be compared with the first number in every obtained text using the specified comparison method. If the new text matches the condition, app will display an urgent notification.
 
 It is also possible to display the notification only if this condition is met</value>
   </data>
-  <data name="Tip04_22" xml:space="preserve">
+  <data name="Tip04_1000" xml:space="preserve">
     <value>These switches allow you to specify which methods of indication the app should use when there are unread items</value>
   </data>
-  <data name="Tip04_25" xml:space="preserve">
+  <data name="Tip04_2000" xml:space="preserve">
     <value>This switch keeps the screen active while you’re reading notifications texts (i. e. while the app is opened)</value>
-  </data>
-  <data name="Tip04_4" xml:space="preserve">
-    <value>This button allows you to remove selected notification</value>
-  </data>
-  <data name="Tip04_7" xml:space="preserve">
-    <value>This option allows you to share the text of selected notification.
-
-Please note that app adds links to information sources to notifications you share (in order to respect the rights of authors). It is recommended not to remove them when distributing texts using this function</value>
   </data>
   <data name="TipHeader01" xml:space="preserve">
     <value>Tip</value>

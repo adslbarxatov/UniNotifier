@@ -204,45 +204,45 @@
 Очень надеюсь, что Вам понравится относительно грамотный юмор!
 С уважением, Nicolay B. aka RD AAOW</value>
   </data>
-  <data name="Tip_00" xml:space="preserve">
+  <data name="Tip_0001" xml:space="preserve">
     <value>Добро пожаловать в uNot – службу наблюдения за состоянием веб-ресурсов! Здесь вы можете настроить службу и сами уведомления. Некоторые кнопки и поля содержат полезные подсказки, которые будут показаны однократно.
 
 Подробные инструкции по настройке сервиса доступны на YouTube (кнопка «Руководство» в окне сведений о приложении)</value>
   </data>
-  <data name="Tip_01" xml:space="preserve">
+  <data name="Tip_0002" xml:space="preserve">
     <value>Эта кнопка позволяет применить изменения, выполненные в правой части окна, к текущему выбранному уведомлению</value>
   </data>
-  <data name="Tip_02" xml:space="preserve">
+  <data name="Tip_0004" xml:space="preserve">
     <value>Эта кнопка позволяет добавить новое уведомление с настройками, представленными в правой части окна</value>
   </data>
-  <data name="Tip_03" xml:space="preserve">
+  <data name="Tip_0008" xml:space="preserve">
     <value>Эта кнопка позволяет удалить выбранное уведомление</value>
   </data>
-  <data name="Tip_04" xml:space="preserve">
+  <data name="Tip_0010" xml:space="preserve">
     <value>Эта кнопка позволяет загрузить настройки из шаблона уведомления</value>
   </data>
-  <data name="Tip_05" xml:space="preserve">
+  <data name="Tip_0020" xml:space="preserve">
     <value>Эта кнопка позволяет автоматически находить разделители для нового уведомления (подробности см. в руководстве пользователя)</value>
   </data>
-  <data name="Tip_06" xml:space="preserve">
+  <data name="Tip_0040" xml:space="preserve">
     <value>В этом разделе можно выбрать уведомление, источник которого будет открыт в браузере</value>
   </data>
-  <data name="Tip_07" xml:space="preserve">
+  <data name="Tip_0080" xml:space="preserve">
     <value>В этом поле можно выбрать уведомление для настройки</value>
   </data>
-  <data name="Tip_08" xml:space="preserve">
+  <data name="Tip_0100" xml:space="preserve">
     <value>Когда вы закроете это окно, запустится фоновая служба, и начнётся мониторинг. При повторном вызове интерфейса настроек служба будет приостановлена для правильной настройки</value>
   </data>
-  <data name="Tip_09" xml:space="preserve">
+  <data name="Tip_0200" xml:space="preserve">
     <value>В некоторых случаях нужная часть веб-страницы оказывается на ней не первой среди ограниченный указанными маркерами. Это поле позволяет указать, какое вхождение целевой области (сверху страницы) должно отображаться</value>
   </data>
   <data name="NoTemplateInClipboard" xml:space="preserve">
     <value>В буфере обмена не найдено совместимых шаблонов уведомлений. Скопируйте строку шаблона в буфер обмена и попробуйте ещё раз</value>
   </data>
-  <data name="Tip_10" xml:space="preserve">
+  <data name="Tip_0400" xml:space="preserve">
     <value>Эта кнопка позволяет поделиться настройками уведомлений</value>
   </data>
-  <data name="Tip_11" xml:space="preserve">
+  <data name="Tip_0800" xml:space="preserve">
     <value>Эта кнопка позволяет загружать настройки уведомлений</value>
   </data>
   <data name="SettingsForm_NotWizard" xml:space="preserve">
@@ -299,7 +299,7 @@
   <data name="SettingsForm_WindowCallFlag" xml:space="preserve">
     <value>Показывать главное окно при срочных уведомлениях</value>
   </data>
-  <data name="Tip_12" xml:space="preserve">
+  <data name="Tip_1000" xml:space="preserve">
     <value>Эта функция позволяет установить числовой порог. Он будет сравниваться с первым номером в каждом полученном тексте с использованием указанного метода сравнения. Если новый текст соответствует условию, приложение отобразит специальное предупреждение.
 
 Также возможно отображение уведомления только при соблюдении этого условия</value>

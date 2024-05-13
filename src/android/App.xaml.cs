@@ -16,6 +16,9 @@ namespace RD_AAOW
 		{
 		#region Общие переменные и константы
 
+		// Флаги прав доступа
+		private RDAppStartupFlags flags;
+
 		// Главный журнал приложения
 		private List<MainLogItem> masterLog;
 
@@ -103,10 +106,11 @@ namespace RD_AAOW
 		/// <summary>
 		/// Конструктор. Точка входа приложения
 		/// </summary>
-		public App (bool Huawei)
+		public App (RDAppStartupFlags Flags)
 			{
 			// Инициализация
 			InitializeComponent ();
+			flags = Flags;
 
 			if (ProgramDescription.NSet == null)
 				ProgramDescription.NSet = new NotificationsSet (false);
@@ -136,7 +140,7 @@ namespace RD_AAOW
 			#endregion
 
 			int tab = 0;
-			if (!NotificationsSupport.GetTipState (NSTipTypes.PolicyTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.PolicyTip))
 				tab = notSettingsTab;
 			((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[tab];
 
@@ -150,10 +154,62 @@ namespace RD_AAOW
 			allowStart = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowStartSwitch",
 				false, settingsFieldBackColor, AllowStart_Toggled, AndroidSupport.AllowServiceToStart);
 
-			if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
+			/*if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
 				AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
 					string.Format (RDLocale.GetText ("AllowStartTip"), ProgramDescription.AssemblyMainName),
+					RDLabelTypes.Tip);*/
+			Label allowServiceTip;
+			Button allowServiceButton;
+
+			// Не работают оповещения
+			if (!Flags.HasFlag (RDAppStartupFlags.CanShowNotifications))
+				{
+				allowStart.IsEnabled = false;
+				allowServiceTip = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
+					RDLocale.GetDefaultText (RDLDefaultTexts.Message_NotificationPermission), RDLabelTypes.ErrorTip);
+
+				allowServiceButton = AndroidSupport.ApplyButtonSettings (settingsPage, "AllowStartButton",
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Open),
+					settingsFieldBackColor, CallAppSettings, false);
+				allowServiceButton.HorizontalOptions = LayoutOptions.Center;
+				}
+
+			// Не работают файловые операции
+			if (!Flags.HasFlag (RDAppStartupFlags.CanReadFiles) ||
+				!Flags.HasFlag (RDAppStartupFlags.CanWriteFiles))
+				{
+				allowServiceTip = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
+					RDLocale.GetDefaultText (RDLDefaultTexts.Message_ReadWritePermission), RDLabelTypes.ErrorTip);
+
+				allowServiceButton = AndroidSupport.ApplyButtonSettings (settingsPage, "AllowStartButton",
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Open),
+					settingsFieldBackColor, CallAppSettings, false);
+				allowServiceButton.HorizontalOptions = LayoutOptions.Center;
+				}
+
+			// Общее предупреждение по оповещениям для Android 12 и выше
+			else if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
+				{
+				allowServiceTip = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
+					string.Format (RDLocale.GetText ("AllowStartTip"), ProgramDescription.AssemblyMainName),
 					RDLabelTypes.Tip);
+
+				allowServiceButton = AndroidSupport.ApplyButtonSettings (settingsPage, "AllowStartButton",
+					" ", settingsFieldBackColor, null, false);
+				allowServiceButton.IsVisible = false;
+				}
+
+			// Нормальный запуск
+			else
+				{
+				allowServiceTip = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
+					" ", RDLabelTypes.Tip);
+				allowServiceTip.IsVisible = false;
+
+				allowServiceButton = AndroidSupport.ApplyButtonSettings (settingsPage, "AllowStartButton",
+					" ", settingsFieldBackColor, null, false);
+				allowServiceButton.IsVisible = false;
+				}
 
 			AndroidSupport.ApplyLabelSettings (settingsPage, "NotWizardLabel",
 				RDLocale.GetText ("NotWizardLabel"), RDLabelTypes.HeaderLeft);
@@ -410,7 +466,7 @@ namespace RD_AAOW
 			FinishBackgroundRequest ();
 
 			// Принятие соглашений
-			ShowStartupTips (Huawei);
+			ShowStartupTips ();
 			}
 
 		// Исправление для сброса текущей позиции журнала
@@ -462,20 +518,27 @@ namespace RD_AAOW
 			}
 
 		// Метод отображает подсказки при первом запуске
-		private async void ShowStartupTips (bool Huawei)
+		private async void ShowStartupTips ()
 			{
 			// Контроль XPUN
-			await AndroidSupport.XPUNLoop (Huawei);
+			if (!flags.HasFlag (RDAppStartupFlags.Huawei))
+				await AndroidSupport.XPUNLoop ();
 
 			// Требование принятия Политики
-			if (!NotificationsSupport.GetTipState (NSTipTypes.PolicyTip))
+			/*if (!NotificationsSupport.GetTipState (NSTipTypes.PolicyTip))
 				{
 				await AndroidSupport.PolicyLoop ();
 				NotificationsSupport.SetTipState (NSTipTypes.PolicyTip);
+				}*/
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.PolicyTip))
+				{
+				await AndroidSupport.PolicyLoop ();
+				NotificationsSet.TipsState |= NSTipTypes.PolicyTip;
 				}
 
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.StartupTips))
+			/*if (!NotificationsSupport.GetTipState (NSTipTypes.StartupTips))*/
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.StartupTips))
 				{
 				await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip01"),
 					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Next));
@@ -492,7 +555,8 @@ namespace RD_AAOW
 					await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip03_2"),
 						RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
-				NotificationsSupport.SetTipState (NSTipTypes.StartupTips);
+				/*NotificationsSupport.SetTipState (NSTipTypes.StartupTips);*/
+				NotificationsSet.TipsState |= NSTipTypes.StartupTips;
 				}
 			}
 
@@ -500,10 +564,10 @@ namespace RD_AAOW
 		private async Task<bool> ShowTips (NSTipTypes Type)
 			{
 			// Подсказки
-			await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip04_" + ((int)Type).ToString ()),
+			await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip04_" + ((uint)Type).ToString ("X4")),
 				RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
-			NotificationsSupport.SetTipState (Type);
+			NotificationsSet.TipsState |= Type;
 			return true;
 			}
 
@@ -547,6 +611,12 @@ namespace RD_AAOW
 			// а во время ожидания имели место обновления журнала)
 			AndroidSupport.AppIsRunning = true;
 			FinishBackgroundRequest ();
+			}
+
+		// Вызов настроек приложения (для Android 12 и выше)
+		private void CallAppSettings (object sender, EventArgs e)
+			{
+			AndroidSupport.CallAppSettings ();
 			}
 
 		#endregion
@@ -601,7 +671,7 @@ namespace RD_AAOW
 			SetLogState (true);
 			AndroidSupport.ShowBalloon (RDLocale.GetText ("RequestCompleted"), true);
 
-			if (!NotificationsSupport.GetTipState (NSTipTypes.MainLogClickMenuTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.MainLogClickMenuTip))
 				await ShowTips (NSTipTypes.MainLogClickMenuTip);
 			}
 
@@ -798,7 +868,7 @@ namespace RD_AAOW
 				// Переход по ссылке
 				case 0:
 				case 10:
-					if (!NotificationsSupport.GetTipState (NSTipTypes.GoToButton))
+					if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.GoToButton))
 						await ShowTips (NSTipTypes.GoToButton);
 
 					try
@@ -815,7 +885,7 @@ namespace RD_AAOW
 				// Поделиться
 				case 1:
 				case 11:
-					if (!NotificationsSupport.GetTipState (NSTipTypes.ShareButton))
+					if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.ShareButton))
 						await ShowTips (NSTipTypes.ShareButton);
 
 					await Share.RequestAsync ((notItem.Header + RDLocale.RNRN + notItem.Text +
@@ -992,7 +1062,7 @@ namespace RD_AAOW
 
 			// Разблокировка
 			SetLogState (true);
-			if (!NotificationsSupport.GetTipState (NSTipTypes.MainLogClickMenuTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.MainLogClickMenuTip))
 				await ShowTips (NSTipTypes.MainLogClickMenuTip);
 			}
 
@@ -1017,7 +1087,7 @@ namespace RD_AAOW
 		private async void KeepScreenOnSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.KeepScreenOnTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.KeepScreenOnTip))
 				await ShowTips (NSTipTypes.KeepScreenOnTip);
 
 			AndroidSupport.KeepScreenOn = keepScreenOnSwitch.IsToggled;
@@ -1190,14 +1260,23 @@ namespace RD_AAOW
 
 				// Загрузка из файла
 				case 4:
-					// Чтение
+					// Защита
 					notWizardButton.IsEnabled = true;
+
+					if (!flags.HasFlag (RDAppStartupFlags.CanReadFiles))
+						{
+						await AndroidSupport.ShowMessage (RDLocale.GetDefaultText
+							(RDLDefaultTexts.Message_ReadWritePermission),
+							RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
+						return;
+						}
 
 					if (!await AndroidSupport.ShowMessage (RDLocale.GetText ("LoadingWarning"),
 						RDLocale.GetDefaultText (RDLDefaultTexts.Button_Yes),
 						RDLocale.GetDefaultText (RDLDefaultTexts.Button_No)))
 						return;
 
+					// Загрузка
 					string settings = await AndroidSupport.LoadFromFile (RDEncodings.Unicode16);
 					ProgramDescription.NSet.SetSettingsList (settings);
 
@@ -1335,7 +1414,7 @@ namespace RD_AAOW
 		private async void AllowStart_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.ServiceLaunchTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.ServiceLaunchTip))
 				await ShowTips (NSTipTypes.ServiceLaunchTip);
 
 			AndroidSupport.AllowServiceToStart = allowStart.IsToggled;
@@ -1345,7 +1424,7 @@ namespace RD_AAOW
 		private async void AllowSound_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.IndicationTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.IndicationTip))
 				await ShowTips (NSTipTypes.IndicationTip);
 
 			NotificationsSupport.AllowSound = allowSoundSwitch.IsToggled;
@@ -1354,7 +1433,7 @@ namespace RD_AAOW
 		private async void AllowLight_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.IndicationTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.IndicationTip))
 				await ShowTips (NSTipTypes.IndicationTip);
 
 			NotificationsSupport.AllowLight = allowLightSwitch.IsToggled;
@@ -1363,7 +1442,7 @@ namespace RD_AAOW
 		private async void AllowVibro_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.IndicationTip))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.IndicationTip))
 				await ShowTips (NSTipTypes.IndicationTip);
 
 			NotificationsSupport.AllowVibro = allowVibroSwitch.IsToggled;
@@ -1464,6 +1543,16 @@ namespace RD_AAOW
 		// Метод сохраняет тихий звук
 		private async void SaveQuietSound_Clicked (object sender, EventArgs e)
 			{
+			// Защита
+			if (!flags.HasFlag (RDAppStartupFlags.CanWriteFiles))
+				{
+				await AndroidSupport.ShowMessage (RDLocale.GetDefaultText
+					(RDLDefaultTexts.Message_ReadWritePermission),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
+				return;
+				}
+
+			// Запись
 			await AndroidSupport.SaveToFile ("Silence.mp3", RD_AAOW.Properties.Resources.MuteSound);
 			}
 
@@ -1512,7 +1601,7 @@ namespace RD_AAOW
 		private async void SelectNotification (object sender, EventArgs e)
 			{
 			// Подсказки
-			if ((e != null) && !NotificationsSupport.GetTipState (NSTipTypes.CurrentNotButton))
+			if ((e != null) && !NotificationsSet.TipsState.HasFlag (NSTipTypes.CurrentNotButton))
 				await ShowTips (NSTipTypes.CurrentNotButton);
 
 			// Запрос списка оповещений
@@ -1579,7 +1668,7 @@ namespace RD_AAOW
 			if (sender != null)
 				{
 				// Подсказки
-				if (!NotificationsSupport.GetTipState (NSTipTypes.OccurenceTip))
+				if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.OccurenceTip))
 					await ShowTips (NSTipTypes.OccurenceTip);
 
 				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
@@ -1643,7 +1732,7 @@ namespace RD_AAOW
 		private async void DeleteNotification (object sender, EventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.DeleteButton))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.DeleteButton))
 				await ShowTips (NSTipTypes.DeleteButton);
 
 			// Контроль
@@ -1666,7 +1755,7 @@ namespace RD_AAOW
 		private async void ApplyNotification (object sender, EventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.ApplyButton))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.ApplyButton))
 				await ShowTips (NSTipTypes.ApplyButton);
 
 			// Обновление (при успехе – обновление названия)
@@ -1743,7 +1832,7 @@ namespace RD_AAOW
 		private async void ShareTemplate (object sender, EventArgs e)
 			{
 			// Подсказки
-			if (!NotificationsSupport.GetTipState (NSTipTypes.ShareNotButton))
+			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.ShareNotButton))
 				await ShowTips (NSTipTypes.ShareNotButton);
 
 			// Запрос варианта использования
@@ -1778,6 +1867,15 @@ namespace RD_AAOW
 					break;
 
 				case 1:
+					// Защита
+					if (!flags.HasFlag (RDAppStartupFlags.CanWriteFiles))
+						{
+						await AndroidSupport.ShowMessage (RDLocale.GetDefaultText
+							(RDLDefaultTexts.Message_ReadWritePermission),
+							RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
+						return;
+						}
+
 					await AndroidSupport.SaveToFile (NotificationsSet.SettingsFileName,
 						ProgramDescription.NSet.GetSettingsList (), RDEncodings.Unicode16);
 					break;
@@ -1821,7 +1919,7 @@ namespace RD_AAOW
 		private async void ComparatorSwitch_Toggled (object sender, ToggledEventArgs e)
 			{
 			// Подсказки
-			if ((e != null) && !NotificationsSupport.GetTipState (NSTipTypes.ThresholdTip))
+			if ((e != null) && !NotificationsSet.TipsState.HasFlag (NSTipTypes.ThresholdTip))
 				await ShowTips (NSTipTypes.ThresholdTip);
 
 			comparatorTypeButton.IsVisible = comparatorValueField.IsVisible = ignoreMisfitsLabel.IsVisible =

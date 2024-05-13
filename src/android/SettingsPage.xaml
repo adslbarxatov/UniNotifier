@@ -36,6 +36,7 @@
 				</StackLayout>
 
 				<Label x:Name="AllowStartTip" HorizontalOptions="Center" />
+				<Button x:Name="AllowStartButton" HorizontalOptions="Center" />
 
 				<StackLayout Orientation="Horizontal">
 					<Switch x:Name="AllowSoundSwitch" VerticalOptions="Center" />
