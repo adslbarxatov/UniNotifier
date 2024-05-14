@@ -1,4 +1,4 @@
-_Changes for v 7.3_:
+_Changes for v 7.3.1_:
 - Windows: application retargeted to `.NET Framework 4.8.1`;
 - `Android`: background service code has been reworked, a number of compatibility issues with `Android 13` have been fixed;
 - `Android`: app permissions checker has been rewritten;

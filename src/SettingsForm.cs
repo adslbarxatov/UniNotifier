@@ -78,7 +78,7 @@ namespace RD_AAOW
 				NotificationsList.SelectedIndex = 0;
 
 			// Запуск
-			ProgramDescription.ShowTips (NSTipTypes.StartupTip);
+			ProgramDescription.ShowTip (NSTipTypes.StartupTip);
 			this.ShowDialog ();
 			}
 
@@ -116,7 +116,7 @@ namespace RD_AAOW
 			RDGenerics.SaveWindowDimensions (this);
 
 			// Закрытие окна
-			ProgramDescription.ShowTips (NSTipTypes.ServiceLaunchTip);
+			ProgramDescription.ShowTip (NSTipTypes.ServiceLaunchTip);
 			}
 
 		// Загрузка значений в поля
@@ -126,7 +126,7 @@ namespace RD_AAOW
 			if (NotificationsList.SelectedIndex < 0)
 				return;
 			else if (NotificationsList.SelectedIndex != 0)
-				ProgramDescription.ShowTips (NSTipTypes.CurrentNotButton);
+				ProgramDescription.ShowTip (NSTipTypes.CurrentNotButton);
 
 			// Загрузка
 			int i = NotificationsList.SelectedIndex;
@@ -151,7 +151,7 @@ namespace RD_AAOW
 		private void BAdd_Click (object sender, EventArgs e)
 			{
 			// Добавление
-			ProgramDescription.ShowTips (NSTipTypes.AddButton);
+			ProgramDescription.ShowTip (NSTipTypes.AddButton);
 			UpdateItem (-1);
 
 			// Обновление кнопок
@@ -160,7 +160,7 @@ namespace RD_AAOW
 
 		private void BUpdate_Click (object sender, EventArgs e)
 			{
-			ProgramDescription.ShowTips (NSTipTypes.ApplyButton);
+			ProgramDescription.ShowTip (NSTipTypes.ApplyButton);
 			UpdateItem (NotificationsList.SelectedIndex);
 			}
 
@@ -232,7 +232,7 @@ namespace RD_AAOW
 		private void BDelete_Click (object sender, EventArgs e)
 			{
 			// Контроль
-			ProgramDescription.ShowTips (NSTipTypes.DeleteButton);
+			ProgramDescription.ShowTip (NSTipTypes.DeleteButton);
 			if (NotificationsList.SelectedIndex < 0)
 				{
 				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "DeleteLineNotSpecified");
@@ -285,14 +285,14 @@ namespace RD_AAOW
 		// Подсказка по полю Occurence
 		private void OccurrenceField_Click (object sender, EventArgs e)
 			{
-			ProgramDescription.ShowTips (NSTipTypes.OccurenceTip);
+			ProgramDescription.ShowTip (NSTipTypes.OccurenceTip);
 			}
 
 		// Выгрузка настроек в буфер обмена
 		private void ShareSettings_Click (object sender, EventArgs e)
 			{
 			// Подсказка
-			ProgramDescription.ShowTips (NSTipTypes.ShareSettings);
+			ProgramDescription.ShowTip (NSTipTypes.ShareSettings);
 
 			// Выбор варианта выгрузки
 			switch (RDGenerics.MessageBox (RDMessageTypes.Question_Left, RDLocale.GetText ("ShareVariant"),
@@ -409,7 +409,7 @@ namespace RD_AAOW
 		private void ComparatorFlag_CheckedChanged (object sender, EventArgs e)
 			{
 			if (ComparatorFlag.Checked)
-				ProgramDescription.ShowTips (NSTipTypes.Threshold);
+				ProgramDescription.ShowTip (NSTipTypes.Threshold);
 
 			ComparatorType.Enabled = ComparatorValue.Enabled = MisfitsFlag.Enabled = ComparatorFlag.Checked;
 			}

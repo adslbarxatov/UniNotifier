@@ -175,7 +175,7 @@ namespace RD_AAOW
 				}
 
 			// Не работают файловые операции
-			if (!Flags.HasFlag (RDAppStartupFlags.CanReadFiles) ||
+			else if (!Flags.HasFlag (RDAppStartupFlags.CanReadFiles) ||
 				!Flags.HasFlag (RDAppStartupFlags.CanWriteFiles))
 				{
 				allowServiceTip = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",

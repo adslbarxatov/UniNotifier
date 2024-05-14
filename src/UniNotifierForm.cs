@@ -323,12 +323,13 @@ namespace RD_AAOW
 		// Переход на страницу сообщества
 		private void GoToLink (object sender, EventArgs e)
 			{
-			ProgramDescription.ShowTips (NSTipTypes.GoToButton);
+			ProgramDescription.ShowTip (NSTipTypes.GoToButton);
 			RDGenerics.RunURL (ns.Notifications[NamesCombo.SelectedIndex].Link);
+			this.Close ();
+
 			/*try
 				{
 				Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
-				this.Close ();
 				}
 			catch { }*/
 			}

@@ -89,13 +89,13 @@ namespace RD_AAOW.Droid
 
 			// Для Android 12 и выше запуск службы возможен только здесь
 			if (flags.HasFlag (RDAppStartupFlags.CanShowNotifications))
-				if (!AndroidSupport.AllowServiceToStart || !AndroidSupport.IsForegroundStartableFromResumeEvent)
-					{
-					if (AndroidSupport.IsForegroundAvailable)
-						StartForegroundService (mainService);
-					else
-						StartService (mainService);
-					}
+			/*if (!AndroidSupport.AllowServiceToStart || !AndroidSupport.IsForegroundStartableFromResumeEvent)*/
+				{
+				if (AndroidSupport.IsForegroundAvailable)
+					StartForegroundService (mainService);
+				else
+					StartService (mainService);
+				}
 
 			// Запуск
 			if (AndroidSupport.KeepScreenOn)
@@ -321,7 +321,7 @@ namespace RD_AAOW.Droid
 					defaultChannelID : urgentChannelID);
 			notBuilder.SetColor (ProgramDescription.NSet.HasUrgentNotifications ? urgentColor : defaultColor);
 
-// Формирование сообщения
+			// Формирование сообщения
 notMessage:
 			notBuilder.SetContentText (msg);
 			notTextStyle.BigText (msg);
