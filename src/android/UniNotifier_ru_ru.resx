@@ -221,6 +221,15 @@
   <data name="FindDisclaimer" xml:space="preserve">
     <value>Для использования этой функции укажите какое-либо ключевое слово из целевого участка сайта в поле «Начало»</value>
   </data>
+  <data name="FirstSetupMessage" xml:space="preserve">
+    <value>Главный журнал пуст.
+
+• Смахните этот экран влево, чтобы добавить новые веб-ресурсы для наблюдения, если это ещё не сделано.
+
+• По завершении включите фоновую службу и закройте приложение, чтобы начать наблюдение.
+
+• Подробная инструкция по настройке службы доступна на YouTube. Смахните этот экран влево (до конца) и выберите «Справочные материалы» → «Видеоруководство проекта» для просмотра</value>
+  </data>
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Размер шрифта в журнале: &lt;b&gt;{0:D}&lt;/b&gt;</value>
   </data>
@@ -324,6 +333,12 @@
   </data>
   <data name="RemoveOption" xml:space="preserve">
     <value>Удалить из журнала</value>
+  </data>
+  <data name="RepeatTips" xml:space="preserve">
+    <value>Повторить подсказки</value>
+  </data>
+  <data name="RepeatTipsMessage" xml:space="preserve">
+    <value>Все текстовые подсказки будут продублированы ещё раз</value>
   </data>
   <data name="RequestAgainOption" xml:space="preserve">
     <value>Опросить ещё раз</value>

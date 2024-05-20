@@ -384,7 +384,11 @@ namespace RD_AAOW
 			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
+#if TGT
+				texts.Add ("!!! " + s + " !!!");
+#else
 				texts.Add (s);
+#endif
 			else
 #if TGB
 				texts.Add ("Новый список сформирован");

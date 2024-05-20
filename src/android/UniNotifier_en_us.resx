@@ -221,6 +221,15 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="FindDisclaimer" xml:space="preserve">
     <value>For using this function specify some keyword from needed website’s area in the “Beginning” field</value>
   </data>
+  <data name="FirstSetupMessage" xml:space="preserve">
+    <value>The main log is empty.
+
+• Swipe this screen to the left to add new web resources to watch if it hasn’t been done yet.
+
+• When finished enable the background service and close the app to start the supervision.
+
+• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left (to the last page) and select “Reference materials” → “Project videoguide” for watching it</value>
+  </data>
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Font size of the main log: &lt;b&gt;{0:D}&lt;/b&gt;</value>
   </data>
@@ -322,6 +331,12 @@ markup:</value>
   <data name="RemoveOption" xml:space="preserve">
     <value>Remove from log</value>
   </data>
+  <data name="RepeatTips" xml:space="preserve">
+    <value>Repeat tips</value>
+  </data>
+  <data name="RepeatTipsMessage" xml:space="preserve">
+    <value>All text tips will be repeated once more</value>
+  </data>
   <data name="RequestAgainOption" xml:space="preserve">
     <value>Request again</value>
   </data>
@@ -418,7 +433,7 @@ markup:</value>
 • Swipe this screen to the right to set up parameters of the service and add new web resources to watch</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left and select “Reference materials” → “Project videoguide” for watching it.
+    <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left (to the last page) and select “Reference materials” → “Project videoguide” for watching it.
 
 • The main notifications log is available on the first page of the app. It will be opened on every further start of the service</value>
   </data>

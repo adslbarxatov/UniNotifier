@@ -154,10 +154,6 @@ namespace RD_AAOW
 			allowStart = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowStartSwitch",
 				false, settingsFieldBackColor, AllowStart_Toggled, AndroidSupport.AllowServiceToStart);
 
-			/*if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
-				AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
-					string.Format (RDLocale.GetText ("AllowStartTip"), ProgramDescription.AssemblyMainName),
-					RDLabelTypes.Tip);*/
 			Label allowServiceTip;
 			Button allowServiceButton;
 
@@ -169,7 +165,7 @@ namespace RD_AAOW
 					RDLocale.GetDefaultText (RDLDefaultTexts.Message_NotificationPermission), RDLabelTypes.ErrorTip);
 
 				allowServiceButton = AndroidSupport.ApplyButtonSettings (settingsPage, "AllowStartButton",
-					RDLocale.GetDefaultText (RDLDefaultTexts.Button_Open),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo),
 					settingsFieldBackColor, CallAppSettings, false);
 				allowServiceButton.HorizontalOptions = LayoutOptions.Center;
 				}
@@ -361,6 +357,8 @@ namespace RD_AAOW
 			AndroidSupport.ApplyButtonSettings (aboutPage, "HelpButton",
 				RDLocale.GetDefaultText (RDLDefaultTexts.Control_HelpSupport),
 				aboutFieldBackColor, HelpButton_Click, false);
+			AndroidSupport.ApplyButtonSettings (aboutPage, "RepeatTips", RDLocale.GetText ("RepeatTips"),
+				aboutFieldBackColor, RepeatTips_Clicked, false);
 			AndroidSupport.ApplyLabelSettings (aboutPage, "GenericSettingsLabel",
 				RDLocale.GetDefaultText (RDLDefaultTexts.Control_GenericSettings),
 				RDLabelTypes.HeaderLeft);
@@ -1591,6 +1589,13 @@ namespace RD_AAOW
 
 			aboutFontSizeField.Text = AndroidSupport.MasterFontSize.ToString ("F1");
 			aboutFontSizeField.FontSize = AndroidSupport.MasterFontSize;
+			}
+
+		// Запуск с начала
+		private void RepeatTips_Clicked (object sender, EventArgs e)
+			{
+			NotificationsSet.TipsState = NSTipTypes.PolicyTip | NSTipTypes.StartupTips;
+			AndroidSupport.ShowBalloon (RDLocale.GetText ("RepeatTipsMessage"), true);
 			}
 
 		#endregion

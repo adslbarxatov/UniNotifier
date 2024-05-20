@@ -1,6 +1,11 @@
 uNot: changes log
 
-Version 7.3:
+Version 7.3.3:
+• GMJ: the skip list has been updated;
+• Android: added the extra tips for the first app start;
+• Android: added the reset button for the set of help tips
+
+Version 7.3.1:
 • Windows: application retargeted to .NET Framework 4.8.1;
 • Android: background service code has been reworked, a number of compatibility issues with Android 13 have been fixed;
 • Android: app permissions checker has been rewritten;
