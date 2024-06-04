@@ -45,7 +45,7 @@ namespace RD_AAOW
 			string buf = RDGenerics.GetEncoding (RDEncodings.UTF8).GetString (s);
 
 			// Получение загруженных шаблонов
-			string buf2 = RDGenerics.GetAppSettingsValue (externalTemplatesSubkey);
+			string buf2 = RDGenerics.GetAppRegistryValue (externalTemplatesSubkey);
 			buf += buf2;
 
 			// Разбор
@@ -214,7 +214,7 @@ namespace RD_AAOW
 			// Получение списка
 			StringReader SR = new StringReader (html);
 			string newVersion = SR.ReadLine ();
-			string oldVersion = RDGenerics.GetAppSettingsValue (externalTemplatesVersionSubkey);
+			string oldVersion = RDGenerics.GetAppRegistryValue (externalTemplatesVersionSubkey);
 
 			if (oldVersion == newVersion)
 				{
@@ -243,8 +243,8 @@ namespace RD_AAOW
 			// Запись
 			tmp = tmp.Replace ("&lt;", "<").Replace ("&gt;", ">");
 
-			RDGenerics.SetAppSettingsValue (externalTemplatesVersionSubkey, newVersion);
-			RDGenerics.SetAppSettingsValue (externalTemplatesSubkey, tmp);
+			RDGenerics.SetAppRegistryValue (externalTemplatesVersionSubkey, newVersion);
+			RDGenerics.SetAppRegistryValue (externalTemplatesSubkey, tmp);
 
 			// Завершено
 			SR.Close ();

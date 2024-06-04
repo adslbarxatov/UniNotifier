@@ -46,7 +46,7 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 			MainText.Font = new Font ("Calibri", 13);
-			if (!RDGenerics.AppHasAccessRights (false, true))
+			if (!RDGenerics.AppHasAccessRights (false, false))
 				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
 			hideWindow = HideWindow;
 
@@ -59,11 +59,18 @@ namespace RD_AAOW
 
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
-			try
+			/*try
 				{
 				this.ReadMode.Checked = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[4]));
 				callWindowOnUrgents = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[5]));
 				this.FontSizeField.Value = decimal.Parse (RDGenerics.GetAppSettingsValue (regParameters[6]));
+				}
+			catch { }*/
+			ReadMode.Checked = RDGenerics.GetSettings (readPar, false);
+			callWindowOnUrgents = RDGenerics.GetSettings (callWindowOnUrgentsPar, false);
+			try
+				{
+				FontSizeField.Value = RDGenerics.GetSettings (fontSizePar, 130) / 10.0m;
 				}
 			catch { }
 
@@ -292,7 +299,8 @@ namespace RD_AAOW
 
 			// Запоминание настроек
 			callWindowOnUrgents = sf.CallWindowOnUrgents;
-			RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());
+			/*RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());*/
+			RDGenerics.SetSettings (callWindowOnUrgentsPar, callWindowOnUrgents);
 			sf.Dispose ();
 
 			// Обработка случая закрытия основного окна из трея
@@ -319,6 +327,7 @@ namespace RD_AAOW
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
 			MainTimer.Enabled = true;
 			}
+		private const string callWindowOnUrgentsPar = "CallOnUrgents";
 
 		// Переход на страницу сообщества
 		private void GoToLink (object sender, EventArgs e)
@@ -326,12 +335,6 @@ namespace RD_AAOW
 			ProgramDescription.ShowTip (NSTipTypes.GoToButton);
 			RDGenerics.RunURL (ns.Notifications[NamesCombo.SelectedIndex].Link);
 			this.Close ();
-
-			/*try
-				{
-				Process.Start (ns.Notifications[NamesCombo.SelectedIndex].Link);
-				}
-			catch { }*/
 			}
 
 		// Закрытие окна просмотра
@@ -359,8 +362,10 @@ namespace RD_AAOW
 				}
 
 			// Запоминание
-			RDGenerics.SetAppSettingsValue (regParameters[4], ReadMode.Checked.ToString ());
+			/*RDGenerics.SetAppSettingsValue (regParameters[4], ReadMode.Checked.ToString ());*/
+			RDGenerics.SetSettings (readPar, ReadMode.Checked);
 			}
+		private const string readPar = "Read";
 
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
@@ -384,17 +389,24 @@ namespace RD_AAOW
 			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
+				{
 #if TGT
-				texts.Add ("!!! " + s + " !!!");
+				if (s.Contains (GMJ.SourceNoReturnPattern))
+					texts.Add ("!!! " + s + " !!!");
+				else
+					texts.Add (s);
 #else
 				texts.Add (s);
 #endif
+				}
 			else
+				{
 #if TGB
 				texts.Add ("Новый список сформирован");
 #else
 				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
 #endif
+				}
 			notNumbers.Add (0);
 
 #if TGT
@@ -407,7 +419,9 @@ namespace RD_AAOW
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
-			RDGenerics.SetAppSettingsValue (regParameters[6], this.FontSizeField.Value.ToString ());
+			/*RDGenerics.SetAppSettingsValue (regParameters[6], this.FontSizeField.Value.ToString ());**/
+			RDGenerics.SetSettings (fontSizePar, (uint)(FontSizeField.Value*10.0m));
 			}
+		private const string fontSizePar = "FontSize";
 		}
 	}

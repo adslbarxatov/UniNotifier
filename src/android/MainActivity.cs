@@ -77,19 +77,12 @@ namespace RD_AAOW.Droid
 				RDAppStartupFlags.CanReadFiles | RDAppStartupFlags.CanWriteFiles | RDAppStartupFlags.Huawei, this);
 
 			// Запуск независимо от разрешения
-			/*Intent mainService = new Intent (this, typeof (MainService));*/
 			if (mainService == null)
 				mainService = new Intent (this, typeof (MainService));
 			AndroidSupport.StopRequested = false;
 
-			/*if (AndroidSupport.IsForegroundAvailable)
-				StartForegroundService (mainService);
-			else
-				StartService (mainService);*/
-
 			// Для Android 12 и выше запуск службы возможен только здесь
 			if (flags.HasFlag (RDAppStartupFlags.CanShowNotifications))
-			/*if (!AndroidSupport.AllowServiceToStart || !AndroidSupport.IsForegroundStartableFromResumeEvent)*/
 				{
 				if (AndroidSupport.IsForegroundAvailable)
 					StartForegroundService (mainService);
@@ -98,7 +91,7 @@ namespace RD_AAOW.Droid
 				}
 
 			// Запуск
-			if (AndroidSupport.KeepScreenOn)
+			if (NotificationsSupport.KeepScreenOn)
 				this.Window.AddFlags (WindowManagerFlags.KeepScreenOn);
 
 			LoadApplication (new App (flags));
@@ -111,7 +104,7 @@ namespace RD_AAOW.Droid
 		protected override void OnStop ()
 			{
 			// Запрос на остановку при необходимости
-			if (!AndroidSupport.AllowServiceToStart)
+			if (!NotificationsSupport.AllowServiceToStart)
 				AndroidSupport.StopRequested = true;
 			// Иначе служба продолжит работу в фоне
 
@@ -124,14 +117,13 @@ namespace RD_AAOW.Droid
 		protected override void OnResume ()
 			{
 			// Перезапуск, если была остановлена (независимо от разрешения)
-			/*Intent mainService = new Intent (this, typeof (MainService));*/
 			if (mainService == null)
 				mainService = new Intent (this, typeof (MainService));
 			AndroidSupport.StopRequested = false;
 
 			// Нет смысла запускать сервис, если он не был закрыт приложением.
 			// Также функция запуска foreground из свёрнутого состояния недоступна в Android 12 и новее
-			if (AndroidSupport.AllowServiceToStart || !AndroidSupport.IsForegroundStartableFromResumeEvent)
+			if (NotificationsSupport.AllowServiceToStart || !AndroidSupport.IsForegroundStartableFromResumeEvent)
 				{
 				base.OnResume ();
 				return;
@@ -151,18 +143,20 @@ namespace RD_AAOW.Droid
 	/// Класс описывает фоновую службу новостей приложения
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifier",
-		/*ForegroundServiceType = ForegroundService.TypeDataSync,*/
+		ForegroundServiceType = ForegroundService.TypeDataSync,
 		Label = "uNot",
 		Exported = true)]
 	public class MainService: global::Android.App.Service
 		{
-		// Переменные и константы
-		private Handler handler;                                        // Идентификаторы процесса
+		// Идентификаторы процесса
+		private Handler handler;
 		private Action runnable;
 
-		private bool isStarted = false;                                 // Состояние службы
+		// Состояние службы
+		private bool isStarted = false;
 
-		private NotificationCompat.Builder notBuilder;                  // Дескрипторы уведомлений
+		// Дескрипторы уведомлений
+		private NotificationCompat.Builder notBuilder;
 		private NotificationManager notManager;
 		private NotificationChannel urgentChannel, defaultChannel;
 		private const int notServiceID = 4415;
@@ -170,12 +164,15 @@ namespace RD_AAOW.Droid
 		private string urgentChannelID, defaultChannelID;
 		private int urgentColor = 0xFF8000, defaultColor = 0x80FFC0;
 
-		private Intent masterIntent;                                    // Дескрипторы действий
+		// Дескрипторы действий
+		private Intent masterIntent;
 		private PendingIntent masterPendingIntent;
 
-		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[2]; // Дескрипторы обработчиков событий
+		// Дескрипторы обработчиков событий
+		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[2];
 
-		private DateTime nextRequest = new DateTime (2000, 1, 1, 0, 0, 0);  // Время следующего опроса
+		// Время следующего опроса
+		private DateTime nextRequest = new DateTime (2000, 1, 1, 0, 0, 0);
 
 		/// <summary>
 		/// Обработчик события создания службы
@@ -213,9 +210,6 @@ namespace RD_AAOW.Droid
 			// Контроль требования завершения службы (игнорирует все прочие флаги)
 			if (isStarted && AndroidSupport.StopRequested)
 				{
-				/*Intent mainService = new Intent (this, typeof (MainService));
-				StopService (mainService);*/
-
 				// Остановка службы
 				isStarted = false;
 
@@ -322,7 +316,7 @@ namespace RD_AAOW.Droid
 			notBuilder.SetColor (ProgramDescription.NSet.HasUrgentNotifications ? urgentColor : defaultColor);
 
 			// Формирование сообщения
-notMessage:
+		notMessage:
 			notBuilder.SetContentText (msg);
 			notTextStyle.BigText (msg);
 			Android.App.Notification notification = notBuilder.Build ();
@@ -380,13 +374,14 @@ notMessage:
 			// Инициализация сообщений
 			notBuilder.SetCategory ("msg");     // Категория "сообщение"
 			notBuilder.SetColor (defaultColor); // Оттенок заголовков оповещений
-			notBuilder.SetOngoing (true);       // Android 13 и новее: не позволяет закрыть оповещение вручную
+
+			// По-видимому, вносит дефект в ОС, вешая тачскрин
+			/*notBuilder.SetOngoing (true);       // Android 13 и новее: не позволяет закрыть оповещение вручную*/
 
 			// Android 12 и новее: требует немедленного отображения оповещения
 			if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
-				notBuilder.SetForegroundServiceBehavior (0x01);
+				notBuilder.SetForegroundServiceBehavior (NotificationCompat.ForegroundServiceImmediate);
 
-			/*string launchMessage = RDLocale.GetText ("LaunchMessage");*/
 			string launchMessage;
 			if (AndroidSupport.IsForegroundStartableFromResumeEvent)
 				launchMessage = RDLocale.GetText ("LaunchMessage");
@@ -419,9 +414,9 @@ notMessage:
 			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, PendingIntentFlags.Immutable);
 			notBuilder.SetContentIntent (masterPendingIntent);
 
-			// Стартовое сообщение
+			// Стартовое сообщение (с приведением к требованиям к Android 14)
 			Android.App.Notification notification = notBuilder.Build ();
-			StartForeground (notServiceID, notification/*, ForegroundService.TypeDataSync*/);
+			StartForeground (notServiceID, notification, ForegroundService.TypeDataSync);
 
 			// Перенастройка для основного режима
 			if (!AndroidSupport.IsForegroundAvailable)
@@ -456,14 +451,8 @@ notMessage:
 				notManager.DeleteNotificationChannel (urgentChannelID);
 				notManager.DeleteNotificationChannel (defaultChannelID);
 				}
-			/*isStarted = false;
 
-			// Освобождение ресурсов
-			notBuilder.Dispose ();*/
 			notManager.Dispose ();
-
-			/*masterIntent.Dispose ();
-			masterPendingIntent.Dispose ();*/
 
 			// Остановка
 			if (AndroidSupport.IsForegroundAvailable)
@@ -471,9 +460,6 @@ notMessage:
 			else
 				StopForeground (true);
 			StopSelf ();
-
-			/*foreach (BroadcastReceiver br in bcReceivers)
-				this.UnregisterReceiver (br);*/
 
 			// Стандартная обработка
 			base.OnDestroy ();
@@ -538,16 +524,15 @@ notMessage:
 				return;
 			AndroidSupport.StopRequested = false;
 
-			/*Intent mainActivity = new Intent (this, typeof (MainActivity));
-			mainActivity.PutExtra ("Tab", 0);*/
 			if (mainActivity == null)
 				{
 				mainActivity = new Intent (this, typeof (MainActivity));
 				mainActivity.PutExtra ("Tab", 0);
 				}
 
+			// Требование Android 12
 			PendingIntent.GetActivity (this, 0, mainActivity,
-				PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable).Send ();  // Android S+ req
+				PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable).Send ();
 			}
 		private Intent mainActivity;
 		}
@@ -565,13 +550,12 @@ notMessage:
 		/// </summary>
 		public override void OnReceive (Context context, Intent intent)
 			{
-			if (!AndroidSupport.AllowServiceToStart || (intent == null))
+			if (!NotificationsSupport.AllowServiceToStart || (intent == null))
 				return;
 
 			if (intent.Action.Equals (Intent.ActionBootCompleted, StringComparison.CurrentCultureIgnoreCase) ||
 				intent.Action.Equals (Intent.ActionReboot, StringComparison.CurrentCultureIgnoreCase))
 				{
-				/*Intent mainService = new Intent (context, typeof (MainService));*/
 				if (mainService == null)
 					mainService = new Intent (context, typeof (MainService));
 				AndroidSupport.StopRequested = false;

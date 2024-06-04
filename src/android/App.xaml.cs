@@ -152,7 +152,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartLabel",
 				RDLocale.GetText ("AllowStartLabel"), RDLabelTypes.DefaultLeft);
 			allowStart = AndroidSupport.ApplySwitchSettings (settingsPage, "AllowStartSwitch",
-				false, settingsFieldBackColor, AllowStart_Toggled, AndroidSupport.AllowServiceToStart);
+				false, settingsFieldBackColor, AllowStart_Toggled, NotificationsSupport.AllowServiceToStart);
 
 			Label allowServiceTip;
 			Button allowServiceButton;
@@ -233,7 +233,7 @@ namespace RD_AAOW
 			AndroidSupport.ApplyLabelSettings (settingsPage, "KeepScreenOnLabel",
 				RDLocale.GetText ("KeepScreenOnLabel"), RDLabelTypes.DefaultLeft);
 			keepScreenOnSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "KeepScreenOnSwitch",
-				false, settingsFieldBackColor, KeepScreenOnSwitch_Toggled, AndroidSupport.KeepScreenOn);
+				false, settingsFieldBackColor, KeepScreenOnSwitch_Toggled, NotificationsSupport.KeepScreenOn);
 
 			allowLightLabel.IsVisible = allowLightSwitch.IsVisible = allowSoundLabel.IsVisible =
 				allowSoundSwitch.IsVisible = allowVibroLabel.IsVisible = allowVibroSwitch.IsVisible =
@@ -523,11 +523,6 @@ namespace RD_AAOW
 				await AndroidSupport.XPUNLoop ();
 
 			// Требование принятия Политики
-			/*if (!NotificationsSupport.GetTipState (NSTipTypes.PolicyTip))
-				{
-				await AndroidSupport.PolicyLoop ();
-				NotificationsSupport.SetTipState (NSTipTypes.PolicyTip);
-				}*/
 			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.PolicyTip))
 				{
 				await AndroidSupport.PolicyLoop ();
@@ -535,7 +530,6 @@ namespace RD_AAOW
 				}
 
 			// Подсказки
-			/*if (!NotificationsSupport.GetTipState (NSTipTypes.StartupTips))*/
 			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.StartupTips))
 				{
 				await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip01"),
@@ -553,7 +547,6 @@ namespace RD_AAOW
 					await AndroidSupport.ShowMessage (RDLocale.GetText ("Tip03_2"),
 						RDLocale.GetDefaultText (RDLDefaultTexts.Button_OK));
 
-				/*NotificationsSupport.SetTipState (NSTipTypes.StartupTips);*/
 				NotificationsSet.TipsState |= NSTipTypes.StartupTips;
 				}
 			}
@@ -1088,7 +1081,7 @@ namespace RD_AAOW
 			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.KeepScreenOnTip))
 				await ShowTips (NSTipTypes.KeepScreenOnTip);
 
-			AndroidSupport.KeepScreenOn = keepScreenOnSwitch.IsToggled;
+			NotificationsSupport.KeepScreenOn = keepScreenOnSwitch.IsToggled;
 			}
 
 		// Включение / выключение добавления новостей с конца журнала
@@ -1415,7 +1408,7 @@ namespace RD_AAOW
 			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.ServiceLaunchTip))
 				await ShowTips (NSTipTypes.ServiceLaunchTip);
 
-			AndroidSupport.AllowServiceToStart = allowStart.IsToggled;
+			NotificationsSupport.AllowServiceToStart = allowStart.IsToggled;
 			}
 
 		// Включение / выключение вариантов индикации
