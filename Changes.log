@@ -1,5 +1,8 @@
 uNot: changes log
 
+Version 7.3.6:
+• Windows: implemented the new App about interface
+
 Version 7.3.5:
 • Settings storage has been updated (may require some adjustments);
 • Updated the help and support links;
