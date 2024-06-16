@@ -160,7 +160,7 @@ In Android 12 and higher, there is no adequate implementation of going to the ap
     <value>Please wait for the remaining notifications to respond...</value>
   </data>
   <data name="BackgroundRequestOn" xml:space="preserve">
-    <value>Background request step: &lt;b&gt;{0:D}&lt;/b&gt; minutes</value>
+    <value>Background request step:&lt;br&gt;&lt;b&gt;{0:D}&lt;/b&gt; minutes</value>
   </data>
   <data name="BeginningFieldMessage" xml:space="preserve">
     <value>Sign of beginning of notification text</value>
@@ -224,11 +224,11 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
   <data name="FirstSetupMessage" xml:space="preserve">
     <value>The main log is empty.
 
-• Swipe this screen to the left to add new web resources to watch if it hasn’t been done yet.
+• Click the menu (≡) button and select “Application settings” to add new web resources to watch if it hasn’t been done yet.
 
 • When finished enable the background service and close the app to start the supervision.
 
-• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left (to the last page) and select “Reference materials” → “Project videoguide” for watching it</value>
+• Detailed instructions for setting up the service are available on YouTube. Click the menu (≡) button in the main log and select “About the app” → “Reference materials” → “Project videoguide” for watching it</value>
   </data>
   <data name="FontSizeLabel" xml:space="preserve">
     <value>Font size of the main log: &lt;b&gt;{0:D}&lt;/b&gt;</value>
@@ -243,7 +243,8 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
     <value>Indicate only urgent notifications</value>
   </data>
   <data name="KeepScreenOnLabel" xml:space="preserve">
-    <value>Keep the screen on while app is opened</value>
+    <value>Keep the screen on
+while app is opened</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
     <value>Notification service is in supervision mode. Click on this message to go to the app’s log</value>
@@ -428,19 +429,19 @@ markup:</value>
   <data name="Tip01" xml:space="preserve">
     <value>Welcome to uNot, the web resources supervisor service!
 
-• On this page you can configure existing notifications.
+• On this page you can configure existing notifications. Each button has a one-time prompt.
 
-• Swipe this screen to the right to set up parameters of the service and add new web resources to watch</value>
+• Use the system “Back” button to return to the main notifications log from any section</value>
   </data>
   <data name="Tip02" xml:space="preserve">
-    <value>• Detailed instructions for setting up the service are available on YouTube. Swipe this screen to the left (to the last page) and select “Reference materials” → “Project videoguide” for watching it.
+    <value>• Detailed instructions for setting up the service are available on YouTube. Click the menu (≡) button in the main log and select “About the app” → “Reference materials” → “Project videoguide” for watching it.
 
-• The main notifications log is available on the first page of the app. It will be opened on every further start of the service</value>
+• The main notifications log is available on the main page of the app. It will be opened on every further start of the service</value>
   </data>
   <data name="Tip03_1" xml:space="preserve">
     <value>Warning!
 
-• Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode) for the app. Check it if you will not get notifications.
+• Some devices are requiring manual unlocking of internet access (f.e., in case of internet traffic saving mode). Check it if you will not get notifications.
 
 • Also, some operating systems contain individual settings for saving battery power, clearing memory, and “pinning” apps to the notification area. Add the application to exceptions and pin it so that the device doesn’t force close it in standby mode</value>
   </data>

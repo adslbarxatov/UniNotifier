@@ -1,97 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RD_AAOW.NotSettingsPage">
 
-	<StackLayout >
-		<Label x:Name="HeaderLabel" />
+	<ScrollView>
+		<StackLayout>
 
-		<ScrollView>
-			<StackLayout>
+			<!-- Управление оповещениями -->
+			<Label x:Name="SelectionLabel" />
+			<StackLayout Orientation="Horizontal" Margin="3">
+				<Button x:Name="SelectedNotification" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+				<Label Text=" " />
 
-				<!-- Управление оповещениями -->
-				<Label x:Name="SelectionLabel" />
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Button x:Name="SelectedNotification" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
-					<Label Text=" " />
+				<Button x:Name="ShareTemplateButton" VerticalOptions="Center" />
+				<Button x:Name="DeleteButton" VerticalOptions="Center" HorizontalOptions="End" />
+			</StackLayout>
 
-					<Button x:Name="ShareTemplateButton" VerticalOptions="Center" />
-					<Button x:Name="DeleteButton" VerticalOptions="Center" HorizontalOptions="End" />
-				</StackLayout>
-
-				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#505050" Margin="6" />
 
-				<!-- Управление отдельным оповещением -->
-				<Label x:Name="SettingsLabel" />
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label x:Name="NameFieldLabel" VerticalOptions="Center" />
-					<Editor x:Name="NameField" VerticalOptions="Center" />
-				</StackLayout>
+			<!-- Управление отдельным оповещением -->
+			<Label x:Name="SettingsLabel" />
+			<StackLayout Orientation="Horizontal" Margin="3">
+				<Label x:Name="NameFieldLabel" VerticalOptions="Center" />
+				<Editor x:Name="NameField" VerticalOptions="Center" />
+			</StackLayout>
 
-				<StackLayout Orientation="Horizontal" >
-					<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
-					<Label x:Name="EnabledLabel" VerticalOptions="Center" />
-				</StackLayout>
+			<StackLayout Orientation="Horizontal" >
+				<Switch x:Name="EnabledSwitch" VerticalOptions="Center" />
+				<Label x:Name="EnabledLabel" VerticalOptions="Center" />
+			</StackLayout>
 
-				<StackLayout Orientation="Horizontal" >
-					<Switch x:Name="AvailabilitySwitch" VerticalOptions="Center" />
-					<Label x:Name="AvailabilityLabel" VerticalOptions="Center" />
-				</StackLayout>
+			<StackLayout Orientation="Horizontal" >
+				<Switch x:Name="AvailabilitySwitch" VerticalOptions="Center" />
+				<Label x:Name="AvailabilityLabel" VerticalOptions="Center" />
+			</StackLayout>
 
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label x:Name="RequestStepFieldLabel" VerticalOptions="Center" VerticalTextAlignment="Center"
+			<StackLayout Orientation="Horizontal" Margin="3">
+				<Label x:Name="RequestStepFieldLabel" VerticalOptions="Center" VerticalTextAlignment="Center"
 						HorizontalTextAlignment="Center" />
 
-					<Button x:Name="RequestStepDecButton" VerticalOptions="Center" />
-					<Button x:Name="RequestStepLongIncButton" VerticalOptions="Center" />
-					<Button x:Name="RequestStepIncButton" VerticalOptions="Center" />
-				</StackLayout>
-
-				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-					WidthRequest="100" Color="#505050" Margin="6" />
-
-				<StackLayout Orientation="Horizontal">
-					<Switch x:Name="ComparatorSwitch" VerticalOptions="Center" />
-					<Label x:Name="ComparatorLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal">
-					<Button x:Name="ComparatorType" VerticalOptions="Center" />
-					<Editor x:Name="ComparatorValue" VerticalOptions="Center" />
-
-					<Button x:Name="ComparatorValueDecButton" VerticalOptions="Center" />
-					<Button x:Name="ComparatorValueLongButton" VerticalOptions="Center" />
-					<Button x:Name="ComparatorValueIncButton" VerticalOptions="Center" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Switch x:Name="IgnoreMisfitsSwitch" VerticalOptions="Center" />
-					<Label x:Name="IgnoreMisfitsLabel" VerticalTextAlignment="Center" />
-				</StackLayout>
-
-				<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
-					WidthRequest="100" Color="#505050" Margin="6" />
-
-				<StackLayout Orientation="Horizontal" Margin="3">
-					<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
-					<Button x:Name="LinkFieldButton" VerticalOptions="Center" />
-					<Label Text=" " />
-
-					<Label x:Name="OccFieldLabel" VerticalOptions="Center" />
-					<Button x:Name="OccIncButton" VerticalOptions="Center" />
-					<Button x:Name="OccDecButton" VerticalOptions="Center" />
-				</StackLayout>
-
-				<Label x:Name="UrgentTip" HorizontalOptions="Center" />
-
-				<Label />
-
+				<Button x:Name="RequestStepDecButton" VerticalOptions="Center" />
+				<Button x:Name="RequestStepLongIncButton" VerticalOptions="Center" />
+				<Button x:Name="RequestStepIncButton" VerticalOptions="Center" />
 			</StackLayout>
-		</ScrollView>
 
-		<!-- Фиксированная кнопка сохранения -->
-		<Button x:Name="ApplyButton" VerticalOptions="Center" />
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="100" Color="#505050" Margin="6" />
 
-	</StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Switch x:Name="ComparatorSwitch" VerticalOptions="Center" />
+				<Label x:Name="ComparatorLabel" VerticalTextAlignment="Center" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Button x:Name="ComparatorType" VerticalOptions="Center" />
+				<Editor x:Name="ComparatorValue" VerticalOptions="Center" />
+
+				<Button x:Name="ComparatorValueDecButton" VerticalOptions="Center" />
+				<Button x:Name="ComparatorValueLongButton" VerticalOptions="Center" />
+				<Button x:Name="ComparatorValueIncButton" VerticalOptions="Center" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal" Margin="3">
+				<Switch x:Name="IgnoreMisfitsSwitch" VerticalOptions="Center" />
+				<Label x:Name="IgnoreMisfitsLabel" VerticalTextAlignment="Center" />
+			</StackLayout>
+
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="100" Color="#505050" Margin="6" />
+
+			<StackLayout Orientation="Horizontal" Margin="3">
+				<Label x:Name="LinkFieldLabel" VerticalOptions="Center" />
+				<Button x:Name="LinkFieldButton" VerticalOptions="Center" />
+				<Label Text=" " />
+
+				<Label x:Name="OccFieldLabel" VerticalOptions="Center" />
+				<Button x:Name="OccIncButton" VerticalOptions="Center" />
+				<Button x:Name="OccDecButton" VerticalOptions="Center" />
+			</StackLayout>
+
+			<Label x:Name="UrgentTip" HorizontalOptions="Center" />
+
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="100" Color="#505050" Margin="6" />
+
+			<!-- Фиксированная кнопка сохранения -->
+			<Button x:Name="ApplyButton" VerticalOptions="Center" />
+
+		</StackLayout>
+	</ScrollView>
 </ContentPage>

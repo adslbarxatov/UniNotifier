@@ -16,7 +16,7 @@ namespace RD_AAOW
 		private NotifyIcon ni = new NotifyIcon ();
 		private bool callWindowOnUrgents = false;
 		private bool allowExit = false;
-		private string[] regParameters = new string[] {
+		/*private string[] regParameters = new string[] {
 			"Left",
 			"Top",
 			"Width",
@@ -24,7 +24,7 @@ namespace RD_AAOW
 			"Read",
 			"CallOnUrgents",
 			"FontSize",
-			};
+			};*/
 
 		private NotificationsSet ns = new NotificationsSet (true);
 		private List<string> texts = new List<string> ();
@@ -59,13 +59,6 @@ namespace RD_AAOW
 
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
-			/*try
-				{
-				this.ReadMode.Checked = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[4]));
-				callWindowOnUrgents = bool.Parse (RDGenerics.GetAppSettingsValue (regParameters[5]));
-				this.FontSizeField.Value = decimal.Parse (RDGenerics.GetAppSettingsValue (regParameters[6]));
-				}
-			catch { }*/
 			ReadMode.Checked = RDGenerics.GetSettings (readPar, false);
 			callWindowOnUrgents = RDGenerics.GetSettings (callWindowOnUrgentsPar, false);
 			try
@@ -299,8 +292,9 @@ namespace RD_AAOW
 
 			// Запоминание настроек
 			callWindowOnUrgents = sf.CallWindowOnUrgents;
-			/*RDGenerics.SetAppSettingsValue (regParameters[5], callWindowOnUrgents.ToString ());*/
 			RDGenerics.SetSettings (callWindowOnUrgentsPar, callWindowOnUrgents);
+
+			bool complete = sf.CompleteUpdate;
 			sf.Dispose ();
 
 			// Обработка случая закрытия основного окна из трея
@@ -320,10 +314,6 @@ namespace RD_AAOW
 				ni.ContextMenu.MenuItems[3].Text = RDLocale.GetText ("MainMenuOption05");
 
 			// Перезапуск
-			bool complete = (RDGenerics.LocalizedMessageBox (RDMessageTypes.Question_Center, "RecallAllNews",
-				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
-				RDMessageButtons.ButtonOne);
-
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
 			MainTimer.Enabled = true;
 			}
@@ -362,7 +352,6 @@ namespace RD_AAOW
 				}
 
 			// Запоминание
-			/*RDGenerics.SetAppSettingsValue (regParameters[4], ReadMode.Checked.ToString ());*/
 			RDGenerics.SetSettings (readPar, ReadMode.Checked);
 			}
 		private const string readPar = "Read";
@@ -419,8 +408,7 @@ namespace RD_AAOW
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
-			/*RDGenerics.SetAppSettingsValue (regParameters[6], this.FontSizeField.Value.ToString ());**/
-			RDGenerics.SetSettings (fontSizePar, (uint)(FontSizeField.Value*10.0m));
+			RDGenerics.SetSettings (fontSizePar, (uint)(FontSizeField.Value * 10.0m));
 			}
 		private const string fontSizePar = "FontSize";
 		}

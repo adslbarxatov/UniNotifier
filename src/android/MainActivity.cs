@@ -1,25 +1,12 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using AndroidX.Core.App;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
-using Xamarin.Forms;
 
-#if DEBUG
-[assembly: Application (Debuggable = true)]
-#else
-[assembly: Application (Debuggable = false)]
-#endif
-
-namespace RD_AAOW.Droid
+namespace RD_AAOW
 	{
 	/// <summary>
 	/// Класс описывает загрузчик приложения
@@ -28,9 +15,8 @@ namespace RD_AAOW.Droid
 		Icon = "@drawable/launcher_foreground",
 		Theme = "@style/SplashTheme",
 		MainLauncher = true,
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation
-		)]
-	public class MainActivity: global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	public class MainActivity: MauiAppCompatActivity
 		{
 		/// <summary>
 		/// Принудительная установка масштаба шрифта
@@ -44,7 +30,7 @@ namespace RD_AAOW.Droid
 				return;
 				}
 
-			Configuration overrideConfiguration = new Configuration ();
+			Android.Content.Res.Configuration overrideConfiguration = new Android.Content.Res.Configuration ();
 			overrideConfiguration = @base.Resources.Configuration;
 			overrideConfiguration.FontScale = 0.9f;
 
@@ -60,28 +46,19 @@ namespace RD_AAOW.Droid
 		/// </summary>
 		protected override void OnCreate (Bundle savedInstanceState)
 			{
-			// Базовая настройка
-			TabLayoutResource = Resource.Layout.Tabbar;
-			ToolbarResource = Resource.Layout.Toolbar;
-
 			// Отмена темы для splash screen
-			base.SetTheme (Resource.Style.MainTheme);
+			base.SetTheme (Microsoft.Maui.Controls.Resource.Style.MainTheme);
 
-			// Инициализация и запуск
-			base.OnCreate (savedInstanceState);
-			Forms.Init (this, savedInstanceState);
+			// Настройка
 			Platform.Init (this, savedInstanceState);
 
-			// Получение списка доступных прав
-			RDAppStartupFlags flags = AndroidSupportX.GetAppStartupFlags (RDAppStartupFlags.CanShowNotifications |
-				RDAppStartupFlags.CanReadFiles | RDAppStartupFlags.CanWriteFiles | RDAppStartupFlags.Huawei, this);
-
-			// Запуск независимо от разрешения
+			// Инициализация службы
 			if (mainService == null)
 				mainService = new Intent (this, typeof (MainService));
 			AndroidSupport.StopRequested = false;
 
 			// Для Android 12 и выше запуск службы возможен только здесь
+			RDAppStartupFlags flags = AndroidSupport.GetAppStartupFlags (RDAppStartupFlags.CanShowNotifications);
 			if (flags.HasFlag (RDAppStartupFlags.CanShowNotifications))
 				{
 				if (AndroidSupport.IsForegroundAvailable)
@@ -94,7 +71,7 @@ namespace RD_AAOW.Droid
 			if (NotificationsSupport.KeepScreenOn)
 				this.Window.AddFlags (WindowManagerFlags.KeepScreenOn);
 
-			LoadApplication (new App (flags));
+			base.OnCreate (savedInstanceState);
 			}
 		private Intent mainService;
 
@@ -146,7 +123,7 @@ namespace RD_AAOW.Droid
 		ForegroundServiceType = ForegroundService.TypeDataSync,
 		Label = "uNot",
 		Exported = true)]
-	public class MainService: global::Android.App.Service
+	public class MainService: Service
 		{
 		// Идентификаторы процесса
 		private Handler handler;
@@ -187,13 +164,13 @@ namespace RD_AAOW.Droid
 
 			// Аналог таймера (создаёт задание, которое само себя ставит в очередь исполнения ОС)
 			runnable = new Action (() =>
-				{
-					if (isStarted)
-						{
-						TimerTick ();
-						handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
-						}
-				});
+			{
+				if (isStarted)
+					{
+					TimerTick ();
+					handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
+					}
+			});
 			}
 
 		// Запрос всех новостей
@@ -268,7 +245,7 @@ namespace RD_AAOW.Droid
 			List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.GetMasterLog (false));
 
 			// Извлечение новых записей
-			AndroidSupport.StopRequested = false;           // Разблокировка метода GetHTML
+			AndroidSupport.StopRequested = false;	// Разблокировка метода GetHTML
 
 			string newText = "";
 			bool haveNews = false;
@@ -316,7 +293,7 @@ namespace RD_AAOW.Droid
 			notBuilder.SetColor (ProgramDescription.NSet.HasUrgentNotifications ? urgentColor : defaultColor);
 
 			// Формирование сообщения
-		notMessage:
+			notMessage:
 			notBuilder.SetContentText (msg);
 			notTextStyle.BigText (msg);
 			Android.App.Notification notification = notBuilder.Build ();
@@ -372,11 +349,9 @@ namespace RD_AAOW.Droid
 				}
 
 			// Инициализация сообщений
-			notBuilder.SetCategory ("msg");     // Категория "сообщение"
-			notBuilder.SetColor (defaultColor); // Оттенок заголовков оповещений
-
-			// По-видимому, вносит дефект в ОС, вешая тачскрин
-			/*notBuilder.SetOngoing (true);       // Android 13 и новее: не позволяет закрыть оповещение вручную*/
+			notBuilder.SetCategory ("msg");		// Категория "сообщение"
+			notBuilder.SetColor (defaultColor);	// Оттенок заголовков оповещений
+			notBuilder.SetOngoing (true);		// Android 13 и новее: не позволяет закрыть оповещение вручную
 
 			// Android 12 и новее: требует немедленного отображения оповещения
 			if (!AndroidSupport.IsForegroundStartableFromResumeEvent)

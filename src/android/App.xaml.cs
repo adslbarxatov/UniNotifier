@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Microsoft.Maui.Controls;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace RD_AAOW
@@ -60,20 +54,20 @@ namespace RD_AAOW
 
 		// Цветовая схема
 		private readonly Color
-			logMasterBackColor = Color.FromHex ("#F0F0F0"),
-			logFieldBackColor = Color.FromHex ("#80808080"),
-			logReadModeColor = Color.FromHex ("#202020"),
+			logMasterBackColor = Color.FromArgb ("#F0F0F0"),
+			logFieldBackColor = Color.FromArgb ("#80808080"),
+			logReadModeColor = Color.FromArgb ("#202020"),
 
-			settingsMasterBackColor = Color.FromHex ("#FFF8F0"),
-			settingsFieldBackColor = Color.FromHex ("#FFE8D0"),
+			settingsMasterBackColor = Color.FromArgb ("#FFF8F0"),
+			settingsFieldBackColor = Color.FromArgb ("#FFE8D0"),
 
-			notSettingsMasterBackColor = Color.FromHex ("#F0F8FF"),
-			notSettingsFieldBackColor = Color.FromHex ("#D0E8FF"),
+			notSettingsMasterBackColor = Color.FromArgb ("#F0F8FF"),
+			notSettingsFieldBackColor = Color.FromArgb ("#D0E8FF"),
 
-			solutionLockedBackColor = Color.FromHex ("#F0F0F0"),
+			solutionLockedBackColor = Color.FromArgb ("#F0F0F0"),
 
-			aboutMasterBackColor = Color.FromHex ("#F0FFF0"),
-			aboutFieldBackColor = Color.FromHex ("#D0FFD0");
+			aboutMasterBackColor = Color.FromArgb ("#F0FFF0"),
+			aboutFieldBackColor = Color.FromArgb ("#D0FFD0");
 
 		#endregion
 
@@ -85,32 +79,35 @@ namespace RD_AAOW
 			allowSoundLabel, allowLightLabel, allowVibroLabel, comparatorLabel, ignoreMisfitsLabel,
 			aboutFontSizeField;
 
-		private Xamarin.Forms.Switch allowStart, enabledSwitch, nightModeSwitch,
+		private Switch allowStart, enabledSwitch, nightModeSwitch,
 			allowSoundSwitch, allowLightSwitch, allowVibroSwitch,
 			comparatorSwitch, ignoreMisfitsSwitch, notifyIfUnavailableSwitch, newsAtTheEndSwitch,
 			keepScreenOnSwitch;
 
-		private Xamarin.Forms.Button selectedNotification, applyButton, deleteButton,
+		private Button selectedNotification, applyButton, deleteButton,
 			notWizardButton, comparatorTypeButton, comparatorIncButton,
 			comparatorLongButton, comparatorDecButton, centerButtonFunction, linkFieldButton,
-			centerButton, languageButton, scrollUpButton, scrollDownButton;
+			centerButton, languageButton, scrollUpButton, scrollDownButton, menuButton;
 
 		private Editor nameField, comparatorValueField;
 
-		private Xamarin.Forms.ListView mainLog;
+		private ListView mainLog;
+
+		private List<string> pageVariants = new List<string> ();
 
 		#endregion
 
-		#region Запуск и работа приложения
+		#region Запуск и настройка
 
 		/// <summary>
 		/// Конструктор. Точка входа приложения
 		/// </summary>
-		public App (RDAppStartupFlags Flags)
+		public App ()
 			{
 			// Инициализация
 			InitializeComponent ();
-			flags = Flags;
+			flags = AndroidSupport.GetAppStartupFlags (RDAppStartupFlags.Huawei | RDAppStartupFlags.CanReadFiles |
+				RDAppStartupFlags.CanWriteFiles | RDAppStartupFlags.CanShowNotifications);
 
 			if (ProgramDescription.NSet == null)
 				ProgramDescription.NSet = new NotificationsSet (false);
@@ -123,26 +120,22 @@ namespace RD_AAOW
 			char[] ctSplitter = new char[] { '\n' };
 			comparatorTypes = new List<string> (RDLocale.GetText ("ComparatorTypes").Split (ctSplitter));
 
-			#region Общая конструкция страниц приложения
-
+			// Общая конструкция страниц приложения
 			MainPage = new MasterPage ();
 
-			settingsPage = AndroidSupport.ApplyPageSettings (MainPage, "SettingsPage",
+			settingsPage = AndroidSupport.ApplyPageSettings (new SettingsPage (), "SettingsPage",
 				RDLocale.GetText ("SettingsPage"), settingsMasterBackColor);
-			notSettingsPage = AndroidSupport.ApplyPageSettings (MainPage, "NotSettingsPage",
+			notSettingsPage = AndroidSupport.ApplyPageSettings (new NotSettingsPage (), "NotSettingsPage",
 				RDLocale.GetText ("NotSettingsPage"), notSettingsMasterBackColor);
-			aboutPage = AndroidSupport.ApplyPageSettings (MainPage, "AboutPage",
+			aboutPage = AndroidSupport.ApplyPageSettings (new AboutPage (), "AboutPage",
 				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout), aboutMasterBackColor);
-			logPage = AndroidSupport.ApplyPageSettings (MainPage, "LogPage",
+			logPage = AndroidSupport.ApplyPageSettings (new LogPage (), "LogPage",
 				RDLocale.GetText ("LogPage"), logMasterBackColor);
-			AndroidSupport.SetMainPage (MainPage);
 
-			#endregion
+			AndroidSupport.SetMasterPage (MainPage, logPage, logMasterBackColor);
 
-			int tab = 0;
 			if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.PolicyTip))
-				tab = notSettingsTab;
-			((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[tab];
+				AndroidSupport.SetCurrentPage (notSettingsPage, notSettingsMasterBackColor);
 
 			#region Настройки службы
 
@@ -158,7 +151,7 @@ namespace RD_AAOW
 			Button allowServiceButton;
 
 			// Не работают оповещения
-			if (!Flags.HasFlag (RDAppStartupFlags.CanShowNotifications))
+			if (!flags.HasFlag (RDAppStartupFlags.CanShowNotifications))
 				{
 				allowStart.IsEnabled = false;
 				allowServiceTip = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
@@ -171,8 +164,8 @@ namespace RD_AAOW
 				}
 
 			// Не работают файловые операции
-			else if (!Flags.HasFlag (RDAppStartupFlags.CanReadFiles) ||
-				!Flags.HasFlag (RDAppStartupFlags.CanWriteFiles))
+			else if (!flags.HasFlag (RDAppStartupFlags.CanReadFiles) ||
+				!flags.HasFlag (RDAppStartupFlags.CanWriteFiles))
 				{
 				allowServiceTip = AndroidSupport.ApplyLabelSettings (settingsPage, "AllowStartTip",
 					RDLocale.GetDefaultText (RDLDefaultTexts.Message_ReadWritePermission), RDLabelTypes.ErrorTip);
@@ -386,6 +379,9 @@ namespace RD_AAOW
 			aboutFontSizeField = AndroidSupport.ApplyLabelSettings (aboutPage, "FontSizeField",
 				" ", RDLabelTypes.DefaultCenter);
 
+			AndroidSupport.ApplyLabelSettings (aboutPage, "HelpHeaderLabel",
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout),
+				RDLabelTypes.HeaderLeft);
 			AndroidSupport.ApplyLabelSettings (aboutPage, "HelpTextLabel",
 				RDGenerics.GetEncoding (RDEncodings.UTF8).
 				GetString ((byte[])RD_AAOW.Properties.Resources.ResourceManager.
@@ -397,7 +393,7 @@ namespace RD_AAOW
 
 			#region Страница журнала приложения
 
-			mainLog = (Xamarin.Forms.ListView)logPage.FindByName ("MainLog");
+			mainLog = (ListView)logPage.FindByName ("MainLog");
 			mainLog.BackgroundColor = logFieldBackColor;
 			mainLog.HasUnevenRows = true;
 			mainLog.ItemTapped += MainLog_ItemTapped;
@@ -405,20 +401,16 @@ namespace RD_AAOW
 			mainLog.SelectionMode = ListViewSelectionMode.None;
 			mainLog.SeparatorVisibility = SeparatorVisibility.None;
 			mainLog.ItemAppearing += MainLog_ItemAppearing;
-			((CarouselPage)MainPage).CurrentPageChanged += CurrentPageChanged;  // Пробуем исправить сброс прокрутки
+			AndroidSupport.MasterPage.Popped += CurrentPageChanged;
 
 			centerButton = AndroidSupport.ApplyButtonSettings (logPage, "CenterButton", " ",
 				logFieldBackColor, CenterButton_Click, false);
-			centerButton.Margin = centerButton.Padding = new Thickness (0);
 			centerButton.FontSize += 6;
 
 			scrollUpButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollUp",
 				RDDefaultButtons.Up, logFieldBackColor, ScrollUpButton_Click);
-			scrollUpButton.Margin = scrollUpButton.Padding = new Thickness (0);
-
 			scrollDownButton = AndroidSupport.ApplyButtonSettings (logPage, "ScrollDown",
 				RDDefaultButtons.Down, logFieldBackColor, ScrollDownButton_Click);
-			scrollDownButton.Margin = scrollDownButton.Padding = new Thickness (0);
 
 			// Режим чтения
 			AndroidSupport.ApplyLabelSettings (settingsPage, "ReadModeLabel",
@@ -431,6 +423,9 @@ namespace RD_AAOW
 				RDLocale.GetText ("NewsAtTheEndLabel"), RDLabelTypes.DefaultLeft);
 			newsAtTheEndSwitch = AndroidSupport.ApplySwitchSettings (settingsPage, "NewsAtTheEndSwitch",
 				false, settingsFieldBackColor, NewsAtTheEndSwitch_Toggled, NotificationsSupport.LogNewsItemsAtTheEnd);
+
+			menuButton = AndroidSupport.ApplyButtonSettings (logPage, "MenuButton",
+				RDDefaultButtons.Menu, logFieldBackColor, SelectPage);
 
 			#endregion
 
@@ -470,7 +465,8 @@ namespace RD_AAOW
 		// Исправление для сброса текущей позиции журнала
 		private async void CurrentPageChanged (object sender, EventArgs e)
 			{
-			if (((CarouselPage)MainPage).Children.IndexOf (((CarouselPage)MainPage).CurrentPage) != 0)
+			/*if (((CarouselPage)MainPage).Children.IndexOf (((CarouselPage)MainPage).CurrentPage) != 0)*/
+			if (AndroidSupport.MasterPage.CurrentPage != logPage)
 				return;
 
 			needsScroll = true;
@@ -560,14 +556,6 @@ namespace RD_AAOW
 
 			NotificationsSet.TipsState |= Type;
 			return true;
-			}
-
-		/// <summary>
-		/// Метод выполняет возврат на страницу содержания
-		/// </summary>
-		public void CallHeadersPage ()
-			{
-			((CarouselPage)MainPage).CurrentPage = logPage;
 			}
 
 		/// <summary>
@@ -725,11 +713,11 @@ namespace RD_AAOW
 					(green ? semaphoreOn : semaphoreOff);
 
 				if (red)
-					centerButton.TextColor = Color.FromHex (dark ? "#FF4040" : "#D00000");
+					centerButton.TextColor = Color.FromArgb (dark ? "#FF4040" : "#D00000");
 				else if (yellow)
-					centerButton.TextColor = Color.FromHex (dark ? "#FFFF40" : "#D0D000");
+					centerButton.TextColor = Color.FromArgb (dark ? "#FFFF40" : "#D0D000");
 				else
-					centerButton.TextColor = Color.FromHex (dark ? "#40FF40" : "#00D000");
+					centerButton.TextColor = Color.FromArgb (dark ? "#40FF40" : "#00D000");
 				}
 			else
 				{
@@ -925,7 +913,8 @@ namespace RD_AAOW
 				case 4:
 					currentNotification = notNumber;
 					SelectNotification (null, null);
-					((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[notSettingsTab];
+					/*((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[notSettingsTab];*/
+					AndroidSupport.SetCurrentPage (notSettingsPage, notSettingsMasterBackColor);
 					break;
 
 				// Удаление из журнала
@@ -1068,6 +1057,42 @@ namespace RD_AAOW
 			{
 			needsScroll = true;
 			await ScrollMainLog (true, -1);
+			}
+
+		// Выбор текущей страницы
+		private async void SelectPage (object sender, EventArgs e)
+			{
+			// Запрос варианта
+			if (pageVariants.Count < 1)
+				{
+				pageVariants = new List<string> ()
+					{
+					RDLocale.GetText ("SettingsPage"),
+					RDLocale.GetText ("NotSettingsPage"),
+					RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout),
+					};
+				}
+
+			int res = await AndroidSupport.ShowList (RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo),
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel), pageVariants);
+			if (res < 0)
+				return;
+
+			// Вызов
+			switch (res)
+				{
+				case 0:
+					AndroidSupport.SetCurrentPage (settingsPage, settingsMasterBackColor);
+					break;
+
+				case 1:
+					AndroidSupport.SetCurrentPage (notSettingsPage, notSettingsMasterBackColor);
+					break;
+
+				case 2:
+					AndroidSupport.SetCurrentPage (aboutPage, aboutMasterBackColor);
+					break;
+				}
 			}
 
 		#endregion
@@ -1296,7 +1321,8 @@ namespace RD_AAOW
 
 			// Переход к дополнительным опциям
 			notWizardButton.IsEnabled = true;
-			((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[notSettingsTab];
+			/*((CarouselPage)MainPage).CurrentPage = ((CarouselPage)MainPage).Children[notSettingsTab];*/
+			AndroidSupport.SetCurrentPage (notSettingsPage, notSettingsMasterBackColor);
 			}
 
 		// Вызов помощника по созданию оповещений
@@ -1448,16 +1474,19 @@ namespace RD_AAOW
 			if (nightModeSwitch.IsToggled)
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor =
-					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor = logReadModeColor;
+					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor =
+					menuButton.BackgroundColor = logReadModeColor;
 				NotificationsSupport.LogFontColor = logMasterBackColor;
 				}
 			else
 				{
 				logPage.BackgroundColor = mainLog.BackgroundColor = centerButton.BackgroundColor =
-					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor = logMasterBackColor;
+					scrollUpButton.BackgroundColor = scrollDownButton.BackgroundColor =
+					menuButton.BackgroundColor = logMasterBackColor;
 				NotificationsSupport.LogFontColor = logReadModeColor;
 				}
-			scrollUpButton.TextColor = scrollDownButton.TextColor = NotificationView.CurrentAntiBackColor;
+			scrollUpButton.TextColor = scrollDownButton.TextColor = menuButton.TextColor =
+				NotificationView.CurrentAntiBackColor;
 
 			// Принудительное обновление (только не при старте)
 			if (e != null)
@@ -1477,7 +1506,7 @@ namespace RD_AAOW
 
 			if (e != null)
 				{
-				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
+				Button b = (Button)sender;
 				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase) &&
 					(fontSize < AndroidSupport.MaxFontSize))
 					fontSize++;
@@ -1573,7 +1602,7 @@ namespace RD_AAOW
 			{
 			if (sender != null)
 				{
-				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
+				Button b = (Button)sender;
 				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase))
 					AndroidSupport.MasterFontSize += 0.5;
 				else if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Decrease))
@@ -1669,7 +1698,7 @@ namespace RD_AAOW
 				if (!NotificationsSet.TipsState.HasFlag (NSTipTypes.OccurenceTip))
 					await ShowTips (NSTipTypes.OccurenceTip);
 
-				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
+				Button b = (Button)sender;
 				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase) &&
 					(currentOcc < Notification.MaxOccurrenceNumber))
 					currentOcc++;
@@ -1686,7 +1715,7 @@ namespace RD_AAOW
 			{
 			if (e != null)
 				{
-				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
+				Button b = (Button)sender;
 
 				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase) &&
 					(currentFreq < NotificationsSupport.MaxBackgroundRequestStep))
@@ -1958,7 +1987,7 @@ namespace RD_AAOW
 
 			if (e != null)
 				{
-				Xamarin.Forms.Button b = (Xamarin.Forms.Button)sender;
+				Button b = (Button)sender;
 
 				if (AndroidSupport.IsNameDefault (b.Text, RDDefaultButtons.Increase))
 					{

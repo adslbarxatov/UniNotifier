@@ -117,7 +117,23 @@ namespace RD_AAOW
 
 			// Закрытие окна
 			ProgramDescription.ShowTip (NSTipTypes.ServiceLaunchTip);
+
+			completeUpdate = RDGenerics.LocalizedMessageBox (RDMessageTypes.Question_Center, "RecallAllNews",
+				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
+				RDMessageButtons.ButtonOne;
 			}
+
+		/// <summary>
+		/// Возвращает флаг полного опроса оповещений
+		/// </summary>
+		public bool CompleteUpdate
+			{
+			get
+				{
+				return completeUpdate;
+				}
+			}
+		private bool completeUpdate = false;
 
 		// Загрузка значений в поля
 		private void NotificationsList_Select (object sender, EventArgs e)

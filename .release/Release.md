@@ -1,10 +1,10 @@
-_Changes for v 7.3.6_:
-- `Windows`: implemented the new App about interface';
-- Settings storage has been updated (may require some adjustments);
-- Updated the help and support links;
-- `Android`: probably fixed the bug with freezing touchscreen;
-- `Android`: adjusted the appearance of the main log;
+_Changes for v 7.4_:
+- `Android`: fixed some minor interface bugs;
+- `Windows`: fixed some minor interface bugs;
 - `GMJ`: the skip list has been updated;
-- `Android`: added the extra tips for the first app start;
-- `Android`: added the reset button for the set of help tips;
-- `Windows`: application retargeted to `.NET Framework 4.8.1`
+- `Android`: app has been translated to `NET80 / MAUI` platform:
+    - App now has unified Android navigation shell;
+- `Android`: app has been adapted to `Android 14` (API 34);
+- `Windows`: implemented the new App about interface;
+- Settings storage has been updated (may require some adjustments);
+- Updated the help and support links
