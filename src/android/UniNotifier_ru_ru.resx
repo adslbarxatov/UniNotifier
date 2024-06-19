@@ -250,10 +250,10 @@
 пока приложение открыто</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
-    <value>Служба оповещений находится в режиме наблюдения. Нажмите на это сообщение, чтобы перейти к журналу приложения</value>
+    <value>Служба оповещений находится в режиме наблюдения. Нажмите это сообщение, чтобы перейти к главному журналу</value>
   </data>
   <data name="LaunchMessageA13" xml:space="preserve">
-    <value>Служба оповещений находится в режиме наблюдения</value>
+    <value>Служба оповещений находится в режиме наблюдения. Запустите приложение, чтобы перейти к главному журналу</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Ссылка и
@@ -287,7 +287,10 @@
     <value>(название)</value>
   </data>
   <data name="NewItemsMessage" xml:space="preserve">
-    <value>Новых записей: {0:D}. Нажмите это сообщение, чтобы прочитать их</value>
+    <value>Найдено изменений: {0:D}. Нажмите это сообщение, чтобы просмотреть их</value>
+  </data>
+  <data name="NewItemsMessageA13" xml:space="preserve">
+    <value>Найдено изменений: {0:D}. Запустите приложение, чтобы просмотреть их</value>
   </data>
   <data name="NewItemsUrgentMessage" xml:space="preserve">
     <value>ВНИМАНИЕ! ЕСТЬ СРОЧНЫЕ ОПОВЕЩЕНИЯ!

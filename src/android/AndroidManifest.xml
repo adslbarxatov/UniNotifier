@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.UniNotifier"
-	android:installLocation="internalOnly" android:versionCode="600714" android:versionName="7.4">
+	android:installLocation="internalOnly" android:versionCode="600716" android:versionName="7.4.5">
 
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
 
@@ -16,12 +16,17 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+	<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
 	<application android:label="uNot" android:icon="@drawable/launcher_foreground">
+		
 		<receiver android:name="com.RD_AAOW.UniNotifierBoot" android:label="UniNotifierBoot" android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 				<action android:name="android.intent.action.QUICKBOOT_POWERON" />
+				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</receiver>
+		
 	</application>
 </manifest>

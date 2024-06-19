@@ -10,11 +10,17 @@ namespace RD_AAOW
 #endif
 	public class MainApplication: MauiApplication
 		{
-		public MainApplication (IntPtr handle, JniHandleOwnership ownership)
-			: base (handle, ownership)
+		/// <summary>
+		/// Конструктор экземпляра приложения
+		/// </summary>
+		public MainApplication (IntPtr handle, JniHandleOwnership ownership) : base (handle, ownership)
 			{
 			}
 
-		protected override MauiApp CreateMauiApp () => MauiProgram.CreateMauiApp ();
+		// Переопределение события создания экземпляра программы
+		protected override MauiApp CreateMauiApp ()
+			{
+			return MauiProgram.CreateMauiApp ();
+			}
 		}
 	}

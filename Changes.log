@@ -1,5 +1,10 @@
 uNot: changes log
 
+Version 7.4.5:
+• Android: fixed the inability to start the app on device reboot event;
+• Android: fixed the app crash on Android 13 and newer;
+• Android: adjusted some text tips
+
 Version 7.4:
 • Android: fixed some minor interface bugs;
 • Windows: fixed some minor interface bugs;

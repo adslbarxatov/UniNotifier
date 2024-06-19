@@ -54,7 +54,10 @@ namespace RD_AAOW
 
 			// Инициализация службы
 			if (mainService == null)
+				{
 				mainService = new Intent (this, typeof (MainService));
+				mainService.SetPackage (this.PackageName);
+				}
 			AndroidSupport.StopRequested = false;
 
 			// Для Android 12 и выше запуск службы возможен только здесь
@@ -76,7 +79,7 @@ namespace RD_AAOW
 		private Intent mainService;
 
 		/// <summary>
-		/// Перезапуск службы
+		/// Остановка службы, если при сворачивании приложения она была отключена
 		/// </summary>
 		protected override void OnStop ()
 			{
@@ -89,13 +92,16 @@ namespace RD_AAOW
 			}
 
 		/// <summary>
-		/// Перезапуск основного приложения
+		/// Перезапуск службы при возвращении в основное приложение
 		/// </summary>
 		protected override void OnResume ()
 			{
 			// Перезапуск, если была остановлена (независимо от разрешения)
 			if (mainService == null)
+				{
 				mainService = new Intent (this, typeof (MainService));
+				mainService.SetPackage (this.PackageName);
+				}
 			AndroidSupport.StopRequested = false;
 
 			// Нет смысла запускать сервис, если он не был закрыт приложением.
@@ -125,6 +131,8 @@ namespace RD_AAOW
 		Exported = true)]
 	public class MainService: Service
 		{
+		private const int notServiceID = 4415;
+
 		// Идентификаторы процесса
 		private Handler handler;
 		private Action runnable;
@@ -136,7 +144,6 @@ namespace RD_AAOW
 		private NotificationCompat.Builder notBuilder;
 		private NotificationManager notManager;
 		private NotificationChannel urgentChannel, defaultChannel;
-		private const int notServiceID = 4415;
 		private NotificationCompat.BigTextStyle notTextStyle;
 		private string urgentChannelID, defaultChannelID;
 		private int urgentColor = 0xFF8000, defaultColor = 0x80FFC0;
@@ -146,7 +153,8 @@ namespace RD_AAOW
 		private PendingIntent masterPendingIntent;
 
 		// Дескрипторы обработчиков событий
-		private BroadcastReceiver[] bcReceivers = new BroadcastReceiver[2];
+		private BroadcastReceiver[] bcReceivers =
+			new BroadcastReceiver[AndroidSupport.IntentFiltersForBootReceiver.Length];
 
 		// Время следующего опроса
 		private DateTime nextRequest = new DateTime (2000, 1, 1, 0, 0, 0);
@@ -216,7 +224,11 @@ namespace RD_AAOW
 				if (newItemsShown)
 					{
 					newItemsShown = false;
-					msg = RDLocale.GetText ("LaunchMessage");
+					if (AndroidSupport.IsForegroundStartableFromResumeEvent)
+						msg = RDLocale.GetText ("LaunchMessage");
+					else
+						msg = RDLocale.GetText ("LaunchMessageA13");
+
 					if (AndroidSupport.IsForegroundAvailable)
 						notBuilder.SetChannelId (defaultChannelID);
 					notBuilder.SetColor (defaultColor);
@@ -244,9 +256,10 @@ namespace RD_AAOW
 
 			List<MainLogItem> masterLog = new List<MainLogItem> (NotificationsSupport.GetMasterLog (false));
 
-			// Извлечение новых записей
-			AndroidSupport.StopRequested = false;	// Разблокировка метода GetHTML
+			// Разблокировка метода GetHTML
+			AndroidSupport.StopRequested = false;
 
+			// Извлечение новых записей
 			string newText = "";
 			bool haveNews = false;
 			while (!AndroidSupport.AppIsRunning && ((newText = await Task<string>.Run (GetNotification)) !=
@@ -276,7 +289,9 @@ namespace RD_AAOW
 			msg = (ProgramDescription.NSet.HasUrgentNotifications ?
 				RDLocale.GetText ("NewItemsUrgentMessage") : "") +
 
-				string.Format (RDLocale.GetText ("NewItemsMessage"),
+				string.Format (RDLocale.GetText (AndroidSupport.IsForegroundStartableFromResumeEvent ?
+				"NewItemsMessage" : "NewItemsMessageA13"),
+
 				NotificationsSupport.NewItems);
 			newItemsShown = true;
 
@@ -293,7 +308,7 @@ namespace RD_AAOW
 			notBuilder.SetColor (ProgramDescription.NSet.HasUrgentNotifications ? urgentColor : defaultColor);
 
 			// Формирование сообщения
-			notMessage:
+		notMessage:
 			notBuilder.SetContentText (msg);
 			notTextStyle.BigText (msg);
 			Android.App.Notification notification = notBuilder.Build ();
@@ -348,10 +363,14 @@ namespace RD_AAOW
 				notBuilder.SetChannelId (defaultChannelID);
 				}
 
-			// Инициализация сообщений
-			notBuilder.SetCategory ("msg");		// Категория "сообщение"
-			notBuilder.SetColor (defaultColor);	// Оттенок заголовков оповещений
-			notBuilder.SetOngoing (true);		// Android 13 и новее: не позволяет закрыть оповещение вручную
+			// Категория "сообщение"
+			notBuilder.SetCategory ("msg");
+
+			// Оттенок заголовков оповещений
+			notBuilder.SetColor (defaultColor);
+
+			// Android 13 и новее: не позволяет закрыть оповещение вручную (смахиванием)
+			notBuilder.SetOngoing (true);
 
 			// Android 12 и новее: требует немедленного отображения оповещения
 			if (!AndroidSupport.IsForegroundStartableFromResumeEvent)
@@ -386,7 +405,10 @@ namespace RD_AAOW
 
 			// Прикрепление ссылки для перехода в основное приложение
 			masterIntent = new Intent (this, typeof (NotificationLink));
-			masterPendingIntent = PendingIntent.GetService (this, 0, masterIntent, PendingIntentFlags.Immutable);
+			masterIntent.SetPackage (this.PackageName);
+
+			masterPendingIntent = PendingIntent.GetService (this, notServiceID, masterIntent,
+				PendingIntentFlags.Immutable);
 			notBuilder.SetContentIntent (masterPendingIntent);
 
 			// Стартовое сообщение (с приведением к требованиям к Android 14)
@@ -401,10 +423,12 @@ namespace RD_AAOW
 				}
 
 			// Регистрация ресиверов событий перезагрузки
-			this.RegisterReceiver (bcReceivers[0] = new BootReceiver (),
-				new IntentFilter (Intent.ActionBootCompleted));
-			this.RegisterReceiver (bcReceivers[1] = new BootReceiver (),
-				new IntentFilter ("android.intent.action.QUICKBOOT_POWERON"));
+			for (int i = 0; i < AndroidSupport.IntentFiltersForBootReceiver.Length; i++)
+				{
+				bcReceivers[i] = new BootReceiver ();
+				this.RegisterReceiver (bcReceivers[i], new IntentFilter (AndroidSupport.IntentFiltersForBootReceiver[i]),
+					ReceiverFlags.Exported);
+				}
 
 			// Запуск петли
 			handler.PostDelayed (runnable, ProgramDescription.MasterFrameLength);
@@ -462,9 +486,12 @@ namespace RD_AAOW
 	/// </summary>
 	[Service (Name = "com.RD_AAOW.UniNotifierLink",
 		Label = "UniNotifierLink",
+		ForegroundServiceType = ForegroundService.TypeDataSync,
 		Exported = true)]
 	public class NotificationLink: JobIntentService
 		{
+		private const int notServiceID = 4415;
+
 		/// <summary>
 		/// Конструктор (заглушка)
 		/// </summary>
@@ -502,11 +529,11 @@ namespace RD_AAOW
 			if (mainActivity == null)
 				{
 				mainActivity = new Intent (this, typeof (MainActivity));
-				mainActivity.PutExtra ("Tab", 0);
+				mainActivity.SetPackage (this.PackageName);
 				}
 
 			// Требование Android 12
-			PendingIntent.GetActivity (this, 0, mainActivity,
+			PendingIntent.GetActivity (this, notServiceID, mainActivity,
 				PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable).Send ();
 			}
 		private Intent mainActivity;
@@ -528,11 +555,22 @@ namespace RD_AAOW
 			if (!NotificationsSupport.AllowServiceToStart || (intent == null))
 				return;
 
-			if (intent.Action.Equals (Intent.ActionBootCompleted, StringComparison.CurrentCultureIgnoreCase) ||
-				intent.Action.Equals (Intent.ActionReboot, StringComparison.CurrentCultureIgnoreCase))
+			bool received = false;
+			for (int i = 0; i < AndroidSupport.IntentFiltersForBootReceiver.Length; i++)
+				if (intent.Action.Equals (AndroidSupport.IntentFiltersForBootReceiver[i],
+					StringComparison.CurrentCultureIgnoreCase))
+					{
+					received = true;
+					break;
+					}
+
+			if (received)
 				{
 				if (mainService == null)
+					{
 					mainService = new Intent (context, typeof (MainService));
+					mainService.SetPackage (AppInfo.PackageName);
+					}
 				AndroidSupport.StopRequested = false;
 
 				if (AndroidSupport.IsForegroundAvailable)

@@ -247,10 +247,10 @@ For example: {CITY} to Reykjavik, {CURRENCY} to ZWL</value>
 while app is opened</value>
   </data>
   <data name="LaunchMessage" xml:space="preserve">
-    <value>Notification service is in supervision mode. Click on this message to go to the app’s log</value>
+    <value>Notification service is in supervision mode. Click this message to go to the main log</value>
   </data>
   <data name="LaunchMessageA13" xml:space="preserve">
-    <value>Notification service is in supervision mode</value>
+    <value>Notification service is in supervision mode. Run the app to go to the main log</value>
   </data>
   <data name="LinkFieldLabel" xml:space="preserve">
     <value>Link and
@@ -284,7 +284,10 @@ markup:</value>
     <value>(name)</value>
   </data>
   <data name="NewItemsMessage" xml:space="preserve">
-    <value>New records: {0:D}. Click this message to watch them</value>
+    <value>Changes detected: {0:D}. Click this message to watch them</value>
+  </data>
+  <data name="NewItemsMessageA13" xml:space="preserve">
+    <value>Changes detected: {0:D}. Run the app to watch them</value>
   </data>
   <data name="NewItemsUrgentMessage" xml:space="preserve">
     <value>WARNING! URGENT NOTIFICATIONS RECEIVED!

@@ -122,6 +122,7 @@ namespace RD_AAOW
 
 			// Общая конструкция страниц приложения
 			MainPage = new MasterPage ();
+			MasterPage.AppEx = this;
 
 			settingsPage = AndroidSupport.ApplyPageSettings (new SettingsPage (), "SettingsPage",
 				RDLocale.GetText ("SettingsPage"), settingsMasterBackColor);
@@ -582,14 +583,24 @@ namespace RD_AAOW
 			}
 
 		/// <summary>
-		/// Возврат в интерфейс
+		/// Возврат в интерфейс при сворачивании
 		/// </summary>
 		protected override void OnResume ()
 			{
+			AndroidSupport.MasterPage.PopToRootAsync (true);
+
 			// Запуск цикла обратной связи (без ожидания, на случай, если приложение было свёрнуто, но не закрыто,
 			// а во время ожидания имели место обновления журнала)
 			AndroidSupport.AppIsRunning = true;
 			FinishBackgroundRequest ();
+			}
+
+		/// <summary>
+		/// Возврат в интерфейс из статичного оповещения (использует перенаправление в MasterPage)
+		/// </summary>
+		public void ResumeApp ()
+			{
+			OnResume ();
 			}
 
 		// Вызов настроек приложения (для Android 12 и выше)
