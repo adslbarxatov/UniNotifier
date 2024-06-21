@@ -131,8 +131,6 @@ namespace RD_AAOW
 		Exported = true)]
 	public class MainService: Service
 		{
-		private const int notServiceID = 4415;
-
 		// Идентификаторы процесса
 		private Handler handler;
 		private Action runnable;
@@ -192,6 +190,10 @@ namespace RD_AAOW
 		// Основной метод службы
 		private async void TimerTick ()
 			{
+			// Дополнительная защита от множественных вызовов с малым интервалом
+			if (!isStarted)
+				return;
+
 			// Контроль требования завершения службы (игнорирует все прочие флаги)
 			if (isStarted && AndroidSupport.StopRequested)
 				{
@@ -314,7 +316,7 @@ namespace RD_AAOW
 			Android.App.Notification notification = notBuilder.Build ();
 
 			// Отображение (с дублированием для срочных)
-			notManager.Notify (notServiceID, notification);
+			notManager.Notify (ProgramDescription.NotServiceID, notification);
 
 			// Завершено
 			notification.Dispose ();
@@ -407,13 +409,13 @@ namespace RD_AAOW
 			masterIntent = new Intent (this, typeof (NotificationLink));
 			masterIntent.SetPackage (this.PackageName);
 
-			masterPendingIntent = PendingIntent.GetService (this, notServiceID, masterIntent,
-				PendingIntentFlags.Immutable);
+			masterPendingIntent = PendingIntent.GetService (this, ProgramDescription.NotServiceID,
+				masterIntent, PendingIntentFlags.Immutable);
 			notBuilder.SetContentIntent (masterPendingIntent);
 
 			// Стартовое сообщение (с приведением к требованиям к Android 14)
 			Android.App.Notification notification = notBuilder.Build ();
-			StartForeground (notServiceID, notification, ForegroundService.TypeDataSync);
+			StartForeground (ProgramDescription.NotServiceID, notification, ForegroundService.TypeDataSync);
 
 			// Перенастройка для основного режима
 			if (!AndroidSupport.IsForegroundAvailable)
@@ -444,7 +446,7 @@ namespace RD_AAOW
 			{
 			// Освобождение ресурсов, которые нельзя освободить в таймере
 			handler.RemoveCallbacks (runnable);
-			notManager.Cancel (notServiceID);
+			notManager.Cancel (ProgramDescription.NotServiceID);
 			if (AndroidSupport.IsForegroundAvailable)
 				{
 				notManager.DeleteNotificationChannel (urgentChannelID);
@@ -490,8 +492,6 @@ namespace RD_AAOW
 		Exported = true)]
 	public class NotificationLink: JobIntentService
 		{
-		private const int notServiceID = 4415;
-
 		/// <summary>
 		/// Конструктор (заглушка)
 		/// </summary>
@@ -533,7 +533,7 @@ namespace RD_AAOW
 				}
 
 			// Требование Android 12
-			PendingIntent.GetActivity (this, notServiceID, mainActivity,
+			PendingIntent.GetActivity (this, ProgramDescription.NotServiceID, mainActivity,
 				PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable).Send ();
 			}
 		private Intent mainActivity;

@@ -1,5 +1,9 @@
 uNot: changes log
 
+Version 7.4.6:
+• Android: fixed some runtime memory leaks;
+• XPUN update has been applied
+
 Version 7.4.5:
 • Android: fixed the inability to start the app on device reboot event;
 • Android: fixed the app crash on Android 13 and newer;
