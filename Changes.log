@@ -1,5 +1,9 @@
 uNot: changes log
 
+ToDo:
+- After the reboot the notification link doesn't work;
+- The grid in the main log is too wide
+
 Version 7.4.6:
 • Android: fixed some runtime memory leaks;
 • XPUN update has been applied
