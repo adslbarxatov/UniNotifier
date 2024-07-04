@@ -514,6 +514,12 @@ It is also possible to display the notification only if this condition is met</v
   <data name="UrgentChannel" xml:space="preserve">
     <value>Urgent notifications (should be noticed, indication is required)</value>
   </data>
+  <data name="UrgentSigLabel" xml:space="preserve">
+    <value>Urgent notifications</value>
+  </data>
+  <data name="UrgentSigTipLabel" xml:space="preserve">
+    <value>If the notification text contains any of the following characters, it will be treated as urgent</value>
+  </data>
   <data name="UrgentTip" xml:space="preserve">
     <value>* these options can generate urgent notifications</value>
   </data>

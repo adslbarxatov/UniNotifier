@@ -78,6 +78,13 @@
 			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
 					WidthRequest="200" Color="#505050" Margin="12" />
 
+			<Label x:Name="UrgentSigLabel" />
+			<Label x:Name="UrgentSigTipLabel" HorizontalOptions="Center" />
+			<Editor x:Name="UrgentSigField" HorizontalOptions="Center" />
+
+			<BoxView VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="1" 
+					WidthRequest="200" Color="#505050" Margin="12" />
+
 			<Label x:Name="CenterButtonLabel" />
 			<Button x:Name="CenterButtonFunction" HorizontalOptions="Center" />
 

@@ -27,8 +27,10 @@ namespace RD_AAOW
 			// Инициализация
 			InitializeComponent ();
 			notifications = Notifications;
+
 			updatingFrequencyStep = UpdatingFrequencyStep;
 			WindowCallFlag.Checked = CallWindowOnUrgents;
+			UrgentSigField.Text = Notification.UrgentSignatures;
 
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
@@ -112,6 +114,7 @@ namespace RD_AAOW
 			// Сохранение настроек
 			notifications.SaveNotifications ();
 			callWindowOnUrgents = WindowCallFlag.Checked;
+			Notification.UrgentSignatures = UrgentSigField.Text;
 
 			RDGenerics.SaveWindowDimensions (this);
 

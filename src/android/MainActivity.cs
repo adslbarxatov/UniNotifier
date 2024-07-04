@@ -190,10 +190,6 @@ namespace RD_AAOW
 		// Основной метод службы
 		private async void TimerTick ()
 			{
-			// Дополнительная защита от множественных вызовов с малым интервалом
-			if (!isStarted)
-				return;
-
 			// Контроль требования завершения службы (игнорирует все прочие флаги)
 			if (isStarted && AndroidSupport.StopRequested)
 				{
@@ -296,6 +292,10 @@ namespace RD_AAOW
 
 				NotificationsSupport.NewItems);
 			newItemsShown = true;
+
+			// Дополнительная защита от множественных вызовов с малым интервалом
+			if (!isStarted)
+				return;
 
 			// Подтягивание настроек из интерфейса
 			notBuilder.SetDefaults (!ProgramDescription.NSet.HasUrgentNotifications ? 0 :
@@ -570,13 +570,20 @@ namespace RD_AAOW
 					{
 					mainService = new Intent (context, typeof (MainService));
 					mainService.SetPackage (AppInfo.PackageName);
+					mainService.AddFlags (ActivityFlags.NewTask);
+					mainService.AddFlags (ActivityFlags.ResetTaskIfNeeded);
 					}
 				AndroidSupport.StopRequested = false;
 
-				if (AndroidSupport.IsForegroundAvailable)
-					context.StartForegroundService (mainService);
-				else
-					context.StartService (mainService);
+				// Для Android 12 и выше запуск службы возможен только здесь
+				RDAppStartupFlags flags = AndroidSupport.GetAppStartupFlags (RDAppStartupFlags.CanShowNotifications);
+				if (flags.HasFlag (RDAppStartupFlags.CanShowNotifications))
+					{
+					if (AndroidSupport.IsForegroundAvailable)
+						context.StartForegroundService (mainService);
+					else
+						context.StartService (mainService);
+					}
 				}
 			}
 		private Intent mainService;

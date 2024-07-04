@@ -89,7 +89,7 @@ namespace RD_AAOW
 			comparatorLongButton, comparatorDecButton, centerButtonFunction, linkFieldButton,
 			centerButton, languageButton, scrollUpButton, scrollDownButton, menuButton;
 
-		private Editor nameField, comparatorValueField;
+		private Editor nameField, comparatorValueField, urgentSigField;
 
 		private ListView mainLog;
 
@@ -238,6 +238,14 @@ namespace RD_AAOW
 			centerButtonFunction = AndroidSupport.ApplyButtonSettings (settingsPage, "CenterButtonFunction",
 				NotificationsSupport.SpecialFunctionName, settingsFieldBackColor,
 				SetSpecialFunction_Clicked, false);
+
+			AndroidSupport.ApplyLabelSettings (settingsPage, "UrgentSigLabel",
+				RDLocale.GetText ("UrgentSigLabel"), RDLabelTypes.HeaderLeft);
+			AndroidSupport.ApplyLabelSettings (settingsPage, "UrgentSigTipLabel",
+				RDLocale.GetText ("UrgentSigTipLabel"), RDLabelTypes.Tip);
+			urgentSigField = AndroidSupport.ApplyEditorSettings (settingsPage, "UrgentSigField",
+				settingsFieldBackColor, Keyboard.Default, 20, Notification.UrgentSignatures,
+				UrgentSigField_TextChanged, true);
 
 			#endregion
 
@@ -1585,6 +1593,12 @@ namespace RD_AAOW
 
 			// Запись
 			await AndroidSupport.SaveToFile ("Silence.mp3", RD_AAOW.Properties.Resources.MuteSound);
+			}
+
+		// Метод изменяет список сигнатур срочных оповещений
+		private void UrgentSigField_TextChanged (object sender, EventArgs e)
+			{
+			Notification.UrgentSignatures = urgentSigField.Text;
 			}
 
 		#endregion

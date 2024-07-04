@@ -16,15 +16,6 @@ namespace RD_AAOW
 		private NotifyIcon ni = new NotifyIcon ();
 		private bool callWindowOnUrgents = false;
 		private bool allowExit = false;
-		/*private string[] regParameters = new string[] {
-			"Left",
-			"Top",
-			"Width",
-			"Height",
-			"Read",
-			"CallOnUrgents",
-			"FontSize",
-			};*/
 
 		private NotificationsSet ns = new NotificationsSet (true);
 		private List<string> texts = new List<string> ();

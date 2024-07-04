@@ -514,6 +514,12 @@
   <data name="UrgentChannel" xml:space="preserve">
     <value>Срочные уведомления (требуют особого внимания, индикация обязательна)</value>
   </data>
+  <data name="UrgentSigLabel" xml:space="preserve">
+    <value>Срочные оповещения</value>
+  </data>
+  <data name="UrgentSigTipLabel" xml:space="preserve">
+    <value>При наличии в тексте оповещения любого из следующих символов оно будет обработано как срочное</value>
+  </data>
   <data name="UrgentTip" xml:space="preserve">
     <value>* эти опции способны порождать срочные уведомления</value>
   </data>

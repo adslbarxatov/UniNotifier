@@ -354,4 +354,7 @@
   <data name="MainMenuOption06" xml:space="preserve">
     <value>&amp;Убрать из автозапуска</value>
   </data>
+  <data name="SettingsForm_UrgentSigLabel" xml:space="preserve">
+    <value>Срочное уведомление для следующих символов:</value>
+  </data>
 </root>

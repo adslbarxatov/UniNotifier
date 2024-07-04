@@ -13,11 +13,11 @@
 			</Grid.RowDefinitions>
 
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="70" />
-				<ColumnDefinition Width="70" />
+				<ColumnDefinition Width="60" />
+				<ColumnDefinition Width="60" />
 				<ColumnDefinition />
-				<ColumnDefinition Width="70" />
-				<ColumnDefinition Width="70" />
+				<ColumnDefinition Width="60" />
+				<ColumnDefinition Width="60" />
 			</Grid.ColumnDefinitions>
 
 			<Button x:Name="ScrollUp" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="0" />
