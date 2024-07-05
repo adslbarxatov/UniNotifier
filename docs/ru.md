@@ -28,6 +28,6 @@
 
 Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/gjs9K1EsFG8).
 
-Информация о дополнении ***Grammar must joy*** теперь также доступна на [отдельной странице](https://adslbarxatov.github.io/UniNotifier/GMJ).
+Информация о дополнении ***Grammar must joy*** теперь также доступна на [отдельной странице](https://adslbarxatov.github.io/GrammarMustJoy).
 
 Информация о проекте ***Tablepedia notifier*** располагается на [здесь](https://adslbarxatov.github.io/UniNotifier/TPNot)

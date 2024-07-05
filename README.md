@@ -29,7 +29,7 @@ A detailed description of the app is available on [its own page](https://adslbar
 ## Requirements / Требования
 
 - Windows 7 or newer;
-- [Microsoft .NET Framework 4.8](https://go.microsoft.com/fwlink/?linkid=2088631);
+- Microsoft .NET Framework 4.8.1;
 - Android version requires OS 5.0 or newer.
 
 Interface languages / языки интерфейса: ru_ru, en_us.

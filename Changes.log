@@ -5,6 +5,8 @@ Version 7.5:
   or emoji string. If any of them is detected in the text of notification,
   the urgency flag will be set;
 • GMJ: the skip list has been updated;
+• Android: removed the trigger that allowed autorestarting after the device reboot
+  due to inability of actual MAUI platform to make it work properly;
 • Android: MAUI support packages have been updated
 
 Version 7.4.6:

@@ -29,4 +29,4 @@ What does it offer?
 More info you can find in [this video guide](https://youtu.be/nOb4MbL-jlI).
 
 The description for the data processing concept used in ***Grammar must joy*** project you can also find
-[on its own page](https://adslbarxatov.github.io/UniNotifier/GMJ_en).
+[on its own page](https://adslbarxatov.github.io/GrammarMustJoy/en).
