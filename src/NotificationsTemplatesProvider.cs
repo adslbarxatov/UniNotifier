@@ -33,7 +33,7 @@ namespace RD_AAOW
 			{
 			// Получение встроенных шаблонов и попытка получения внешних шаблонов
 #if !ANDROID
-			byte[] s = Properties.GMJNotifier.Templates;
+			byte[] s = Properties.UniNotifier.Templates;
 			if (FullyInitializeTemplates)
 				RDGenerics.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
 

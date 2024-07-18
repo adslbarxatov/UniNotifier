@@ -59,7 +59,7 @@ namespace RD_AAOW
 			catch { }
 
 			// Настройка иконки в трее
-			ni.Icon = Properties.GMJNotifier.GMJNotifier16;
+			ni.Icon = Properties.UniNotifier.UniNotifier16;
 			ni.Text = ProgramDescription.AssemblyVisibleName;
 			ni.Visible = true;
 
@@ -333,13 +333,13 @@ namespace RD_AAOW
 			// Изменение состояния
 			if (ReadMode.Checked)
 				{
-				MainText.ForeColor = Color.FromArgb (163, 163, 163);
-				MainText.BackColor = Color.FromArgb (17, 17, 17);
+				MainText.ForeColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.LightGrey);
+				MainText.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.DefaultText);
 				}
 			else
 				{
-				MainText.ForeColor = Color.FromArgb (36, 36, 36);
-				MainText.BackColor = Color.FromArgb (255, 255, 255);
+				MainText.ForeColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.DefaultText);
+				MainText.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.LightGrey);
 				}
 
 			// Запоминание
@@ -372,9 +372,14 @@ namespace RD_AAOW
 				{
 #if TGT
 				if (s.Contains (GMJ.SourceNoReturnPattern))
+					{
 					texts.Add ("!!! " + s + " !!!");
+					ns.HasUrgentNotifications = true;
+					}
 				else
+					{
 					texts.Add (s);
+					}
 #else
 				texts.Add (s);
 #endif
@@ -384,15 +389,15 @@ namespace RD_AAOW
 #if TGB
 				texts.Add ("Новый список сформирован");
 #else
-				texts.Add ("GMJ не вернула сообщение. Проверьте интернет-соединение");
+				texts.Add ("GMJ не отвечает на запрос. Проверьте интернет-соединение");
 #endif
 				}
 			notNumbers.Add (0);
 
-#if TGT
+/*#if TGT
 			if (s.Contains (GMJ.SourceNoReturnPattern))
 				ns.HasUrgentNotifications = true;
-#endif
+#endif*/
 			}
 
 		// Изменение размера шрифта
