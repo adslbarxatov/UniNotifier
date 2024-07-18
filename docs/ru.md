@@ -1,5 +1,5 @@
-# uNot: the home page
-> **ƒ** &nbsp;RD AAOW FDL; 30.01.2024; 2:46
+# uNot: домашняя страница
+> **ƒ** &nbsp;RD AAOW FDL; 18.07.2024; 15:29
 
 &nbsp;
 
@@ -28,6 +28,6 @@
 
 Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/gjs9K1EsFG8).
 
-Информация о дополнении ***Grammar must joy*** теперь также доступна на [отдельной странице](https://adslbarxatov.github.io/GrammarMustJoy).
+Информация о дополнении ***Grammar must joy*** теперь доступна на [отдельной странице](https://adslbarxatov.github.io/GrammarMustJoy).
 
-Информация о проекте ***Tablepedia notifier*** располагается на [здесь](https://adslbarxatov.github.io/UniNotifier/TPNot)
+Информация о проекте ***Tablepedia notifier*** располагается [здесь](https://adslbarxatov.github.io/UniNotifier/TPNot)

@@ -1,12 +1,12 @@
 # uNot: the home page
-> **ƒ** &nbsp;RD AAOW FDL; 30.01.2024; 2:48
+> **ƒ** &nbsp;RD AAOW FDL; 18.07.2024; 15:28
 
 &nbsp;
 
 
 
 - [Download links](https://adslbarxatov.github.io/DPArray#unot-uninotifier)
-- [Русская версия](https://adslbarxatov.github.io/UniNotifier/ru)
+- [Версия на русском языке](https://adslbarxatov.github.io/UniNotifier/ru)
 
 &nbsp;
 
@@ -28,5 +28,5 @@ What does it offer?
 
 More info you can find in [this video guide](https://youtu.be/nOb4MbL-jlI).
 
-The description for the data processing concept used in ***Grammar must joy*** project you can also find
+The description for the data processing concept used in ***Grammar must joy*** project you can find
 [on its own page](https://adslbarxatov.github.io/GrammarMustJoy/en).
