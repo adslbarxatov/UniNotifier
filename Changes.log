@@ -2,7 +2,10 @@ uNot: changes log
 
 Version 7.5.40:
 • Adjusted the behavior of characters comparator for urgent signatures;
-• Android: end of life cycle - failed to stabilize the foreground service
+• Android: end of life cycle - failed to stabilize the foreground service;
+• TPV: исправлена общая проблема с обращением к E-mail клиенту на Android 11 и новее;
+• TPV: обновлены пакеты поддержки MAUI;
+• TPV: исправлены некоторые проблемы с обращением к справке и поддержке
 
 Version 7.5:
 • Implemented the string of urgency signatures. Here you can specify a character
