@@ -26,7 +26,7 @@ What does it offer?
 
 ---
 
-More info you can find in [this video guide](https://youtu.be/nOb4MbL-jlI).
+More info you can find in [this video guide](https://youtu.be/7WrfzDlpJlM).
 
 The description for the data processing concept used in ***Grammar must joy*** project you can find
 [on its own page](https://adslbarxatov.github.io/GrammarMustJoy/en).
