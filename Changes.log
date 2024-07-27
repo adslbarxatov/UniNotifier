@@ -1,5 +1,9 @@
 uNot: changes log
 
+Version 7.5.45:
+• Videoguides have been updated;
+• GMJ: skip list has been updated
+
 Version 7.5.40:
 • Adjusted the behavior of characters comparator for urgent signatures;
 • Android: end of life cycle - failed to stabilize the foreground service;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -393,11 +392,6 @@ namespace RD_AAOW
 #endif
 				}
 			notNumbers.Add (0);
-
-/*#if TGT
-			if (s.Contains (GMJ.SourceNoReturnPattern))
-				ns.HasUrgentNotifications = true;
-#endif*/
 			}
 
 		// Изменение размера шрифта
