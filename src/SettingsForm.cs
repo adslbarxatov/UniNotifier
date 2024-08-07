@@ -21,15 +21,15 @@ namespace RD_AAOW
 		/// </summary>
 		/// <param name="Notifications">Набор загруженных оповещений</param>
 		/// <param name="UpdatingFrequencyStep">Шаг изменения частоты обновления</param>
-		/// <param name="CallWindowOnUrgents">Флаг вызова главного окна при срочных оповещениях</param>
-		public SettingsForm (NotificationsSet Notifications, uint UpdatingFrequencyStep, bool CallWindowOnUrgents)
+		public SettingsForm (NotificationsSet Notifications, uint UpdatingFrequencyStep)
 			{
 			// Инициализация
 			InitializeComponent ();
 			notifications = Notifications;
 
 			updatingFrequencyStep = UpdatingFrequencyStep;
-			WindowCallFlag.Checked = CallWindowOnUrgents;
+			/*WindowCallFlag.Checked = CallWindowOnUrgents;*/
+			WindowCallFlag.Checked = NotificationsSupport.CallWindowOnUrgents;
 			UrgentSigField.Text = Notification.UrgentSignatures;
 
 			this.Text = ProgramDescription.AssemblyVisibleName;
@@ -91,7 +91,7 @@ namespace RD_AAOW
 			BDelete.Enabled = (notifications.Notifications.Count > 1);    // Одно должно остаться
 			}
 
-		/// <summary>
+		/*/// <summary>
 		/// Возвращает флаг вызова главного окна при срочных оповещениях
 		/// </summary>
 		public bool CallWindowOnUrgents
@@ -101,7 +101,7 @@ namespace RD_AAOW
 				return callWindowOnUrgents;
 				}
 			}
-		private bool callWindowOnUrgents = false;
+		private bool callWindowOnUrgents = false;*/
 
 		// Закрытие окна просмотра
 		private void BClose_Click (object sender, EventArgs e)
@@ -113,7 +113,8 @@ namespace RD_AAOW
 			{
 			// Сохранение настроек
 			notifications.SaveNotifications ();
-			callWindowOnUrgents = WindowCallFlag.Checked;
+			/*callWindowOnUrgents = WindowCallFlag.Checked;*/
+			NotificationsSupport.CallWindowOnUrgents = WindowCallFlag.Checked;
 			Notification.UrgentSignatures = UrgentSigField.Text;
 
 			RDGenerics.SaveWindowDimensions (this);

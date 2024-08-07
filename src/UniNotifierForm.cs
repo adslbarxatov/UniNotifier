@@ -13,7 +13,7 @@ namespace RD_AAOW
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
-		private bool callWindowOnUrgents = false;
+		/*private bool callWindowOnUrgents = false;*/
 		private bool allowExit = false;
 
 		private NotificationsSet ns = new NotificationsSet (true);
@@ -49,11 +49,14 @@ namespace RD_AAOW
 
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
-			ReadMode.Checked = RDGenerics.GetSettings (readPar, false);
-			callWindowOnUrgents = RDGenerics.GetSettings (callWindowOnUrgentsPar, false);
+
+			/*ReadMode.Checked = RDGenerics.GetSettings (readPar, false);
+			callWindowOnUrgents = RDGenerics.GetSettings (callWindowOnUrgentsPar, false);*/
+			ReadMode.Checked = NotificationsSupport.LogReadingMode;
 			try
 				{
-				FontSizeField.Value = RDGenerics.GetSettings (fontSizePar, 130) / 10.0m;
+				/*FontSizeField.Value = RDGenerics.GetSettings (fontSizePar, 130) / 10.0m;*/
+				FontSizeField.Value = NotificationsSupport.LogFontSize / 10.0m;
 				}
 			catch { }
 
@@ -193,7 +196,7 @@ namespace RD_AAOW
 					}
 
 				// Добавление и форматирование
-				MainText.AppendText (texts[0].Replace (NotificationsSet.MainLogItemSplitter.ToString (),
+				MainText.AppendText (texts[0].Replace (NotificationsSupport.MainLogItemSplitter.ToString (),
 					RDLocale.RN));
 
 				// Отображение всплывающего сообщения
@@ -201,7 +204,7 @@ namespace RD_AAOW
 					{
 					try
 						{
-						spl = texts[0].IndexOf (NotificationsSet.MainLogItemSplitter);
+						spl = texts[0].IndexOf (NotificationsSupport.MainLogItemSplitter);
 						hdr = texts[0].Substring (0, spl);
 						txt = texts[0].Substring (spl + 1);
 
@@ -224,7 +227,7 @@ namespace RD_AAOW
 				}
 
 			// Срочные оповещения
-			if (ns.HasUrgentNotifications && callWindowOnUrgents)
+			if (ns.HasUrgentNotifications && NotificationsSupport.CallWindowOnUrgents)
 				{
 				ns.HasUrgentNotifications = false;
 
@@ -278,11 +281,11 @@ namespace RD_AAOW
 
 			// Настройка
 			SettingsForm sf = new SettingsForm (ns, (uint)MainTimer.Interval *
-				NotificationsSet.MaxNotifications / 60000, callWindowOnUrgents);
+				NotificationsSet.MaxNotifications / 60000);
 
 			// Запоминание настроек
-			callWindowOnUrgents = sf.CallWindowOnUrgents;
-			RDGenerics.SetSettings (callWindowOnUrgentsPar, callWindowOnUrgents);
+			/*callWindowOnUrgents = sf.CallWindowOnUrgents;
+			RDGenerics.SetSettings (callWindowOnUrgentsPar, callWindowOnUrgents);*/
 
 			bool complete = sf.CompleteUpdate;
 			sf.Dispose ();
@@ -307,7 +310,7 @@ namespace RD_AAOW
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
 			MainTimer.Enabled = true;
 			}
-		private const string callWindowOnUrgentsPar = "CallOnUrgents";
+		/*private const string callWindowOnUrgentsPar = "CallOnUrgents";*/
 
 		// Переход на страницу сообщества
 		private void GoToLink (object sender, EventArgs e)
@@ -342,9 +345,10 @@ namespace RD_AAOW
 				}
 
 			// Запоминание
-			RDGenerics.SetSettings (readPar, ReadMode.Checked);
+			/*RDGenerics.SetSettings (readPar, ReadMode.Checked);*/
+			NotificationsSupport.LogReadingMode = ReadMode.Checked;
 			}
-		private const string readPar = "Read";
+		/*private const string readPar = "Read";*/
 
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
@@ -398,8 +402,9 @@ namespace RD_AAOW
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
-			RDGenerics.SetSettings (fontSizePar, (uint)(FontSizeField.Value * 10.0m));
+			/*RDGenerics.SetSettings (fontSizePar, (uint)(FontSizeField.Value * 10.0m));*/
+			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);
 			}
-		private const string fontSizePar = "FontSize";
+		/*private const string fontSizePar = "FontSize";*/
 		}
 	}

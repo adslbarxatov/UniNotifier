@@ -1,5 +1,5 @@
-_Changes for v 7.5.50_:
-- The “App about” interface has been updated;
-- Videoguides have been updated;
+_Changes for v 7.6_:
 - `GMJ`: skip list has been updated;
-- Adjusted the behavior of characters comparator for urgent signatures
+- Cumulative updates have been applied;
+- The “App about” interface has been updated;
+- Videoguides have been updated
