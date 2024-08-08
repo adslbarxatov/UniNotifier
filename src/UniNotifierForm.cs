@@ -41,11 +41,11 @@ namespace RD_AAOW
 			hideWindow = HideWindow;
 
 			ReloadNotificationsList ();
-#if TGT
+			/*if TGT
 			GetGMJ.Visible = false;
-#else
+			else
 			GetGMJ.Visible = RDLocale.IsCurrentLanguageRuRu;
-#endif
+			endif*/
 
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
@@ -89,6 +89,10 @@ namespace RD_AAOW
 			// Запуск
 			MainTimer.Interval = (int)ProgramDescription.MasterFrameLength * 4;
 			MainTimer.Enabled = true;
+
+#if TGB
+			GetGMJ_Click (null, null);
+#endif
 			}
 
 		// Обновление списка оповещений в главном окне
@@ -223,7 +227,7 @@ namespace RD_AAOW
 				texts.RemoveAt (0);
 				notNumbers.RemoveAt (0);
 
-				GetGMJ.Enabled = true;
+				/*GetGMJ.Enabled = true;*/
 				}
 
 			// Срочные оповещения
@@ -368,7 +372,8 @@ namespace RD_AAOW
 		// Запрос сообщения от GMJ
 		private void GetGMJ_Click (object sender, EventArgs e)
 			{
-			GetGMJ.Enabled = false;
+#if TGB || TGT
+			/*GetGMJ.Enabled = false;*/
 			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
@@ -396,6 +401,7 @@ namespace RD_AAOW
 #endif
 				}
 			notNumbers.Add (0);
+#endif
 			}
 
 		// Изменение размера шрифта
