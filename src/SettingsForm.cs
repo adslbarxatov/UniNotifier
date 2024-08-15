@@ -28,7 +28,6 @@ namespace RD_AAOW
 			notifications = Notifications;
 
 			updatingFrequencyStep = UpdatingFrequencyStep;
-			/*WindowCallFlag.Checked = CallWindowOnUrgents;*/
 			WindowCallFlag.Checked = NotificationsSupport.CallWindowOnUrgents;
 			UrgentSigField.Text = Notification.UrgentSignatures;
 
@@ -91,18 +90,6 @@ namespace RD_AAOW
 			BDelete.Enabled = (notifications.Notifications.Count > 1);    // Одно должно остаться
 			}
 
-		/*/// <summary>
-		/// Возвращает флаг вызова главного окна при срочных оповещениях
-		/// </summary>
-		public bool CallWindowOnUrgents
-			{
-			get
-				{
-				return callWindowOnUrgents;
-				}
-			}
-		private bool callWindowOnUrgents = false;*/
-
 		// Закрытие окна просмотра
 		private void BClose_Click (object sender, EventArgs e)
 			{
@@ -113,7 +100,6 @@ namespace RD_AAOW
 			{
 			// Сохранение настроек
 			notifications.SaveNotifications ();
-			/*callWindowOnUrgents = WindowCallFlag.Checked;*/
 			NotificationsSupport.CallWindowOnUrgents = WindowCallFlag.Checked;
 			Notification.UrgentSignatures = UrgentSigField.Text;
 

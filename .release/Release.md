@@ -1,5 +1,3 @@
-_Changes for v 7.6.1_:
-- Removed support for GMJ;
-- Cumulative updates have been applied;
+_Changes for v 7.6.2_:
 - The “App about” interface has been updated;
-- Videoguides have been updated
+- Removed the support for `GMJ`

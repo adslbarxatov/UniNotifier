@@ -13,7 +13,6 @@ namespace RD_AAOW
 		{
 		// Переменные
 		private NotifyIcon ni = new NotifyIcon ();
-		/*private bool callWindowOnUrgents = false;*/
 		private bool allowExit = false;
 
 		private NotificationsSet ns = new NotificationsSet (true);
@@ -41,21 +40,13 @@ namespace RD_AAOW
 			hideWindow = HideWindow;
 
 			ReloadNotificationsList ();
-			/*if TGT
-			GetGMJ.Visible = false;
-			else
-			GetGMJ.Visible = RDLocale.IsCurrentLanguageRuRu;
-			endif*/
 
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
 
-			/*ReadMode.Checked = RDGenerics.GetSettings (readPar, false);
-			callWindowOnUrgents = RDGenerics.GetSettings (callWindowOnUrgentsPar, false);*/
 			ReadMode.Checked = NotificationsSupport.LogReadingMode;
 			try
 				{
-				/*FontSizeField.Value = RDGenerics.GetSettings (fontSizePar, 130) / 10.0m;*/
 				FontSizeField.Value = NotificationsSupport.LogFontSize / 10.0m;
 				}
 			catch { }
@@ -226,8 +217,6 @@ namespace RD_AAOW
 
 				texts.RemoveAt (0);
 				notNumbers.RemoveAt (0);
-
-				/*GetGMJ.Enabled = true;*/
 				}
 
 			// Срочные оповещения
@@ -288,9 +277,6 @@ namespace RD_AAOW
 				NotificationsSet.MaxNotifications / 60000);
 
 			// Запоминание настроек
-			/*callWindowOnUrgents = sf.CallWindowOnUrgents;
-			RDGenerics.SetSettings (callWindowOnUrgentsPar, callWindowOnUrgents);*/
-
 			bool complete = sf.CompleteUpdate;
 			sf.Dispose ();
 
@@ -314,7 +300,6 @@ namespace RD_AAOW
 			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
 			MainTimer.Enabled = true;
 			}
-		/*private const string callWindowOnUrgentsPar = "CallOnUrgents";*/
 
 		// Переход на страницу сообщества
 		private void GoToLink (object sender, EventArgs e)
@@ -349,10 +334,8 @@ namespace RD_AAOW
 				}
 
 			// Запоминание
-			/*RDGenerics.SetSettings (readPar, ReadMode.Checked);*/
 			NotificationsSupport.LogReadingMode = ReadMode.Checked;
 			}
-		/*private const string readPar = "Read";*/
 
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
@@ -373,7 +356,6 @@ namespace RD_AAOW
 		private void GetGMJ_Click (object sender, EventArgs e)
 			{
 #if TGB || TGT
-			/*GetGMJ.Enabled = false;*/
 			string s = GMJ.GetRandomGMJ ();
 
 			if (s != "")
@@ -401,6 +383,12 @@ namespace RD_AAOW
 #endif
 				}
 			notNumbers.Add (0);
+
+#if TGB
+			ni.ShowBalloonTip (10000, ProgramDescription.AssemblyVisibleName,
+				texts[texts.Count - 1], ToolTipIcon.Info);
+			CloseService (null, null);
+#endif
 #endif
 			}
 
@@ -408,9 +396,7 @@ namespace RD_AAOW
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
-			/*RDGenerics.SetSettings (fontSizePar, (uint)(FontSizeField.Value * 10.0m));*/
 			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);
 			}
-		/*private const string fontSizePar = "FontSize";*/
 		}
 	}
