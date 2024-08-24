@@ -183,7 +183,7 @@
     <value>Occurrence number:</value>
   </data>
   <data name="Tip_0001" xml:space="preserve">
-    <value>Welcome to uNot, the web resources supervisor service! Here you can configure the service and notifications. Some buttons and fields contain useful tips that will be shown once.
+    <value>Welcome to UniNotifier, the web resources supervisor service! Here you can configure the service and notifications. Some buttons and fields contain useful tips that will be shown once.
 
 Detailed instructions for setting up the service are available on YouTube (“User manual” button in the app info window)</value>
   </data>

@@ -1,20 +1,20 @@
-# uNot: the home page
-> **ƒ** &nbsp;RD AAOW FDL; 18.07.2024; 15:28
+# UniNotifier: the home page
+> **ƒ** &nbsp;RD AAOW FDL; 24.08.2024; 20:50
 
 &nbsp;
 
 
 
-- [Download links](https://adslbarxatov.github.io/DPArray#unot-uninotifier)
+- [Download links](https://adslbarxatov.github.io/DPArray#uninotifier)
 - [Версия на русском языке](https://adslbarxatov.github.io/UniNotifier/ru)
 
 &nbsp;
 
 
 
-### uNot (UniNotifier), the web resources supervisor service
+### UniNotifier, the web resources supervisor service
 
-***uNot*** (formerly know as UniNotifier) is the web resources supervisor service.
+***UniNotifier*** is the web resources supervisor service.
 This app provides the ability to be notified when the content of user-specified websites changes.
 In other words, about updates on them, which will be presented in the form of a text log. Only what the user
 has specified is loaded – all other objects (including ads) are ignored.
