@@ -1,5 +1,10 @@
 UniNotifier: changes log
 
+Version 7.7:
+• Added the ability to change the background color of the main log;
+• The list of notification sources near from GoTo button has been
+  replaced with the context menu
+
 Version 7.6.3:
 • The new identity has been applied
 

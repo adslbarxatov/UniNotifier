@@ -20,6 +20,9 @@ namespace RD_AAOW
 		private List<int> notNumbers = new List<int> ();
 		private bool hideWindow;
 
+		private ContextMenu bColorContextMenu;
+		private ContextMenu notContextMenu;
+
 #if TGT
 		private uint tgtCounter = 0;
 #endif
@@ -34,6 +37,7 @@ namespace RD_AAOW
 
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
+
 			MainText.Font = new Font ("Calibri", 13);
 			if (!RDGenerics.AppHasAccessRights (false, false))
 				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
@@ -44,7 +48,8 @@ namespace RD_AAOW
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
 
-			ReadMode.Checked = NotificationsSupport.LogReadingMode;
+			/*ReadMode.Checked = (NotificationsSupport.LogColor == 1);*/
+			BColor_ItemClicked (null, null);    // Подгрузка настройки
 			try
 				{
 				FontSizeField.Value = NotificationsSupport.LogFontSize / 10.0m;
@@ -89,6 +94,18 @@ namespace RD_AAOW
 		// Обновление списка оповещений в главном окне
 		private void ReloadNotificationsList ()
 			{
+			// Локализация зависимой части интерфейса
+			BGo.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo);
+			FontLabel.Text = RDLocale.GetText ("FontLabel");
+
+			if (notContextMenu == null)
+				notContextMenu = new ContextMenu ();
+
+			notContextMenu.MenuItems.Clear ();
+			foreach (Notification n in ns.Notifications)
+				notContextMenu.MenuItems.Add (new MenuItem (n.Name, GoToLink_ItemClicked));
+
+			/*// Перезагрузка списка
 			NamesCombo.Items.Clear ();
 
 			for (int i = 0; i < ns.Notifications.Count; i++)
@@ -102,7 +119,7 @@ namespace RD_AAOW
 			else
 				{
 				NamesCombo.Enabled = BGo.Enabled = false;
-				}
+				}*/
 			}
 
 		// Завершение работы службы
@@ -213,7 +230,7 @@ namespace RD_AAOW
 					}
 
 				// Обновление прочих полей
-				NamesCombo.SelectedIndex = notNumbers[0];
+				/*NamesCombo.SelectedIndex = notNumbers[0];*/
 
 				texts.RemoveAt (0);
 				notNumbers.RemoveAt (0);
@@ -305,7 +322,17 @@ namespace RD_AAOW
 		private void GoToLink (object sender, EventArgs e)
 			{
 			ProgramDescription.ShowTip (NSTipTypes.GoToButton);
-			RDGenerics.RunURL (ns.Notifications[NamesCombo.SelectedIndex].Link);
+			/*RDGenerics.RunURL (ns.Notifications[NamesCombo.SelectedIndex].Link);
+			this.Close ();*/
+			notContextMenu.Show (BGo, Point.Empty);
+			}
+
+		private void GoToLink_ItemClicked (object sender, EventArgs e)
+			{
+			int idx = notContextMenu.MenuItems.IndexOf ((MenuItem)sender);
+			if (idx >= 0)
+				RDGenerics.RunURL (ns.Notifications[idx].Link);
+
 			this.Close ();
 			}
 
@@ -318,7 +345,7 @@ namespace RD_AAOW
 			this.Close ();
 			}
 
-		// Переход в режим чтения и обратно
+		/*// Переход в режим чтения и обратно
 		private void ReadMode_CheckedChanged (object sender, EventArgs e)
 			{
 			// Изменение состояния
@@ -334,8 +361,8 @@ namespace RD_AAOW
 				}
 
 			// Запоминание
-			NotificationsSupport.LogReadingMode = ReadMode.Checked;
-			}
+			NotificationsSupport.LogColor = ReadMode.Checked ? 1u : 0;
+			}*/
 
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
@@ -397,6 +424,39 @@ namespace RD_AAOW
 			{
 			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
 			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);
+			}
+
+		// Выбор цвета журнала
+		private void BColor_Clicked (object sender, EventArgs e)
+			{
+			// Создание вызывающего контекстного меню
+			if (bColorContextMenu == null)
+				{
+				bColorContextMenu = new ContextMenu ();
+
+				for (int i = 0; i < NotificationsSupport.LogColors.ColorNames.Length; i++)
+					bColorContextMenu.MenuItems.Add (new MenuItem (NotificationsSupport.LogColors.ColorNames[i],
+						BColor_ItemClicked));
+				}
+
+			// Вызов
+			if (sender != null)
+				bColorContextMenu.Show (LogColor, Point.Empty);
+			}
+
+		private void BColor_ItemClicked (object sender, EventArgs e)
+			{
+			// Извлечение индекса
+			int idx;
+			if (sender == null)
+				idx = (int)NotificationsSupport.LogColor;
+			else
+				idx = bColorContextMenu.MenuItems.IndexOf ((MenuItem)sender);
+
+			// Установка
+			NotificationsSupport.LogColor = (uint)idx;
+			MainText.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
+			MainText.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;
 			}
 		}
 	}

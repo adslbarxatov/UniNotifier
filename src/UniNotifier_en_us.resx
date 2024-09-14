@@ -335,4 +335,7 @@ It is also possible to display a notification only if this condition is met</val
   <data name="SettingsForm_UrgentSigLabel" xml:space="preserve">
     <value>Generate urgent notification for the following characters:</value>
   </data>
+  <data name="FontLabel" xml:space="preserve">
+    <value>Font:</value>
+  </data>
 </root>

@@ -357,4 +357,7 @@
   <data name="SettingsForm_UrgentSigLabel" xml:space="preserve">
     <value>Срочное уведомление для следующих символов:</value>
   </data>
+  <data name="FontLabel" xml:space="preserve">
+    <value>Шрифт:</value>
+  </data>
 </root>
