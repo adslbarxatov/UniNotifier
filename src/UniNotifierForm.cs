@@ -18,10 +18,12 @@ namespace RD_AAOW
 		private NotificationsSet ns = new NotificationsSet (true);
 		private List<string> texts = new List<string> ();
 		private List<int> notNumbers = new List<int> ();
+		private List<int> senders = new List<int> ();
 		private bool hideWindow;
 
 		private ContextMenu bColorContextMenu;
 		private ContextMenu notContextMenu;
+		private ContextMenu textContextMenu;
 
 #if TGT
 		private uint tgtCounter = 0;
@@ -38,7 +40,7 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 
-			MainText.Font = new Font ("Calibri", 13);
+			/*MainText.Font = new Font ("Calibri", 13);*/
 			if (!RDGenerics.AppHasAccessRights (false, false))
 				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
 			hideWindow = HideWindow;
@@ -48,7 +50,6 @@ namespace RD_AAOW
 			// Получение настроек
 			RDGenerics.LoadWindowDimensions (this);
 
-			/*ReadMode.Checked = (NotificationsSupport.LogColor == 1);*/
 			BColor_ItemClicked (null, null);    // Подгрузка настройки
 			try
 				{
@@ -57,7 +58,7 @@ namespace RD_AAOW
 			catch { }
 
 			// Настройка иконки в трее
-			ni.Icon = Properties.UniNotifier.UniNotifier16;
+			ni.Icon = Properties.UniNotifier.UniNotifierTrayN;
 			ni.Text = ProgramDescription.AssemblyVisibleName;
 			ni.Visible = true;
 
@@ -97,6 +98,12 @@ namespace RD_AAOW
 			// Локализация зависимой части интерфейса
 			BGo.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo);
 			FontLabel.Text = RDLocale.GetText ("FontLabel");
+
+			if (textContextMenu == null)
+				textContextMenu = new ContextMenu ();
+
+			textContextMenu.MenuItems.Clear ();
+			textContextMenu.MenuItems.Add (new MenuItem (BGo.Text, TextContext_ItemClicked));
 
 			if (notContextMenu == null)
 				notContextMenu = new ContextMenu ();
@@ -191,13 +198,13 @@ namespace RD_AAOW
 			if (texts.Count > 0)
 				{
 				// Добавление в главное окно
-				if ((MainText.Text.Length + texts[0].Length > ProgramDescription.MasterLogMaxLength) &&
+				/*if ((MainText.Text.Length + texts[0].Length > ProgramDescription.MasterLogMaxLength) &&
 					(MainText.Text.Length > texts[0].Length))   // Бывает и так
 					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
 				if (MainText.Text.Length > 0)
-					MainText.AppendText (RDLocale.RNRN + RDLocale.RN);
+					MainText.AppendText (RDLocale.RNRN + RDLocale.RN);*/
 
-				if (DateTime.Today > ProgramDescription.LastNotStamp)
+				/*if (DateTime.Today > ProgramDescription.LastNotStamp)
 					{
 					ProgramDescription.LastNotStamp = DateTime.Today;
 
@@ -205,10 +212,15 @@ namespace RD_AAOW
 					MainText.AppendText (RDLocale.RN + "--- " +
 						DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
 						" ---" + RDLocale.RNRN);
-					}
+					AddTextToLayout ("--- " +
+						DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) + " ---");
+					notNumbers.Add (0);
+					}*/
 
 				// Добавление и форматирование
-				MainText.AppendText (texts[0].Replace (NotificationsSupport.MainLogItemSplitter.ToString (),
+				/*MainText.AppendText (texts[0].Replace (NotificationsSupport.MainLogItemSplitter.ToString (),
+					RDLocale.RN));*/
+				AddTextToLayout (texts[0].Replace (NotificationsSupport.MainLogItemSplitter.ToString (),
 					RDLocale.RN));
 
 				// Отображение всплывающего сообщения
@@ -223,23 +235,29 @@ namespace RD_AAOW
 						if (txt.Length > 210)
 							txt = txt.Substring (0, 210) + "...";
 
-						ni.ShowBalloonTip (10000, hdr, txt, ns.HasUrgentNotifications ? ToolTipIcon.Warning :
-							ToolTipIcon.Info);
+						if (ns.HasUrgentNotifications)
+							{
+							ni.ShowBalloonTip (10000, hdr, txt, ToolTipIcon.Warning);
+							ni.Icon = Properties.UniNotifier.UniNotifierTrayW;
+							}
+						else
+							{
+							ni.ShowBalloonTip (10000, hdr, txt, ToolTipIcon.Info);
+							ni.Icon = Properties.UniNotifier.UniNotifierTrayN;
+							}
 						}
 					catch { }
 					}
 
-				// Обновление прочих полей
-				/*NamesCombo.SelectedIndex = notNumbers[0];*/
-
 				texts.RemoveAt (0);
+				senders.Add (notNumbers[0]);
 				notNumbers.RemoveAt (0);
 				}
 
 			// Срочные оповещения
 			if (ns.HasUrgentNotifications && NotificationsSupport.CallWindowOnUrgents)
 				{
-				ns.HasUrgentNotifications = false;
+				SetUrgency (false);
 
 				this.Show ();
 				this.TopMost = true;
@@ -259,6 +277,17 @@ namespace RD_AAOW
 			e.Result = null;
 			}
 
+		// Метод устанавливает новое состояние срочности для набора уведомлений
+		private void SetUrgency (bool Urgent)
+			{
+			ns.HasUrgentNotifications = Urgent;
+			try
+				{
+				ni.Icon = Urgent ? Properties.UniNotifier.UniNotifierTrayW : Properties.UniNotifier.UniNotifierTrayN;
+				}
+			catch { }
+			}
+
 		// Отображение / скрытие полного списка оповещений
 		private void ShowHideFullText (object sender, MouseEventArgs e)
 			{
@@ -267,7 +296,7 @@ namespace RD_AAOW
 				return;
 
 			// Отмена состояния сообщений
-			ns.HasUrgentNotifications = false;
+			SetUrgency (false);
 
 			// Обработка состояния
 			if (this.Visible)
@@ -279,8 +308,16 @@ namespace RD_AAOW
 				this.Show ();
 				this.TopMost = true;
 				this.TopMost = false;
-				MainText.ScrollToCaret ();
+				/*MainText.ScrollToCaret ();*/
+				ScrollLog ();
 				}
+			}
+
+		// Метод прокручивает журнал к последней записи
+		private void ScrollLog ()
+			{
+			if (MainLayout.Controls.Count > 0)
+				MainLayout.ScrollControlIntoView (MainLayout.Controls[MainLayout.Controls.Count - 1]);
 			}
 
 		// Отображение окна настроек
@@ -303,7 +340,7 @@ namespace RD_AAOW
 
 			// Обновление настроек
 			ReloadNotificationsList ();
-			ns.HasUrgentNotifications = false;
+			SetUrgency (false);
 
 			ni.ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
 			ni.ContextMenu.MenuItems[1].Text =
@@ -340,37 +377,22 @@ namespace RD_AAOW
 		private void BClose_Click (object sender, EventArgs e)
 			{
 			// Отмена состояния сообщений
-			ns.HasUrgentNotifications = false;
+			SetUrgency (false);
 
 			this.Close ();
 			}
 
-		/*// Переход в режим чтения и обратно
-		private void ReadMode_CheckedChanged (object sender, EventArgs e)
-			{
-			// Изменение состояния
-			if (ReadMode.Checked)
-				{
-				MainText.ForeColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.LightGrey);
-				MainText.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.DefaultText);
-				}
-			else
-				{
-				MainText.ForeColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.DefaultText);
-				MainText.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.LightGrey);
-				}
-
-			// Запоминание
-			NotificationsSupport.LogColor = ReadMode.Checked ? 1u : 0;
-			}*/
-
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
 			{
-			MainText.Width = this.Width - 38;
+			/*MainText.Width = this.Width - 38;
 			MainText.Height = this.Height - 87;
 
-			ButtonsPanel.Top = MainText.Top + MainText.Height - 1;
+			ButtonsPanel.Top = MainText.Top + MainText.Height - 1;*/
+			MainLayout.Width = this.Width - 38;
+			MainLayout.Height = this.Height - ButtonsPanel.Height - 53;
+
+			ButtonsPanel.Top = MainLayout.Top + MainLayout.Height + 1;
 			}
 
 		// Сохранение размера формы
@@ -391,7 +413,7 @@ namespace RD_AAOW
 				if (s.Contains (GMJ.SourceNoReturnPattern))
 					{
 					texts.Add ("!!! " + s + " !!!");
-					ns.HasUrgentNotifications = true;
+					SetUrgency (true);
 					}
 				else
 					{
@@ -419,10 +441,87 @@ namespace RD_AAOW
 #endif
 			}
 
+		// Метод добавляет этемент в MainLayout
+		private void AddTextToLayout (string Text)
+			{
+			// Формирование контрола
+			Label l = new Label ();
+			l.AutoSize = false;
+
+			if (Text.Contains (NotificationsSet.EmergencySign))
+				{
+				l.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.WarningMessage);
+				l.ForeColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.DefaultText);
+
+				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
+					l.BorderStyle = BorderStyle.FixedSingle;
+				}
+			else
+				{
+				l.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
+				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
+					l.BackColor = Color.FromArgb (15, 0, 0, 0);
+				else
+					l.BackColor = Color.FromArgb (15, 255, 255, 255);
+				}
+
+			l.Click += TextLabel_Clicked;
+			l.Font = new Font ("Calibri", (float)FontSizeField.Value);
+			l.Text = Text;
+			l.Margin = new Padding (3, 3, 3, 12);
+
+			l.MaximumSize = l.MinimumSize = new Size (MainLayout.Width - 6 - 18, 0);
+			l.AutoSize = true;
+
+			// Добавление
+			MainLayout.Controls.Add (l);
+
+			while (MainLayout.Controls.Count > NotificationsSupport.MasterLogMaxItems)
+				{
+				MainLayout.Controls.RemoveAt (0);
+				senders.RemoveAt (0);
+				}
+
+			// Прокрутка
+			ScrollLog ();
+			}
+
+		// Нажатие на элемент журнала
+		private void TextLabel_Clicked (object sender, EventArgs e)
+			{
+			Label l = (Label)sender;
+			textContextSender = MainLayout.Controls.IndexOf (l);
+
+			textContextMenu.Show (l, Point.Empty);
+			}
+		private int textContextSender;
+
+		// Выбор варианта в меню
+		private void TextContext_ItemClicked (object sender, EventArgs e)
+			{
+			int idx = textContextMenu.MenuItems.IndexOf ((MenuItem)sender);
+			switch (idx)
+				{
+				// Переход по ссылке
+				case 0:
+					if (textContextSender >= 0)
+						RDGenerics.RunURL (ns.Notifications[senders[textContextSender]].Link);
+					break;
+				}
+
+			this.Close ();
+			}
+
 		// Изменение размера шрифта
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
-			MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
+			/*MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
+			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);*/
+
+			Font fnt = new Font ("Calibri", (float)FontSizeField.Value);
+			for (int i = 0; i < MainLayout.Controls.Count; i++)
+				((Label)MainLayout.Controls[i]).Font = fnt;
+
 			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);
 			}
 
@@ -455,8 +554,20 @@ namespace RD_AAOW
 
 			// Установка
 			NotificationsSupport.LogColor = (uint)idx;
-			MainText.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
-			MainText.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;
+			/*MainText.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
+			MainText.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;*/
+
+			MainLayout.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;
+			for (int i = 0; i < MainLayout.Controls.Count; i++)
+				{
+				Label l = (Label)MainLayout.Controls[i];
+
+				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
+					l.BackColor = Color.FromArgb (20, 0, 0, 0);
+				else
+					l.BackColor = Color.FromArgb (20, 255, 255, 255);
+				l.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
+				}
 			}
 		}
 	}
