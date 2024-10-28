@@ -338,4 +338,16 @@ It is also possible to display a notification only if this condition is met</val
   <data name="FontLabel" xml:space="preserve">
     <value>Font:</value>
   </data>
+  <data name="DisableContextMenu" xml:space="preserve">
+    <value>Disable notification</value>
+  </data>
+  <data name="SetupContextMenu" xml:space="preserve">
+    <value>Setup notification...</value>
+  </data>
+  <data name="DeleteContextMenu" xml:space="preserve">
+    <value>Remove from log</value>
+  </data>
+  <data name="TransculentContextMenu" xml:space="preserve">
+    <value>Transculent log items</value>
+  </data>
 </root>

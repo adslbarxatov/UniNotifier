@@ -34,7 +34,8 @@ namespace RD_AAOW
 			if (!RDGenerics.AcceptEULA ())
 				return;
 			if (!RDGenerics.ShowAbout (true))
-				ProgramDescription.RegisterAppExtensions ();
+				RDGenerics.RegisterFileAssociations (true);
+			/*ProgramDescription.RegisterAppExtensions ();*/
 
 			// Запуск
 			Application.Run (new UniNotifierForm ((args.Length > 0) && (args[0] == "-h")));

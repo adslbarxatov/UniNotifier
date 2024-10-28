@@ -360,4 +360,16 @@
   <data name="FontLabel" xml:space="preserve">
     <value>Шрифт:</value>
   </data>
+  <data name="DisableContextMenu" xml:space="preserve">
+    <value>Отключить уведомление</value>
+  </data>
+  <data name="SetupContextMenu" xml:space="preserve">
+    <value>Настроить уведомление...</value>
+  </data>
+  <data name="DeleteContextMenu" xml:space="preserve">
+    <value>Удалить из журнала</value>
+  </data>
+  <data name="TransculentContextMenu" xml:space="preserve">
+    <value>Полупрозрачные записи в журнале</value>
+  </data>
 </root>

@@ -21,7 +21,10 @@ namespace RD_AAOW
 		/// </summary>
 		/// <param name="Notifications">Набор загруженных оповещений</param>
 		/// <param name="UpdatingFrequencyStep">Шаг изменения частоты обновления</param>
-		public SettingsForm (NotificationsSet Notifications, uint UpdatingFrequencyStep)
+		/// <param name="NotificationForSetup">Номер оповещения для настройки. Выбирается в
+		/// списке при старте интерфейса. При отрицательном значении параметр игнорируется</param>
+		public SettingsForm (NotificationsSet Notifications, uint UpdatingFrequencyStep,
+			int NotificationForSetup)
 			{
 			// Инициализация
 			InitializeComponent ();
@@ -76,7 +79,12 @@ namespace RD_AAOW
 				NotificationsList.Items.Add (notifications.Notifications[i].Name +
 					(notifications.Notifications[i].IsEnabled ? " (+)" : " (–)"));
 			if (NotificationsList.Items.Count > 0)
-				NotificationsList.SelectedIndex = 0;
+				{
+				if (NotificationForSetup < 0)
+					NotificationsList.SelectedIndex = 0;
+				else
+					NotificationsList.SelectedIndex = NotificationForSetup;
+				}
 
 			// Запуск
 			ProgramDescription.ShowTip (NSTipTypes.StartupTip);

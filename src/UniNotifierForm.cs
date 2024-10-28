@@ -24,6 +24,10 @@ namespace RD_AAOW
 		private ContextMenu bColorContextMenu;
 		private ContextMenu notContextMenu;
 		private ContextMenu textContextMenu;
+		private int textContextSender;
+
+		private const string fontFamily = "Calibri";
+		private const int transculencyAmount = 15;
 
 #if TGT
 		private uint tgtCounter = 0;
@@ -40,7 +44,6 @@ namespace RD_AAOW
 			this.Text = ProgramDescription.AssemblyVisibleName;
 			this.CancelButton = BClose;
 
-			/*MainText.Font = new Font ("Calibri", 13);*/
 			if (!RDGenerics.AppHasAccessRights (false, false))
 				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
 			hideWindow = HideWindow;
@@ -103,7 +106,17 @@ namespace RD_AAOW
 				textContextMenu = new ContextMenu ();
 
 			textContextMenu.MenuItems.Clear ();
-			textContextMenu.MenuItems.Add (new MenuItem (BGo.Text, TextContext_ItemClicked));
+			textContextMenu.MenuItems.Add (new MenuItem (BGo.Text,
+				TextContext_ItemClicked));
+			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetDefaultText (RDLDefaultTexts.Button_Copy),
+				TextContext_ItemClicked));
+			textContextMenu.MenuItems.Add (new MenuItem ("-"));
+			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("DeleteContextMenu"),
+				TextContext_ItemClicked));
+			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("DisableContextMenu"),
+				TextContext_ItemClicked));
+			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("SetupContextMenu"),
+				TextContext_ItemClicked));
 
 			if (notContextMenu == null)
 				notContextMenu = new ContextMenu ();
@@ -111,22 +124,6 @@ namespace RD_AAOW
 			notContextMenu.MenuItems.Clear ();
 			foreach (Notification n in ns.Notifications)
 				notContextMenu.MenuItems.Add (new MenuItem (n.Name, GoToLink_ItemClicked));
-
-			/*// Перезагрузка списка
-			NamesCombo.Items.Clear ();
-
-			for (int i = 0; i < ns.Notifications.Count; i++)
-				NamesCombo.Items.Add (ns.Notifications[i].Name);
-
-			if (NamesCombo.Items.Count > 0)
-				{
-				NamesCombo.Enabled = BGo.Enabled = true;
-				NamesCombo.SelectedIndex = 0;
-				}
-			else
-				{
-				NamesCombo.Enabled = BGo.Enabled = false;
-				}*/
 			}
 
 		// Завершение работы службы
@@ -197,29 +194,7 @@ namespace RD_AAOW
 			// Обновление очереди отображения
 			if (texts.Count > 0)
 				{
-				// Добавление в главное окно
-				/*if ((MainText.Text.Length + texts[0].Length > ProgramDescription.MasterLogMaxLength) &&
-					(MainText.Text.Length > texts[0].Length))   // Бывает и так
-					MainText.Text = MainText.Text.Substring (texts[0].Length, MainText.Text.Length - texts[0].Length);
-				if (MainText.Text.Length > 0)
-					MainText.AppendText (RDLocale.RNRN + RDLocale.RN);*/
-
-				/*if (DateTime.Today > ProgramDescription.LastNotStamp)
-					{
-					ProgramDescription.LastNotStamp = DateTime.Today;
-
-					var ci = RDLocale.GetCulture (RDLocale.CurrentLanguage);
-					MainText.AppendText (RDLocale.RN + "--- " +
-						DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) +
-						" ---" + RDLocale.RNRN);
-					AddTextToLayout ("--- " +
-						DateTime.Today.ToString (ci.DateTimeFormat.LongDatePattern, ci) + " ---");
-					notNumbers.Add (0);
-					}*/
-
 				// Добавление и форматирование
-				/*MainText.AppendText (texts[0].Replace (NotificationsSupport.MainLogItemSplitter.ToString (),
-					RDLocale.RN));*/
 				AddTextToLayout (texts[0].Replace (NotificationsSupport.MainLogItemSplitter.ToString (),
 					RDLocale.RN));
 
@@ -308,7 +283,6 @@ namespace RD_AAOW
 				this.Show ();
 				this.TopMost = true;
 				this.TopMost = false;
-				/*MainText.ScrollToCaret ();*/
 				ScrollLog ();
 				}
 			}
@@ -328,7 +302,8 @@ namespace RD_AAOW
 
 			// Настройка
 			SettingsForm sf = new SettingsForm (ns, (uint)MainTimer.Interval *
-				NotificationsSet.MaxNotifications / 60000);
+				NotificationsSet.MaxNotifications / 60000,
+				sender == null ? senders[textContextSender] : -1);
 
 			// Запоминание настроек
 			bool complete = sf.CompleteUpdate;
@@ -359,8 +334,6 @@ namespace RD_AAOW
 		private void GoToLink (object sender, EventArgs e)
 			{
 			ProgramDescription.ShowTip (NSTipTypes.GoToButton);
-			/*RDGenerics.RunURL (ns.Notifications[NamesCombo.SelectedIndex].Link);
-			this.Close ();*/
 			notContextMenu.Show (BGo, Point.Empty);
 			}
 
@@ -385,10 +358,6 @@ namespace RD_AAOW
 		// Изменение размера формы
 		private void UniNotifierForm_Resize (object sender, EventArgs e)
 			{
-			/*MainText.Width = this.Width - 38;
-			MainText.Height = this.Height - 87;
-
-			ButtonsPanel.Top = MainText.Top + MainText.Height - 1;*/
 			MainLayout.Width = this.Width - 38;
 			MainLayout.Height = this.Height - ButtonsPanel.Height - 53;
 
@@ -398,7 +367,24 @@ namespace RD_AAOW
 		// Сохранение размера формы
 		private void UniNotifierForm_ResizeEnd (object sender, EventArgs e)
 			{
+			// Сохранение настроек
 			RDGenerics.SaveWindowDimensions (this);
+
+			// Пересчёт размеров элементов
+			for (int i = 0; i < MainLayout.Controls.Count; i++)
+				{
+				Label l = (Label)MainLayout.Controls[i];
+				l.AutoSize = false;
+				l.MaximumSize = l.MinimumSize = LogSizeLimit;
+				l.AutoSize = true;
+				}
+			}
+		private Size LogSizeLimit
+			{
+			get
+				{
+				return new Size (MainLayout.Width - 6 - 18, 0);
+				}
 			}
 
 		// Запрос сообщения от GMJ
@@ -459,18 +445,20 @@ namespace RD_AAOW
 			else
 				{
 				l.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
+
+				int amount = NotificationsSupport.TranslucentLogItems ? transculencyAmount : 0;
 				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
-					l.BackColor = Color.FromArgb (15, 0, 0, 0);
+					l.BackColor = Color.FromArgb (amount, 0, 0, 0);
 				else
-					l.BackColor = Color.FromArgb (15, 255, 255, 255);
+					l.BackColor = Color.FromArgb (amount, 255, 255, 255);
 				}
 
 			l.Click += TextLabel_Clicked;
-			l.Font = new Font ("Calibri", (float)FontSizeField.Value);
+			l.Font = new Font (fontFamily, (float)FontSizeField.Value);
 			l.Text = Text;
-			l.Margin = new Padding (3, 3, 3, 12);
+			l.Margin = LogItemMargin;
 
-			l.MaximumSize = l.MinimumSize = new Size (MainLayout.Width - 6 - 18, 0);
+			l.MaximumSize = l.MinimumSize = LogSizeLimit;
 			l.AutoSize = true;
 
 			// Добавление
@@ -494,35 +482,66 @@ namespace RD_AAOW
 
 			textContextMenu.Show (l, Point.Empty);
 			}
-		private int textContextSender;
 
 		// Выбор варианта в меню
 		private void TextContext_ItemClicked (object sender, EventArgs e)
 			{
 			int idx = textContextMenu.MenuItems.IndexOf ((MenuItem)sender);
+			if (textContextSender < 0)
+				return;
+
 			switch (idx)
 				{
 				// Переход по ссылке
 				case 0:
-					if (textContextSender >= 0)
-						RDGenerics.RunURL (ns.Notifications[senders[textContextSender]].Link);
+					RDGenerics.RunURL (ns.Notifications[senders[textContextSender]].Link);
+					this.Close ();
+					break;
+
+				// Копирование текста
+				case 1:
+					RDGenerics.SendToClipboard (((Label)MainLayout.Controls[textContextSender]).Text +
+						RDLocale.RNRN + ns.Notifications[senders[textContextSender]].Link, true);
+					break;
+
+				// Удаление текста
+				case 3:
+					MainLayout.Controls.RemoveAt (textContextSender);
+					senders.RemoveAt (textContextSender);
+					break;
+
+				// Отключение уведомления
+				case 4:
+					ns.Notifications[senders[textContextSender]].IsEnabled = false;
+					break;
+
+				// Настройка уведомления
+				case 5:
+					ShowSettings (null, null);
 					break;
 				}
-
-			this.Close ();
 			}
 
 		// Изменение размера шрифта
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
-			/*MainText.Font = new Font (MainText.Font.FontFamily, (float)FontSizeField.Value);
-			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);*/
-
-			Font fnt = new Font ("Calibri", (float)FontSizeField.Value);
-			for (int i = 0; i < MainLayout.Controls.Count; i++)
-				((Label)MainLayout.Controls[i]).Font = fnt;
-
 			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);
+			Font fnt = new Font (fontFamily, (float)FontSizeField.Value);
+
+			for (int i = 0; i < MainLayout.Controls.Count; i++)
+				{
+				Label l = (Label)MainLayout.Controls[i];
+				l.Font = fnt;
+				l.Margin = LogItemMargin;
+				}
+			}
+		private Padding LogItemMargin
+			{
+			get
+				{
+				return new Padding (3, 3, 3, (int)NotificationsSupport.LogFontSize /
+					(NotificationsSupport.TranslucentLogItems ? 8 : 4));
+				}
 			}
 
 		// Выбор цвета журнала
@@ -536,6 +555,12 @@ namespace RD_AAOW
 				for (int i = 0; i < NotificationsSupport.LogColors.ColorNames.Length; i++)
 					bColorContextMenu.MenuItems.Add (new MenuItem (NotificationsSupport.LogColors.ColorNames[i],
 						BColor_ItemClicked));
+
+				bColorContextMenu.MenuItems.Add (new MenuItem ("-"));
+				bColorContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("TransculentContextMenu"),
+					BColor_ItemClicked));
+				bColorContextMenu.MenuItems[bColorContextMenu.MenuItems.Count - 1].Checked =
+					NotificationsSupport.TranslucentLogItems;
 				}
 
 			// Вызов
@@ -552,20 +577,32 @@ namespace RD_AAOW
 			else
 				idx = bColorContextMenu.MenuItems.IndexOf ((MenuItem)sender);
 
-			// Установка
-			NotificationsSupport.LogColor = (uint)idx;
-			/*MainText.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
-			MainText.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;*/
+			// Сохранение
+			if (idx < NotificationsSupport.LogColors.ColorNames.Length)
+				{
+				NotificationsSupport.LogColor = (uint)idx;
+				}
+			else
+				{
+				MenuItem mi = bColorContextMenu.MenuItems[bColorContextMenu.MenuItems.Count - 1];
+				mi.Checked = !mi.Checked;
+				NotificationsSupport.TranslucentLogItems = mi.Checked;
 
+				FontSizeField_ValueChanged (null, null);
+				}
+
+			// Установка значений
 			MainLayout.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;
 			for (int i = 0; i < MainLayout.Controls.Count; i++)
 				{
 				Label l = (Label)MainLayout.Controls[i];
 
+				int amount = NotificationsSupport.TranslucentLogItems ? transculencyAmount : 0;
 				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
-					l.BackColor = Color.FromArgb (20, 0, 0, 0);
+					l.BackColor = Color.FromArgb (amount, 0, 0, 0);
 				else
-					l.BackColor = Color.FromArgb (20, 255, 255, 255);
+					l.BackColor = Color.FromArgb (amount, 255, 255, 255);
+
 				l.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
 				}
 			}
