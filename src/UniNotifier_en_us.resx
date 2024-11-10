@@ -120,58 +120,38 @@
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Remember to replace items enclosed in curly braces with what you want</value>
   </data>
-  <data name="DeleteLineNotSpecified" xml:space="preserve">
-    <value>Notification for deleting is not selected</value>
-  </data>
   <data name="DeleteMessage" xml:space="preserve">
     <value>Delete the selected notification?</value>
   </data>
   <data name="KeywordNotSpecified" xml:space="preserve">
     <value>Search keyword is missing in “Beginning” field</value>
   </data>
-  <data name="MainMenuOption01" xml:space="preserve">
-    <value>&amp;Full view</value>
-  </data>
   <data name="MainMenuOption02" xml:space="preserve">
     <value>&amp;Notifications settings</value>
-  </data>
-  <data name="MainMenuOption05" xml:space="preserve">
-    <value>A&amp;dd to startup</value>
   </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>One of required fields is empty, or link to website is specified incorrectly</value>
   </data>
-  <data name="NotificationText" xml:space="preserve">
-    <value>- From {0:S} at {1:S} -
-
-{2:S}</value>
-  </data>
   <data name="NotMatchingNames" xml:space="preserve">
-    <value>Notification with the same name already added</value>
+    <value>Notification with the same name already exists. The name has been adjusted</value>
   </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Link to a webpage is incorrect or keyword is not found on this page</value>
   </data>
-  <data name="SettingsForm_BAdd" xml:space="preserve">
-    <value>&amp;Add new</value>
-  </data>
-  <data name="SettingsForm_Label01" xml:space="preserve">
+  <data name="UNNotSettingsForm_NameLabel" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="SettingsForm_Label02" xml:space="preserve">
-    <value>Page link:</value>
+  <data name="UNNotSettingsForm_LinkLabel" xml:space="preserve">
+    <value>URL:</value>
   </data>
-  <data name="SettingsForm_Label03" xml:space="preserve">
+  <data name="UNNotSettingsForm_BeginningLabel" xml:space="preserve">
     <value>Beginning:</value>
   </data>
-  <data name="SettingsForm_Label04" xml:space="preserve">
+  <data name="UNNotSettingsForm_EndingLabel" xml:space="preserve">
     <value>Ending:</value>
   </data>
-  <data name="SettingsForm_Label05" xml:space="preserve">
+  <data name="UNNotSettingsForm_FrequencyLabel" xml:space="preserve">
     <value>Update frequency, minutes:</value>
-  </data>
-  <data name="SettingsForm_Label06" xml:space="preserve">
-    <value>Template:</value>
   </data>
   <data name="UpdateLineNotSpecified" xml:space="preserve">
     <value>Notification for updating is not selected</value>
@@ -179,22 +159,13 @@
   <data name="UpdateMessage" xml:space="preserve">
     <value>Update selected notification?</value>
   </data>
-  <data name="SettingsForm_Label07" xml:space="preserve">
+  <data name="UNNotSettingsForm_OccurrenceLabel" xml:space="preserve">
     <value>Occurrence number:</value>
   </data>
   <data name="Tip_0001" xml:space="preserve">
     <value>Welcome to UniNotifier, the web resources supervisor service! Here you can configure the service and notifications. Some buttons and fields contain useful tips that will be shown once.
 
-Detailed instructions for setting up the service are available on YouTube (“User manual” button in the app info window)</value>
-  </data>
-  <data name="Tip_0002" xml:space="preserve">
-    <value>This button allows you to apply changes performed on the right side of window to the currently selected notification</value>
-  </data>
-  <data name="Tip_0004" xml:space="preserve">
-    <value>This button allows you to add new notification with settings presented on the right side of window</value>
-  </data>
-  <data name="Tip_0008" xml:space="preserve">
-    <value>This button allows you to remove selected notification</value>
+Detailed instructions for setting up the service are available on YouTube (“User guide” button in the app info window)</value>
   </data>
   <data name="Tip_0010" xml:space="preserve">
     <value>This button allows you to load settings from notification template</value>
@@ -222,9 +193,6 @@ Detailed instructions for setting up the service are available on YouTube (“Us
   </data>
   <data name="Tip_0800" xml:space="preserve">
     <value>This button allows you to load shared or saved settings</value>
-  </data>
-  <data name="SettingsForm_NotWizard" xml:space="preserve">
-    <value>Notifications wizard</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
     <value>It looks like this site is not supported. Try using a different keyword</value>
@@ -268,13 +236,13 @@ This word (or phrase) should be present right now in a part of the website you w
   <data name="TemplateSelect" xml:space="preserve">
     <value>Create new notification:</value>
   </data>
-  <data name="SettingsForm_ComparatorFlag" xml:space="preserve">
-    <value>Check the first number in text and show warnings if it is</value>
+  <data name="UNNotSettingsForm_ComparatorFlag" xml:space="preserve">
+    <value>Check the first number in text and show urgent notification if it is</value>
   </data>
-  <data name="SettingsForm_MisfitsFlag" xml:space="preserve">
+  <data name="UNNotSettingsForm_MisfitsFlag" xml:space="preserve">
     <value>Don’t show inconsistent texts</value>
   </data>
-  <data name="SettingsForm_WindowCallFlag" xml:space="preserve">
+  <data name="UNGenSettingsForm_WindowCallFlag" xml:space="preserve">
     <value>Show main window on urgent notifications</value>
   </data>
   <data name="Tip_1000" xml:space="preserve">
@@ -282,7 +250,7 @@ This word (or phrase) should be present right now in a part of the website you w
 
 It is also possible to display a notification only if this condition is met</value>
   </data>
-  <data name="SettingsForm_CheckAvailability" xml:space="preserve">
+  <data name="UNNotSettingsForm_CheckAvailability" xml:space="preserve">
     <value>Notify if the source is unavailable</value>
   </data>
   <data name="RecallAllNews" xml:space="preserve">
@@ -310,13 +278,13 @@ It is also possible to display a notification only if this condition is met</val
     <value>Settings exchange file for uNot service</value>
   </data>
   <data name="ComparatorTypes" xml:space="preserve">
-    <value>&gt; (greater than)
-≥ (greater than or equal to)
-&lt; (less than)
-≤ (less than or equal to)
-= (equal to)
-≠ (not equal to)
-∈ (contains)</value>
+    <value>greater than
+greater than or equal to
+less than
+less than or equal to
+equal to
+not equal to
+contains</value>
   </data>
   <data name="NotAddedMessage" xml:space="preserve">
     <value>Notification has been added:
@@ -329,10 +297,7 @@ It is also possible to display a notification only if this condition is met</val
     <value>Notification has been updated:
 </value>
   </data>
-  <data name="MainMenuOption06" xml:space="preserve">
-    <value>&amp;Remove from startup</value>
-  </data>
-  <data name="SettingsForm_UrgentSigLabel" xml:space="preserve">
+  <data name="UNGenSettingsForm_UrgentSigLabel" xml:space="preserve">
     <value>Generate urgent notification for the following characters:</value>
   </data>
   <data name="FontLabel" xml:space="preserve">
@@ -349,5 +314,35 @@ It is also possible to display a notification only if this condition is met</val
   </data>
   <data name="TransculentContextMenu" xml:space="preserve">
     <value>Transculent log items</value>
+  </data>
+  <data name="UNNotSettingsForm_EnabledCheck" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="UNGenSettingsForm_NotificationsSection" xml:space="preserve">
+    <value>Notifications settings</value>
+  </data>
+  <data name="UNGenSettingsForm_GeneralSection" xml:space="preserve">
+    <value>General settings</value>
+  </data>
+  <data name="UNGenSettingsForm_LogColorLabel" xml:space="preserve">
+    <value>Log color theme:</value>
+  </data>
+  <data name="UNGenSettingsForm_TranslucencyField" xml:space="preserve">
+    <value>Translucent log items</value>
+  </data>
+  <data name="UNGenSettingsForm_FontSizeLabel" xml:space="preserve">
+    <value>Log font size:</value>
+  </data>
+  <data name="NotMenu_Setup" xml:space="preserve">
+    <value>Setup...</value>
+  </data>
+  <data name="NotMenu_AddCopy" xml:space="preserve">
+    <value>Copy to new item</value>
+  </data>
+  <data name="NotMenu_Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="NotMenu_AddWizard" xml:space="preserve">
+    <value>Notifications wizard</value>
   </data>
 </root>

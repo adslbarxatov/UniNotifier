@@ -1,5 +1,9 @@
 UniNotifier: changes log
 
+Version 8.5:
+• The app settings interface has been completely rewritten;
+• Added new colors for text in the main log
+
 Version 8.0.5:
 • Added new context menu from the deprecated Android version: “setup notification”,
   “disable notification”, “delete text” and “copy text”;

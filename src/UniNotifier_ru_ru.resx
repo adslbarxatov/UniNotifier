@@ -120,58 +120,38 @@
   <data name="CurlyTemplate" xml:space="preserve">
     <value>Не забудьте заменить элементы, заключённые в фигурные скобки, на то, что Вам нужно</value>
   </data>
-  <data name="DeleteLineNotSpecified" xml:space="preserve">
-    <value>Не выбрано оповещение для удаления</value>
-  </data>
   <data name="DeleteMessage" xml:space="preserve">
     <value>Удалить выбранное оповещение?</value>
   </data>
   <data name="KeywordNotSpecified" xml:space="preserve">
     <value>В поле «Начало» не указано ключевое слово для поиска</value>
   </data>
-  <data name="MainMenuOption01" xml:space="preserve">
-    <value>&amp;Посмотреть полностью</value>
-  </data>
   <data name="MainMenuOption02" xml:space="preserve">
     <value>&amp;Настройки оповещений</value>
-  </data>
-  <data name="MainMenuOption05" xml:space="preserve">
-    <value>&amp;Добавить в автозапуск</value>
   </data>
   <data name="NotEnoughDataMessage" xml:space="preserve">
     <value>Одно из обязательных полей не заполнено, или ссылка на ресурс указана некорректно</value>
   </data>
-  <data name="NotificationText" xml:space="preserve">
-    <value>- От {0:S} в {1:S} -
-
-{2:S}</value>
-  </data>
   <data name="NotMatchingNames" xml:space="preserve">
-    <value>Оповещение с таким именем уже добавлено</value>
+    <value>Оповещение с таким именем уже существует. Название было скорректировано</value>
   </data>
   <data name="SearchFailure" xml:space="preserve">
     <value>Неверно задана ссылка на веб-страницу, или ключевое слово на странице не обнаруживается</value>
   </data>
-  <data name="SettingsForm_BAdd" xml:space="preserve">
-    <value>&amp;Добавить новое</value>
-  </data>
-  <data name="SettingsForm_Label01" xml:space="preserve">
+  <data name="UNNotSettingsForm_NameLabel" xml:space="preserve">
     <value>Название:</value>
   </data>
-  <data name="SettingsForm_Label02" xml:space="preserve">
+  <data name="UNNotSettingsForm_LinkLabel" xml:space="preserve">
     <value>Ссылка:</value>
   </data>
-  <data name="SettingsForm_Label03" xml:space="preserve">
+  <data name="UNNotSettingsForm_BeginningLabel" xml:space="preserve">
     <value>Начало:</value>
   </data>
-  <data name="SettingsForm_Label04" xml:space="preserve">
+  <data name="UNNotSettingsForm_EndingLabel" xml:space="preserve">
     <value>Конец:</value>
   </data>
-  <data name="SettingsForm_Label05" xml:space="preserve">
+  <data name="UNNotSettingsForm_FrequencyLabel" xml:space="preserve">
     <value>Частота обновления, минут:</value>
-  </data>
-  <data name="SettingsForm_Label06" xml:space="preserve">
-    <value>Шаблон:</value>
   </data>
   <data name="UpdateLineNotSpecified" xml:space="preserve">
     <value>Не выбрано оповещение для обновления</value>
@@ -179,44 +159,13 @@
   <data name="UpdateMessage" xml:space="preserve">
     <value>Обновить выбранное оповещение?</value>
   </data>
-  <data name="SettingsForm_Label07" xml:space="preserve">
+  <data name="UNNotSettingsForm_OccurrenceLabel" xml:space="preserve">
     <value>Номер вхождения:</value>
-  </data>
-  <data name="GMJAgreement" xml:space="preserve">
-    <value>Существует огромное количество групп и сообществ, коллекционирующих юмор во всех его формах. Но вряд ли многие из них могут похвастаться грамотностью текстов и подписей. И речь не о случаях, когда именно её отсутствие есть основа для шутки. И это может быть даже не их вина – при огромном количестве скриншотов вместо обычных записей этого в принципе сложно добиться.
-
-Что ж, попробую это исправить. Уже долгое время я на досуге собираю понравившиеся записи, перерабатываю их в приятный глазу вид и выкладываю на своей стене. Просто так, чтобы отвлечься от текучки. И, кажется, пришло время вынести огромный, образовавшийся за почти семь лет запас в общий доступ.
-
-Казалось бы, зачем это нужно? И всё-таки результат того сто́ит. Контент от этих манипуляций становится только лучше. Но при этом возвращаются возможность текстового поиска по знакомым словам и скорость загрузки на особо медленных девайсах. В общем-то, неплохое достижение. К тому же, благодаря долгому отбору в моей коллекции остались лишь самые «стойкие» экспонаты.
-
-Итак, добро пожаловать в Grammar must joy!
-
-Несколько правил (обратите внимание, что они будут считаться принятыми Вами при повторном нажатии кнопки «GMJ»):
-
-1. Да, контент не всегда будет (читайте: почти никогда не будет) оригинальным. И если я вдруг окажусь на пути чьего-нибудь копирайта, прошу меня об этом извещать. Такой контент нам... будет изыматься из ленты.
-
-2. Записи могут быть разными. Конечно, без шока, браззерс и прочей неразрешёнки. Но всё-таки 18+!
-
-3. Если я всё же где-то ошибусь (что немало вероятно), прошу также мне об этом сообщать. При таком названии группы не хочется ударять в грязь лицом.
-
-4. Мы следуем Политике сообществ (https://vk.com/@rdaaow_fupl-scp). Поэтому рекламы в обозримом будущем здесь не будет. Да и комментарии тут ни к чему. Но советы, пожелания и конструктивная критика приветствуются.
-
-Очень надеюсь, что Вам понравится относительно грамотный юмор!
-С уважением, Nicolay B. aka RD AAOW</value>
   </data>
   <data name="Tip_0001" xml:space="preserve">
     <value>Добро пожаловать в UniNotifier – службу наблюдения за состоянием веб-ресурсов! Здесь вы можете настроить службу и сами уведомления. Некоторые кнопки и поля содержат полезные подсказки, которые будут показаны однократно.
 
 Подробные инструкции по настройке сервиса доступны на YouTube (кнопка «Руководство» в окне сведений о приложении)</value>
-  </data>
-  <data name="Tip_0002" xml:space="preserve">
-    <value>Эта кнопка позволяет применить изменения, выполненные в правой части окна, к текущему выбранному уведомлению</value>
-  </data>
-  <data name="Tip_0004" xml:space="preserve">
-    <value>Эта кнопка позволяет добавить новое уведомление с настройками, представленными в правой части окна</value>
-  </data>
-  <data name="Tip_0008" xml:space="preserve">
-    <value>Эта кнопка позволяет удалить выбранное уведомление</value>
   </data>
   <data name="Tip_0010" xml:space="preserve">
     <value>Эта кнопка позволяет загрузить настройки из шаблона уведомления</value>
@@ -244,9 +193,6 @@
   </data>
   <data name="Tip_0800" xml:space="preserve">
     <value>Эта кнопка позволяет загружать настройки уведомлений</value>
-  </data>
-  <data name="SettingsForm_NotWizard" xml:space="preserve">
-    <value>Мастер оповещений</value>
   </data>
   <data name="WizardFailure" xml:space="preserve">
     <value>Похоже, этот сайт не поддерживается. Попробуйте использовать другое ключевое слово</value>
@@ -290,13 +236,13 @@
   <data name="TemplateSelect" xml:space="preserve">
     <value>Создание нового оповещения:</value>
   </data>
-  <data name="SettingsForm_ComparatorFlag" xml:space="preserve">
-    <value>Проверять первое число в тексте и показывать предупреждение, если оно</value>
+  <data name="UNNotSettingsForm_ComparatorFlag" xml:space="preserve">
+    <value>Проверять первое число в тексте и показывать срочное уведомление, если оно</value>
   </data>
-  <data name="SettingsForm_MisfitsFlag" xml:space="preserve">
+  <data name="UNNotSettingsForm_MisfitsFlag" xml:space="preserve">
     <value>Не показывать несоответствующие</value>
   </data>
-  <data name="SettingsForm_WindowCallFlag" xml:space="preserve">
+  <data name="UNGenSettingsForm_WindowCallFlag" xml:space="preserve">
     <value>Показывать главное окно при срочных уведомлениях</value>
   </data>
   <data name="Tip_1000" xml:space="preserve">
@@ -304,7 +250,7 @@
 
 Также возможно отображение уведомления только при соблюдении этого условия</value>
   </data>
-  <data name="SettingsForm_CheckAvailability" xml:space="preserve">
+  <data name="UNNotSettingsForm_CheckAvailability" xml:space="preserve">
     <value>Сообщать, если ресурс недоступен</value>
   </data>
   <data name="RecallAllNews" xml:space="preserve">
@@ -332,13 +278,13 @@
     <value>Файл обмена настройками службы uNot</value>
   </data>
   <data name="ComparatorTypes" xml:space="preserve">
-    <value>&gt; (больше, чем)
-≥ (больше либо равно)
-&lt; (меньше, чем)
-≤ (меньше либо равно)
-= (равно)
-≠ (не равно)
-∈ (содержит)</value>
+    <value>больше, чем
+больше либо равно
+меньше, чем
+меньше либо равно
+равно
+не равно
+содержит</value>
   </data>
   <data name="NotAddedMessage" xml:space="preserve">
     <value>Добавлено оповещение:
@@ -351,10 +297,7 @@
     <value>Обновлено оповещение:
 </value>
   </data>
-  <data name="MainMenuOption06" xml:space="preserve">
-    <value>&amp;Убрать из автозапуска</value>
-  </data>
-  <data name="SettingsForm_UrgentSigLabel" xml:space="preserve">
+  <data name="UNGenSettingsForm_UrgentSigLabel" xml:space="preserve">
     <value>Срочное уведомление для следующих символов:</value>
   </data>
   <data name="FontLabel" xml:space="preserve">
@@ -371,5 +314,35 @@
   </data>
   <data name="TransculentContextMenu" xml:space="preserve">
     <value>Полупрозрачные записи в журнале</value>
+  </data>
+  <data name="UNNotSettingsForm_EnabledCheck" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="UNGenSettingsForm_NotificationsSection" xml:space="preserve">
+    <value>Настройки уведомлений</value>
+  </data>
+  <data name="UNGenSettingsForm_GeneralSection" xml:space="preserve">
+    <value>Общие настройки</value>
+  </data>
+  <data name="UNGenSettingsForm_LogColorLabel" xml:space="preserve">
+    <value>Цветовая тема журнала:</value>
+  </data>
+  <data name="UNGenSettingsForm_TranslucencyField" xml:space="preserve">
+    <value>Полупрозрачные элементы журнала</value>
+  </data>
+  <data name="UNGenSettingsForm_FontSizeLabel" xml:space="preserve">
+    <value>Размер шрифта журнала:</value>
+  </data>
+  <data name="NotMenu_Setup" xml:space="preserve">
+    <value>Настроить...</value>
+  </data>
+  <data name="NotMenu_AddCopy" xml:space="preserve">
+    <value>Скопировать в новый элемент</value>
+  </data>
+  <data name="NotMenu_Share" xml:space="preserve">
+    <value>Поделиться</value>
+  </data>
+  <data name="NotMenu_AddWizard" xml:space="preserve">
+    <value>Мастер оповещений</value>
   </data>
 </root>

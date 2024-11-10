@@ -12,24 +12,48 @@ namespace RD_AAOW
 	public partial class UniNotifierForm: Form
 		{
 		// Переменные
+
+		// Иконка в трее системы
 		private NotifyIcon ni = new NotifyIcon ();
+
+		// Флаг разрешения на выход из приложения без сворачивания в трей
 		private bool allowExit = false;
 
+		// Набор сформированных уведомлений
 		private NotificationsSet ns = new NotificationsSet (true);
+
+		// Тексты оповещений
 		private List<string> texts = new List<string> ();
+
+		// Индексы оповещений-источников в порядке, в котором они поступили в первичный стек
 		private List<int> notNumbers = new List<int> ();
-		private List<int> senders = new List<int> ();
+
+		// Индексы оповещений-источников в порядке, в котором они расположены в журнале
+		private List<int> notSenders = new List<int> ();
+
+		// Флаг, указывающий на необходимость сворачивания окна в трей
 		private bool hideWindow;
 
-		private ContextMenu bColorContextMenu;
+		/*private ContextMenu bColorContextMenu;*/
+
+		// Контекстное меню со списком оповещений для ручного перехода
 		private ContextMenu notContextMenu;
+
+		// Контекстное меню элемента журнала
 		private ContextMenu textContextMenu;
+
+		// Индекс элемента журнала, отправившего запрос на отображение меню
 		private int textContextSender;
 
+		// Семейство шрифтов для журнала
 		private const string fontFamily = "Calibri";
+
+		// Коэффициент непрозрачности
 		private const int transculencyAmount = 15;
 
 #if TGT
+		// Флаги трассировщика GMJ
+		private bool tgtInProgress = false;
 		private uint tgtCounter = 0;
 #endif
 
@@ -48,35 +72,24 @@ namespace RD_AAOW
 				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
 			hideWindow = HideWindow;
 
-			ReloadNotificationsList ();
-
 			// Получение настроек
+			ReloadNotificationsList ();
+			ApplyLogSettings ();
+
 			RDGenerics.LoadWindowDimensions (this);
 
-			BColor_ItemClicked (null, null);    // Подгрузка настройки
+			/*BColor_ItemClicked (null, null);    // Подгрузка настройки
 			try
 				{
 				FontSizeField.Value = NotificationsSupport.LogFontSize / 10.0m;
 				}
-			catch { }
+			catch { }*/
 
 			// Настройка иконки в трее
 			ni.Icon = Properties.UniNotifier.UniNotifierTrayN;
 			ni.Text = ProgramDescription.AssemblyVisibleName;
 			ni.Visible = true;
-
-			ni.ContextMenu = new ContextMenu ();
-
-			ni.ContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("MainMenuOption02"), ShowSettings));
-			ni.ContextMenu.MenuItems[0].Enabled = RDGenerics.AppHasAccessRights (false, true);
-
-			ni.ContextMenu.MenuItems.Add (new MenuItem (
-				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout), AboutService));
-			ni.ContextMenu.MenuItems.Add (new MenuItem (
-				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit), CloseService));
-
-			ni.MouseDown += ShowHideFullText;
-			ni.ContextMenu.MenuItems[2].DefaultItem = true;
+			ReloadTrayContextMenu ();
 			}
 
 		private void UniNotifierForm_Shown (object sender, EventArgs e)
@@ -100,7 +113,7 @@ namespace RD_AAOW
 			{
 			// Локализация зависимой части интерфейса
 			BGo.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo);
-			FontLabel.Text = RDLocale.GetText ("FontLabel");
+			/*FontLabel.Text = RDLocale.GetText ("FontLabel");*/
 
 			if (textContextMenu == null)
 				textContextMenu = new ContextMenu ();
@@ -118,12 +131,48 @@ namespace RD_AAOW
 			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("SetupContextMenu"),
 				TextContext_ItemClicked));
 
+			// Перезагрузка списка уведомлений
 			if (notContextMenu == null)
 				notContextMenu = new ContextMenu ();
 
 			notContextMenu.MenuItems.Clear ();
 			foreach (Notification n in ns.Notifications)
 				notContextMenu.MenuItems.Add (new MenuItem (n.Name, GoToLink_ItemClicked));
+			}
+
+		// Обновление меню иконки в трее
+		private void ReloadTrayContextMenu ()
+			{
+			bool create = false;
+			if (ni.ContextMenu == null)
+				{
+				ni.ContextMenu = new ContextMenu ();
+				create = true;
+				}
+
+			// Только локализация
+			if (!create)
+				{
+				ni.ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
+				ni.ContextMenu.MenuItems[1].Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
+				ni.ContextMenu.MenuItems[2].Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
+
+				return;
+				}
+
+			// Создание
+			ni.ContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("MainMenuOption02"), ShowSettings));
+			ni.ContextMenu.MenuItems[0].Enabled = RDGenerics.AppHasAccessRights (false, true);
+
+			ni.ContextMenu.MenuItems.Add (new MenuItem (
+				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout), AboutService));
+			ni.ContextMenu.MenuItems.Add (new MenuItem (
+				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit), CloseService));
+
+			ni.MouseDown += ShowHideFullText;
+			ni.ContextMenu.MenuItems[2].DefaultItem = true;
+
+			return;
 			}
 
 		// Завершение работы службы
@@ -161,10 +210,6 @@ namespace RD_AAOW
 			}
 
 		// Итерация таймера обновления
-#if TGT
-		private bool tgtInProgress = false;
-#endif
-
 		private void MainTimer_Tick (object sender, EventArgs e)
 			{
 			// Переменные
@@ -225,7 +270,7 @@ namespace RD_AAOW
 					}
 
 				texts.RemoveAt (0);
-				senders.Add (notNumbers[0]);
+				notSenders.Add (notNumbers[0]);
 				notNumbers.RemoveAt (0);
 				}
 
@@ -301,9 +346,9 @@ namespace RD_AAOW
 			MainTimer.Enabled = false;
 
 			// Настройка
-			SettingsForm sf = new SettingsForm (ns, (uint)MainTimer.Interval *
+			UNGenSettingsForm sf = new UNGenSettingsForm (ns, (uint)MainTimer.Interval *
 				NotificationsSet.MaxNotifications / 60000,
-				sender == null ? senders[textContextSender] : -1);
+				sender == null ? notSenders[textContextSender] : -1);
 
 			// Запоминание настроек
 			bool complete = sf.CompleteUpdate;
@@ -317,17 +362,42 @@ namespace RD_AAOW
 			ReloadNotificationsList ();
 			SetUrgency (false);
 
-			ni.ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
-			ni.ContextMenu.MenuItems[1].Text =
+			ReloadTrayContextMenu ();
+			/*ni. ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
+			ni. ContextMenu.MenuItems[1].Text =
 				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
-			ni.ContextMenu.MenuItems[2].Text =
+			ni. ContextMenu.MenuItems[2].Text =
 				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
-			if (ni.ContextMenu.MenuItems.Count > 3)
-				ni.ContextMenu.MenuItems[3].Text = RDLocale.GetText ("MainMenuOption05");
+			if (ni. ContextMenu.MenuItems.Count > 3)
+				ni. ContextMenu.MenuItems[3].Text = RDLocale.GetText ("MainMenuOption05");*/
+
+			ApplyLogSettings ();
 
 			// Перезапуск
-			ns.ResetTimer (complete);   // Раньше имел смысл обязательный полный сброс. Теперь это уже неактуально
+			ns.ResetTimer (complete);
 			MainTimer.Enabled = true;
+			}
+
+		// Применение настроек журнала
+		private void ApplyLogSettings ()
+			{
+			MainLayout.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;
+			Font fnt = new Font (fontFamily, NotificationsSupport.LogFontSize / 10.0f);
+			for (int i = 0; i < MainLayout.Controls.Count; i++)
+				{
+				Label l = (Label)MainLayout.Controls[i];
+
+				int amount = NotificationsSupport.TranslucentLogItems ? transculencyAmount : 0;
+				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
+					l.BackColor = Color.FromArgb (amount, 0, 0, 0);
+				else
+					l.BackColor = Color.FromArgb (amount, 255, 255, 255);
+
+				l.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
+
+				l.Font = fnt;
+				l.Margin = LogItemMargin;
+				}
 			}
 
 		// Переход на страницу сообщества
@@ -362,6 +432,7 @@ namespace RD_AAOW
 			MainLayout.Height = this.Height - ButtonsPanel.Height - 53;
 
 			ButtonsPanel.Top = MainLayout.Top + MainLayout.Height + 1;
+			ButtonsPanel.Left = (this.Width - ButtonsPanel.Width) / 2;
 			}
 
 		// Сохранение размера формы
@@ -454,7 +525,7 @@ namespace RD_AAOW
 				}
 
 			l.Click += TextLabel_Clicked;
-			l.Font = new Font (fontFamily, (float)FontSizeField.Value);
+			l.Font = new Font (fontFamily, NotificationsSupport.LogFontSize / 10.0f);
 			l.Text = Text;
 			l.Margin = LogItemMargin;
 
@@ -467,7 +538,7 @@ namespace RD_AAOW
 			while (MainLayout.Controls.Count > NotificationsSupport.MasterLogMaxItems)
 				{
 				MainLayout.Controls.RemoveAt (0);
-				senders.RemoveAt (0);
+				notSenders.RemoveAt (0);
 				}
 
 			// Прокрутка
@@ -494,25 +565,25 @@ namespace RD_AAOW
 				{
 				// Переход по ссылке
 				case 0:
-					RDGenerics.RunURL (ns.Notifications[senders[textContextSender]].Link);
+					RDGenerics.RunURL (ns.Notifications[notSenders[textContextSender]].Link);
 					this.Close ();
 					break;
 
 				// Копирование текста
 				case 1:
 					RDGenerics.SendToClipboard (((Label)MainLayout.Controls[textContextSender]).Text +
-						RDLocale.RNRN + ns.Notifications[senders[textContextSender]].Link, true);
+						RDLocale.RNRN + ns.Notifications[notSenders[textContextSender]].Link, true);
 					break;
 
 				// Удаление текста
 				case 3:
 					MainLayout.Controls.RemoveAt (textContextSender);
-					senders.RemoveAt (textContextSender);
+					notSenders.RemoveAt (textContextSender);
 					break;
 
 				// Отключение уведомления
 				case 4:
-					ns.Notifications[senders[textContextSender]].IsEnabled = false;
+					ns.Notifications[notSenders[textContextSender]].IsEnabled = false;
 					break;
 
 				// Настройка уведомления
@@ -522,7 +593,7 @@ namespace RD_AAOW
 				}
 			}
 
-		// Изменение размера шрифта
+		/*// Изменение размера шрифта
 		private void FontSizeField_ValueChanged (object sender, EventArgs e)
 			{
 			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);
@@ -534,7 +605,8 @@ namespace RD_AAOW
 				l.Font = fnt;
 				l.Margin = LogItemMargin;
 				}
-			}
+			}*/
+
 		private Padding LogItemMargin
 			{
 			get
@@ -544,7 +616,7 @@ namespace RD_AAOW
 				}
 			}
 
-		// Выбор цвета журнала
+		/*// Выбор цвета журнала
 		private void BColor_Clicked (object sender, EventArgs e)
 			{
 			// Создание вызывающего контекстного меню
@@ -605,6 +677,6 @@ namespace RD_AAOW
 
 				l.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
 				}
-			}
+			}*/
 		}
 	}
