@@ -1,5 +1,5 @@
 # UniNotifier: домашняя страница
-> **ƒ** &nbsp;RD AAOW FDL; 24.08.2024; 20:51
+> **ƒ** &nbsp;RD AAOW FDL; 16.11.2024; 3:11
 
 &nbsp;
 
@@ -26,10 +26,4 @@
 
 ---
 
-Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/YdmfB13mf8U).
-
----
-
-Информация о дополнении ***Grammar must joy*** теперь доступна на [отдельной странице](https://adslbarxatov.github.io/GrammarMustJoy).
-
-Информация о проекте ***Tablepedia viewer*** теперь располагается [здесь](https://adslbarxatov.github.io/TablepediaViewer)
+Больше информации Вы сможете найти в [этом видеоруководстве](https://youtu.be/QK5IJPdIir4)
