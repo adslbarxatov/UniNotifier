@@ -34,8 +34,6 @@ namespace RD_AAOW
 		// Флаг, указывающий на необходимость сворачивания окна в трей
 		private bool hideWindow;
 
-		/*private ContextMenu bColorContextMenu;*/
-
 		// Контекстное меню со списком оповещений для ручного перехода
 		private ContextMenu notContextMenu;
 
@@ -57,6 +55,25 @@ namespace RD_AAOW
 		private uint tgtCounter = 0;
 #endif
 
+		// Возвращает динамический внешний отступ элементов журнала
+		private Padding LogItemMargin
+			{
+			get
+				{
+				return new Padding (3, 3, 3, (int)NotificationsSupport.LogFontSize /
+					(NotificationsSupport.TranslucentLogItems ? 8 : 4));
+				}
+			}
+
+		// Возвращает ограничение ширины поля журнала
+		private Size LogSizeLimit
+			{
+			get
+				{
+				return new Size (MainLayout.Width - 6 - 18, 0);
+				}
+			}
+
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
 		/// </summary>
@@ -77,13 +94,6 @@ namespace RD_AAOW
 			ApplyLogSettings ();
 
 			RDGenerics.LoadWindowDimensions (this);
-
-			/*BColor_ItemClicked (null, null);    // Подгрузка настройки
-			try
-				{
-				FontSizeField.Value = NotificationsSupport.LogFontSize / 10.0m;
-				}
-			catch { }*/
 
 			// Настройка иконки в трее
 			ni.Icon = Properties.UniNotifier.UniNotifierTrayN;
@@ -113,7 +123,6 @@ namespace RD_AAOW
 			{
 			// Локализация зависимой части интерфейса
 			BGo.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo);
-			/*FontLabel.Text = RDLocale.GetText ("FontLabel");*/
 
 			if (textContextMenu == null)
 				textContextMenu = new ContextMenu ();
@@ -363,14 +372,6 @@ namespace RD_AAOW
 			SetUrgency (false);
 
 			ReloadTrayContextMenu ();
-			/*ni. ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
-			ni. ContextMenu.MenuItems[1].Text =
-				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
-			ni. ContextMenu.MenuItems[2].Text =
-				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
-			if (ni. ContextMenu.MenuItems.Count > 3)
-				ni. ContextMenu.MenuItems[3].Text = RDLocale.GetText ("MainMenuOption05");*/
-
 			ApplyLogSettings ();
 
 			// Перезапуск
@@ -450,13 +451,6 @@ namespace RD_AAOW
 				l.AutoSize = true;
 				}
 			}
-		private Size LogSizeLimit
-			{
-			get
-				{
-				return new Size (MainLayout.Width - 6 - 18, 0);
-				}
-			}
 
 		// Запрос сообщения от GMJ
 		private void GetGMJ_Click (object sender, EventArgs e)
@@ -524,7 +518,8 @@ namespace RD_AAOW
 					l.BackColor = Color.FromArgb (amount, 255, 255, 255);
 				}
 
-			l.Click += TextLabel_Clicked;
+			/*l.Click += TextLabel_Clicked;*/
+			l.MouseClick += TextContext_MouseClick;
 			l.Font = new Font (fontFamily, NotificationsSupport.LogFontSize / 10.0f);
 			l.Text = Text;
 			l.Margin = LogItemMargin;
@@ -545,14 +540,14 @@ namespace RD_AAOW
 			ScrollLog ();
 			}
 
-		// Нажатие на элемент журнала
+		/*// Нажатие на элемент журнала
 		private void TextLabel_Clicked (object sender, EventArgs e)
 			{
 			Label l = (Label)sender;
 			textContextSender = MainLayout.Controls.IndexOf (l);
 
 			textContextMenu.Show (l, Point.Empty);
-			}
+			}*/
 
 		// Выбор варианта в меню
 		private void TextContext_ItemClicked (object sender, EventArgs e)
@@ -593,90 +588,13 @@ namespace RD_AAOW
 				}
 			}
 
-		/*// Изменение размера шрифта
-		private void FontSizeField_ValueChanged (object sender, EventArgs e)
+		// Нажатие на элемент журнала
+		private void TextContext_MouseClick (object sender, MouseEventArgs e)
 			{
-			NotificationsSupport.LogFontSize = (uint)(FontSizeField.Value * 10.0m);
-			Font fnt = new Font (fontFamily, (float)FontSizeField.Value);
+			Label l = (Label)sender;
+			textContextSender = MainLayout.Controls.IndexOf (l);
 
-			for (int i = 0; i < MainLayout.Controls.Count; i++)
-				{
-				Label l = (Label)MainLayout.Controls[i];
-				l.Font = fnt;
-				l.Margin = LogItemMargin;
-				}
-			}*/
-
-		private Padding LogItemMargin
-			{
-			get
-				{
-				return new Padding (3, 3, 3, (int)NotificationsSupport.LogFontSize /
-					(NotificationsSupport.TranslucentLogItems ? 8 : 4));
-				}
+			textContextMenu.Show (l, e.Location);
 			}
-
-		/*// Выбор цвета журнала
-		private void BColor_Clicked (object sender, EventArgs e)
-			{
-			// Создание вызывающего контекстного меню
-			if (bColorContextMenu == null)
-				{
-				bColorContextMenu = new ContextMenu ();
-
-				for (int i = 0; i < NotificationsSupport.LogColors.ColorNames.Length; i++)
-					bColorContextMenu.MenuItems.Add (new MenuItem (NotificationsSupport.LogColors.ColorNames[i],
-						BColor_ItemClicked));
-
-				bColorContextMenu.MenuItems.Add (new MenuItem ("-"));
-				bColorContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("TransculentContextMenu"),
-					BColor_ItemClicked));
-				bColorContextMenu.MenuItems[bColorContextMenu.MenuItems.Count - 1].Checked =
-					NotificationsSupport.TranslucentLogItems;
-				}
-
-			// Вызов
-			if (sender != null)
-				bColorContextMenu.Show (LogColor, Point.Empty);
-			}
-
-		private void BColor_ItemClicked (object sender, EventArgs e)
-			{
-			// Извлечение индекса
-			int idx;
-			if (sender == null)
-				idx = (int)NotificationsSupport.LogColor;
-			else
-				idx = bColorContextMenu.MenuItems.IndexOf ((MenuItem)sender);
-
-			// Сохранение
-			if (idx < NotificationsSupport.LogColors.ColorNames.Length)
-				{
-				NotificationsSupport.LogColor = (uint)idx;
-				}
-			else
-				{
-				MenuItem mi = bColorContextMenu.MenuItems[bColorContextMenu.MenuItems.Count - 1];
-				mi.Checked = !mi.Checked;
-				NotificationsSupport.TranslucentLogItems = mi.Checked;
-
-				FontSizeField_ValueChanged (null, null);
-				}
-
-			// Установка значений
-			MainLayout.BackColor = NotificationsSupport.LogColors.CurrentColor.BackColor;
-			for (int i = 0; i < MainLayout.Controls.Count; i++)
-				{
-				Label l = (Label)MainLayout.Controls[i];
-
-				int amount = NotificationsSupport.TranslucentLogItems ? transculencyAmount : 0;
-				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
-					l.BackColor = Color.FromArgb (amount, 0, 0, 0);
-				else
-					l.BackColor = Color.FromArgb (amount, 255, 255, 255);
-
-				l.ForeColor = NotificationsSupport.LogColors.CurrentColor.MainTextColor;
-				}
-			}*/
 		}
 	}
