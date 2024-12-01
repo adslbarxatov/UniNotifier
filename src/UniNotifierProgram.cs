@@ -35,7 +35,6 @@ namespace RD_AAOW
 				return;
 			if (!RDGenerics.ShowAbout (true))
 				RDGenerics.RegisterFileAssociations (true);
-			/*ProgramDescription.RegisterAppExtensions ();*/
 
 			// Запуск
 			Application.Run (new UniNotifierForm ((args.Length > 0) && (args[0] == "-h")));

@@ -224,13 +224,13 @@ This word (or phrase) should be present right now in a part of the website you w
   <data name="WizardStep5" xml:space="preserve">
     <value>It’s ready! Now specify the name of notification to be displayed in the main log</value>
   </data>
-  <data name="NotificationsWizard" xml:space="preserve">
+  <data name="WizardForm_WizardRadio" xml:space="preserve">
     <value>Using &amp;wizard</value>
   </data>
-  <data name="TemplateClipboard" xml:space="preserve">
+  <data name="WizardForm_ClipboardRadio" xml:space="preserve">
     <value>From clip&amp;board</value>
   </data>
-  <data name="TemplateList" xml:space="preserve">
+  <data name="WizardForm_TemplateRadio" xml:space="preserve">
     <value>From &amp;template</value>
   </data>
   <data name="TemplateSelect" xml:space="preserve">
@@ -240,7 +240,7 @@ This word (or phrase) should be present right now in a part of the website you w
     <value>Check the first number in text and show urgent notification if it is</value>
   </data>
   <data name="UNNotSettingsForm_MisfitsFlag" xml:space="preserve">
-    <value>Don’t show inconsistent texts</value>
+    <value>Don’t show non-urgent</value>
   </data>
   <data name="UNGenSettingsForm_WindowCallFlag" xml:space="preserve">
     <value>Show main window on urgent notifications</value>
@@ -265,7 +265,7 @@ It is also possible to display a notification only if this condition is met</val
   <data name="LoadingWarning" xml:space="preserve">
     <value>WARNING: this option will overwrite all existing settings. Continue?</value>
   </data>
-  <data name="TemplateFile" xml:space="preserve">
+  <data name="WizardForm_FileRadio" xml:space="preserve">
     <value>From &amp;file</value>
   </data>
   <data name="ShareClipboard" xml:space="preserve">
@@ -284,7 +284,8 @@ less than
 less than or equal to
 equal to
 not equal to
-contains</value>
+contains
+doesn’t contain</value>
   </data>
   <data name="NotAddedMessage" xml:space="preserve">
     <value>Notification has been added:
@@ -344,5 +345,17 @@ contains</value>
   </data>
   <data name="NotMenu_AddWizard" xml:space="preserve">
     <value>Notifications wizard</value>
+  </data>
+  <data name="ManualDelimitersForm_PageLabel" xml:space="preserve">
+    <value>Markup of the target webpage:</value>
+  </data>
+  <data name="WizardForm_ManualRadio" xml:space="preserve">
+    <value>Manual markup selection</value>
+  </data>
+  <data name="HtmlSearchRequest" xml:space="preserve">
+    <value>Enter a word to search</value>
+  </data>
+  <data name="HtmlNotFound" xml:space="preserve">
+    <value>Cannot find the specified word</value>
   </data>
 </root>

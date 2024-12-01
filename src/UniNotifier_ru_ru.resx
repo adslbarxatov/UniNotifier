@@ -224,13 +224,13 @@
   <data name="WizardStep5" xml:space="preserve">
     <value>Готово! Осталось указать название оповещения для отображения в журнале</value>
   </data>
-  <data name="NotificationsWizard" xml:space="preserve">
+  <data name="WizardForm_WizardRadio" xml:space="preserve">
     <value>С помощью м&amp;астера</value>
   </data>
-  <data name="TemplateClipboard" xml:space="preserve">
+  <data name="WizardForm_ClipboardRadio" xml:space="preserve">
     <value>Из &amp;буфера обмена</value>
   </data>
-  <data name="TemplateList" xml:space="preserve">
+  <data name="WizardForm_TemplateRadio" xml:space="preserve">
     <value>Из &amp;шаблона</value>
   </data>
   <data name="TemplateSelect" xml:space="preserve">
@@ -240,7 +240,7 @@
     <value>Проверять первое число в тексте и показывать срочное уведомление, если оно</value>
   </data>
   <data name="UNNotSettingsForm_MisfitsFlag" xml:space="preserve">
-    <value>Не показывать несоответствующие</value>
+    <value>Не показывать несрочные</value>
   </data>
   <data name="UNGenSettingsForm_WindowCallFlag" xml:space="preserve">
     <value>Показывать главное окно при срочных уведомлениях</value>
@@ -265,7 +265,7 @@
   <data name="LoadingWarning" xml:space="preserve">
     <value>ВНИМАНИЕ: эта опция перезапишет все существующие настройки. Продолжить?</value>
   </data>
-  <data name="TemplateFile" xml:space="preserve">
+  <data name="WizardForm_FileRadio" xml:space="preserve">
     <value>Из &amp;файла</value>
   </data>
   <data name="ShareClipboard" xml:space="preserve">
@@ -284,7 +284,8 @@
 меньше либо равно
 равно
 не равно
-содержит</value>
+содержит
+не содержит</value>
   </data>
   <data name="NotAddedMessage" xml:space="preserve">
     <value>Добавлено оповещение:
@@ -344,5 +345,17 @@
   </data>
   <data name="NotMenu_AddWizard" xml:space="preserve">
     <value>Мастер оповещений</value>
+  </data>
+  <data name="ManualDelimitersForm_PageLabel" xml:space="preserve">
+    <value>Разметка целевой веб-страницы:</value>
+  </data>
+  <data name="WizardForm_ManualRadio" xml:space="preserve">
+    <value>Ручной выбор разметки</value>
+  </data>
+  <data name="HtmlSearchRequest" xml:space="preserve">
+    <value>Введите слово для поиска</value>
+  </data>
+  <data name="HtmlNotFound" xml:space="preserve">
+    <value>Не удаётся найти указанное слово</value>
   </data>
 </root>

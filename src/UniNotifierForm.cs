@@ -518,7 +518,6 @@ namespace RD_AAOW
 					l.BackColor = Color.FromArgb (amount, 255, 255, 255);
 				}
 
-			/*l.Click += TextLabel_Clicked;*/
 			l.MouseClick += TextContext_MouseClick;
 			l.Font = new Font (fontFamily, NotificationsSupport.LogFontSize / 10.0f);
 			l.Text = Text;
@@ -539,15 +538,6 @@ namespace RD_AAOW
 			// Прокрутка
 			ScrollLog ();
 			}
-
-		/*// Нажатие на элемент журнала
-		private void TextLabel_Clicked (object sender, EventArgs e)
-			{
-			Label l = (Label)sender;
-			textContextSender = MainLayout.Controls.IndexOf (l);
-
-			textContextMenu.Show (l, Point.Empty);
-			}*/
 
 		// Выбор варианта в меню
 		private void TextContext_ItemClicked (object sender, EventArgs e)

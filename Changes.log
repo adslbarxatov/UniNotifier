@@ -1,5 +1,18 @@
 UniNotifier: changes log
 
+Version 8.6:
+• Implemented the stand-alone interface that allows you to manually find and specify the identifiers
+  (parts of markup) for the target area of the webpage to create a new notification;
+• The number of attempts by the notification wizard to receive notification text at the setup stage
+  has been increased to 5;
+• The notification wizard has been moved back from context menu to the settings window as a separate
+  button;
+• Restored the sort order for notifications: disabled items are now in the end of list;
+• Added the “Doesn’t contain” comparator type for string values;
+• Fixed a bug where the “Don’t show non-urgent” flag could remain active even after disabling
+  the comparator and lead to missing necessary notifications;
+• Fixed a bug where the numeric value comparator could return a false urgency trigger
+
 Version 8.5.1:
 • The context menu for the main log now appears at the mouse position when you click an item;
 • The video guides have been updated
