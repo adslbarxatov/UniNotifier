@@ -1,5 +1,8 @@
 UniNotifier: changes log
 
+Version 8.6.1:
+• Access and appearance of the Lab Policy have been updated
+
 Version 8.6:
 • Implemented the stand-alone interface that allows you to manually find and specify the identifiers
   (parts of markup) for the target area of the webpage to create a new notification;

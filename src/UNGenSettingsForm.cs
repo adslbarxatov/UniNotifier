@@ -155,7 +155,7 @@ namespace RD_AAOW
 
 			// Настройка меню
 			notMenu.MenuItems[3].Enabled = (notifications.Notifications.Count > 1);
-			notMenu.MenuItems[1].Enabled = /*notMenu.MenuItems[5].Enabled =*/
+			notMenu.MenuItems[1].Enabled =
 				(notifications.Notifications.Count < NotificationsSet.MaxNotifications);
 
 			// Отображение
@@ -274,8 +274,6 @@ namespace RD_AAOW
 			notMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("NotMenu_Share"), NotMenuShare_Click));
 			notMenu.MenuItems.Add (new MenuItem (RDLocale.GetDefaultText (RDLDefaultTexts.Button_Delete),
 				NotMenuDelete_Click));
-			/*notMenu.MenuItems.Add (new MenuItem ("-"));
-			notMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("NotMenu_AddWizard"), NotMenuAddWizard_Click));*/
 			}
 
 		// Выгрузка настроек в буфер обмена
