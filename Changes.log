@@ -1,5 +1,8 @@
 UniNotifier: changes log
 
+ToDo:
+- Убрать экранирование амперсанда в элементах журнала
+
 Version 8.6.1:
 • Access and appearance of the Lab Policy have been updated
 
