@@ -31,9 +31,9 @@ namespace RD_AAOW
 				return;
 
 			// Отображение справки и запроса на принятие Политики
-			if (!RDGenerics.AcceptEULA ())
+			if (!RDInterface.AcceptEULA ())
 				return;
-			if (!RDGenerics.ShowAbout (true))
+			if (!RDInterface.ShowAbout (true))
 				RDGenerics.RegisterFileAssociations (true);
 
 			// Запуск

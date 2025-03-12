@@ -49,12 +49,6 @@ namespace RD_AAOW
 		// Коэффициент непрозрачности
 		private const int transculencyAmount = 15;
 
-#if TGT
-		// Флаги трассировщика GMJ
-		private bool tgtInProgress = false;
-		private uint tgtCounter = 0;
-#endif
-
 		// Возвращает динамический внешний отступ элементов журнала
 		private Padding LogItemMargin
 			{
@@ -112,10 +106,6 @@ namespace RD_AAOW
 			// Запуск
 			MainTimer.Interval = (int)ProgramDescription.MasterFrameLength * 4;
 			MainTimer.Enabled = true;
-
-#if TGB
-			GetGMJ_Click (null, null);
-#endif
 			}
 
 		// Обновление списка оповещений в главном окне
@@ -215,7 +205,7 @@ namespace RD_AAOW
 		// О приложении
 		private void AboutService (object sender, EventArgs e)
 			{
-			RDGenerics.ShowAbout (false);
+			RDInterface.ShowAbout (false);
 			}
 
 		// Итерация таймера обновления
@@ -225,25 +215,8 @@ namespace RD_AAOW
 			int spl;
 			string hdr, txt;
 
-#if TGT
-			if (tgtInProgress)
-				return;
-#endif
-
 			// Запуск запроса
-			RDGenerics.RunWork (DoUpdate, null, null, RDRunWorkFlags.DontSuspendExecution);
-
-#if TGT
-			// Раз в 13 минут (1000 * 60 * 13)
-			if (++tgtCounter * MainTimer.Interval >= 780000)
-				{
-				tgtInProgress = true;
-				tgtCounter = 0;
-
-				GetGMJ_Click (null, null);
-				tgtInProgress = false;
-				}
-#endif
+			RDInterface.RunWork (DoUpdate, null, null, RDRunWorkFlags.DontSuspendExecution);
 
 			// Обновление очереди отображения
 			if (texts.Count > 0)
@@ -452,57 +425,18 @@ namespace RD_AAOW
 				}
 			}
 
-		// Запрос сообщения от GMJ
-		private void GetGMJ_Click (object sender, EventArgs e)
-			{
-#if TGB || TGT
-			string s = GMJ.GetRandomGMJ ();
-
-			if (s != "")
-				{
-#if TGT
-				if (s.Contains (GMJ.SourceNoReturnPattern))
-					{
-					texts.Add ("!!! " + s + " !!!");
-					SetUrgency (true);
-					}
-				else
-					{
-					texts.Add (s);
-					}
-#else
-				texts.Add (s);
-#endif
-				}
-			else
-				{
-#if TGB
-				texts.Add ("Новый список сформирован");
-#else
-				texts.Add ("GMJ не отвечает на запрос. Проверьте интернет-соединение");
-#endif
-				}
-			notNumbers.Add (0);
-
-#if TGB
-			ni.ShowBalloonTip (10000, ProgramDescription.AssemblyVisibleName,
-				texts[texts.Count - 1], ToolTipIcon.Info);
-			CloseService (null, null);
-#endif
-#endif
-			}
-
 		// Метод добавляет этемент в MainLayout
 		private void AddTextToLayout (string Text)
 			{
 			// Формирование контрола
 			Label l = new Label ();
 			l.AutoSize = false;
+			l.UseMnemonic = false;
 
 			if (Text.Contains (NotificationsSet.EmergencySign))
 				{
-				l.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.WarningMessage);
-				l.ForeColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.DefaultText);
+				l.BackColor = RDInterface.GetInterfaceColor (RDInterfaceColors.WarningMessage);
+				l.ForeColor = RDInterface.GetInterfaceColor (RDInterfaceColors.DefaultText);
 
 				if (NotificationsSupport.LogColors.CurrentColor.IsBright)
 					l.BorderStyle = BorderStyle.FixedSingle;

@@ -35,7 +35,7 @@ namespace RD_AAOW
 #if !ANDROID
 			byte[] s = Properties.UniNotifier.Templates;
 			if (FullyInitializeTemplates)
-				RDGenerics.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
+				RDInterface.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
 
 #else
 			byte[] s = Properties.Resources.Templates;

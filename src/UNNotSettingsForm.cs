@@ -126,7 +126,7 @@ namespace RD_AAOW
 			Notification ni = new Notification (cfg);
 			if (!ni.IsInited)
 				{
-				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "NotEnoughDataMessage", 2000);
+				RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Center, "NotEnoughDataMessage", 2000);
 				return;
 				}
 

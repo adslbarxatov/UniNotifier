@@ -127,10 +127,10 @@ namespace RD_AAOW
 				l.AutoSize = false;
 
 				if (notifications.Notifications[i].IsEnabled)
-					l.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.WarningMessage);
+					l.BackColor = RDInterface.GetInterfaceColor (RDInterfaceColors.WarningMessage);
 				else
-					l.BackColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.MediumGrey);
-				l.ForeColor = RDGenerics.GetInterfaceColor (RDInterfaceColors.DefaultText);
+					l.BackColor = RDInterface.GetInterfaceColor (RDInterfaceColors.MediumGrey);
+				l.ForeColor = RDInterface.GetInterfaceColor (RDInterfaceColors.DefaultText);
 
 				l.Click += NotLabel_Clicked;
 				l.Font = this.Font;
@@ -177,7 +177,7 @@ namespace RD_AAOW
 			// Закрытие окна
 			ProgramDescription.ShowTip (NSTipTypes.ServiceLaunchTip);
 
-			completeUpdate = RDGenerics.LocalizedMessageBox (RDMessageTypes.Question_Center, "RecallAllNews",
+			completeUpdate = RDInterface.LocalizedMessageBox (RDMessageTypes.Question_Center, "RecallAllNews",
 				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
 				RDMessageButtons.ButtonOne;
 			}
@@ -193,7 +193,7 @@ namespace RD_AAOW
 
 			// Обновление и запуск на редактирование
 			notifications.Notifications.Add (n);
-			RDGenerics.MessageBox (RDMessageTypes.Success_Center,
+			RDInterface.MessageBox (RDMessageTypes.Success_Center,
 				RDLocale.GetText ("NotAddedMessage") + n.Name, messagesTimeout);
 
 			LoadNotifications ();   // Последующие изменения могут быть отменены
@@ -221,7 +221,7 @@ namespace RD_AAOW
 
 			// Обновление
 			notifications.Notifications[notSender] = n;
-			RDGenerics.MessageBox (RDMessageTypes.Success_Center,
+			RDInterface.MessageBox (RDMessageTypes.Success_Center,
 				RDLocale.GetText ("NotUpdatedMessage") + n.Name, messagesTimeout);
 
 			LoadNotifications ();
@@ -232,14 +232,14 @@ namespace RD_AAOW
 		private void NotMenuDelete_Click (object sender, EventArgs e)
 			{
 			// Контроль
-			if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "DeleteMessage",
+			if (RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Center, "DeleteMessage",
 				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
 				RDMessageButtons.ButtonTwo)
 				return;
 
 			// Удаление
 			notifications.Notifications.RemoveAt (notSender);
-			RDGenerics.LocalizedMessageBox (RDMessageTypes.Success_Center, "NotRemovedMessage", messagesTimeout);
+			RDInterface.LocalizedMessageBox (RDMessageTypes.Success_Center, "NotRemovedMessage", messagesTimeout);
 
 			// Обновление
 			LoadNotifications ();
@@ -283,7 +283,7 @@ namespace RD_AAOW
 			ProgramDescription.ShowTip (NSTipTypes.ShareSettings);
 
 			// Выбор варианта выгрузки
-			switch (RDGenerics.MessageBox (RDMessageTypes.Question_Left, RDLocale.GetText ("ShareVariant"),
+			switch (RDInterface.MessageBox (RDMessageTypes.Question_Left, RDLocale.GetText ("ShareVariant"),
 				RDLocale.GetText ("ShareFile"), RDLocale.GetText ("ShareClipboard"),
 				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel)))
 				{
@@ -302,7 +302,7 @@ namespace RD_AAOW
 						}
 					catch
 						{
-						RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
+						RDInterface.MessageBox (RDMessageTypes.Warning_Center,
 							string.Format (RDLocale.GetDefaultText (RDLDefaultTexts.Message_SaveFailure_Fmt),
 							sfd.FileName));
 						}
@@ -342,7 +342,7 @@ namespace RD_AAOW
 				if (ofd.ShowDialog () != DialogResult.OK)
 					return;
 
-				if (RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "LoadingWarning",
+				if (RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Center, "LoadingWarning",
 					RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) !=
 					RDMessageButtons.ButtonOne)
 					return;
@@ -355,7 +355,7 @@ namespace RD_AAOW
 					}
 				catch
 					{
-					RDGenerics.MessageBox (RDMessageTypes.Warning_Center,
+					RDInterface.MessageBox (RDMessageTypes.Warning_Center,
 						string.Format (RDLocale.GetDefaultText (RDLDefaultTexts.Message_LoadFailure_Fmt),
 						ofd.FileName));
 					return;
@@ -394,7 +394,7 @@ namespace RD_AAOW
 
 			// Добавление и обнволение
 			notifications.Notifications.Add (n);
-			RDGenerics.MessageBox (RDMessageTypes.Success_Center,
+			RDInterface.MessageBox (RDMessageTypes.Success_Center,
 				RDLocale.GetText ("NotAddedMessage") + n.Name, messagesTimeout);
 
 			LoadNotifications ();
@@ -414,7 +414,7 @@ namespace RD_AAOW
 				}
 
 			if (nameAdjusted && (ItemForUpdate > -2))
-				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "NotMatchingNames");
+				RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Center, "NotMatchingNames");
 
 			return Not;
 			}
