@@ -1,5 +1,8 @@
 UniNotifier: changes log
 
+Version 8.6.3:
+• Current updates have been applied
+
 Version 8.6.2:
 • Removed the unused code and data files;
 • Disabled the escaping of ampersands in log items
