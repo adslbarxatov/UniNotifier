@@ -26,7 +26,7 @@ namespace RD_AAOW
 		private const uint messagesTimeout = 1000;
 
 		// Контекстное меню списка оповещений
-		private ContextMenu notMenu;
+		private ContextMenuStrip notMenu;
 
 		// Число оповещений, видимых в поле списка без прокрутки
 		private const uint visibleNotificationsInList = 8;
@@ -154,9 +154,8 @@ namespace RD_AAOW
 			notSender = NotLayout.Controls.IndexOf (l);
 
 			// Настройка меню
-			notMenu.MenuItems[3].Enabled = (notifications.Notifications.Count > 1);
-			notMenu.MenuItems[1].Enabled =
-				(notifications.Notifications.Count < NotificationsSet.MaxNotifications);
+			notMenu.Items[3].Enabled = (notifications.Notifications.Count > 1);
+			notMenu.Items[1].Enabled = (notifications.Notifications.Count < NotificationsSet.MaxNotifications);
 
 			// Отображение
 			notMenu.Show (l, Point.Empty);
@@ -266,14 +265,16 @@ namespace RD_AAOW
 
 			// Формирование контекстного меню
 			if (notMenu == null)
-				notMenu = new ContextMenu ();
-			notMenu.MenuItems.Clear ();
+				{
+				notMenu = new ContextMenuStrip ();
+				notMenu.ShowImageMargin = false;
+				}
+			notMenu.Items.Clear ();
 
-			notMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("NotMenu_Setup"), NotMenuSetup_Click));
-			notMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("NotMenu_AddCopy"), NotMenuAddCopy_Click));
-			notMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("NotMenu_Share"), NotMenuShare_Click));
-			notMenu.MenuItems.Add (new MenuItem (RDLocale.GetDefaultText (RDLDefaultTexts.Button_Delete),
-				NotMenuDelete_Click));
+			notMenu.Items.Add (RDLocale.GetText ("NotMenu_Setup"), null, NotMenuSetup_Click);
+			notMenu.Items.Add (RDLocale.GetText ("NotMenu_AddCopy"), null, NotMenuAddCopy_Click);
+			notMenu.Items.Add (RDLocale.GetText ("NotMenu_Share"), null, NotMenuShare_Click);
+			notMenu.Items.Add (RDLocale.GetDefaultText (RDLDefaultTexts.Button_Delete), null, NotMenuDelete_Click);
 			}
 
 		// Выгрузка настроек в буфер обмена

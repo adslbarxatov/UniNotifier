@@ -23,22 +23,22 @@ namespace RD_AAOW
 		private NotificationsSet ns = new NotificationsSet (true);
 
 		// Тексты оповещений
-		private List<string> texts = new List<string> ();
+		private List<string> texts = [];
 
 		// Индексы оповещений-источников в порядке, в котором они поступили в первичный стек
-		private List<int> notNumbers = new List<int> ();
+		private List<int> notNumbers = [];
 
 		// Индексы оповещений-источников в порядке, в котором они расположены в журнале
-		private List<int> notSenders = new List<int> ();
+		private List<int> notSenders = [];
 
 		// Флаг, указывающий на необходимость сворачивания окна в трей
 		private bool hideWindow;
 
 		// Контекстное меню со списком оповещений для ручного перехода
-		private ContextMenu notContextMenu;
+		private ContextMenuStrip notContextMenu;
 
 		// Контекстное меню элемента журнала
-		private ContextMenu textContextMenu;
+		private ContextMenuStrip textContextMenu;
 
 		// Индекс элемента журнала, отправившего запрос на отображение меню
 		private int textContextSender;
@@ -50,7 +50,7 @@ namespace RD_AAOW
 		private const int transculencyAmount = 15;
 
 		// Возвращает динамический внешний отступ элементов журнала
-		private Padding LogItemMargin
+		private static Padding LogItemMargin
 			{
 			get
 				{
@@ -90,7 +90,7 @@ namespace RD_AAOW
 			RDGenerics.LoadWindowDimensions (this);
 
 			// Настройка иконки в трее
-			ni.Icon = Properties.UniNotifier.UniNotifierTrayN;
+			ni.Icon = /*Properties.*/UniNotifierResources.UniNotifierTrayN;
 			ni.Text = ProgramDescription.AssemblyVisibleName;
 			ni.Visible = true;
 			ReloadTrayContextMenu ();
@@ -115,61 +115,67 @@ namespace RD_AAOW
 			BGo.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo);
 
 			if (textContextMenu == null)
-				textContextMenu = new ContextMenu ();
+				{
+				textContextMenu = new ContextMenuStrip ();
+				textContextMenu.ShowImageMargin = false;
+				}
 
-			textContextMenu.MenuItems.Clear ();
-			textContextMenu.MenuItems.Add (new MenuItem (BGo.Text,
-				TextContext_ItemClicked));
-			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetDefaultText (RDLDefaultTexts.Button_Copy),
-				TextContext_ItemClicked));
-			textContextMenu.MenuItems.Add (new MenuItem ("-"));
-			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("DeleteContextMenu"),
-				TextContext_ItemClicked));
-			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("DisableContextMenu"),
-				TextContext_ItemClicked));
-			textContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("SetupContextMenu"),
-				TextContext_ItemClicked));
+			textContextMenu.Items.Clear ();
+			textContextMenu.Items.Add (BGo.Text, null, TextContext_ItemClicked);
+			textContextMenu.Items.Add (RDLocale.GetDefaultText (RDLDefaultTexts.Button_Copy), null,
+				TextContext_ItemClicked);
+			textContextMenu.Items.Add ("-");
+			textContextMenu.Items.Add (RDLocale.GetText ("DeleteContextMenu"), null,
+				TextContext_ItemClicked);
+			textContextMenu.Items.Add (RDLocale.GetText ("DisableContextMenu"), null,
+				TextContext_ItemClicked);
+			textContextMenu.Items.Add (RDLocale.GetText ("SetupContextMenu"), null,
+				TextContext_ItemClicked);
 
 			// Перезагрузка списка уведомлений
 			if (notContextMenu == null)
-				notContextMenu = new ContextMenu ();
+				{
+				notContextMenu = new ContextMenuStrip ();
+				notContextMenu.ShowImageMargin = false;
+				}
 
-			notContextMenu.MenuItems.Clear ();
+			notContextMenu.Items.Clear ();
 			foreach (Notification n in ns.Notifications)
-				notContextMenu.MenuItems.Add (new MenuItem (n.Name, GoToLink_ItemClicked));
+				notContextMenu.Items.Add (n.Name, null, GoToLink_ItemClicked);
 			}
 
 		// Обновление меню иконки в трее
 		private void ReloadTrayContextMenu ()
 			{
 			bool create = false;
-			if (ni.ContextMenu == null)
+			if (ni.ContextMenuStrip == null)
 				{
-				ni.ContextMenu = new ContextMenu ();
+				ni.ContextMenuStrip = new ContextMenuStrip ();
+				ni.ContextMenuStrip.ShowImageMargin = false;
 				create = true;
 				}
 
 			// Только локализация
 			if (!create)
 				{
-				ni.ContextMenu.MenuItems[0].Text = RDLocale.GetText ("MainMenuOption02");
-				ni.ContextMenu.MenuItems[1].Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
-				ni.ContextMenu.MenuItems[2].Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
+				ni.ContextMenuStrip.Items[0].Text = RDLocale.GetText ("MainMenuOption02");
+				ni.ContextMenuStrip.Items[1].Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
+				ni.ContextMenuStrip.Items[2].Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
 
 				return;
 				}
 
 			// Создание
-			ni.ContextMenu.MenuItems.Add (new MenuItem (RDLocale.GetText ("MainMenuOption02"), ShowSettings));
-			ni.ContextMenu.MenuItems[0].Enabled = RDGenerics.AppHasAccessRights (false, true);
+			ni.ContextMenuStrip.Items.Add (RDLocale.GetText ("MainMenuOption02"), null, ShowSettings);
+			ni.ContextMenuStrip.Items[0].Enabled = RDGenerics.AppHasAccessRights (false, true);
 
-			ni.ContextMenu.MenuItems.Add (new MenuItem (
-				RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout), AboutService));
-			ni.ContextMenu.MenuItems.Add (new MenuItem (
-				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit), CloseService));
+			ni.ContextMenuStrip.Items.Add (RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout),
+				null, AboutService);
+			ni.ContextMenuStrip.Items.Add (RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit),
+				null, CloseService);
 
 			ni.MouseDown += ShowHideFullText;
-			ni.ContextMenu.MenuItems[2].DefaultItem = true;
+			/*ni.ContextMenuStrip.Items[2].DefaultItem = true;*/
 
 			return;
 			}
@@ -240,12 +246,12 @@ namespace RD_AAOW
 						if (ns.HasUrgentNotifications)
 							{
 							ni.ShowBalloonTip (10000, hdr, txt, ToolTipIcon.Warning);
-							ni.Icon = Properties.UniNotifier.UniNotifierTrayW;
+							ni.Icon = /*Properties.*/UniNotifierResources.UniNotifierTrayW;
 							}
 						else
 							{
 							ni.ShowBalloonTip (10000, hdr, txt, ToolTipIcon.Info);
-							ni.Icon = Properties.UniNotifier.UniNotifierTrayN;
+							ni.Icon = /*Properties.*/UniNotifierResources.UniNotifierTrayN;
 							}
 						}
 					catch { }
@@ -285,7 +291,7 @@ namespace RD_AAOW
 			ns.HasUrgentNotifications = Urgent;
 			try
 				{
-				ni.Icon = Urgent ? Properties.UniNotifier.UniNotifierTrayW : Properties.UniNotifier.UniNotifierTrayN;
+				ni.Icon = Urgent ? UniNotifierResources.UniNotifierTrayW : UniNotifierResources.UniNotifierTrayN;
 				}
 			catch { }
 			}
@@ -383,7 +389,7 @@ namespace RD_AAOW
 
 		private void GoToLink_ItemClicked (object sender, EventArgs e)
 			{
-			int idx = notContextMenu.MenuItems.IndexOf ((MenuItem)sender);
+			int idx = notContextMenu.Items.IndexOf ((ToolStripItem)sender);
 			if (idx >= 0)
 				RDGenerics.RunURL (ns.Notifications[idx].Link);
 
@@ -476,7 +482,7 @@ namespace RD_AAOW
 		// Выбор варианта в меню
 		private void TextContext_ItemClicked (object sender, EventArgs e)
 			{
-			int idx = textContextMenu.MenuItems.IndexOf ((MenuItem)sender);
+			int idx = textContextMenu.Items.IndexOf ((ToolStripItem)sender);
 			if (textContextSender < 0)
 				return;
 

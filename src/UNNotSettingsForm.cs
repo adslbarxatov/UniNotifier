@@ -74,7 +74,7 @@ namespace RD_AAOW
 			BApply.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Apply);
 			BClose.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);
 
-			char[] ctSplitter = new char[] { '\n' };
+			char[] ctSplitter = [ '\n' ];
 			ComparatorType.Items.AddRange (RDLocale.GetText ("ComparatorTypes").Split (ctSplitter));
 
 			// Загрузка параметров

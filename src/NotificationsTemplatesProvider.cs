@@ -12,17 +12,17 @@ namespace RD_AAOW
 	public class NotificationsTemplatesProvider: IDisposable
 		{
 		// Переменные и константы
-		private List<string[]> templatesElements = new List<string[]> ();
+		private List<string[]> templatesElements = [];
 		private const string externalTemplatesSubkey = "ExternalTemplates";
 		private const string externalTemplatesVersionSubkey = "ExternalTemplatesVersion";
 		private const string listLink = RDGenerics.DefaultGitLink + ProgramDescription.AssemblyMainName +
 			"/blob/master/TemplatesList.md";
-		private char[] fileTemplateSplitter = new char[] { '\t' };
+		private char[] fileTemplateSplitter = [ '\t' ];
 
 		/// <summary>
 		/// Разделитель элементов в шаблоне уведомления, передаваемом через буфер обмена
 		/// </summary>
-		public static char[] ClipboardTemplateSplitter = new char[] { '|' };
+		public readonly static char[] ClipboardTemplateSplitter = [ '|' ];
 
 		/// <summary>
 		/// Конструктор. Инициализирует список шаблонов
@@ -33,7 +33,7 @@ namespace RD_AAOW
 			{
 			// Получение встроенных шаблонов и попытка получения внешних шаблонов
 #if !ANDROID
-			byte[] s = Properties.UniNotifier.Templates;
+			byte[] s = /*Properties.*/UniNotifierResources.Templates;
 			if (FullyInitializeTemplates)
 				RDInterface.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
 
@@ -59,7 +59,7 @@ namespace RD_AAOW
 				if (values.Length != 5)
 					continue;
 
-				templatesElements.Add (new string[] { values[0], values[1], values[2], values[3], values[4] });
+				templatesElements.Add ([ values[0], values[1], values[2], values[3], values[4] ]);
 				}
 
 			// Завершено
@@ -115,14 +115,15 @@ namespace RD_AAOW
 			if (templatesElements == null)
 				return 1;
 
-			uint res = 1;
+			/*uint res = 1;*/
+			uint res;
 			try
 				{
 				res = uint.Parse (templatesElements[(int)TemplateNumber][4]);
 				}
 			catch
 				{
-				throw new Exception ("Invalid internal method call. Debug required");
+				throw new Exception ("Invalid internal method call, debug is required");
 				}
 
 			return res;
@@ -145,9 +146,9 @@ namespace RD_AAOW
 		/// <param name="TemplateNumber">Номер шаблона</param>
 		public bool IsTemplateIncomplete (uint TemplateNumber)
 			{
-			return (GetLink (TemplateNumber).Contains ("{") ||
-				GetBeginning (TemplateNumber).Contains ("{") ||
-				GetEnding (TemplateNumber).Contains ("{"));
+			return (GetLink (TemplateNumber).Contains ('{') ||
+				GetBeginning (TemplateNumber).Contains ('{') ||
+				GetEnding (TemplateNumber).Contains ('{'));
 			}
 
 		/// <summary>
