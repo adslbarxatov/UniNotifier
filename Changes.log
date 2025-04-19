@@ -1,7 +1,7 @@
 UniNotifier: changes log
 
 Version 8.7:
-• The application has been migrated to NET 9 from .NET Framework 4.8.1
+• The application has been migrated to .NET 9.0 from .NET Framework 4.8.1
 
 Version 8.6.3:
 • Current updates have been applied
