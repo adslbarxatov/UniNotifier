@@ -1,16 +1,15 @@
 # UniNotifier: the home page
-> **ƒ** &nbsp;RD AAOW FDL; 16.11.2024; 3:11
+> **ƒ** &nbsp;RD AAOW FDL; 17.05.2025; 4:15
 
 &nbsp;
 
 
+### Page contents
 
 - [Download links](https://adslbarxatov.github.io/DPArray#uninotifier)
 - [Версия на русском языке](https://adslbarxatov.github.io/UniNotifier/ru)
 
-&nbsp;
-
-
+---
 
 ### UniNotifier, the web resources supervisor service
 
@@ -23,7 +22,3 @@ What does it offer?
 - The *settings section* allows you to manage and design notifications.
 - The *main log* provides a view of changes, access to source webpages from which they were received, and the ability to share them.
 - A *static service notification* will inform you about the presence of new changes received in the background.
-
----
-
-More info you can find in [this video guide](https://youtu.be/0XUqZhOa37Q)
