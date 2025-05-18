@@ -17,12 +17,12 @@ namespace RD_AAOW
 		private const string externalTemplatesVersionSubkey = "ExternalTemplatesVersion";
 		private const string listLink = RDGenerics.DefaultGitLink + ProgramDescription.AssemblyMainName +
 			"/blob/master/TemplatesList.md";
-		private char[] fileTemplateSplitter = [ '\t' ];
+		private char[] fileTemplateSplitter = ['\t'];
 
 		/// <summary>
 		/// Разделитель элементов в шаблоне уведомления, передаваемом через буфер обмена
 		/// </summary>
-		public readonly static char[] ClipboardTemplateSplitter = [ '|' ];
+		public readonly static char[] ClipboardTemplateSplitter = ['|'];
 
 		/// <summary>
 		/// Конструктор. Инициализирует список шаблонов
@@ -32,16 +32,16 @@ namespace RD_AAOW
 		public NotificationsTemplatesProvider (bool FullyInitializeTemplates)
 			{
 			// Получение встроенных шаблонов и попытка получения внешних шаблонов
-#if !ANDROID
-			byte[] s = /*Properties.*/UniNotifierResources.Templates;
+			/*if !ANDROID*/
+			byte[] s = UniNotifierResources.Templates;
 			if (FullyInitializeTemplates)
 				RDInterface.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
 
-#else
+			/*else
 			byte[] s = Properties.Resources.Templates;
 			if (FullyInitializeTemplates)
 				TemplatesListLoader ();
-#endif
+			endif*/
 			string buf = RDGenerics.GetEncoding (RDEncodings.UTF8).GetString (s);
 
 			// Получение загруженных шаблонов
@@ -59,7 +59,7 @@ namespace RD_AAOW
 				if (values.Length != 5)
 					continue;
 
-				templatesElements.Add ([ values[0], values[1], values[2], values[3], values[4] ]);
+				templatesElements.Add ([values[0], values[1], values[2], values[3], values[4]]);
 				}
 
 			// Завершено
@@ -115,7 +115,6 @@ namespace RD_AAOW
 			if (templatesElements == null)
 				return 1;
 
-			/*uint res = 1;*/
 			uint res;
 			try
 				{
@@ -177,18 +176,18 @@ namespace RD_AAOW
 		/// <summary>
 		/// Получение списка шаблонов
 		/// </summary>
-#if ANDROID
-		public async Task<bool> TemplatesListLoader ()
-#else
 		private void TemplatesListLoader (object sender, DoWorkEventArgs e)
-#endif
 			{
+			/*if ANDROID
+			public async Task<bool> TemplatesListLoader ()
+			else
+			endif*/
 			// Запрос списка пакетов
-#if ANDROID
+			/*if ANDROID
 			string html = await RDGenerics.GetHTML (listLink);
 			if (html == "")
 				return false;
-#else
+			else*/
 			string html = RDGenerics.GetHTML (listLink);
 			if (html == "")
 				{
@@ -196,19 +195,19 @@ namespace RD_AAOW
 					e.Result = -1;
 				return;
 				}
-#endif
+			/*endif*/
 
 			// Разбор
 			int left, right;
 			if (((left = html.IndexOf ("<code>")) < 0) || ((right = html.IndexOf ("</code>", left)) < 0))
 				{
-#if ANDROID
+				/*if ANDROID
 				return false;
-#else
+				else*/
 				if (e != null)
 					e.Result = -2;
 				return;
-#endif
+				/*endif*/
 				}
 			html = html.Substring (left + 6, right - left - 6);
 
@@ -219,13 +218,13 @@ namespace RD_AAOW
 
 			if (oldVersion == newVersion)
 				{
-#if ANDROID
+				/*if ANDROID
 				return false;
-#else
+				else*/
 				if (e != null)
 					e.Result = 1;
 				return;
-#endif
+				/*endif*/
 				}
 
 			// Интерпретация (удаление лишних элементов)
@@ -250,12 +249,12 @@ namespace RD_AAOW
 			// Завершено
 			SR.Close ();
 			reloadRequired = true;
-#if ANDROID
+			/*if ANDROID
 			return true;
-#else
+			else*/
 			if (e != null)
 				e.Result = 0;
-#endif
+			/*endif*/
 			}
 
 		/// <summary>

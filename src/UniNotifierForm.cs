@@ -90,7 +90,7 @@ namespace RD_AAOW
 			RDGenerics.LoadWindowDimensions (this);
 
 			// Настройка иконки в трее
-			ni.Icon = /*Properties.*/UniNotifierResources.UniNotifierTrayN;
+			ni.Icon = UniNotifierResources.UniNotifierTrayN;
 			ni.Text = ProgramDescription.AssemblyVisibleName;
 			ni.Visible = true;
 			ReloadTrayContextMenu ();
@@ -175,7 +175,6 @@ namespace RD_AAOW
 				null, CloseService);
 
 			ni.MouseDown += ShowHideFullText;
-			/*ni.ContextMenuStrip.Items[2].DefaultItem = true;*/
 
 			return;
 			}
@@ -246,12 +245,12 @@ namespace RD_AAOW
 						if (ns.HasUrgentNotifications)
 							{
 							ni.ShowBalloonTip (10000, hdr, txt, ToolTipIcon.Warning);
-							ni.Icon = /*Properties.*/UniNotifierResources.UniNotifierTrayW;
+							ni.Icon = UniNotifierResources.UniNotifierTrayW;
 							}
 						else
 							{
 							ni.ShowBalloonTip (10000, hdr, txt, ToolTipIcon.Info);
-							ni.Icon = /*Properties.*/UniNotifierResources.UniNotifierTrayN;
+							ni.Icon = UniNotifierResources.UniNotifierTrayN;
 							}
 						}
 					catch { }
