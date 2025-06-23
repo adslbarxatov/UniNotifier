@@ -32,16 +32,10 @@ namespace RD_AAOW
 		public NotificationsTemplatesProvider (bool FullyInitializeTemplates)
 			{
 			// Получение встроенных шаблонов и попытка получения внешних шаблонов
-			/*if !ANDROID*/
 			byte[] s = UniNotifierResources.Templates;
 			if (FullyInitializeTemplates)
 				RDInterface.RunWork (TemplatesListLoader, null, null, RDRunWorkFlags.DontSuspendExecution);
 
-			/*else
-			byte[] s = Properties.Resources.Templates;
-			if (FullyInitializeTemplates)
-				TemplatesListLoader ();
-			endif*/
 			string buf = RDGenerics.GetEncoding (RDEncodings.UTF8).GetString (s);
 
 			// Получение загруженных шаблонов
@@ -178,16 +172,7 @@ namespace RD_AAOW
 		/// </summary>
 		private void TemplatesListLoader (object sender, DoWorkEventArgs e)
 			{
-			/*if ANDROID
-			public async Task<bool> TemplatesListLoader ()
-			else
-			endif*/
 			// Запрос списка пакетов
-			/*if ANDROID
-			string html = await RDGenerics.GetHTML (listLink);
-			if (html == "")
-				return false;
-			else*/
 			string html = RDGenerics.GetHTML (listLink);
 			if (html == "")
 				{
@@ -195,20 +180,16 @@ namespace RD_AAOW
 					e.Result = -1;
 				return;
 				}
-			/*endif*/
 
 			// Разбор
 			int left, right;
 			if (((left = html.IndexOf ("<code>")) < 0) || ((right = html.IndexOf ("</code>", left)) < 0))
 				{
-				/*if ANDROID
-				return false;
-				else*/
 				if (e != null)
 					e.Result = -2;
 				return;
-				/*endif*/
 				}
+
 			html = html.Substring (left + 6, right - left - 6);
 
 			// Получение списка
@@ -218,13 +199,9 @@ namespace RD_AAOW
 
 			if (oldVersion == newVersion)
 				{
-				/*if ANDROID
-				return false;
-				else*/
 				if (e != null)
 					e.Result = 1;
 				return;
-				/*endif*/
 				}
 
 			// Интерпретация (удаление лишних элементов)
@@ -249,12 +226,8 @@ namespace RD_AAOW
 			// Завершено
 			SR.Close ();
 			reloadRequired = true;
-			/*if ANDROID
-			return true;
-			else*/
 			if (e != null)
 				e.Result = 0;
-			/*endif*/
 			}
 
 		/// <summary>
