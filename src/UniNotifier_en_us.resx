@@ -358,4 +358,7 @@ doesn’t contain</value>
   <data name="HtmlNotFound" xml:space="preserve">
     <value>Cannot find the specified word</value>
   </data>
+  <data name="AutoscrollFlag" xml:space="preserve">
+    <value>Autoscroll</value>
+  </data>
 </root>

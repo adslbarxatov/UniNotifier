@@ -83,9 +83,14 @@ namespace RD_AAOW
 				this.Text += RDLocale.GetDefaultText (RDLDefaultTexts.Message_LimitedFunctionality);
 			hideWindow = HideWindow;
 
+			MainLayout.MouseWheel += MainLayout_MouseWheel;
+
 			// Получение настроек
 			ReloadNotificationsList ();
 			ApplyLogSettings ();
+
+			AutoscrollFlag_CheckedChanged (null, null);
+			AutoscrollFlag.Checked = NotificationsSupport.AutoscrollLog;
 
 			RDGenerics.LoadWindowDimensions (this);
 
@@ -113,6 +118,7 @@ namespace RD_AAOW
 			{
 			// Локализация зависимой части интерфейса
 			BGo.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo);
+			AutoscrollFlag.Text = RDLocale.GetText ("AutoscrollFlag");
 
 			if (textContextMenu == null)
 				{
@@ -322,7 +328,7 @@ namespace RD_AAOW
 		// Метод прокручивает журнал к последней записи
 		private void ScrollLog ()
 			{
-			if (MainLayout.Controls.Count > 0)
+			if (AutoscrollFlag.Checked && (MainLayout.Controls.Count > 0))
 				MainLayout.ScrollControlIntoView (MainLayout.Controls[MainLayout.Controls.Count - 1]);
 			}
 
@@ -524,6 +530,22 @@ namespace RD_AAOW
 			textContextSender = MainLayout.Controls.IndexOf (l);
 
 			textContextMenu.Show (l, e.Location);
+			}
+
+		// Переключение автопрокрутки
+		private void AutoscrollFlag_CheckedChanged (object sender, EventArgs e)
+			{
+			AutoscrollFlag.BackColor = AutoscrollFlag.Checked ? this.BackColor :
+				Color.FromArgb (128, 128, 128);
+
+			if (sender != null)
+				NotificationsSupport.AutoscrollLog = AutoscrollFlag.Checked;
+			}
+
+		// Включение / выключение автопрокрутки при просмотре
+		private void MainLayout_MouseWheel (object sender, MouseEventArgs e)
+			{
+			AutoscrollFlag.Checked = (e.Delta < 0);
 			}
 		}
 	}

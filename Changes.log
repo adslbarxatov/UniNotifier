@@ -1,7 +1,13 @@
 UniNotifier: changes log
 
 ToDo:
-- Добавить отключение автопромотки
+- Don't save autoscroll flag
+
+Version 8.8:
+• The autoscroll for the main log now can be disabled by the corresponding
+  flag or by scrolling it from bottom to top. Reversed scroll will
+  re-enable it;
+• User messages subsystem has been updated
 
 Version 8.7.2:
 • Internal assemblies have been updated

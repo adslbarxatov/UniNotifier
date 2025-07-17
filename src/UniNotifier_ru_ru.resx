@@ -358,4 +358,7 @@
   <data name="HtmlNotFound" xml:space="preserve">
     <value>Не удаётся найти указанное слово</value>
   </data>
+  <data name="AutoscrollFlag" xml:space="preserve">
+    <value>Автопрокрутка</value>
+  </data>
 </root>
