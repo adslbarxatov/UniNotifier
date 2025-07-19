@@ -1,7 +1,7 @@
 UniNotifier: changes log
 
-ToDo:
-- Don't save autoscroll flag
+Version 8.8.1:
+• Adjusted the behavior of the autoscroll flag
 
 Version 8.8:
 • The autoscroll for the main log now can be disabled by the corresponding
