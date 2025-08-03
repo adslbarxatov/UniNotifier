@@ -90,7 +90,6 @@ namespace RD_AAOW
 			ApplyLogSettings ();
 
 			AutoscrollFlag_CheckedChanged (null, null);
-			/*AutoscrollFlag.Checked = NotificationsSupport.AutoscrollLog;*/
 
 			RDGenerics.LoadWindowDimensions (this);
 
@@ -537,9 +536,6 @@ namespace RD_AAOW
 			{
 			AutoscrollFlag.BackColor = AutoscrollFlag.Checked ? this.BackColor :
 				Color.FromArgb (128, 128, 128);
-
-			/*if (sender != null)
-				NotificationsSupport.AutoscrollLog = AutoscrollFlag.Checked;*/
 			}
 
 		// Включение / выключение автопрокрутки при просмотре
