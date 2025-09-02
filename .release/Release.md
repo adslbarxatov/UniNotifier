@@ -1,4 +1,3 @@
-_Changes for v 8.8.2_:
+_Changes for v 8.8.3_:
 - Internal assemblies have been updated;
-- Adjusted the behavior of the autoscroll flag;
-- The autoscroll for the main log now can be disabled by the corresponding flag or by scrolling it
+- XPUN / IOP update has been applied

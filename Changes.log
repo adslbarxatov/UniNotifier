@@ -1,7 +1,8 @@
 UniNotifier: changes log
 
-Version 8.8.2:
-• Internal assemblies have been updated
+Version 8.8.3:
+• Internal assemblies have been updated;
+• XPUN / IOP update has been applied
 
 Version 8.8.1:
 • Adjusted the behavior of the autoscroll flag
