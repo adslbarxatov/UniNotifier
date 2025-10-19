@@ -1,3 +1,2 @@
-_Changes for v 8.8.3_:
-- Internal assemblies have been updated;
-- XPUN / IOP update has been applied
+_Changes for v 8.8.4_:
+- Internal assemblies have been updated
