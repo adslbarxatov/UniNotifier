@@ -361,4 +361,7 @@ doesn’t contain</value>
   <data name="AutoscrollFlag" xml:space="preserve">
     <value>Autoscroll</value>
   </data>
+  <data name="BCloseAndRequest" xml:space="preserve">
+    <value>Close and request again</value>
+  </data>
 </root>

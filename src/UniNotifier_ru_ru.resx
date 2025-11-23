@@ -361,4 +361,7 @@
   <data name="AutoscrollFlag" xml:space="preserve">
     <value>Автопрокрутка</value>
   </data>
+  <data name="BCloseAndRequest" xml:space="preserve">
+    <value>Закрыть и опросить заново</value>
+  </data>
 </root>

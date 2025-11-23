@@ -22,8 +22,8 @@ namespace RD_AAOW
 		private OpenFileDialog ofd;
 		private SaveFileDialog sfd;
 
-		// Стандартная задержка самозакрывающихся сообщений
-		private const uint messagesTimeout = 1000;
+		/*// Стандартная задержка самозакрывающихся сообщений
+		private const uint messagesTimeout = 1000;*/
 
 		// Контекстное меню списка оповещений
 		private ContextMenuStrip notMenu;
@@ -167,6 +167,12 @@ namespace RD_AAOW
 			this.Close ();
 			}
 
+		private void BCloseAndRequest_Click (object sender, EventArgs e)
+			{
+			completeUpdate = true;
+			this.Close ();
+			}
+
 		private void UNGenSettingsForm_FormClosing (object sender, FormClosingEventArgs e)
 			{
 			// Сохранение настроек
@@ -176,9 +182,9 @@ namespace RD_AAOW
 			// Закрытие окна
 			ProgramDescription.ShowTip (NSTipTypes.ServiceLaunchTip);
 
-			completeUpdate = RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText,
+			/*completeUpdate = RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText,
 				"RecallAllNews", RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
-				RDMessageButtons.ButtonOne;
+				RDMessageButtons.ButtonOne;*/
 			}
 
 		// Добавление оповещения копированием
@@ -193,7 +199,7 @@ namespace RD_AAOW
 			// Обновление и запуск на редактирование
 			notifications.Notifications.Add (n);
 			RDInterface.MessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
-				RDLocale.GetText ("NotAddedMessage") + n.Name, messagesTimeout);
+				RDLocale.GetText ("NotAddedMessage") + n.Name, 750);
 
 			LoadNotifications ();   // Последующие изменения могут быть отменены
 
@@ -221,7 +227,7 @@ namespace RD_AAOW
 			// Обновление
 			notifications.Notifications[notSender] = n;
 			RDInterface.MessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
-				RDLocale.GetText ("NotUpdatedMessage") + n.Name, messagesTimeout);
+				RDLocale.GetText ("NotUpdatedMessage") + n.Name, 750);
 
 			LoadNotifications ();
 			NotLayout.ScrollControlIntoView (NotLayout.Controls[notSender]);
@@ -239,7 +245,7 @@ namespace RD_AAOW
 			// Удаление
 			notifications.Notifications.RemoveAt (notSender);
 			RDInterface.LocalizedMessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
-				"NotRemovedMessage", messagesTimeout);
+				"NotRemovedMessage", 750);
 
 			// Обновление
 			LoadNotifications ();
@@ -256,6 +262,7 @@ namespace RD_AAOW
 			BClose.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Close);
 			LanguageLabel.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
 			BWizard.Text = RDLocale.GetText ("NotMenu_AddWizard");
+			BCloseAndRequest.Text = RDLocale.GetText ("BCloseAndRequest");
 
 			ofd.Filter = sfd.Filter = RDLocale.GetText (NotificationsSet.SettingsFileExtension + "file") + "|*." +
 				NotificationsSet.SettingsFileExtension;
@@ -398,7 +405,7 @@ namespace RD_AAOW
 			// Добавление и обнволение
 			notifications.Notifications.Add (n);
 			RDInterface.MessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
-				RDLocale.GetText ("NotAddedMessage") + n.Name, messagesTimeout);
+				RDLocale.GetText ("NotAddedMessage") + n.Name, 750);
 
 			LoadNotifications ();
 			NotLayout.ScrollControlIntoView (NotLayout.Controls[NotLayout.Controls.Count - 1]);
