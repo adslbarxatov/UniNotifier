@@ -22,9 +22,6 @@ namespace RD_AAOW
 		private OpenFileDialog ofd;
 		private SaveFileDialog sfd;
 
-		/*// Стандартная задержка самозакрывающихся сообщений
-		private const uint messagesTimeout = 1000;*/
-
 		// Контекстное меню списка оповещений
 		private ContextMenuStrip notMenu;
 
@@ -181,10 +178,6 @@ namespace RD_AAOW
 
 			// Закрытие окна
 			ProgramDescription.ShowTip (NSTipTypes.ServiceLaunchTip);
-
-			/*completeUpdate = RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText,
-				"RecallAllNews", RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) ==
-				RDMessageButtons.ButtonOne;*/
 			}
 
 		// Добавление оповещения копированием
