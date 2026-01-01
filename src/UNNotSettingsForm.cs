@@ -51,7 +51,7 @@ namespace RD_AAOW
 			InitializeComponent ();
 			oldNotificationItem = NotItem;
 
-			this.Text = ProgramDescription.AssemblyVisibleName;
+			this.Text = RDGenerics.DefaultAssemblyVisibleName;
 			this.CancelButton = BClose;
 			this.AcceptButton = BApply;
 

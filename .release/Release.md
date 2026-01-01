@@ -1,3 +1,2 @@
-_Changes for v 8.9_:
-- App has been migrated to `.NET 10`;
+_Changes for v 8.9.1_:
 - Internal assemblies have been updated

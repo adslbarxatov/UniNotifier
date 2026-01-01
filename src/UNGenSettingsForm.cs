@@ -61,7 +61,7 @@ namespace RD_AAOW
 			updatingFrequencyStep = UpdatingFrequencyStep;
 
 			// Настройка контролов
-			this.Text = ProgramDescription.AssemblyVisibleName;
+			this.Text = RDGenerics.DefaultAssemblyVisibleName;
 			this.CancelButton = BClose;
 
 			RDGenerics.LoadWindowDimensions (this);
@@ -70,7 +70,7 @@ namespace RD_AAOW
 
 			ofd = new OpenFileDialog ();
 			sfd = new SaveFileDialog ();
-			ofd.Title = sfd.Title = ProgramDescription.AssemblyVisibleName;
+			ofd.Title = sfd.Title = RDGenerics.DefaultAssemblyVisibleName;
 			ofd.CheckFileExists = ofd.CheckPathExists = true;
 			sfd.OverwritePrompt = true;
 			ofd.Multiselect = false;
