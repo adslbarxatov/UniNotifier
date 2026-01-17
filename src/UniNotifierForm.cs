@@ -30,6 +30,7 @@ namespace RD_AAOW
 
 		// Индексы оповещений-источников в порядке, в котором они расположены в журнале
 		private List<int> notSenders = [];
+		private int currentNotificationForTip = -1;
 
 		// Флаг, указывающий на необходимость сворачивания окна в трей
 		private bool hideWindow;
@@ -97,6 +98,8 @@ namespace RD_AAOW
 			ni.Icon = UniNotifierResources.UniNotifierTrayN;
 			ni.Text = RDGenerics.DefaultAssemblyVisibleName;
 			ni.Visible = true;
+			ni.BalloonTipClicked += GoToLinkFromBalloon;
+
 			ReloadTrayContextMenu ();
 			}
 
@@ -117,6 +120,8 @@ namespace RD_AAOW
 			{
 			// Локализация зависимой части интерфейса
 			BGo.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_GoTo);
+			BClose.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Hide);
+
 			AutoscrollFlag.Text = RDLocale.GetText ("AutoscrollFlag");
 
 			if (textContextMenu == null)
@@ -263,6 +268,8 @@ namespace RD_AAOW
 
 				texts.RemoveAt (0);
 				notSenders.Add (notNumbers[0]);
+				/*currentSenderForTip = notNumbers[0];*/
+				currentNotificationForTip = notNumbers[notNumbers.Count - 1];
 				notNumbers.RemoveAt (0);
 				}
 
@@ -393,10 +400,32 @@ namespace RD_AAOW
 
 		private void GoToLink_ItemClicked (object sender, EventArgs e)
 			{
-			int idx = notContextMenu.Items.IndexOf ((ToolStripItem)sender);
-			if (idx >= 0)
-				RDGenerics.RunURL (ns.Notifications[idx].Link);
+			/*int idx = notContextMenu.Items.IndexOf ((ToolStripItem)sender);
+			if (idx < 0)
+				return;
 
+			RDGenerics. RunURL (ns.Notifications[idx].Link);
+			this.Close ();*/
+			GoToLinkByIndex (notContextMenu.Items.IndexOf ((ToolStripItem)sender));
+			}
+
+		private void GoToLinkFromBalloon (object sender, EventArgs e)
+			{
+			/*int idx = ns.Notifications.Count - 1;
+			if (idx < 0)
+				return;
+
+			RDGenerics. RunURL (ns.Notifications[idx].Link);
+			this.Close ();*/
+			GoToLinkByIndex (currentNotificationForTip);
+			}
+
+		private void GoToLinkByIndex (int Index)
+			{
+			if (Index < 0)
+				return;
+
+			RDGenerics.RunURL (ns.Notifications[Index].Link);
 			this.Close ();
 			}
 
@@ -494,8 +523,9 @@ namespace RD_AAOW
 				{
 				// Переход по ссылке
 				case 0:
-					RDGenerics.RunURL (ns.Notifications[notSenders[textContextSender]].Link);
-					this.Close ();
+					/*RDGenerics. RunURL (ns.Notifications[notSenders[textContextSender]].Link);
+					this.Close ();*/
+					GoToLinkByIndex (notSenders[textContextSender]);
 					break;
 
 				// Копирование текста

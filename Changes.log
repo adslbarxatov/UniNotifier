@@ -1,7 +1,8 @@
 UniNotifier: changes log
 
-Version 8.9.1:
-• Internal assemblies have been updated
+Version 8.9.2:
+• Tray popup notifications are now clickable;
+• Some code refactoring has been applied
 
 Version 8.9:
 • App has been migrated to .NET 10;

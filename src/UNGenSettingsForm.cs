@@ -253,7 +253,7 @@ namespace RD_AAOW
 			// Локализация
 			RDLocale.SetControlsText (this);
 			BClose.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Close);
-			LanguageLabel.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
+			LanguageLabel.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguageNC) + ":";
 			BWizard.Text = RDLocale.GetText ("NotMenu_AddWizard");
 			BCloseAndRequest.Text = RDLocale.GetText ("BCloseAndRequest");
 
