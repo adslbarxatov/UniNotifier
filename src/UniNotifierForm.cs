@@ -268,7 +268,6 @@ namespace RD_AAOW
 
 				texts.RemoveAt (0);
 				notSenders.Add (notNumbers[0]);
-				/*currentSenderForTip = notNumbers[0];*/
 				currentNotificationForTip = notNumbers[notNumbers.Count - 1];
 				notNumbers.RemoveAt (0);
 				}
@@ -400,23 +399,11 @@ namespace RD_AAOW
 
 		private void GoToLink_ItemClicked (object sender, EventArgs e)
 			{
-			/*int idx = notContextMenu.Items.IndexOf ((ToolStripItem)sender);
-			if (idx < 0)
-				return;
-
-			RDGenerics. RunURL (ns.Notifications[idx].Link);
-			this.Close ();*/
 			GoToLinkByIndex (notContextMenu.Items.IndexOf ((ToolStripItem)sender));
 			}
 
 		private void GoToLinkFromBalloon (object sender, EventArgs e)
 			{
-			/*int idx = ns.Notifications.Count - 1;
-			if (idx < 0)
-				return;
-
-			RDGenerics. RunURL (ns.Notifications[idx].Link);
-			this.Close ();*/
 			GoToLinkByIndex (currentNotificationForTip);
 			}
 
@@ -523,8 +510,6 @@ namespace RD_AAOW
 				{
 				// Переход по ссылке
 				case 0:
-					/*RDGenerics. RunURL (ns.Notifications[notSenders[textContextSender]].Link);
-					this.Close ();*/
 					GoToLinkByIndex (notSenders[textContextSender]);
 					break;
 

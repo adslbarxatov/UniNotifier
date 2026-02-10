@@ -1,4 +1,3 @@
-_Changes for v 8.9.2_:
-- Tray popup notifications are now clickable;
-- Some code refactoring has been applied
-
+_Changes for v 8.9.3_:
+- Offline help has been deprecated for this app;
+- Tray popup notifications are now clickable

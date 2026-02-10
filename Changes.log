@@ -1,5 +1,8 @@
 UniNotifier: changes log
 
+Version 8.9.3:
+• Offline help has been deprecated for this app
+
 Version 8.9.2:
 • Tray popup notifications are now clickable;
 • Some code refactoring has been applied
