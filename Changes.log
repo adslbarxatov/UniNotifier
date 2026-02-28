@@ -1,5 +1,9 @@
 UniNotifier: changes log
 
+Version 8.9.4:
+• Upgraded the update checking method;
+• Package format has been updated
+
 Version 8.9.3:
 • Support of offline help has been discontinued for this app
 
