@@ -30,7 +30,7 @@ namespace RD_AAOW
 
 		// Индексы оповещений-источников в порядке, в котором они расположены в журнале
 		private List<int> notSenders = [];
-		private int currentNotificationForTip = -1;
+		/*private int currentNotificationForTip = -1;*/
 
 		// Флаг, указывающий на необходимость сворачивания окна в трей
 		private bool hideWindow;
@@ -98,7 +98,7 @@ namespace RD_AAOW
 			ni.Icon = UniNotifierResources.UniNotifierTrayN;
 			ni.Text = RDGenerics.DefaultAssemblyVisibleName;
 			ni.Visible = true;
-			ni.BalloonTipClicked += GoToLinkFromBalloon;
+			/*ni.BalloonTipClicked += GoToLinkFromBalloon;*/
 
 			ReloadTrayContextMenu ();
 			}
@@ -268,7 +268,7 @@ namespace RD_AAOW
 
 				texts.RemoveAt (0);
 				notSenders.Add (notNumbers[0]);
-				currentNotificationForTip = notNumbers[notNumbers.Count - 1];
+				/*currentNotificationForTip = notNumbers[notNumbers.Count - 1];*/
 				notNumbers.RemoveAt (0);
 				}
 
@@ -402,10 +402,10 @@ namespace RD_AAOW
 			GoToLinkByIndex (notContextMenu.Items.IndexOf ((ToolStripItem)sender));
 			}
 
-		private void GoToLinkFromBalloon (object sender, EventArgs e)
+		/*private void GoToLinkFromBalloon (object sender, EventArgs e)
 			{
 			GoToLinkByIndex (currentNotificationForTip);
-			}
+			}*/
 
 		private void GoToLinkByIndex (int Index)
 			{

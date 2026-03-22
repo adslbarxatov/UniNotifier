@@ -1,5 +1,9 @@
 UniNotifier: changes log
 
+Version 8.9.5:
+• Removed the ability to open the notification source by clicking on the balloon
+  due to its instability
+
 Version 8.9.4:
 • Upgraded the update checking method;
 • Package format has been updated
