@@ -66,7 +66,7 @@ namespace RD_AAOW
 
 			RDGenerics.LoadWindowDimensions (this);
 
-			LanguageCombo.Items.AddRange (RDLocale.LanguagesNames);
+			/*LanguageCombo.Items.AddRange (RDLocale.LanguagesNames);*/
 
 			ofd = new OpenFileDialog ();
 			sfd = new SaveFileDialog ();
@@ -84,14 +84,15 @@ namespace RD_AAOW
 			TranslucencyField.Checked = NotificationsSupport.TranslucentLogItems;
 			FontSizeField.Value = NotificationsSupport.LogFontSize / 10.0m;
 
-			try
+			/*try
 				{
 				LanguageCombo.SelectedIndex = (int)RDLocale.CurrentLanguage;
 				}
 			catch
 				{
 				LanguageCombo.SelectedIndex = 0;
-				}
+				}*/
+			LocalizeForm_Click (null, null);
 
 			// Загрузка оповещений в список
 			LoadNotifications ();
@@ -245,15 +246,19 @@ namespace RD_AAOW
 			}
 
 		// Локализация формы
-		private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)
+		private void LocalizeForm_Click (object sender, EventArgs e)
 			{
-			// Сохранение
-			RDLocale.CurrentLanguage = (RDLanguages)LanguageCombo.SelectedIndex;
+			/*// Сохранение
+			RDLocale.CurrentLanguage = (RDLanguages)LanguageCombo.SelectedIndex;*/
+			// Выбор языка
+			if ((sender != null) && !RDInterface.MessageBox ())
+				return;
 
 			// Локализация
 			RDLocale.SetControlsText (this);
 			BClose.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Close);
-			LanguageLabel.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguageNC) + ":";
+			/*LanguageLabel.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguageNC) + ":";*/
+			BLanguage.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
 			BWizard.Text = RDLocale.GetText ("NotMenu_AddWizard");
 			BCloseAndRequest.Text = RDLocale.GetText ("BCloseAndRequest");
 

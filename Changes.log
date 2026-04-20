@@ -1,5 +1,8 @@
 UniNotifier: changes log
 
+Version 8.9.6:
+• Internal assemblies have been updated
+
 Version 8.9.5:
 • Removed the ability to open the notification source by clicking on the balloon
   due to its instability
